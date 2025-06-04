@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Rettic</title>
+
+    <meta name="author" content="Trivlogic.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="rettic">
+
+    <!-- font -->
+    <link rel="stylesheet" href="fonts/fonts.css">
+    <link rel="stylesheet" href="fonts/font-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/drift-basic.min.css">
+    <link rel="stylesheet" href="css/photoswipe.css">
+    <link rel="stylesheet" href="css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/sib-styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+
+    <!-- Favicon and Touch Icons  -->
+    <link rel="shortcut icon" href="img/logo.png">
+    <link rel="apple-touch-icon-precomposed" href="img/logo.png">
+
+</head>
+
+<body class="preload-wrapper">
+
+
+
+    <!-- Scroll Top -->
+    <button id="scroll-top">
+        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_15741_24194)">
+                <path
+                    d="M3 11.9175L12 2.91748L21 11.9175H16.5V20.1675C16.5 20.3664 16.421 20.5572 16.2803 20.6978C16.1397 20.8385 15.9489 20.9175 15.75 20.9175H8.25C8.05109 20.9175 7.86032 20.8385 7.71967 20.6978C7.57902 20.5572 7.5 20.3664 7.5 20.1675V11.9175H3Z"
+                    stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <defs>
+                <clipPath id="clip0_15741_24194">
+                    <rect width="24" height="24" fill="white" transform="translate(0 0.66748)" />
+                </clipPath>
+            </defs>
+        </svg>
+    </button>
+
+    <!-- preload -->
+    <div class="preload preload-container">
+        <div class="preload-logo">
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <!-- /preload -->
+
+    <!-- #wrapper -->
+    <div id="wrapper">
+
+
+
+        <!-- header -->
+        <header id="header" class="header-default header-style-4">
+            <div class="main-header">
+                <div class="container">
+                    <div class="row wrapper-header align-items-center justify-content-between">
+                        <div class="col-xl-5 d-none d-xl-block">
+                            <ul class="header-list-categories">
+                                <li class="categories-item "><a href="/" class="text-uppercase">Home</a></li>
+                                <li class="categories-item"><a href="/shop" class="text-uppercase">shop</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="col-md-4 col-3 d-xl-none">
+                            <a href="#mobileMenu" class="mobile-menu" data-bs-toggle="offcanvas"
+                                aria-controls="mobileMenu">
+                                <i class="icon icon-categories"></i>
+                            </a>
+                        </div>
+                        <% let logoDisplayed=false; %>
+                            <% logos.forEach(function(logo) { %>
+                                <% if (logo.toggled) { %>
+                                    <div class="col-xl-2 col-md-4 col-6 text-center">
+                                        <a href="/" class="logo-header">
+                                            <img src="<%= logo.image %>" alt="<%= logo.title %>" class="logo">
+                                        </a>
+                                    </div>
+                                    <% logoDisplayed=true; %>
+                                        <% } %>
+                                            <% }); %>
+                                                <% if (!logoDisplayed) { %>
+                                                    <div class="col-xl-2 col-md-4 col-6 text-center">
+                                                        <a href="/" class="logo-header">
+                                                            <img src="img/logo.png" alt="default logo" class="logo">
+                                                        </a>
+                                                    </div>
+                                                    <% } %>
+                                                        <div class="col-xl-5 d-none  d-xl-block ">
+                                                            <ul
+                                                                class="header-list-categories d-flex justify-content-end">
+                                                                <li class="categories-item active"><a href="/about"
+                                                                        class="text-uppercase">about us</a></li>
+                                                                <li class="categories-item"><a href="/contact"
+                                                                        class="text-uppercase">contact</a></li>
+
+                                                            </ul>
+                                                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-bottom header-dark  ">
+                <div class="container d-xl-block d-none">
+                    <div class="wrapper-header d-flex justify-content-center align-items-center">
+                        <nav class="box-navigation text-center">
+                            <ul class="box-nav-ul d-flex align-items-center justify-content-center d-none d-xl-flex">
+                                <% categories.forEach(function(category) { %>
+                                    <% if (category.toggled) { %>
+                                        <li class="menu-item position-relative">
+                                            <!-- Add category as a query parameter -->
+                                            <a href="/shop?category=<%= encodeURIComponent(category.title) %>"
+                                                class="item-link text-uppercase">
+                                                <%= category.title %>
+                                            </a>
+                                            <% if (category.subCategory && category.subCategory.length> 0) { %>
+                                                <i class="icon icon-arrow-down"></i>
+                                                <div class="sub-menu submenu-default">
+                                                    <ul class="menu-list">
+                                                        <% category.subCategory.forEach(function(subCat) { %>
+                                                            <li>
+                                                                <!-- Add sub-category as a query parameter -->
+                                                                <a href="/shop?category=<%= encodeURIComponent(subCat.title) %>"
+                                                                    class="menu-link-text">
+                                                                    <%= subCat.title %>
+                                                                </a>
+                                                            </li>
+                                                            <% }); %>
+                                                    </ul>
+                                                </div>
+                                                <% } %>
+                                        </li>
+                                        <% } %>
+                                            <% }); %>
+                            </ul>
+
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+        <!-- header -->
+
+
+
+        <!-- page-title -->
+        <section class="flat-spacing pt-0 mt-3">
+            <div class=" ">
+                <div class="banner-cls-discover hover-img">
+                    <a href="#" class="img-style">
+                        <img class="lazyload" id="bannerforcategory" data-src="img/homepage/pr-2.jpg"
+                            src="img/homepage/pr-2.jpg" alt="cls-tiktok">
+                    </a>
+                    <div class="cls-content">
+                        <div class="box-title-top">
+
+                            <h3 class="title"><a href="#" class="link banner-title text-white abt-title wow fadeInUp"
+                                    data-wow-delay="0.1s">About Us</a></h3>
+
+                            <h5 class="title"><a href="#" class="link banner-title text-white wow fadeInUp"
+                                    data-wow-delay="0.1s">Since its humble start in 2001 with the production units in
+                                    Italy and India, has prospered in the global hospitality industry. Our works at
+                                    multiple 5* & 7* star Hotels/Resorts, Restaurants and Hospitals across the globe
+                                    stand
+                                    as a proud testament to our legacy of being a manufacturer of Premium & Luxury
+                                    Linen</a></h3>
+
+                        </div>
+                        <div class="wow fadeInUp" data-wow-delay="0.3s">
+                            <a href="/contact" class="tf-btn btn-md btn-white"><span class="text">Contact Us</span><i
+                                    class="icon icon-arrowUpRight"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /page-title -->
+
+        <!-- about-us -->
+        <section class="flat-spacing about-us-main pb_0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="about-us-features wow fadeInLeft">
+                            <img class="lazyload " data-src="img/homepage/cat-img3.jpg" src="img/homepage/cat-img3.jpg"
+                                alt="image-team">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="about-us-content">
+                            <h3 class="title wow fadeInUp">About Us</h3>
+                            <div class="widget-tabs style-3">
+
+                                <div class="widget-content-tab wow fadeInUp">
+                                    <div class="widget-content-inner active d-flex flex-column gap-2 ">
+                                        <p>Enriched with finest quality Yarns, Rettic manufactures the best hospitality Linens that are highly sought after in the industry. With a completely vertical production cycle from Yarn to the finished product, we produce Jacquard / Dobby / Embroidery or Plain Patterns. 
+                                        </p>
+                                        <p>We bring a rich history of craftsmanship to modern day life where you can celebrate using Luxury Linen which are versatile, timeless and elegant. Thanks to the craftsmanship of experienced artisans, we combine their aesthetic approach along with our elegant mix of luxury, tradition, and the finest quality raw materials. </p>
+                                        <p>Today, we proudly present ‘Rettic’. Thanks to our production units in Italy and India, every product has been made in house ever since our humble beginnings in 2001, which has helped us prosper in the global hospitality industry.
+                                        </p>
+                                        <p>
+                                            From classic and eternal designs to progressive, innovative, and contemporary ones, we make sure to provide you with a plethora of equally elegant and magnificent designs that you will surely adore.
+                                            </p>
+                                            <p>We are continuously evolving in our designs, ideas and inspirations with our only constant being the drive to forever being at the pinnacle of our field and providing utmost satisfaction to our customers.
+                                            </p>
+                                            <p>
+                                                Our clients consisting of 5- & 7-Star Hotels/Resorts, Restaurants and Hospitals across the globe stand as a proud testament to our Legacy of being a manufacturer of Premium & Luxury Linen.</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <a href="#" class="tf-btn btn-fill wow fadeInUp"><span class="text text-button">Read
+                                    More</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /about-us -->
+
+        <!-- Iconbox -->
+        <!-- <section class="flat-spacing line-bottom-container">
+            <div class="container">
+                <div dir="ltr" class="swiper tf-sw-iconbox" data-preview="4" data-tablet="3" data-mobile-sm="2" data-mobile="1" data-space-lg="30" data-space-md="30" data-space="15" data-pagination="1" data-pagination-sm="2" data-pagination-md="3" data-pagination-lg="4">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="tf-icon-box style-2">
+                                <div class="icon-box"><span class="icon icon-return"></span></div>
+                                <div class="content">
+                                    <h6>14-Day Returns</h6>
+                                    <p class="text-secondary">Risk-free shopping with easy returns.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="tf-icon-box style-2">
+                                <div class="icon-box"><span class="icon icon-shipping"></span></div>
+                                <div class="content">
+                                    <h6>Free Shipping</h6>
+                                    <p class="text-secondary">No extra costs, just the price you see.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="tf-icon-box style-2">
+                                <div class="icon-box"><span class="icon icon-headset"></span></div>
+                                <div class="content">
+                                    <h6>24/7 Support</h6>
+                                    <p class="text-secondary">24/7 support, always here just for you</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="tf-icon-box style-2">
+                                <div class="icon-box"><span class="icon icon-sealCheck"></span></div>
+                                <div class="content">
+                                    <h6>Member Discounts</h6>
+                                    <p class="text-secondary">Special prices for our loyal customers.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sw-pagination-iconbox sw-dots type-circle justify-content-center"></div>
+                </div>
+            </div>
+        </section> -->
+        <!-- /Iconbox -->
+
+        <!--  brand parallax -->
+        <section class="flat-banner-parallax-v2 mt-5" style="background-image: url('img/homepage/cat-img1.jpg');">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="fl-content">
+                            <div class="title-top">
+
+                                <h3 class="title wow fadeInUp" data-wow-delay="0.1s">Client References</h3>
+                                <p class="body-text-1 wow fadeInUp" data-wow-delay="0.2s">Rettic has
+                                    among its clients, leading hotels across the Globe. We have successfully completed
+                                    projects for 5 & 7 star hotels also Hospitals with our luxury collections.</p>
+                            </div>
+                            <div class=" wow fadeInUp" data-wow-delay="0.3s">
+                                <a href="/contact" class="tf-btn btn-fill"><span class="text">Contact Us</span><i
+                                        class="icon icon-arrowUpRight"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partner -->
+        <section class="flat-spacing-5 bg-surface">
+            <div dir="ltr" class="swiper tf-sw-partner sw-auto" data-preview="auto" data-tablet="auto"
+                data-mobile-sm="auto" data-mobile="auto" data-space-lg="74" data-space-md="50" data-space="50"
+                data-loop="true" data-auto-play="true" data-delay="0">
+                <div class="swiper-wrapper">
+                    <% clients.forEach(client=> { %>
+                        <% if (client.toggled) { %>
+                            <div class="swiper-slide">
+                                <a href="#" class="brand-item">
+                                    <img src="<%= client.image %>" alt="brand">
+                                </a>
+                            </div>
+                            <% } %>
+                                <% }) %>
+                </div>
+            </div>
+        </section>
+        <!-- /Partner -->
+        <!-- Testimonial -->
+        <section class="flat-spacing bg-surface">
+            <div class="container">
+                <div class="heading-section text-center wow fadeInUp">
+                    <h3 class="heading">Our Testimonials!</h3>
+                    <p class="subheading">Our customers adore our products, and we constantly aim to delight them.</p>
+                </div>
+                <div dir="ltr" class="swiper tf-sw-testimonial wow fadeInUp" data-wow-delay="0.1s" data-preview="3"
+                    data-tablet="2" data-mobile="1" data-space-lg="30" data-space-md="30" data-space="15"
+                    data-pagination="1" data-pagination-md="1" data-pagination-lg="1">
+                    <div class="swiper-wrapper">
+                        <% testimonials.forEach(testimonial=> { %>
+                            <% if (testimonial.toggled) { %>
+                                <div class="swiper-slide">
+                                    <div class="testimonial-item style-2 style-3">
+                                        <div class="content-top">
+                                            <div class="google-logo">
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png"
+                                                    alt="Google Logo" style="width: 50px; height: auto;">
+                                            </div>
+                                            <div class="list-star-default">
+                                                <% for (let i=0; i < testimonial.stars; i++) { %>
+                                                    <i class="icon icon-star"></i>
+                                                    <% } %>
+                                                        <% for (let i=testimonial.stars; i < 5; i++) { %>
+                                                            <i class="icon icon-star-o"></i>
+                                                            <% } %>
+                                            </div>
+                                            <p class="text-secondary">
+                                                <% if (testimonial.description.split(' ').length > 15) { %>
+                                                    <span class="short-desc">"<%= testimonial.description.split(' ').slice(0, 15).join(' ') %>..."</span>
+                                                    <span class="full-desc" style="display: none;">"<%= testimonial.description %>"</span>
+                                                    <a href="#" class="toggle-desc" onclick="toggleDescription(this); return false;">Show more</a>
+                                                <% } else { %>
+                                                    "<%= testimonial.description %>"
+                                                <% } %>
+                                            </p>
+                                            <script>
+                                                function toggleDescription(element) {
+                                                    const shortDesc = element.previousElementSibling.previousElementSibling;
+                                                    const fullDesc = element.previousElementSibling;
+                                                    
+                                                    if (shortDesc.style.display !== 'none') {
+                                                        shortDesc.style.display = 'none';
+                                                        fullDesc.style.display = 'inline';
+                                                        element.textContent = 'Show less';
+                                                    } else {
+                                                        shortDesc.style.display = 'inline';
+                                                        fullDesc.style.display = 'none';
+                                                        element.textContent = 'Show more';
+                                                    }
+                                                }
+                                            </script>
+                                            <div class="box-rate-author">
+                                                <div class="box-author">
+                                                    <div class="avatar avt-60 round">
+                                                        <img src="<%= testimonial.profilePic %>" alt="avt">
+                                                    </div>
+                                                    <div class="text-title author">
+                                                        <%= testimonial.title %>
+                                                    </div>
+                                                    <svg class="icon" width="20" height="21" viewBox="0 0 20 21"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <g clip-path="url(#clip0_15758_14563)">
+                                                            <path d="M6.875 11.6255L8.75 13.5005L13.125 9.12549"
+                                                                stroke="#3DAB25" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round" />
+                                                            <path
+                                                                d="M10 18.5005C14.1421 18.5005 17.5 15.1426 17.5 11.0005C17.5 6.85835 14.1421 3.50049 10 3.50049C5.85786 3.50049 2.5 6.85835 2.5 11.0005C2.5 15.1426 5.85786 18.5005 10 18.5005Z"
+                                                                stroke="#3DAB25" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round" />
+                                                        </g>
+                                                        <defs>
+                                                            <clipPath id="clip0_15758_14563">
+                                                                <rect width="20" height="20" fill="white"
+                                                                    transform="translate(0 0.684082)" />
+                                                            </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box-avt">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                                    <% }) %>
+                    </div>
+                    <div class="sw-pagination-testimonial sw-dots type-circle d-flex justify-content-center"></div>
+                </div>
+            </div>
+        </section>
+        <!-- /Testimonial -->
+
+
+        <!-- Footer -->
+        <footer id="footer" class="footer">
+            <div class="footer-wrap">
+                <div class="footer-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="footer-infor">
+                                    <div class="footer-logo ">
+                                        <% let footerLogoDisplayed=false; %>
+                                            <% logos.forEach(function(logo) { %>
+                                                <% if (logo.toggled) { %>
+                                                    <a href="/">
+                                                        <img src="<%= logo.image %>" alt="<%= logo.title %>">
+                                                    </a>
+                                                    <% footerLogoDisplayed=true; %>
+                                                        <% } %>
+                                                            <% }); %>
+                                                                <% if (!footerLogoDisplayed) { %>
+                                                                    <a href="/">
+                                                                        <img src="img/logo.png" alt="default logo">
+                                                                    </a>
+                                                                    <% } %>
+
+                                    </div>
+                                    <div class="footer-address">
+                                        <p>PO Box. 31173 Dubai - U.A.E.</p>
+
+                                    </div>
+                                    <ul class="footer-info">
+                                        <li>
+                                            <i class="icon-mail"></i>
+                                            <p>info@rettic.com</p>
+                                        </li>
+                                        <li>
+                                            <i class="icon-phone"></i>
+                                            <p><a href="tel:+97143381733">+971 4 338 1733</a></p>
+                                        </li>
+                                    </ul>
+                                    <ul class="tf-social-icon">
+                                        <li><a href="#" class="social-facebook"><i class="icon icon-fb"></i></a></li>
+                                        <li><a href="#" class="social-twiter"><i class="icon icon-x"></i></a></li>
+                                        <li><a href="#" class="social-instagram"><i class="icon icon-instagram"></i></a>
+                                        </li>
+
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="footer-menu">
+                                    <div class="footer-col-block">
+                                        <div class="footer-heading text-button footer-heading-mobile">
+                                            Infomation
+                                        </div>
+                                        <div class="tf-collapse-content">
+                                            <ul class="footer-menu-list">
+                                                <li class="text-caption-1">
+                                                    <a href="/" class="footer-menu_item">Home</a>
+                                                </li>
+                                                <li class="text-caption-1">
+                                                    <a href="/about" class="footer-menu_item">About Us</a>
+                                                </li>
+                                                <li class="text-caption-1">
+                                                    <a href="/contact" class="footer-menu_item">Contact Us</a>
+                                                </li>
+
+                                                <li class="text-caption-1">
+                                                    <a href="/shop" class="footer-menu_item">Shop</a>
+                                                </li>
+
+                                                <!-- <li class="text-caption-1">
+                                                    <a href="my-account.html" class="footer-menu_item">My Account</a>
+                                                </li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="footer-col-block">
+                                        <div class="footer-heading text-button footer-heading-mobile">
+                                            Customer Service
+                                        </div>
+                                        <div class="tf-collapse-content">
+                                            <ul class="footer-menu-list">
+                                                <li class="text-caption-1">
+                                                    <a href="#"
+                                                        class="footer-menu_item">Shipping</a>
+                                                </li>
+                                                <li class="text-caption-1">
+                                                    <a href="#" class="footer-menu_item">Return &
+                                                        Refund</a>
+                                                </li>
+                                                <li class="text-caption-1">
+                                                    <a href="#" class="footer-menu_item">Privacy
+                                                        Policy</a>
+                                                </li>
+                                                <li class="text-caption-1">
+                                                    <a href="#" class="footer-menu_item">Terms &
+                                                        Conditions</a>
+                                                </li>
+
+                                               
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="footer-col-block">
+                                    <div class="footer-heading text-button footer-heading-mobile">
+                                        About Rettic
+                                    </div>
+                                    <div class="">
+                                        <div class="footer-newsletter">
+                                            <p class="text-caption-1">Rettic manufactures the finest quality linens,
+                                                with a completely vertical production cycle from Yarn to the finished
+                                                product. Our Production line includes Jacquard / Dobby / Embroidery or
+                                                Plain Patterns. Thanks to the experienced artisans craftmanship with
+                                                elegant mix of luxury, tradition with high quality raw materials.
+                                                Today we proudly present the prestigious brand ‘Rettic’ from our
+                                                manufacturing facilities, every product is made in House.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="footer-bottom-wrap">
+                                    <div class="left">
+                                        <p class="text-caption-1">© 2025 by Rettic All Rights Reserved</p>
+
+                                    </div>
+                                    <div class="tf-payment">
+                                        <p class="text-caption-1">Payment:</p>
+                                        <ul>
+                                            <li>
+                                                <img src="images/payment/img-1.png" alt="">
+                                            </li>
+                                            <li>
+                                                <img src="images/payment/img-2.png" alt="">
+                                            </li>
+                                            <li>
+                                                <img src="images/payment/img-3.png" alt="">
+                                            </li>
+                                            <li>
+                                                <img src="images/payment/img-4.png" alt="">
+                                            </li>
+                                            <li>
+                                                <img src="images/payment/img-5.png" alt="">
+                                            </li>
+                                            <li>
+                                                <img src="images/payment/img-6.png" alt="">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- /Footer -->
+        <!-- toolbar-bottom -->
+        <div class="tf-toolbar-bottom">
+
+            <div class="toolbar-item">
+                <a href="/">
+                    <div class="toolbar-icon">
+                        <svg class="icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M10 3.20711L3.20711 9.20711C3.07442 9.31658 3 9.47487 3 9.64142V16.25C3 16.6642 3.33579 17 3.75 17H7.5C7.91421 17 8.25 16.6642 8.25 16.25V12.5H11.75V16.25C11.75 16.6642 12.0858 17 12.5 17H16.25C16.6642 17 17 16.6642 17 16.25V9.64142C17 9.47487 16.9256 9.31658 16.7929 9.20711L10 3.20711ZM10 4.79289L15.25 9.29289V15.5H12.5V11.75C12.5 11.3358 12.1642 11 11.75 11H8.25C7.83579 11 7.5 11.3358 7.5 11.75V15.5H4.75V9.29289L10 4.79289Z"
+                                fill="#4D4E4F" />
+                        </svg>
+                    </div>
+                    <div class="toolbar-label">Home</div>
+                </a>
+            </div>
+            <div class="toolbar-item">
+                <a href="/shop">
+                    <div class="toolbar-icon">
+                        <svg class="icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8.125 3.125H4.375C4.04348 3.125 3.72554 3.2567 3.49112 3.49112C3.2567 3.72554 3.125 4.04348 3.125 4.375V8.125C3.125 8.45652 3.2567 8.77446 3.49112 9.00888C3.72554 9.2433 4.04348 9.375 4.375 9.375H8.125C8.45652 9.375 8.77446 9.2433 9.00888 9.00888C9.2433 8.77446 9.375 8.45652 9.375 8.125V4.375C9.375 4.04348 9.2433 3.72554 9.00888 3.49112C8.77446 3.2567 8.45652 3.125 8.125 3.125ZM8.125 8.125H4.375V4.375H8.125V8.125ZM15.625 3.125H11.875C11.5435 3.125 11.2255 3.2567 10.9911 3.49112C10.7567 3.72554 10.625 4.04348 10.625 4.375V8.125C10.625 8.45652 10.7567 8.77446 10.9911 9.00888C11.2255 9.2433 11.5435 9.375 11.875 9.375H15.625C15.9565 9.375 16.2745 9.2433 16.5089 9.00888C16.7433 8.77446 16.875 8.45652 16.875 8.125V4.375C16.875 4.04348 16.7433 3.72554 16.5089 3.49112C16.2745 3.2567 15.9565 3.125 15.625 3.125ZM15.625 8.125H11.875V4.375H15.625V8.125ZM8.125 10.625H4.375C4.04348 10.625 3.72554 10.7567 3.49112 10.9911C3.2567 11.2255 3.125 11.5435 3.125 11.875V15.625C3.125 15.9565 3.2567 16.2745 3.49112 16.5089C3.72554 16.7433 4.04348 16.875 4.375 16.875H8.125C8.45652 16.875 8.77446 16.7433 9.00888 16.5089C9.2433 16.2745 9.375 15.9565 9.375 15.625V11.875C9.375 11.5435 9.2433 11.2255 9.00888 10.9911C8.77446 10.7567 8.45652 10.625 8.125 10.625ZM8.125 15.625H4.375V11.875H8.125V15.625ZM15.625 10.625H11.875C11.5435 10.625 11.2255 10.7567 10.9911 10.9911C10.7567 11.2255 10.625 11.5435 10.625 11.875V15.625C10.625 15.9565 10.7567 16.2745 10.9911 16.5089C11.2255 16.7433 11.5435 16.875 11.875 16.875H15.625C15.9565 16.875 16.2745 16.7433 16.5089 16.5089C16.7433 16.2745 16.875 15.9565 16.875 15.625V11.875C16.875 11.5435 16.7433 11.2255 16.5089 10.9911C16.2745 10.7567 15.9565 10.625 15.625 10.625ZM15.625 15.625H11.875V11.875H15.625V15.625Z"
+                                fill="#4D4E4F" />
+                        </svg>
+                    </div>
+                    <div class="toolbar-label">Shop</div>
+                </a>
+            </div>
+            <div class="toolbar-item">
+                <a href="/about">
+                    <div class="toolbar-icon">
+                        <svg class="icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M10 3C11.6569 3 13 4.34315 13 6C13 7.65685 11.6569 9 10 9C8.34315 9 7 7.65685 7 6C7 4.34315 8.34315 3 10 3ZM10 5C9.44772 5 9 5.44772 9 6C9 6.55228 9.44772 7 10 7C10.5523 7 11 6.55228 11 6C11 5.44772 10.5523 5 10 5ZM10 10C12.7614 10 15 11.2386 15 13V15C15 15.5523 14.5523 16 14 16H6C5.44772 16 5 15.5523 5 15V13C5 11.2386 7.23858 10 10 10ZM7 13C7 12.4477 8.79086 11 10 11C11.2091 11 13 12.4477 13 13V14H7V13Z"
+                                fill="#4D4E4F" />
+                        </svg>
+                    </div>
+                    <div class="toolbar-label">About Us</div>
+                </a>
+            </div>
+            <div class="toolbar-item">
+                <a href="/contact">
+                    <div class="toolbar-icon">
+                        <svg class="icon" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3.75 4.375C3.05964 4.375 2.5 4.93464 2.5 5.625V14.375C2.5 15.0654 3.05964 15.625 3.75 15.625H16.25C16.9404 15.625 17.5 15.0654 17.5 14.375V5.625C17.5 4.93464 16.9404 4.375 16.25 4.375H3.75ZM3.75 6.25L10 10.3125L16.25 6.25V14.375H3.75V6.25ZM10 8.4375L3.75 4.375H16.25L10 8.4375Z"
+                                fill="#4D4E4F" />
+                        </svg>
+                    </div>
+                    <div class="toolbar-label">Contact Us</div>
+                </a>
+            </div>
+
+
+            <!-- <div class="toolbar-item">
+        <a href="#shoppingCart" data-bs-toggle="modal">
+            <div class="toolbar-icon">
+                <svg class="icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13.75 8.23389V4.48389C13.75 3.48932 13.3549 2.5355 12.6517 1.83224C11.9484 1.12897 10.9946 0.733887 10 0.733887C9.00544 0.733887 8.05161 1.12897 7.34835 1.83224C6.64509 2.5355 6.25 3.48932 6.25 4.48389V8.23389M3.4375 6.35889H16.5625L17.5 17.6089H2.5L3.4375 6.35889Z" stroke="#4D4E4F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>  
+            </div>
+            <div class="toolbar-label">Cart</div>
+        </a>
+    </div> -->
+        </div>
+        <!-- /toolbar-bottom -->
+
+    </div>
+    <!-- /wrapper -->
+
+
+
+    <!-- modalDemo -->
+
+    <!-- /modalDemo -->
+
+    <!-- mobile menu -->
+    <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
+        <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
+        <div class="mobile-menu-logo">
+            <% let mobileLogoDisplayed=false; %>
+                <% logos.forEach(function(logo) { %>
+                    <% if (logo.toggled) { %>
+                        <img src="<%= logo.image %>" alt="<%= logo.title %>">
+                        <% mobileLogoDisplayed=true; %>
+                            <% } %>
+                                <% }); %>
+                                    <% if (!mobileLogoDisplayed) { %>
+                                        <img src="img/logo.png" alt="default logo">
+                                        <% } %>
+        </div>
+        <div class="mb-canvas-content">
+            <div class="mb-body">
+                <div class="mb-content-top">
+                    <ul class="nav-ul-mb" id="wrapper-menu-navigation">
+                        <li class="nav-mb-item active">
+                            <a href="index.html" class="collapsed mb-menu-link">
+                                <span>HOME</span>
+
+                            </a>
+
+
+                        </li>
+                        <li class="nav-mb-item">
+                            <a href="/shop" class="collapsed mb-menu-link">
+                                <span>SHOP</span>
+
+                            </a>
+
+                        </li>
+                        <% categories.forEach(function(category) { %>
+                            <% if (category.toggled) { %>
+                                <li class="nav-mb-item">
+                                    <a href="/shop?category=<%= encodeURIComponent(category.title) %>"
+                                        class="collapsed mb-menu-link">
+                                        <span>
+                                            <%= category.title %>
+                                        </span>
+                                        <% if (category.subCategory && category.subCategory.length> 0) { %>
+                                            <span class="btn-open-sub" data-bs-toggle="collapse" aria-expanded="true"
+                                                aria-controls="dropdown-menu-<%= category.title.toLowerCase().replace(/\s+/g, '-') %>"></span>
+                                            <% } %>
+                                    </a>
+                                    <% if (category.subCategory && category.subCategory.length> 0) { %>
+                                        <div id="dropdown-menu-<%= category.title.toLowerCase().replace(/\s+/g, '-') %>"
+                                            class="collapse">
+                                            <ul class="sub-nav-menu">
+                                                <% category.subCategory.forEach(function(subCat) { %>
+                                                    <li><a href="/shop?category=<%= encodeURIComponent(subCat.title) %>"
+                                                            class="sub-nav-link">
+                                                            <%= subCat.title %>
+                                                        </a></li>
+                                                    <% }); %>
+                                            </ul>
+                                        </div>
+                                        <% } %>
+                                </li>
+                                <% } %>
+                                    <% }); %>
+                                        <li class="nav-mb-item">
+                                            <a href="/about" class="collapsed mb-menu-link">
+                                                <span>ABOUT US</span>
+
+                                            </a>
+
+                                        </li>
+                                        <li class="nav-mb-item">
+                                            <a href="/contact" class="collapsed mb-menu-link">
+                                                <span>CONTACT US</span>
+
+                                            </a>
+                                        </li>
+                    </ul>
+                </div>
+                <div class="mb-other-content">
+                    <!-- <div class="group-icon">
+                        <a href="wish-list.html" class="site-nav-icon">
+                            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.8401 4.60987C20.3294 4.09888 19.7229 3.69352 19.0555 3.41696C18.388 3.14039 17.6726 2.99805 16.9501 2.99805C16.2276 2.99805 15.5122 3.14039 14.8448 3.41696C14.1773 3.69352 13.5709 4.09888 13.0601 4.60987L12.0001 5.66987L10.9401 4.60987C9.90843 3.57818 8.50915 2.99858 7.05012 2.99858C5.59109 2.99858 4.19181 3.57818 3.16012 4.60987C2.12843 5.64156 1.54883 7.04084 1.54883 8.49987C1.54883 9.95891 2.12843 11.3582 3.16012 12.3899L4.22012 13.4499L12.0001 21.2299L19.7801 13.4499L20.8401 12.3899C21.3511 11.8791 21.7565 11.2727 22.033 10.6052C22.3096 9.93777 22.4519 9.22236 22.4519 8.49987C22.4519 7.77738 22.3096 7.06198 22.033 6.39452C21.7565 5.72706 21.3511 5.12063 20.8401 4.60987V4.60987Z" stroke="#181818" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Wishlist 
+                        </a>
+                        
+                        <a href="login.html" class="site-nav-icon">
+                            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="#181818" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="#181818" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>  
+                            Login
+                        </a>
+
+                    </div> -->
+                    <div class="mb-notice">
+                        <a href="/contact" class="text-need">Need Help?</a>
+                    </div>
+                    <div class="mb-contact">
+                        <p class="text-caption-1">PO Box. 31173 Dubai – U.A.E.</p>
+                        <a href="/contact" class="tf-btn-default text-btn-uppercase">GET DIRECTION<i
+                                class="icon-arrowUpRight"></i></a>
+                    </div>
+                    <ul class="mb-info">
+                        <li>
+                            <i class="icon icon-mail"></i>
+                            <p>info@rettic.com</p>
+                        </li>
+                        <li>
+                            <i class="icon icon-phone"></i>
+                            <p> <a href="tel:+97143381733 "></a>+971 4 338 1733
+
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- <div class="mb-bottom">
+                <div class="bottom-bar-language">
+                    <div class="tf-currencies">
+                        <select class="image-select center style-default type-currencies">
+                            <option selected data-thumbnail="images/country/us.svg">USD</option>
+                            <option data-thumbnail="images/country/vn.svg">VND</option>
+                        </select>
+                    </div>
+                    <div class="tf-languages">
+                        <select class="image-select center style-default type-languages">
+                            <option>English</option>
+                            <option>Vietnam</option>
+                        </select>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <!-- /mobile menu -->
+
+
+
+
+
+
+    <!-- shoppingCart -->
+    <!-- <div class="modal fullRight fade modal-shopping-cart" id="shoppingCart">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="tf-minicart-recommendations">
+                    <h6 class="title">You May Also Like</h6>
+                    <div class="wrap-recommendations">
+                        <div class="list-cart">
+                            <div class="list-cart-item">
+                                <div class="image">
+                                    <img class="lazyload" data-src="images/products/womens/women-1.jpg" src="images/products/womens/women-1.jpg" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="name">
+                                        <a class="link text-line-clamp-1" href="product-detail.html">Belt wrap dress</a>
+                                    </div>
+                                    <div class="cart-item-bot">
+                                        <div class="text-button price">₹59.99</div>
+                                        <a class="link text-button" href="#">Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-cart-item">
+                                <div class="image">
+                                    <img class="lazyload" data-src="images/products/womens/women-2.jpg" src="images/products/womens/women-2.jpg" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="name">
+                                        <a class="link text-line-clamp-1" href="product-detail.html">Double-button coat</a>
+                                    </div>
+                                    <div class="cart-item-bot">
+                                        <div class="text-button price">₹59.99</div>
+                                        <a class="link text-button" href="#">Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-cart-item">
+                                <div class="image">
+                                    <img class="lazyload" data-src="images/products/womens/women-3.jpg" src="images/products/womens/women-3.jpg" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="name">
+                                        <a class="link text-line-clamp-1" href="product-detail.html">Belted Manteco coat</a>
+                                    </div>
+                                    <div class="cart-item-bot">
+                                        <div class="text-button price">₹59.99</div>
+                                        <a class="link text-button" href="#">Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-cart-item">
+                                <div class="image">
+                                    <img class="lazyload" data-src="images/products/womens/women-4.jpg" src="images/products/womens/women-4.jpg" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="name">
+                                        <a class="link text-line-clamp-1" href="product-detail.html">Belt wrap dress</a>
+                                    </div>
+                                    <div class="cart-item-bot">
+                                        <div class="text-button price">₹59.99</div>
+                                        <a class="link text-button" href="#">Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-cart-item">
+                                <div class="image">
+                                    <img class="lazyload" data-src="images/products/womens/women-5.jpg" src="images/products/womens/women-5.jpg" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="name">
+                                        <a class="link text-line-clamp-1" href="product-detail.html">Belt wrap dress</a>
+                                    </div>
+                                    <div class="cart-item-bot">
+                                        <div class="text-button price">₹59.99</div>
+                                        <a class="link text-button" href="#">Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-cart-item">
+                                <div class="image">
+                                    <img class="lazyload" data-src="images/products/womens/women-6.jpg" src="images/products/womens/women-6.jpg" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="name">
+                                        <a class="link text-line-clamp-1" href="product-detail.html">Belt wrap dress</a>
+                                    </div>
+                                    <div class="cart-item-bot">
+                                        <div class="text-button price">₹59.99</div>
+                                        <a class="link text-button" href="#">Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-grow-1 h-100">
+                    <div class="header">
+                        <h5 class="title">Shopping Cart</h5>
+                        <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
+                    </div>
+                    <div class="wrap">
+                        <div class="tf-mini-cart-threshold">
+                            <div class="tf-progress-bar">
+                                <div class="value" style="width: 0%;" data-progress="75">
+                                    <i class="icon icon-shipping"></i>
+                                </div>
+                            </div>
+                            <div class="text-caption-1">
+                                Congratulations! You've got free shipping!
+                            </div>
+                        </div>
+                        <div class="tf-mini-cart-wrap">
+                            <div class="tf-mini-cart-main">
+                                <div class="tf-mini-cart-sroll">
+                                    <div class="tf-mini-cart-items">
+                                        <div class="tf-mini-cart-item file-delete">
+                                            <div class="tf-mini-cart-image">
+                                                <img class="lazyload" data-src="images/products/womens/women-19.jpg" src="images/products/womens/women-19.jpg" alt="">
+                                            </div>
+                                            <div class="tf-mini-cart-info flex-grow-1">
+                                                <div class="mb_12 d-flex align-items-center justify-content-between flex-wrap gap-12">
+                                                    <div class="text-title"><a href="product-detail.html" class="link text-line-clamp-1">Contrasting sheepskin</a></div>
+                                                    <div class="text-button tf-btn-remove remove">Remove</div>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-between flex-wrap gap-12">
+                                                    <div class="text-secondary-2">XL/Blue</div>
+                                                    <div class="text-button">1 X ₹60.00</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tf-mini-cart-item file-delete">
+                                            <div class="tf-mini-cart-image">
+                                                <img class="lazyload" data-src="images/products/womens/women-1.jpg" src="images/products/womens/women-1.jpg" alt="">
+                                            </div>
+                                            <div class="tf-mini-cart-info flex-grow-1">
+                                                <div class="mb_12 d-flex align-items-center justify-content-between flex-wrap gap-12">
+                                                    <div class="text-title"><a href="product-detail.html" class="link text-line-clamp-1">Suede leggings</a></div>
+                                                    <div class="text-button tf-btn-remove remove">Remove</div>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-between flex-wrap gap-12">
+                                                    <div class="text-secondary-2">XL/Blue</div>
+                                                    <div class="text-button">1 X ₹60.00</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tf-mini-cart-item file-delete">
+                                            <div class="tf-mini-cart-image">
+                                                <img class="lazyload" data-src="images/products/womens/women-2.jpg" src="images/products/womens/women-2.jpg" alt="">
+                                            </div>
+                                            <div class="tf-mini-cart-info flex-grow-1">
+                                                <div class="mb_12 d-flex align-items-center justify-content-between flex-wrap gap-12">
+                                                    <div class="text-title"><a href="product-detail.html" class="link text-line-clamp-1">Faux-leather trousers</a></div>
+                                                    <div class="text-button tf-btn-remove remove">Remove</div>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-between flex-wrap gap-12">
+                                                    <div class="text-secondary-2">XL/Blue</div>
+                                                    <div class="text-button">1 X ₹60.00</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tf-mini-cart-item file-delete">
+                                            <div class="tf-mini-cart-image">
+                                                <img class="lazyload" data-src="images/products/womens/women-3.jpg" src="images/products/womens/women-3.jpg" alt="">
+                                            </div>
+                                            <div class="tf-mini-cart-info flex-grow-1">
+                                                <div class="mb_12 d-flex align-items-center justify-content-between flex-wrap gap-12">
+                                                    <div class="text-title"><a href="product-detail.html" class="link text-line-clamp-1">Biker-style leggings</a></div>
+                                                    <div class="text-button tf-btn-remove remove">Remove</div>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-between flex-wrap gap-12">
+                                                    <div class="text-secondary-2">XL/Blue</div>
+                                                    <div class="text-button">1 X ₹60.00</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tf-mini-cart-item file-delete">
+                                            <div class="tf-mini-cart-image">
+                                                <img class="lazyload" data-src="images/products/womens/women-4.jpg" src="images/products/womens/women-4.jpg" alt="">
+                                            </div>
+                                            <div class="tf-mini-cart-info flex-grow-1">
+                                                <div class="mb_12 d-flex align-items-center justify-content-between flex-wrap gap-12">
+                                                    <div class="text-title"><a href="product-detail.html" class="link text-line-clamp-1">Jacquard fluid trousers</a></div>
+                                                    <div class="text-button tf-btn-remove remove">Remove</div>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-between flex-wrap gap-12">
+                                                    <div class="text-secondary-2">XL/Blue</div>
+                                                    <div class="text-button">1 X ₹60.00</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tf-mini-cart-bottom">
+                                <div class="tf-mini-cart-tool">
+                                    <div class="tf-mini-cart-tool-btn btn-add-note">
+                                        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g clip-path="url(#clip0_6133_36620)">
+                                            <path d="M10 3.33325H4.16667C3.72464 3.33325 3.30072 3.50885 2.98816 3.82141C2.67559 4.13397 2.5 4.55789 2.5 4.99992V16.6666C2.5 17.1086 2.67559 17.5325 2.98816 17.8451C3.30072 18.1577 3.72464 18.3333 4.16667 18.3333H15.8333C16.2754 18.3333 16.6993 18.1577 17.0118 17.8451C17.3244 17.5325 17.5 17.1086 17.5 16.6666V10.8333" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M16.25 2.0832C16.5815 1.75168 17.0312 1.56543 17.5 1.56543C17.9688 1.56543 18.4185 1.75168 18.75 2.0832C19.0815 2.41472 19.2678 2.86436 19.2678 3.3332C19.2678 3.80204 19.0815 4.25168 18.75 4.5832L10.8333 12.4999L7.5 13.3332L8.33333 9.99986L16.25 2.0832Z" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </g>
+                                            <defs>
+                                            <clipPath id="clip0_6133_36620">
+                                            <rect width="20" height="20" fill="white" transform="translate(0.833008)"/>
+                                            </clipPath>
+                                            </defs>
+                                        </svg>
+                                        <div class="text-caption-1">Note</div>
+                                    </div>
+                                    <div class="tf-mini-cart-tool-btn btn-estimate-shipping">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M13.333 2.5H0.833008V13.3333H13.333V2.5Z" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M13.333 6.66675H16.6663L19.1663 9.16675V13.3334H13.333V6.66675Z" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M4.58333 17.4999C5.73393 17.4999 6.66667 16.5672 6.66667 15.4166C6.66667 14.266 5.73393 13.3333 4.58333 13.3333C3.43274 13.3333 2.5 14.266 2.5 15.4166C2.5 16.5672 3.43274 17.4999 4.58333 17.4999Z" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M15.4163 17.4999C16.5669 17.4999 17.4997 16.5672 17.4997 15.4166C17.4997 14.266 16.5669 13.3333 15.4163 13.3333C14.2657 13.3333 13.333 14.266 13.333 15.4166C13.333 16.5672 14.2657 17.4999 15.4163 17.4999Z" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <div class="text-caption-1">Shipping</div>
+                                    </div>
+                                    <div class="tf-mini-cart-tool-btn btn-add-gift">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="currentColor">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M2.99566 2.73409C2.99566 0.55401 5.42538 -0.746668 7.23916 0.463462L8.50073 1.30516L9.7623 0.463462C11.5761 -0.746668 14.0058 0.55401 14.0058 2.73409V3.24744H14.8225C15.9633 3.24744 16.8881 4.17233 16.8881 5.31312V6.82566C16.8881 7.21396 16.5734 7.52873 16.1851 7.52873H15.8905V15.1877C15.8905 15.1905 15.8905 15.1933 15.8905 15.196C15.886 16.7454 14.6286 18 13.0782 18H3.92323C2.37003 18 1.11091 16.7409 1.11091 15.1877V7.52877H0.81636C0.42806 7.52877 0.113281 7.21399 0.113281 6.82569V5.31316C0.113281 4.17228 1.03812 3.24744 2.179 3.24744H2.99566V2.73409ZM4.40181 3.24744H7.79765V2.52647L6.45874 1.63317C5.57987 1.0468 4.40181 1.67677 4.40181 2.73409V3.24744ZM9.20381 2.52647V3.24744H12.5996V2.73409C12.5996 1.67677 11.4216 1.0468 10.5427 1.63317L9.20381 2.52647ZM2.179 4.6536C1.81472 4.6536 1.51944 4.94888 1.51944 5.31316V6.12261H5.73398L5.734 4.6536H2.179ZM5.73401 7.52877V13.9306C5.73401 14.1806 5.86682 14.4119 6.08281 14.5379C6.29879 14.6639 6.56545 14.6657 6.78312 14.5426L8.50073 13.5715L10.2183 14.5426C10.436 14.6657 10.7027 14.6639 10.9187 14.5379C11.1346 14.4119 11.2674 14.1806 11.2674 13.9306V7.52873H14.4844V15.1603C14.4844 15.1627 14.4843 15.1651 14.4843 15.1675V15.1877C14.4843 15.9643 13.8548 16.5938 13.0782 16.5938H3.92323C3.14663 16.5938 2.51707 15.9643 2.51707 15.1877V7.52877H5.73401ZM15.482 6.12258V5.31312C15.482 4.94891 15.1867 4.6536 14.8225 4.6536H11.2674V6.12258H15.482ZM9.86129 4.6536H7.14017V12.7254L8.15469 12.1518C8.36941 12.0304 8.63204 12.0304 8.84676 12.1518L9.86129 12.7254V4.6536Z">
+                                            </path>
+                                        </svg>
+                                        <div class="text-caption-1">Gift</div>
+                                    </div>
+                                    <div class="tf-mini-cart-tool-btn btn-add-coupon">
+                                        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M17.3247 11.1751L11.3497 17.1501C11.1949 17.305 11.0111 17.428 10.8087 17.5118C10.6064 17.5957 10.3895 17.6389 10.1705 17.6389C9.95148 17.6389 9.7346 17.5957 9.53227 17.5118C9.32994 17.428 9.14613 17.305 8.99134 17.1501L1.83301 10.0001V1.66675H10.1663L17.3247 8.82508C17.6351 9.13735 17.8093 9.55977 17.8093 10.0001C17.8093 10.4404 17.6351 10.8628 17.3247 11.1751V11.1751Z" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5.99902 5.83325H6.00902" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <div class="text-caption-1">Coupon</div>
+                                    </div>
+                                </div>
+                                <div class="tf-mini-cart-bottom-wrap">
+                                    <div class="tf-cart-totals-discounts">
+                                        <h5>Subtotal</h5>
+                                        <h5 class="tf-totals-total-value">₹186,99</h5>
+                                    </div>
+                                    <div class="tf-cart-checkbox">
+                                        <div class="tf-checkbox-wrapp">
+                                            <input class="" type="checkbox" id="CartDrawer-Form_agree" name="agree_checkbox">
+                                            <div>
+                                                <i class="icon-check"></i>
+                                            </div>
+                                        </div>
+                                        <label for="CartDrawer-Form_agree">
+                                            I agree with 
+                                            <a href="term-of-use.html" title="Terms of Service">Terms & Conditions</a>
+                                        </label>
+                                    </div>
+                                    <div class="tf-mini-cart-view-checkout">
+                                        <a href="shopping-cart.html" class="tf-btn w-100 btn-white radius-4 has-border"><span class="text">View cart</span></a>
+                                        <a href="shopping-cart.html" class="tf-btn w-100 btn-fill radius-4"><span class="text">Check Out</span></a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="link text-btn-uppercase" href="shop-default-grid.html">Or continue shopping</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tf-mini-cart-tool-openable add-note">
+                                <div class="tf-mini-cart-tool-content">
+                                    <label for="Cart-note" class="tf-mini-cart-tool-text">
+                                        <span class="icon">
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_6766_32777)">
+                                                <path d="M9.16699 3.33325H3.33366C2.89163 3.33325 2.46771 3.50885 2.15515 3.82141C1.84259 4.13397 1.66699 4.55789 1.66699 4.99992V16.6666C1.66699 17.1086 1.84259 17.5325 2.15515 17.8451C2.46771 18.1577 2.89163 18.3333 3.33366 18.3333H15.0003C15.4424 18.3333 15.8663 18.1577 16.1788 17.8451C16.4914 17.5325 16.667 17.1086 16.667 16.6666V10.8333" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M15.417 2.0832C15.7485 1.75168 16.1981 1.56543 16.667 1.56543C17.1358 1.56543 17.5855 1.75168 17.917 2.0832C18.2485 2.41472 18.4348 2.86436 18.4348 3.3332C18.4348 3.80204 18.2485 4.25168 17.917 4.5832L10.0003 12.4999L6.66699 13.3332L7.50033 9.99986L15.417 2.0832Z" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </g>
+                                                <defs>
+                                                <clipPath id="clip0_6766_32777">
+                                                <rect width="20" height="20" fill="white"/>
+                                                </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                        <span class="text-title">Note</span>
+                                    </label>
+                                    <form class="form-add-note tf-mini-cart-tool-wrap">
+                                        <fieldset class="d-flex">
+                                            <textarea name="note" id="Cart-note" placeholder="Add special instructions for your order..."></textarea>
+                                        </fieldset>
+                                        <div class="tf-cart-tool-btns">
+                                            <button type="submit" class="btn-style-2 w-100"><span class="text text-btn-uppercase">Save</span></button>
+                                            <div class="text-center w-100 text-btn-uppercase tf-mini-cart-tool-close">Cancel</div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tf-mini-cart-tool-openable estimate-shipping">
+                                <div class="tf-mini-cart-tool-content">
+                                    <label class="tf-mini-cart-tool-text">
+                                        <span class="icon">
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_6766_32777)">
+                                                <path d="M9.16699 3.33325H3.33366C2.89163 3.33325 2.46771 3.50885 2.15515 3.82141C1.84259 4.13397 1.66699 4.55789 1.66699 4.99992V16.6666C1.66699 17.1086 1.84259 17.5325 2.15515 17.8451C2.46771 18.1577 2.89163 18.3333 3.33366 18.3333H15.0003C15.4424 18.3333 15.8663 18.1577 16.1788 17.8451C16.4914 17.5325 16.667 17.1086 16.667 16.6666V10.8333" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M15.417 2.0832C15.7485 1.75168 16.1981 1.56543 16.667 1.56543C17.1358 1.56543 17.5855 1.75168 17.917 2.0832C18.2485 2.41472 18.4348 2.86436 18.4348 3.3332C18.4348 3.80204 18.2485 4.25168 17.917 4.5832L10.0003 12.4999L6.66699 13.3332L7.50033 9.99986L15.417 2.0832Z" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </g>
+                                                <defs>
+                                                <clipPath id="clip0_6766_32777">
+                                                <rect width="20" height="20" fill="white"/>
+                                                </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                        <span class="text-title">Estimate shipping rates</span>
+                                    </label>
+                                    <form class="form-estimate-shipping tf-mini-cart-tool-wrap">
+                                        <div class="mb_12">
+                                            <div class="text-caption-1 text-secondary mb_8">Country/region</div>
+                                            <div class="tf-select">
+                                                <select class="">
+                                                    <option selected="selected">United States</option>
+                                                    <option>China</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mb_12">
+                                            <div class="text-caption-1 text-secondary mb_8">State</div>
+                                            <div class="tf-select">
+                                        <select class="text-title" name="address[country]" data-default="">
+                                            <option value="Australia" data-provinces="[['Australian Capital Territory','Australian Capital Territory'],['New South Wales','New South Wales'],['Northern Territory','Northern Territory'],['Queensland','Queensland'],['South Australia','South Australia'],['Tasmania','Tasmania'],['Victoria','Victoria'],['Western Australia','Western Australia']]">Australia</option>
+                                            <option value="Austria" data-provinces="[]">Austria</option>
+                                            <option value="Belgium" data-provinces="[]">Belgium</option>
+                                            <option value="Canada" data-provinces="[['Alberta','Alberta'],['British Columbia','British Columbia'],['Manitoba','Manitoba'],['New Brunswick','New Brunswick'],['Newfoundland and Labrador','Newfoundland and Labrador'],['Northwest Territories','Northwest Territories'],['Nova Scotia','Nova Scotia'],['Nunavut','Nunavut'],['Ontario','Ontario'],['Prince Edward Island','Prince Edward Island'],['Quebec','Quebec'],['Saskatchewan','Saskatchewan'],['Yukon','Yukon']]">Canada</option>
+                                            <option value="Czech Republic" data-provinces="[]">Czechia</option>
+                                            <option value="Denmark" data-provinces="[]">Denmark</option>
+                                            <option value="Finland" data-provinces="[]">Finland</option>
+                                            <option value="France" data-provinces="[]">France</option>
+                                            <option value="Germany" data-provinces="[]">Germany</option>
+                                            <option value="Hong Kong" data-provinces="[['Hong Kong Island','Hong Kong Island'],['Kowloon','Kowloon'],['New Territories','New Territories']]">Hong Kong SAR</option>
+                                            <option value="Ireland" data-provinces="[['Carlow','Carlow'],['Cavan','Cavan'],['Clare','Clare'],['Cork','Cork'],['Donegal','Donegal'],['Dublin','Dublin'],['Galway','Galway'],['Kerry','Kerry'],['Kildare','Kildare'],['Kilkenny','Kilkenny'],['Laois','Laois'],['Leitrim','Leitrim'],['Limerick','Limerick'],['Longford','Longford'],['Louth','Louth'],['Mayo','Mayo'],['Meath','Meath'],['Monaghan','Monaghan'],['Offaly','Offaly'],['Roscommon','Roscommon'],['Sligo','Sligo'],['Tipperary','Tipperary'],['Waterford','Waterford'],['Westmeath','Westmeath'],['Wexford','Wexford'],['Wicklow','Wicklow']]">Ireland</option>
+                                            <option value="Israel" data-provinces="[]">Israel</option>
+                                            <option value="Italy" data-provinces="[['Agrigento','Agrigento'],['Alessandria','Alessandria'],['Ancona','Ancona'],['Aosta','Aosta Valley'],['Arezzo','Arezzo'],['Ascoli Piceno','Ascoli Piceno'],['Asti','Asti'],['Avellino','Avellino'],['Bari','Bari'],['Barletta-Andria-Trani','Barletta-Andria-Trani'],['Belluno','Belluno'],['Benevento','Benevento'],['Bergamo','Bergamo'],['Biella','Biella'],['Bologna','Bologna'],['Bolzano','South Tyrol'],['Brescia','Brescia'],['Brindisi','Brindisi'],['Cagliari','Cagliari'],['Caltanissetta','Caltanissetta'],['Campobasso','Campobasso'],['Carbonia-Iglesias','Carbonia-Iglesias'],['Caserta','Caserta'],['Catania','Catania'],['Catanzaro','Catanzaro'],['Chieti','Chieti'],['Como','Como'],['Cosenza','Cosenza'],['Cremona','Cremona'],['Crotone','Crotone'],['Cuneo','Cuneo'],['Enna','Enna'],['Fermo','Fermo'],['Ferrara','Ferrara'],['Firenze','Florence'],['Foggia','Foggia'],['Forlì-Cesena','Forlì-Cesena'],['Frosinone','Frosinone'],['Genova','Genoa'],['Gorizia','Gorizia'],['Grosseto','Grosseto'],['Imperia','Imperia'],['Isernia','Isernia'],['L'Aquila','L’Aquila'],['La Spezia','La Spezia'],['Latina','Latina'],['Lecce','Lecce'],['Lecco','Lecco'],['Livorno','Livorno'],['Lodi','Lodi'],['Lucca','Lucca'],['Macerata','Macerata'],['Mantova','Mantua'],['Massa-Carrara','Massa and Carrara'],['Matera','Matera'],['Medio Campidano','Medio Campidano'],['Messina','Messina'],['Milano','Milan'],['Modena','Modena'],['Monza e Brianza','Monza and Brianza'],['Napoli','Naples'],['Novara','Novara'],['Nuoro','Nuoro'],['Ogliastra','Ogliastra'],['Olbia-Tempio','Olbia-Tempio'],['Oristano','Oristano'],['Padova','Padua'],['Palermo','Palermo'],['Parma','Parma'],['Pavia','Pavia'],['Perugia','Perugia'],['Pesaro e Urbino','Pesaro and Urbino'],['Pescara','Pescara'],['Piacenza','Piacenza'],['Pisa','Pisa'],['Pistoia','Pistoia'],['Pordenone','Pordenone'],['Potenza','Potenza'],['Prato','Prato'],['Ragusa','Ragusa'],['Ravenna','Ravenna'],['Reggio Calabria','Reggio Calabria'],['Reggio Emilia','Reggio Emilia'],['Rieti','Rieti'],['Rimini','Rimini'],['Roma','Rome'],['Rovigo','Rovigo'],['Salerno','Salerno'],['Sassari','Sassari'],['Savona','Savona'],['Siena','Siena'],['Siracusa','Syracuse'],['Sondrio','Sondrio'],['Taranto','Taranto'],['Teramo','Teramo'],['Terni','Terni'],['Torino','Turin'],['Trapani','Trapani'],['Trento','Trentino'],['Treviso','Treviso'],['Trieste','Trieste'],['Udine','Udine'],['Varese','Varese'],['Venezia','Venice'],['Verbano-Cusio-Ossola','Verbano-Cusio-Ossola'],['Vercelli','Vercelli'],['Verona','Verona'],['Vibo Valentia','Vibo Valentia'],['Vicenza','Vicenza'],['Viterbo','Viterbo']]">Italy</option>
+                                            <option value="Japan" data-provinces="[['Aichi','Aichi'],['Akita','Akita'],['Aomori','Aomori'],['Chiba','Chiba'],['Ehime','Ehime'],['Fukui','Fukui'],['Fukuoka','Fukuoka'],['Fukushima','Fukushima'],['Gifu','Gifu'],['Gunma','Gunma'],['Hiroshima','Hiroshima'],['Hokkaidō','Hokkaido'],['Hyōgo','Hyogo'],['Ibaraki','Ibaraki'],['Ishikawa','Ishikawa'],['Iwate','Iwate'],['Kagawa','Kagawa'],['Kagoshima','Kagoshima'],['Kanagawa','Kanagawa'],['Kumamoto','Kumamoto'],['Kyōto','Kyoto'],['Kōchi','Kochi'],['Mie','Mie'],['Miyagi','Miyagi'],['Miyazaki','Miyazaki'],['Nagano','Nagano'],['Nagasaki','Nagasaki'],['Nara','Nara'],['Niigata','Niigata'],['Okayama','Okayama'],['Okinawa','Okinawa'],['Saga','Saga'],['Saitama','Saitama'],['Shiga','Shiga'],['Shimane','Shimane'],['Shizuoka','Shizuoka'],['Tochigi','Tochigi'],['Tokushima','Tokushima'],['Tottori','Tottori'],['Toyama','Toyama'],['Tōkyō','Tokyo'],['Wakayama','Wakayama'],['Yamagata','Yamagata'],['Yamaguchi','Yamaguchi'],['Yamanashi','Yamanashi'],['Ōita','Oita'],['Ōsaka','Osaka']]">Japan</option>
+                                            <option value="Malaysia" data-provinces="[['Johor','Johor'],['Kedah','Kedah'],['Kelantan','Kelantan'],['Kuala Lumpur','Kuala Lumpur'],['Labuan','Labuan'],['Melaka','Malacca'],['Negeri Sembilan','Negeri Sembilan'],['Pahang','Pahang'],['Penang','Penang'],['Perak','Perak'],['Perlis','Perlis'],['Putrajaya','Putrajaya'],['Sabah','Sabah'],['Sarawak','Sarawak'],['Selangor','Selangor'],['Terengganu','Terengganu']]">Malaysia</option>
+                                            <option value="Netherlands" data-provinces="[]">Netherlands</option>
+                                            <option value="New Zealand" data-provinces="[['Auckland','Auckland'],['Bay of Plenty','Bay of Plenty'],['Canterbury','Canterbury'],['Chatham Islands','Chatham Islands'],['Gisborne','Gisborne'],['Hawke's Bay','Hawke’s Bay'],['Manawatu-Wanganui','Manawatū-Whanganui'],['Marlborough','Marlborough'],['Nelson','Nelson'],['Northland','Northland'],['Otago','Otago'],['Southland','Southland'],['Taranaki','Taranaki'],['Tasman','Tasman'],['Waikato','Waikato'],['Wellington','Wellington'],['West Coast','West Coast']]">New Zealand</option>
+                                            <option value="Norway" data-provinces="[]">Norway</option>
+                                            <option value="Poland" data-provinces="[]">Poland</option>
+                                            <option value="Portugal" data-provinces="[['Aveiro','Aveiro'],['Açores','Azores'],['Beja','Beja'],['Braga','Braga'],['Bragança','Bragança'],['Castelo Branco','Castelo Branco'],['Coimbra','Coimbra'],['Faro','Faro'],['Guarda','Guarda'],['Leiria','Leiria'],['Lisboa','Lisbon'],['Madeira','Madeira'],['Portalegre','Portalegre'],['Porto','Porto'],['Santarém','Santarém'],['Setúbal','Setúbal'],['Viana do Castelo','Viana do Castelo'],['Vila Real','Vila Real'],['Viseu','Viseu'],['Évora','Évora']]">Portugal</option>
+                                            <option value="Singapore" data-provinces="[]">Singapore</option>
+                                            <option value="South Korea" data-provinces="[['Busan','Busan'],['Chungbuk','North Chungcheong'],['Chungnam','South Chungcheong'],['Daegu','Daegu'],['Daejeon','Daejeon'],['Gangwon','Gangwon'],['Gwangju','Gwangju City'],['Gyeongbuk','North Gyeongsang'],['Gyeonggi','Gyeonggi'],['Gyeongnam','South Gyeongsang'],['Incheon','Incheon'],['Jeju','Jeju'],['Jeonbuk','North Jeolla'],['Jeonnam','South Jeolla'],['Sejong','Sejong'],['Seoul','Seoul'],['Ulsan','Ulsan']]">South Korea</option>
+                                            <option value="Spain" data-provinces="[['A Coruña','A Coruña'],['Albacete','Albacete'],['Alicante','Alicante'],['Almería','Almería'],['Asturias','Asturias Province'],['Badajoz','Badajoz'],['Balears','Balears Province'],['Barcelona','Barcelona'],['Burgos','Burgos'],['Cantabria','Cantabria Province'],['Castellón','Castellón'],['Ceuta','Ceuta'],['Ciudad Real','Ciudad Real'],['Cuenca','Cuenca'],['Cáceres','Cáceres'],['Cádiz','Cádiz'],['Córdoba','Córdoba'],['Girona','Girona'],['Granada','Granada'],['Guadalajara','Guadalajara'],['Guipúzcoa','Gipuzkoa'],['Huelva','Huelva'],['Huesca','Huesca'],['Jaén','Jaén'],['La Rioja','La Rioja Province'],['Las Palmas','Las Palmas'],['León','León'],['Lleida','Lleida'],['Lugo','Lugo'],['Madrid','Madrid Province'],['Melilla','Melilla'],['Murcia','Murcia'],['Málaga','Málaga'],['Navarra','Navarra'],['Ourense','Ourense'],['Palencia','Palencia'],['Pontevedra','Pontevedra'],['Salamanca','Salamanca'],['Santa Cruz de Tenerife','Santa Cruz de Tenerife'],['Segovia','Segovia'],['Sevilla','Seville'],['Soria','Soria'],['Tarragona','Tarragona'],['Teruel','Teruel'],['Toledo','Toledo'],['Valencia','Valencia'],['Valladolid','Valladolid'],['Vizcaya','Biscay'],['Zamora','Zamora'],['Zaragoza','Zaragoza'],['Álava','Álava'],['Ávila','Ávila']]">Spain</option>
+                                            <option value="Sweden" data-provinces="[]">Sweden</option>
+                                            <option value="Switzerland" data-provinces="[]">Switzerland</option>
+                                            <option value="United Arab Emirates" data-provinces="[['Abu Dhabi','Abu Dhabi'],['Ajman','Ajman'],['Dubai','Dubai'],['Fujairah','Fujairah'],['Ras al-Khaimah','Ras al-Khaimah'],['Sharjah','Sharjah'],['Umm al-Quwain','Umm al-Quwain']]">United Arab Emirates</option>
+                                            <option value="United Kingdom" data-provinces="[['British Forces','British Forces'],['England','England'],['Northern Ireland','Northern Ireland'],['Scotland','Scotland'],['Wales','Wales']]">United Kingdom</option>
+                                            <option selected value="United States" data-provinces="[['Alabama','Alabama'],['Alaska','Alaska'],['American Samoa','American Samoa'],['Arizona','Arizona'],['Arkansas','Arkansas'],['Armed Forces Americas','Armed Forces Americas'],['Armed Forces Europe','Armed Forces Europe'],['Armed Forces Pacific','Armed Forces Pacific'],['California','California'],['Colorado','Colorado'],['Connecticut','Connecticut'],['Delaware','Delaware'],['District of Columbia','Washington DC'],['Federated States of Micronesia','Micronesia'],['Florida','Florida'],['Georgia','Georgia'],['Guam','Guam'],['Hawaii','Hawaii'],['Idaho','Idaho'],['Illinois','Illinois'],['Indiana','Indiana'],['Iowa','Iowa'],['Kansas','Kansas'],['Kentucky','Kentucky'],['Louisiana','Louisiana'],['Maine','Maine'],['Marshall Islands','Marshall Islands'],['Maryland','Maryland'],['Massachusetts','Massachusetts'],['Michigan','Michigan'],['Minnesota','Minnesota'],['Mississippi','Mississippi'],['Missouri','Missouri'],['Montana','Montana'],['Nebraska','Nebraska'],['Nevada','Nevada'],['New Hampshire','New Hampshire'],['New Jersey','New Jersey'],['New Mexico','New Mexico'],['New York','New York'],['North Carolina','North Carolina'],['North Dakota','North Dakota'],['Northern Mariana Islands','Northern Mariana Islands'],['Ohio','Ohio'],['Oklahoma','Oklahoma'],['Oregon','Oregon'],['Palau','Palau'],['Pennsylvania','Pennsylvania'],['Puerto Rico','Puerto Rico'],['Rhode Island','Rhode Island'],['South Carolina','South Carolina'],['South Dakota','South Dakota'],['Tennessee','Tennessee'],['Texas','Texas'],['Utah','Utah'],['Vermont','Vermont'],['Virgin Islands','U.S. Virgin Islands'],['Virginia','Virginia'],['Washington','Washington'],['West Virginia','West Virginia'],['Wisconsin','Wisconsin'],['Wyoming','Wyoming']]">United States</option>
+                                            <option value="Vietnam" data-provinces="[]">Vietnam</option>
+                                        </select>
+                                    </div>
+                                        </div>
+                                        <fieldset class="">
+                                            <div class="text-caption-1 text-secondary mb_8">Postal/Zip Code</div>
+                                            <input class="" type="text" placeholder="100000" name="text" tabindex="2" value="" aria-required="true" required="">
+                                        </fieldset>
+                                        <div class="tf-cart-tool-btns">
+                                            <button type="submit" class="btn-style-2 w-100"><span class="text text-btn-uppercase">Calculator</span></button>
+                                            <div class="text-center w-100 text-btn-uppercase tf-mini-cart-tool-close">Cancel</div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tf-mini-cart-tool-openable add-gift">
+                                <form class="tf-product-form-addgift">
+                                    <div class="tf-mini-cart-tool-content">
+                                        <div class="tf-mini-cart-tool-text">
+                                            <div class="icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.65957 3.64545C4.65957 0.73868 7.89921 -0.995558 10.3176 0.617949L11.9997 1.74021L13.6818 0.617949C16.1001 -0.995558 19.3398 0.73868 19.3398 3.64545V4.32992H20.4286C21.9498 4.32992 23.1829 5.56311 23.1829 7.08416V9.10087C23.1829 9.61861 22.7632 10.0383 22.2454 10.0383H21.8528V20.2502C21.8528 20.254 21.8527 20.2577 21.8527 20.2614C21.8467 22.3272 20.1702 24 18.103 24H5.89634C3.82541 24 2.14658 22.3212 2.14658 20.2502V10.0384H1.75384C1.23611 10.0384 0.816406 9.61865 0.816406 9.10092V7.08421C0.816406 5.56304 2.04953 4.32992 3.57069 4.32992H4.65957V3.64545ZM6.53445 4.32992H11.0622V3.36863L9.27702 2.17757C8.10519 1.39573 6.53445 2.2357 6.53445 3.64545V4.32992ZM12.9371 3.36863V4.32992H17.4649V3.64545C17.4649 2.2357 15.8942 1.39573 14.7223 2.17756L12.9371 3.36863ZM3.57069 6.2048C3.08499 6.2048 2.69128 6.59851 2.69128 7.08421V8.16348H8.31067L8.3107 6.2048H3.57069ZM8.31071 10.0384V18.5741C8.31071 18.9075 8.48779 19.2158 8.77577 19.3838C9.06376 19.5518 9.4193 19.5542 9.70953 19.3901L11.9997 18.0953L14.2898 19.3901C14.58 19.5542 14.9356 19.5518 15.2236 19.3838C15.5115 19.2158 15.6886 18.9075 15.6886 18.5741V10.0383H19.9779V20.2137C19.9778 20.2169 19.9778 20.2201 19.9778 20.2233V20.2502C19.9778 21.2857 19.1384 22.1251 18.103 22.1251H5.89634C4.86088 22.1251 4.02146 21.2857 4.02146 20.2502V10.0384H8.31071ZM21.308 8.16344V7.08416C21.308 6.59854 20.9143 6.2048 20.4286 6.2048H15.6886V8.16344H21.308ZM13.8138 6.2048H10.1856V16.9672L11.5383 16.2024C11.8246 16.0405 12.1748 16.0405 12.461 16.2024L13.8138 16.9672V6.2048Z"></path></svg>
+                                            </div>
+                                            <div class="tf-gift-wrap-infos">
+                                                <p>Do you want a gift wrap?</p>
+                                                Only
+                                                <span class="price fw-6">₹5.00</span>
+                                            </div>
+                                        </div>
+                                        <div class="tf-cart-tool-btns tf-mini-cart-tool-wrap">
+                                            <button type="submit" class="btn-style-2 w-100"><span class="text text-btn-uppercase">Add a gift wrap</span></button>
+                                            <div class="text-center w-100 text-btn-uppercase tf-mini-cart-tool-close">Cancel</div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tf-mini-cart-tool-openable add-coupon">
+                                <div class="tf-mini-cart-tool-content">
+                                    <label  class="tf-mini-cart-tool-text">
+                                        <span class="icon">
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_6766_32777)">
+                                                <path d="M9.16699 3.33325H3.33366C2.89163 3.33325 2.46771 3.50885 2.15515 3.82141C1.84259 4.13397 1.66699 4.55789 1.66699 4.99992V16.6666C1.66699 17.1086 1.84259 17.5325 2.15515 17.8451C2.46771 18.1577 2.89163 18.3333 3.33366 18.3333H15.0003C15.4424 18.3333 15.8663 18.1577 16.1788 17.8451C16.4914 17.5325 16.667 17.1086 16.667 16.6666V10.8333" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M15.417 2.0832C15.7485 1.75168 16.1981 1.56543 16.667 1.56543C17.1358 1.56543 17.5855 1.75168 17.917 2.0832C18.2485 2.41472 18.4348 2.86436 18.4348 3.3332C18.4348 3.80204 18.2485 4.25168 17.917 4.5832L10.0003 12.4999L6.66699 13.3332L7.50033 9.99986L15.417 2.0832Z" stroke="#181818" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </g>
+                                                <defs>
+                                                <clipPath id="clip0_6766_32777">
+                                                <rect width="20" height="20" fill="white"/>
+                                                </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                        <span class="text-title">Add A Coupon Code</span>
+                                    </label>
+                                    <form class="form-add-coupon tf-mini-cart-tool-wrap">
+                                        <fieldset class="">
+                                            <div class="text-caption-1 text-secondary mb_8">Enter Code</div>
+                                            <input class="" type="text" placeholder="Discount code" name="text" tabindex="2" value="" aria-required="true" required="">
+                                        </fieldset>
+                                        <div class="tf-cart-tool-btns">
+                                            <button type="submit" class="btn-style-2 w-100"><span class="text text-btn-uppercase">Save</span></button>
+                                            <div class="text-center w-100 text-btn-uppercase tf-mini-cart-tool-close">Cancel</div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- /shoppingCart -->
+
+
+
+
+
+    >
+
+
+
+
+
+    <!-- modal delivery_return -->
+    <div class="modal modalCentered fade tf-product-modal modal-part-content" id="delivery_return">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="header">
+                    <div class="demo-title">Shipping & Delivery</div>
+                    <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
+                </div>
+                <div class="overflow-y-auto">
+                    <div class="tf-product-popup-delivery">
+                        <div class="title">Delivery</div>
+                        <p class="text-paragraph">All orders shipped with UPS Express.</p>
+                        <p class="text-paragraph">Always free shipping for orders over US ₹250.</p>
+                        <p class="text-paragraph">All orders are shipped with a UPS tracking number.</p>
+                    </div>
+                    <div class="tf-product-popup-delivery">
+                        <div class="title">Returns</div>
+                        <p class="text-paragraph">Items returned within 14 days of their original shipment date in same
+                            as new condition will be eligible for a full refund or store credit.</p>
+                        <p class="text-paragraph">Refunds will be charged back to the original form of payment used for
+                            purchase.</p>
+                        <p class="text-paragraph">Customer is responsible for shipping charges when making returns and
+                            shipping/handling fees of original purchase is non-refundable.</p>
+                        <p class="text-paragraph">All sale items are final purchases.</p>
+                    </div>
+                    <div class="tf-product-popup-delivery">
+                        <div class="title">Help</div>
+                        <p class="text-paragraph">Give us a shout if you have any other questions and/or concerns.</p>
+                        <p class="text-paragraph">Email: <a href="mailto:contact@domain.com"><span
+                                    class="__cf_email__">contact@domain.com</span></a></p>
+                        <p class="text-paragraph mb-0">Phone: +1 (23) 456 789</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /modal delivery_return -->
+
+    <!-- modal share social -->
+    <div class="modal modalCentered fade tf-product-modal modal-part-content" id="share_social">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="header">
+                    <div class="demo-title">Share</div>
+                    <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
+                </div>
+                <div class="overflow-y-auto">
+                    <ul class="tf-social-icon d-flex gap-10">
+                        <li><a href="#" class="box-icon social-facebook bg_line"><i class="icon icon-fb"></i></a></li>
+                        <li><a href="#" class="box-icon social-twiter bg_line"><i class="icon icon-x"></i></a></li>
+                        <li><a href="#" class="box-icon social-instagram bg_line"><i
+                                    class="icon icon-instagram"></i></a></li>
+                        <li><a href="#" class="box-icon social-tiktok bg_line"><i class="icon icon-tiktok"></i></a></li>
+                        <li><a href="#" class="box-icon social-pinterest bg_line"><i
+                                    class="icon icon-pinterest"></i></a></li>
+                    </ul>
+                    <form class="form-share" method="post" accept-charset="utf-8">
+                        <fieldset>
+                            <input type="text" value="https://themesflat.co/html/modave/" tabindex="0"
+                                aria-required="true">
+                        </fieldset>
+                        <div class="button-submit">
+                            <button class="tf-btn radius-4 btn-fill" type="button"><span
+                                    class="text">Copy</span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /modal share social -->
+
+    <!-- Javascript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="js/lazysize.min.js"></script>
+    <script type="text/javascript" src="js/wow.min.js"></script>
+    <script type="text/javascript" src="js/count-down.js"></script>
+    <script type="text/javascript" src="js/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="js/carousel.js"></script>
+    <script type="text/javascript" src="js/multiple-modal.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <script defer src="js/main1.js"></script>
+    <script>
+        window.REQUIRED_CODE_ERROR_MESSAGE = 'Please choose a country code';
+        window.LOCALE = 'en';
+        window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "The information provided is invalid. Please review the field format and try again.";
+
+        window.REQUIRED_ERROR_MESSAGE = "This field cannot be left blank. ";
+
+        window.GENERIC_INVALID_MESSAGE = "The information provided is invalid. Please review the field format and try again.";
+
+        window.translation = {
+            common: {
+                selectedList: '{quantity} list selected',
+                selectedLists: '{quantity} lists selected'
+            }
+        };
+
+        var AUTOHIDE = Boolean(0);
+    </script>
+
+
+</body>
+
+</html>

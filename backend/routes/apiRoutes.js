@@ -3,6 +3,12 @@ const router = express.Router();
 const upload = require('../utils/multer');
 const categoryController = require('../controllers/categoryController');
 const productController = require('../controllers/productController');
+const blogController = require('../controllers/blogController');
+const testimonialController = require('../controllers/testimonialController');
+const mainBannerCtrl = require('../controllers/mainBannerController');
+const bannerTwoCtrl = require('../controllers/bannerTwoController');
+const bannerThreeCtrl = require('../controllers/bannerThreeController');
+
 
 router.get('/categories', categoryController.getAllCategories);
 router.post('/categories', upload.single('image'), categoryController.addCategory);
@@ -24,6 +30,40 @@ router.delete('/products/:id', productController.deleteProduct);
 router.patch('/products/:id/status', productController.toggleProductStatus);
 // router.post('/products/:id/reviews', productController.addReview);
 // router.delete('/products/:id/reviews/:reviewId', productController.deleteReview);
+
+
+router.post('/admin-blogs', upload.single('image'), blogController.createBlog);
+router.get('/get-admin-blogs', blogController.getAllBlogs);
+router.get('/admin-blogs/:id', blogController.getBlogById);
+router.put('/admin-blogs/:id', upload.single('image'), blogController.updateBlog);
+router.delete('/admin-blogs/:id', blogController.deleteBlog);
+
+router.post('/admin-testimonials', upload.single('image'), testimonialController.createTestimonial);
+router.get('/testimonials', testimonialController.listTestimonials);
+router.get('/admin-testimonials/:id', testimonialController.getTestimonialForEdit);
+router.put('/admin-testimonials/:id', upload.single('image'), testimonialController.updateTestimonial);
+router.delete('/admin-testimonials/:id', testimonialController.deleteTestimonial);
+router.patch('/admin-testimonials/toggle-status/:id', testimonialController.toggleTestimonialStatus);
+
+router.get('/main', mainBannerCtrl.getAll);
+router.post('/main', upload.single('image'), mainBannerCtrl.create);
+router.put('/main/:id', upload.single('image'), mainBannerCtrl.update);
+router.delete('/main/:id', mainBannerCtrl.delete);
+router.patch('/main/:id/toggle', mainBannerCtrl.toggleStatus);
+
+// Banner Two Routes
+router.get('/two', bannerTwoCtrl.getAll);
+router.post('/two', upload.single('image'), bannerTwoCtrl.create);
+router.put('/two/:id', upload.single('image'), bannerTwoCtrl.update);
+router.delete('/two/:id', bannerTwoCtrl.delete);
+router.patch('/two/:id/toggle', bannerTwoCtrl.toggleStatus);
+
+// Banner Three Routes
+router.get('/three', bannerThreeCtrl.getAll);
+router.post('/three', upload.single('image'), bannerThreeCtrl.create);
+router.put('/three/:id', upload.single('image'), bannerThreeCtrl.update);
+router.delete('/three/:id', bannerThreeCtrl.delete);
+router.patch('/three/:id/toggle', bannerThreeCtrl.toggleStatus);
 
 
 module.exports = router;

@@ -10,7 +10,6 @@ const storage = new CloudinaryStorage({
             folder: 'Hofmaan',
             public_id: `${Date.now()}-${file.originalname.split('.')[0]}`,
             allowed_formats: ['jpeg', 'jpg', 'png', 'webp'],
-            transformation: [{ width: 1000, height: 1000, crop: 'limit' }]
         };
     },
 });

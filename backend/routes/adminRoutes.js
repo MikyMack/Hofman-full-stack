@@ -23,8 +23,13 @@ router.get('/admin/dashboard', isAdmin, (req, res) => {
 });
 router.get('/admin/products', isAdmin, async (req, res) => {
     try {
-        const { page = 1, limit = 10, search = '' } = req.query;
-        
+        // Parse query params
+        const page = parseInt(req.query.page) > 0 ? parseInt(req.query.page) : 1;
+        const limit = parseInt(req.query.limit) > 0 ? parseInt(req.query.limit) : 12;
+        const search = req.query.search ? req.query.search.trim() : '';
+        const selectedCategory = req.query.category && req.query.category !== '' ? req.query.category : '';
+
+        // Build query object
         const query = {};
         if (search) {
             query.$or = [
@@ -32,16 +37,23 @@ router.get('/admin/products', isAdmin, async (req, res) => {
                 { description: { $regex: search, $options: 'i' } }
             ];
         }
-        
+        if (selectedCategory) {
+            query.category = selectedCategory;
+        }
+
+        // Fetch products with filter and pagination
         const products = await Product.find(query)
-        .populate('category', 'name subCategories') 
-        .limit(limit * 1)
-        .skip((page - 1) * limit)
-        .lean(); 
-            
+            .populate('category', 'name subCategories')
+            .limit(limit)
+            .skip((page - 1) * limit)
+            .lean();
+
+        // Fetch all categories for filter dropdown
         const categories = await Category.find();
+
+        // Count total products for pagination
         const count = await Product.countDocuments(query);
-        
+
         res.render('admin/products', {
             title: 'Admin Products',
             user: req.session.user || null,
@@ -50,7 +62,8 @@ router.get('/admin/products', isAdmin, async (req, res) => {
             totalPages: Math.ceil(count / limit),
             currentPage: page,
             limit,
-            searchQuery: search
+            searchQuery: search,
+            selectedCategory
         });
     } catch (error) {
         console.error(error);
@@ -70,5 +83,15 @@ router.get('/admin/category', isAdmin, async (req, res) => {
         res.status(500).send('Error loading categories');
     }
 });
+
+router.get('/admin-testimonials',isAdmin, (req, res) => {
+    res.render('admin/testimonials');
+  });
+router.get('/admin-blogs',isAdmin, (req, res) => {
+    res.render('admin/blogs');
+  });
+router.get('/admin-banners',isAdmin, (req, res) => {
+    res.render('admin/banners');
+  });
 
 module.exports = router;

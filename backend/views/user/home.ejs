@@ -10,7 +10,7 @@
 
     <meta name="keywords" content="Hofmaan" />
     <meta name="description" content="Hofmaan">
-    <meta name="author" content="D-THEMES">
+    <meta name="author" content="Trivlogic">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/images/logo.png">
@@ -60,18 +60,18 @@
                     </div>
                     <div class="header-right">
                         <span class="divider d-lg-show"></span>
-                        <a href="shop-grid-3cols.html" class="d-lg-show">Store</a>
-                        <a href="about-us.html" class="d-lg-show">About Us</a>
-                        <a href="contact-us.html" class="d-lg-show">Contact Us</a>
+                        <a href="/store" class="d-lg-show">Store</a>
+                        <a href="/about" class="d-lg-show">About Us</a>
+                        <a href="/contact" class="d-lg-show">Contact Us</a>
                         <% if (user) { %>
                             <a href="/user/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
                             <span class="delimiter d-lg-show">/</span>
                             <a href="/user/orders" class="ml-0 d-lg-show">My Orders</a>
-                        <% } else { %>
-                            <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
-                            <span class="delimiter d-lg-show">/</span>
-                            <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
-                        <% } %>
+                            <% } else { %>
+                                <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
+                                <span class="delimiter d-lg-show">/</span>
+                                <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
+                                <% } %>
                     </div>
                 </div>
             </div>
@@ -80,11 +80,11 @@
                 <div class="container">
                     <div class="header-left mr-md-4">
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
-                        <a href="demo12.html" class="logo">
+                        <a href="/" class="logo">
                             <img src="/images/logo.png" alt="logo" width="250">
                         </a>
                         <form method="get" action="#"
-                            class="input-wrapper header-search hs-expanded hs-round d-none d-md-flex">                            
+                            class="input-wrapper header-search hs-expanded hs-round d-none d-md-flex">
                             <input type="text" class="form-control bg-white pt-0 pb-0" name="search" id="search"
                                 placeholder="Search in..." required />
                             <button class="btn btn-search" type="submit">
@@ -97,8 +97,7 @@
                             <a href="tel:#" class="w-icon-call"></a>
                             <div class="call-info d-lg-show">
                                 <h4 class="chat font-size-md text-normal ls-normal text-white mb-0">
-                                    <a href=""
-                                        class="text-capitalize text-primary font-weight-normal">Customer care</a>
+                                    <a href="" class="text-capitalize text-primary font-weight-normal">Customer care</a>
                                 </h4>
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
                             </div>
@@ -106,7 +105,7 @@
                         <a class="wishlist label-down link d-xs-show" href="wishlist.html">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
-                        </a>                     
+                        </a>
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
                             <a href="#" class="cart-toggle label-down link">
@@ -183,154 +182,29 @@
         <!-- Start of Main -->
         <main class="main">
             <div class="container pb-2">
-                <div class="category-wrapper row cols-12 pt-4">
-                   
-                    <div class="category category-ellipse ">
-                        <figure class="category-media">
-                            <a href="demo12-shop.html">
-                                <img src="/images/hofmaan/category.jpg" alt="Categroy" width="190"
-                                    height="190" />
-                            </a>
-                        </figure>
-                        <div class="category-content">
-                            <h4 class="category-name">
-                                <a href="demo12-shop.html">Shoes</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="category category-ellipse ">
-                        <figure class="category-media">
-                            <a href="demo12-shop.html">
-                                <img src="/images/hofmaan/category.jpg" alt="Categroy" width="190"
-                                    height="190" />
-                            </a>
-                        </figure>
-                        <div class="category-content">
-                            <h4 class="category-name">
-                                <a href="demo12-shop.html">loafers</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="category category-ellipse ">
-                        <figure class="category-media">
-                            <a href="demo12-shop.html">
-                                <img src="/images/hofmaan/category.jpg" alt="Categroy" width="190"
-                                    height="190" />
-                            </a>
-                        </figure>
-                        <div class="category-content">
-                            <h4 class="category-name">
-                                <a href="demo12-shop.html">loafers</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="category category-ellipse ">
-                        <figure class="category-media">
-                            <a href="demo12-shop.html">
-                                <img src="/images/hofmaan/category.jpg" alt="Categroy" width="190"
-                                    height="190" />
-                            </a>
-                        </figure>
-                        <div class="category-content">
-                            <h4 class="category-name">
-                                <a href="demo12-shop.html">loafers</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="category category-ellipse ">
-                        <figure class="category-media">
-                            <a href="demo12-shop.html">
-                                <img src="/images/hofmaan/category.jpg" alt="Categroy" width="190"
-                                    height="190" />
-                            </a>
-                        </figure>
-                        <div class="category-content">
-                            <h4 class="category-name">
-                                <a href="demo12-shop.html">loafers</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="category category-ellipse ">
-                        <figure class="category-media">
-                            <a href="demo12-shop.html">
-                                <img src="/images/hofmaan/category.jpg" alt="Categroy" width="190"
-                                    height="190" />
-                            </a>
-                        </figure>
-                        <div class="category-content">
-                            <h4 class="category-name">
-                                <a href="demo12-shop.html">loafers</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="category category-ellipse ">
-                        <figure class="category-media">
-                            <a href="demo12-shop.html">
-                                <img src="/images/hofmaan/category.jpg" alt="Categroy" width="190"
-                                    height="190" />
-                            </a>
-                        </figure>
-                        <div class="category-content">
-                            <h4 class="category-name">
-                                <a href="demo12-shop.html">loafers</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="category category-ellipse ">
-                        <figure class="category-media">
-                            <a href="demo12-shop.html">
-                                <img src="/images/hofmaan/category.jpg" alt="Categroy" width="190"
-                                    height="190" />
-                            </a>
-                        </figure>
-                        <div class="category-content">
-                            <h4 class="category-name">
-                                <a href="demo12-shop.html">loafers</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="category category-ellipse ">
-                        <figure class="category-media">
-                            <a href="demo12-shop.html">
-                                <img src="/images/hofmaan/category.jpg" alt="Categroy" width="190"
-                                    height="190" />
-                            </a>
-                        </figure>
-                        <div class="category-content">
-                            <h4 class="category-name">
-                                <a href="demo12-shop.html">loafers</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="category category-ellipse ">
-                        <figure class="category-media">
-                            <a href="demo12-shop.html">
-                                <img src="/images/hofmaan/category.jpg" alt="Categroy" width="190"
-                                    height="190" />
-                            </a>
-                        </figure>
-                        <div class="category-content">
-                            <h4 class="category-name">
-                                <a href="demo12-shop.html">loafers</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="category category-ellipse ">
-                        <figure class="category-media">
-                            <a href="demo12-shop.html">
-                                <img src="/images/hofmaan/category.jpg" alt="Categroy" width="190"
-                                    height="190" />
-                            </a>
-                        </figure>
-                        <div class="category-content">
-                            <h4 class="category-name">
-                                <a href="demo12-shop.html">loafers</a>
-                            </h4>
-                        </div>
-                    </div>
+                <div class="category-wrapper pt-4">
+                    <% categories.forEach(category => { %>
+                      <div class="category text-center py-2 px-3 dropdown">
+                        <h4 class="category-name">
+                          <a href="/category/<%= category._id %>">
+                            <%= category.name %>
+                          </a>
+                        </h4>
                   
-                </div>
-                <!-- End Of Category Wrapper -->
+                        <% if (category.subCategories && category.subCategories.length > 0) { %>
+                          <div class="subcategory-dropdown">
+                            <% category.subCategories.forEach(sub => { %>
+                              <% if (sub.isActive) { %>
+                                <a href="/subcategory/<%= sub._id %>"><%= sub.name %></a>
+                              <% } %>
+                            <% }) %>
+                          </div>
+                        <% } %>
+                      </div>
+                    <% }) %>
+                  </div>
+                  
+             
 
                 <div class="intro-section mb-2">
                     <div class="row">
@@ -350,12 +224,12 @@
                                             </h3>
                                             <h2 class="banner-title font-secondary text-capitalize text-white slide-animate"
                                                 data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
-                                               New collections Hofmaan
+                                                New collections Hofmaan
                                             </h2>
                                             <h4 class="banner-price-info font-weight-normal text-white ls-25 slide-animate"
                                                 data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
                                                 Discount 50%
-                                                    OFF This Week.
+                                                OFF This Week.
                                             </h4>
                                             <a href="demo12-shop.html"
                                                 class="btn btn-outline btn-white btn-rounded btn-icon-right slide-animate"
@@ -446,7 +320,8 @@
                                 <div class="banner-content">
                                     <h5 class="banner-subtitle text-uppercase text-default font-weight-bold">On Sale
                                     </h5>
-                                    <h3 class="banner-title text-dark font-secondary font-weight-bolder ls-25">Hofmaan</h3>
+                                    <h3 class="banner-title text-dark font-secondary font-weight-bolder ls-25">Hofmaan
+                                    </h3>
                                     <a href="demo12-shop.html"
                                         class="btn btn-dark btn-link btn-slide-right btn-icon-right btn-infinite">
                                         Shop Now
@@ -542,12 +417,10 @@
                         <div class="swiper-slide product product-image-gap product-simple">
                             <figure class="product-media">
                                 <a href="product-default.html">
-                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                        height="335" />
-                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                        height="335" />
+                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295" height="335" />
+                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295" height="335" />
                                 </a>
-                               
+
                             </figure>
                             <div class="product-details">
                                 <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -582,12 +455,10 @@
                         <div class="swiper-slide product product-image-gap product-simple">
                             <figure class="product-media">
                                 <a href="product-default.html">
-                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                        height="335" />
-                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                        height="335" />
+                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295" height="335" />
+                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295" height="335" />
                                 </a>
-                               
+
                             </figure>
                             <div class="product-details">
                                 <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -622,12 +493,10 @@
                         <div class="swiper-slide product product-image-gap product-simple">
                             <figure class="product-media">
                                 <a href="product-default.html">
-                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                        height="335" />
-                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                        height="335" />
+                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295" height="335" />
+                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295" height="335" />
                                 </a>
-                               
+
                             </figure>
                             <div class="product-details">
                                 <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -662,12 +531,10 @@
                         <div class="swiper-slide product product-image-gap product-simple">
                             <figure class="product-media">
                                 <a href="product-default.html">
-                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                        height="335" />
-                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                        height="335" />
+                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295" height="335" />
+                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295" height="335" />
                                 </a>
-                               
+
                             </figure>
                             <div class="product-details">
                                 <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -702,12 +569,10 @@
                         <div class="swiper-slide product product-image-gap product-simple">
                             <figure class="product-media">
                                 <a href="product-default.html">
-                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                        height="335" />
-                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                        height="335" />
+                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295" height="335" />
+                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295" height="335" />
                                 </a>
-                               
+
                             </figure>
                             <div class="product-details">
                                 <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -742,12 +607,10 @@
                         <div class="swiper-slide product product-image-gap product-simple">
                             <figure class="product-media">
                                 <a href="product-default.html">
-                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                        height="335" />
-                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                        height="335" />
+                                    <img src="/images/hofmaan/category.jpg" alt="Product" width="295" height="335" />
+                                    <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295" height="335" />
                                 </a>
-                               
+
                             </figure>
                             <div class="product-details">
                                 <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -787,8 +650,8 @@
                 <div class="banner-wrapper appear-animate row cols-md-2 mb-7">
                     <div class="banner banner-fixed overlay-dark br-sm mt-4">
                         <figure class="br-sm">
-                            <img src="/images/hofmaan/banner-3.jpg" alt="Category Banner" width="680"
-                                height="180" style="background-color: #565960;" />
+                            <img src="/images/hofmaan/banner-3.jpg" alt="Category Banner" width="680" height="180"
+                                style="background-color: #565960;" />
                         </figure>
                         <div class="banner-content y-50">
                             <h4 class="banner-price-info text-lighter font-secondary font-weight-normal mb-0">
@@ -848,10 +711,8 @@
                             <div class="product product-list br-sm mb-0">
                                 <figure class="product-media">
                                     <a href="product-default.html">
-                                        <img src="/images/hofmaan/category.jpg" alt="Product"
-                                            width="315" height="355">
-                                        <img src="/images/hofmaan/sample3.jpg" alt="Product"
-                                            width="315" height="355">
+                                        <img src="/images/hofmaan/category.jpg" alt="Product" width="315" height="355">
+                                        <img src="/images/hofmaan/sample3.jpg" alt="Product" width="315" height="355">
                                     </a>
                                 </figure>
                                 <div class="product-details">
@@ -869,8 +730,7 @@
                                     <p class="text-default">Aliquam id diam maecenas ultricies me. Volutpat ac tincidunt
                                         vitae sempe. Ultrices eros in cursus turpis massa tine.</p>
                                     <div class="product-action">
-                                        <a href="#0" class="btn-dark btn-product"
-                                            title="Select Options">
+                                        <a href="#0" class="btn-dark btn-product" title="Select Options">
                                             <i class="w-icon-cart"></i>
                                             <span>Add to cart</span>
                                         </a>
@@ -884,10 +744,8 @@
                             <div class="product product-list br-sm mb-0">
                                 <figure class="product-media">
                                     <a href="product-default.html">
-                                        <img src="/images/hofmaan/category.jpg" alt="Product"
-                                            width="315" height="355">
-                                        <img src="/images/hofmaan/sample3.jpg" alt="Product"
-                                            width="315" height="355">
+                                        <img src="/images/hofmaan/category.jpg" alt="Product" width="315" height="355">
+                                        <img src="/images/hofmaan/sample3.jpg" alt="Product" width="315" height="355">
                                     </a>
                                 </figure>
                                 <div class="product-details">
@@ -905,8 +763,7 @@
                                     <p class="text-default">Aliquam id diam maecenas ultricies me. Volutpat ac tincidunt
                                         vitae sempe. Ultrices eros in cursus turpis massa tine.</p>
                                     <div class="product-action">
-                                        <a href="#0" class="btn-dark btn-product"
-                                            title="Select Options">
+                                        <a href="#0" class="btn-dark btn-product" title="Select Options">
                                             <i class="w-icon-cart"></i>
                                             <span>Add to cart</span>
                                         </a>
@@ -941,10 +798,10 @@
                                 <div class="product product-widget">
                                     <figure class="product-media">
                                         <a href="#0">
-                                            <img src="/images/hofmaan/category.jpg" alt="Product"
-                                                width="100" height="106">
-                                            <img src="/images/hofmaan/sample3.jpg" alt="Product"
-                                                width="100" height="106">
+                                            <img src="/images/hofmaan/category.jpg" alt="Product" width="100"
+                                                height="106">
+                                            <img src="/images/hofmaan/sample3.jpg" alt="Product" width="100"
+                                                height="106">
                                         </a>
                                     </figure>
                                     <div class="product-details">
@@ -963,56 +820,10 @@
                                 <div class="product product-widget">
                                     <figure class="product-media">
                                         <a href="#0">
-                                            <img src="/images/hofmaan/category.jpg" alt="Product"
-                                                width="100" height="106">
-                                            <img src="/images/hofmaan/sample3.jpg" alt="Product"
-                                                width="100" height="106">
-                                        </a>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name">
-                                            <a href="#0">Black Buckle</a>
-                                        </h4>
-                                        <div class="product-price">
-                                            <ins class="new-price">₹60.11</ins>
-                                            <del class="old-price">₹72.83</del>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End of Product Widget -->
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="product-widget-wrap">
-                                <div class="product product-widget">
-                                    <figure class="product-media">
-                                        <a href="#0">
-                                            <img src="/images/hofmaan/category.jpg" alt="Product"
-                                                width="100" height="106">
-                                            <img src="/images/hofmaan/sample3.jpg" alt="Product"
-                                                width="100" height="106">
-                                        </a>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name">
-                                            <a href="#0">Black Buckle</a>
-                                        </h4>
-                                        <div class="product-price">
-                                            <ins class="new-price">₹60.11</ins>
-                                            <del class="old-price">₹72.83</del>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End of Product Widget -->
-                            <div class="product-widget-wrap">
-                                <div class="product product-widget">
-                                    <figure class="product-media">
-                                        <a href="#0">
-                                            <img src="/images/hofmaan/category.jpg" alt="Product"
-                                                width="100" height="106">
-                                            <img src="/images/hofmaan/sample3.jpg" alt="Product"
-                                                width="100" height="106">
+                                            <img src="/images/hofmaan/category.jpg" alt="Product" width="100"
+                                                height="106">
+                                            <img src="/images/hofmaan/sample3.jpg" alt="Product" width="100"
+                                                height="106">
                                         </a>
                                     </figure>
                                     <div class="product-details">
@@ -1033,10 +844,10 @@
                                 <div class="product product-widget">
                                     <figure class="product-media">
                                         <a href="#0">
-                                            <img src="/images/hofmaan/category.jpg" alt="Product"
-                                                width="100" height="106">
-                                            <img src="/images/hofmaan/sample3.jpg" alt="Product"
-                                                width="100" height="106">
+                                            <img src="/images/hofmaan/category.jpg" alt="Product" width="100"
+                                                height="106">
+                                            <img src="/images/hofmaan/sample3.jpg" alt="Product" width="100"
+                                                height="106">
                                         </a>
                                     </figure>
                                     <div class="product-details">
@@ -1055,10 +866,10 @@
                                 <div class="product product-widget">
                                     <figure class="product-media">
                                         <a href="#0">
-                                            <img src="/images/hofmaan/category.jpg" alt="Product"
-                                                width="100" height="106">
-                                            <img src="/images/hofmaan/sample3.jpg" alt="Product"
-                                                width="100" height="106">
+                                            <img src="/images/hofmaan/category.jpg" alt="Product" width="100"
+                                                height="106">
+                                            <img src="/images/hofmaan/sample3.jpg" alt="Product" width="100"
+                                                height="106">
                                         </a>
                                     </figure>
                                     <div class="product-details">
@@ -1079,10 +890,10 @@
                                 <div class="product product-widget">
                                     <figure class="product-media">
                                         <a href="#0">
-                                            <img src="/images/hofmaan/category.jpg" alt="Product"
-                                                width="100" height="106">
-                                            <img src="/images/hofmaan/sample3.jpg" alt="Product"
-                                                width="100" height="106">
+                                            <img src="/images/hofmaan/category.jpg" alt="Product" width="100"
+                                                height="106">
+                                            <img src="/images/hofmaan/sample3.jpg" alt="Product" width="100"
+                                                height="106">
                                         </a>
                                     </figure>
                                     <div class="product-details">
@@ -1101,10 +912,56 @@
                                 <div class="product product-widget">
                                     <figure class="product-media">
                                         <a href="#0">
-                                            <img src="/images/hofmaan/category.jpg" alt="Product"
-                                                width="100" height="106">
-                                            <img src="/images/hofmaan/sample3.jpg" alt="Product"
-                                                width="100" height="106">
+                                            <img src="/images/hofmaan/category.jpg" alt="Product" width="100"
+                                                height="106">
+                                            <img src="/images/hofmaan/sample3.jpg" alt="Product" width="100"
+                                                height="106">
+                                        </a>
+                                    </figure>
+                                    <div class="product-details">
+                                        <h4 class="product-name">
+                                            <a href="#0">Black Buckle</a>
+                                        </h4>
+                                        <div class="product-price">
+                                            <ins class="new-price">₹60.11</ins>
+                                            <del class="old-price">₹72.83</del>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of Product Widget -->
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="product-widget-wrap">
+                                <div class="product product-widget">
+                                    <figure class="product-media">
+                                        <a href="#0">
+                                            <img src="/images/hofmaan/category.jpg" alt="Product" width="100"
+                                                height="106">
+                                            <img src="/images/hofmaan/sample3.jpg" alt="Product" width="100"
+                                                height="106">
+                                        </a>
+                                    </figure>
+                                    <div class="product-details">
+                                        <h4 class="product-name">
+                                            <a href="#0">Black Buckle</a>
+                                        </h4>
+                                        <div class="product-price">
+                                            <ins class="new-price">₹60.11</ins>
+                                            <del class="old-price">₹72.83</del>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of Product Widget -->
+                            <div class="product-widget-wrap">
+                                <div class="product product-widget">
+                                    <figure class="product-media">
+                                        <a href="#0">
+                                            <img src="/images/hofmaan/category.jpg" alt="Product" width="100"
+                                                height="106">
+                                            <img src="/images/hofmaan/sample3.jpg" alt="Product" width="100"
+                                                height="106">
                                         </a>
                                     </figure>
                                     <div class="product-details">
@@ -1137,10 +994,9 @@
                         Accessories Collection</h2>
                     <p class="text-lighter font-weight-normal">
                         Free shipping on clearance orders of ₹120
-                       or more
+                        or more
                     </p>
-                    <a href="#0"
-                        class="btn btn-lg btn-outline btn-white btn-rounded btn-icon-right slide-animate">
+                    <a href="#0" class="btn btn-lg btn-outline btn-white btn-rounded btn-icon-right slide-animate">
                         Purchase Now
                         <i class="w-icon-long-arrow-right"></i>
                     </a>
@@ -1200,7 +1056,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -1226,7 +1082,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -1240,7 +1097,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -1266,89 +1123,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations d-flex flex-wrap">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations d-flex flex-wrap">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -1364,7 +1140,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -1390,7 +1166,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -1404,7 +1181,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -1430,89 +1207,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations d-flex flex-wrap">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations d-flex flex-wrap">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -1528,7 +1224,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -1554,7 +1250,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -1568,7 +1265,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -1594,7 +1291,176 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations d-flex flex-wrap">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations d-flex flex-wrap">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations d-flex flex-wrap">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations d-flex flex-wrap">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -1635,7 +1501,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -1661,7 +1527,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -1675,7 +1542,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -1701,89 +1568,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -1799,7 +1585,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -1825,7 +1611,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -1839,7 +1626,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -1865,89 +1652,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -1963,7 +1669,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -1989,7 +1695,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2003,7 +1710,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2029,7 +1736,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2045,7 +1753,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2071,7 +1779,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2085,7 +1794,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2111,7 +1820,176 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2152,7 +2030,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2178,7 +2056,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2192,7 +2071,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2218,89 +2097,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2316,7 +2114,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2342,7 +2140,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2356,7 +2155,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2382,89 +2181,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2480,7 +2198,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2506,7 +2224,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2520,7 +2239,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2546,7 +2265,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2562,7 +2282,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2588,7 +2308,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2602,7 +2323,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2628,7 +2349,176 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2669,7 +2559,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2695,7 +2585,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2709,7 +2600,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2735,89 +2626,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2833,7 +2643,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2859,7 +2669,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2873,7 +2684,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -2899,89 +2710,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
-                                                        Cart</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide product product-image-gap product-simple">
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
-                                                    height="335" />
-                                            </a>
-                                           
-                                        </figure>
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="product-default.html">Loafers</a>
-                                            </h4>
-                                            <div class="product-variations">
-                                                <div class="product-size">
-                                                    <span class="size-options">S</span>
-                                                    <span class="size-options">M</span>
-                                                    <span class="size-options">L</span>
-                                                    <span class="size-options">XL</span>
-                                                </div>
-                                                <div class="product-color">
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                    <span class="color-options"></span>
-                                                </div>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹20.83</ins>
-                                                    <del class="old-price">₹27.07</del>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -2997,7 +2727,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -3023,7 +2753,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -3037,7 +2768,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -3063,7 +2794,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -3079,7 +2811,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -3105,7 +2837,8 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -3119,7 +2852,7 @@
                                                 <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
                                                     height="335" />
                                             </a>
-                                           
+
                                         </figure>
                                         <div class="product-details">
                                             <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
@@ -3145,7 +2878,176 @@
                                                     <del class="old-price">₹27.07</del>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide product product-image-gap product-simple">
+                                        <figure class="product-media">
+                                            <a href="product-default.html">
+                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="295"
+                                                    height="335" />
+                                            </a>
+
+                                        </figure>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="product-default.html">Loafers</a>
+                                            </h4>
+                                            <div class="product-variations">
+                                                <div class="product-size">
+                                                    <span class="size-options">S</span>
+                                                    <span class="size-options">M</span>
+                                                    <span class="size-options">L</span>
+                                                    <span class="size-options">XL</span>
+                                                </div>
+                                                <div class="product-color">
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                    <span class="color-options"></span>
+                                                </div>
+                                            </div>
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹20.83</ins>
+                                                    <del class="old-price">₹27.07</del>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="#"
+                                                        class="btn-cart btn-product btn btn-link btn-underline">Add To
                                                         Cart</a>
                                                 </div>
                                             </div>
@@ -3189,50 +3091,42 @@
                     <div class="swiper-wrapper row cols-xl-8 cols-lg-6 cols-md-4 cols-sm-3 cols-2">
                         <div class="swiper-slide">
                             <figure>
-                                <img src="/images/demos/demo12/brands/1.png" alt="Brand" width="290"
-                                    height="100" />
+                                <img src="/images/demos/demo12/brands/1.png" alt="Brand" width="290" height="100" />
                             </figure>
                         </div>
                         <div class="swiper-slide">
                             <figure>
-                                <img src="/images/demos/demo12/brands/2.png" alt="Brand" width="290"
-                                    height="100" />
+                                <img src="/images/demos/demo12/brands/2.png" alt="Brand" width="290" height="100" />
                             </figure>
                         </div>
                         <div class="swiper-slide">
                             <figure>
-                                <img src="/images/demos/demo12/brands/3.png" alt="Brand" width="290"
-                                    height="100" />
+                                <img src="/images/demos/demo12/brands/3.png" alt="Brand" width="290" height="100" />
                             </figure>
                         </div>
                         <div class="swiper-slide">
                             <figure>
-                                <img src="/images/demos/demo12/brands/4.png" alt="Brand" width="290"
-                                    height="100" />
+                                <img src="/images/demos/demo12/brands/4.png" alt="Brand" width="290" height="100" />
                             </figure>
                         </div>
                         <div class="swiper-slide">
                             <figure>
-                                <img src="/images/demos/demo12/brands/5.png" alt="Brand" width="290"
-                                    height="100" />
+                                <img src="/images/demos/demo12/brands/5.png" alt="Brand" width="290" height="100" />
                             </figure>
                         </div>
                         <div class="swiper-slide">
                             <figure>
-                                <img src="/images/demos/demo12/brands/6.png" alt="Brand" width="290"
-                                    height="100" />
+                                <img src="/images/demos/demo12/brands/6.png" alt="Brand" width="290" height="100" />
                             </figure>
                         </div>
                         <div class="swiper-slide">
                             <figure>
-                                <img src="/images/demos/demo12/brands/7.png" alt="Brand" width="290"
-                                    height="100" />
+                                <img src="/images/demos/demo12/brands/7.png" alt="Brand" width="290" height="100" />
                             </figure>
                         </div>
                         <div class="swiper-slide">
                             <figure>
-                                <img src="/images/demos/demo12/brands/8.png" alt="Brand" width="290"
-                                    height="100" />
+                                <img src="/images/demos/demo12/brands/8.png" alt="Brand" width="290" height="100" />
                             </figure>
                         </div>
                     </div>
@@ -3383,9 +3277,8 @@
                     <div class="row">
                         <div class="col-lg-4 col-sm-6">
                             <div class="widget widget-about mt-0 mb-4">
-                                <a href="demo12.html" class="logo-footer">
-                                    <img src="/images/logo.png" alt="logo-footer" width="200"
-                                        height="45" />
+                                <a href="/" class="logo-footer">
+                                    <img src="/images/logo.png" alt="logo-footer" width="200" height="45" />
                                 </a>
                                 <div class="widget-body">
                                     <p class="widget-about-title">Got Question? Call us 24/7</p>
@@ -3411,7 +3304,7 @@
                                     <li><a href="about-us.html">About Us</a></li>
                                     <li><a href="#">Team Member</a></li>
                                     <li><a href="#">Career</a></li>
-                                    <li><a href="contact-us.html">Contact Us</a></li>
+                                    <li><a href="/contact">Contact Us</a></li>
                                     <li><a href="#">Affilate</a></li>
                                     <li><a href="#">Order History</a></li>
                                 </ul>
@@ -3445,7 +3338,7 @@
                         </div>
                     </div>
                 </div>
-               
+
                 <div class="footer-bottom">
                     <div class="footer-left">
                         <p class="copyright">Copyright © 2025 Hofmaan. All Rights Reserved.</p>
@@ -3465,7 +3358,7 @@
 
     <!-- Start of Sticky Footer -->
     <div class="sticky-footer sticky-content fix-bottom">
-        <a href="demo12.html" class="sticky-link active">
+        <a href="/" class="sticky-link active">
             <i class="w-icon-home"></i>
             <p>Home</p>
         </a>
@@ -3594,7 +3487,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="main-menu">
                     <ul class="mobile-menu">
-                        <li><a href="demo12.html">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li>
                             <a href="demo12-shop.html">Shop</a>
                             <ul>
@@ -3616,7 +3509,7 @@
                                 <li>
                                     <a href="#">Shop Layouts</a>
                                     <ul>
-                                        <li><a href="shop-grid-3cols.html">3 Columns Mode</a></li>
+                                        <li><a href="/store">3 Columns Mode</a></li>
                                         <li><a href="shop-grid-4cols.html">4 Columns Mode</a></li>
                                         <li><a href="shop-grid-5cols.html">5 Columns Mode</a></li>
                                         <li><a href="shop-grid-6cols.html">6 Columns Mode</a></li>
@@ -3721,7 +3614,7 @@
 
                                 <li><a href="about-us.html">About Us</a></li>
                                 <li><a href="become-a-vendor.html">Become A Vendor</a></li>
-                                <li><a href="contact-us.html">Contact Us</a></li>
+                                <li><a href="/contact">Contact Us</a></li>
                                 <li><a href="login.html">Login</a></li>
                                 <li><a href="faq.html">FAQs</a></li>
                                 <li><a href="error-404.html">Error 404</a></li>

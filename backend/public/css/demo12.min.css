@@ -16310,46 +16310,138 @@ body .product-popup {
 
 /* Category Wrapper  */
 .category-wrapper {
-  margin: -1.9rem -1rem 0.7rem;
-  overflow-x: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin: -1.9rem 0 0.7rem 0;
+  overflow-y: visible;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
-  overflow-y: hidden;
-}
-.category-wrapper::before, .category-wrapper::after {
-  content: "";
-  position: absolute;
-  width: 20px;
-  height: 15rem;
-  top: 0;
-  bottom: 0;
-  background: #fff;
-  z-index: 9;
-}
-.category-wrapper::before {
-  left: 5px;
-  -webkit-mask-image: linear-gradient(to left, transparent 0, #000 20px);
-}
-.category-wrapper::after {
-  right: 5px;
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 20px);
+  position: relative;
+  scroll-behavior: smooth;
+  padding: 0 0.5rem 1rem 0.5rem;
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 .category-wrapper::-webkit-scrollbar {
+  display: none;
   height: 0;
   width: 0;
 }
-.category-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+.category-wrapper::before, .category-wrapper::after {
+  display: none;
+}
+.category-wrapper .category {
+  white-space: nowrap;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: max-content;
+  margin: 0;
 }
 .category-wrapper .category .category-name {
   font-size: 1.3rem;
   font-weight: 600;
   letter-spacing: -0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  text-align: center;
 }
 .category-wrapper .category .category-media {
   min-width: 9.5rem;
 }
+@media (max-width: 767px) {
+  .category-wrapper {
+    gap: 1rem;
+    width: 100vw;
+    max-width: 100vw;
+    padding: 0 10px 5px 10px;
+    justify-content: flex-start;
+    scroll-padding-right: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .category-wrapper .category {
+    min-width: 7.5rem;
+    max-width: 90vw;
+    flex: 0 0 auto;
+    margin: 0;
+    justify-content: center;
+  }
+  .category-wrapper .category:last-child {
+    padding-right: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  .category-wrapper .category .category-name {
+    font-size: 1.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: auto;
+    display: inline-block;
+    text-align: center;
+  }
+}
+/* Dropdown for subcategories */
+.subcategory-dropdown {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: left;
+  padding: 0.5rem 0;
+  border-radius: 4px;
+}
+
+.subcategory-dropdown a {
+  display: block;
+  padding: 0.3rem 1rem;
+  color: #333;
+  text-decoration: none;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.subcategory-dropdown a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Show dropdown on hover (desktop) */
+.category.dropdown:hover .subcategory-dropdown {
+  display: block;
+}
+
+/* On mobile, make dropdown open on click (optional via JS or CSS if needed) */
+@media (max-width: 767px) {
+  .subcategory-dropdown {
+    position: static;
+    transform: none;
+    box-shadow: none;
+    background-color: transparent;
+    padding: 0;
+  }
+
+  .subcategory-dropdown a {
+    padding: 0.2rem 0;
+    font-size: 0.9rem;
+  }
+
+  .category.dropdown:hover .subcategory-dropdown {
+    display: block;
+  }
+}
+
 
 .icon-box.icon-colored-circle .icon-box-icon {
   width: 9.5rem;

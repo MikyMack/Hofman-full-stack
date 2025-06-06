@@ -113,5 +113,32 @@ router.get('/product/:id', async (req, res) => {
 router.get('/contact', (req, res) => {
     res.render('user/contact', { user: req.user || null });
 }); 
+router.get('/account', (req, res) => {
+    res.render('user/account', { user: req.user || null });
+}); 
+router.get('/orders', (req, res) => {
+    res.render('user/orders', { user: req.user || null });
+}); 
+router.get('/cart', (req, res) => {
+    res.render('user/cart', { user: req.user || null });
+}); 
+router.get('/wishlist', (req, res) => {
+    res.render('user/wishlist', { user: req.user || null });
+}); 
+router.get('/checkout', (req, res) => {
+    res.render('user/checkout', { user: req.user || null });
+}); 
+router.get('/privacy', (req, res) => {
+    res.render('user/privacy', { user: req.user || null });
+}); 
+router.get('/terms-and-conditions', (req, res) => {
+    res.render('user/terms-conditions', { user: req.user || null });
+}); 
+router.get('/blogs', (req, res) => {
+    res.render('user/blogs', { user: req.user || null });
+}); 
+router.get('/blogs/:id', (req, res) => {
+    res.render('user/blogDetails', { user: req.user || null });
+}); 
 
 module.exports = router;

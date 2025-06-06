@@ -46,6 +46,7 @@
 
     <!-- Default CSS -->
     <link rel="stylesheet" type="text/css" href="/css/demo12.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.min.css">
 </head>
 
 <body class="home">
@@ -64,9 +65,9 @@
                         <a href="/about" class="d-lg-show">About Us</a>
                         <a href="/contact" class="d-lg-show">Contact Us</a>
                         <% if (user) { %>
-                            <a href="/user/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <a href="/account" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
                             <span class="delimiter d-lg-show">/</span>
-                            <a href="/user/orders" class="ml-0 d-lg-show">My Orders</a>
+                            <a href="/orders" class="ml-0 d-lg-show">My Orders</a>
                             <% } else { %>
                                 <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
                                 <span class="delimiter d-lg-show">/</span>
@@ -102,7 +103,7 @@
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
                             </div>
                         </div>
-                        <a class="wishlist label-down link d-xs-show" href="wishlist.html">
+                        <a class="wishlist label-down link d-xs-show" href="/wishlist">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
                         </a>
@@ -167,8 +168,8 @@
                                     <span class="price">₹58.67</span>
                                 </div>
                                 <div class="cart-action">
-                                    <a href="cart.html" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-                                    <a href="checkout.html" class="btn btn-primary  btn-rounded">Checkout</a>
+                                    <a href="/cart" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
+                                    <a href="/checkout" class="btn btn-primary  btn-rounded">Checkout</a>
                                 </div>
                             </div>
                             <!-- End of Dropdown Box -->
@@ -1089,10 +1090,10 @@
                                 <h4 class="widget-title">My Account</h4>
                                 <ul class="widget-body">
                                     <li><a href="#">Track My Order</a></li>
-                                    <li><a href="cart.html">View Cart</a></li>
+                                    <li><a href="/cart">View Cart</a></li>
                                     <li><a href="login.html">Sign In</a></li>
                                     <li><a href="#">Help</a></li>
-                                    <li><a href="wishlist.html">My Wishlist</a></li>
+                                    <li><a href="/wishlist">My Wishlist</a></li>
                                     <li><a href="#">Privacy Policy</a></li>
                                 </ul>
                             </div>
@@ -1130,98 +1131,81 @@
     </div>
     <!-- End of Page-wrapper -->
 
-    <!-- Start of Sticky Footer -->
+    <div class="btm-main">
+        <div class="search-bar" id="searchBar">
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-input-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search products..." id="searchInput">
+                </div>
+                <button class="search-btn" id="searchButton">
+                    <i class="fas fa-search"></i>
+                </button>
+
+            </div>
+        </div>
+
+        <nav class="mobile-bottom-nav">
+
+            <div class="mob-btm-nav">
+                <a href="/cart" class="sticky-link1">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Cart</p>
+                </a>
+            </div>
+
+            <div class="mob-btm-nav">
+                <a href="/orders" class="sticky-link1">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Orders</p>
+                </a>
+            </div>
+
+            <div class="mob-btm-nav">
+                <a href="#0" id="searchBtn" class="sticky-link1">
+                    <i class="fas fa-search"></i>
+                    <p>Search</p>
+                </a>
+            </div>
+
+            <div class="mob-btm-nav">
+                <a href="/wishlist" class="sticky-link1">
+                    <i class="fas fa-heart"></i>
+                    <p>Wishlist</p>
+                </a>
+            </div>
+        </nav>
+    </div>
+
     <div class="sticky-footer sticky-content fix-bottom">
-        <a href="/" class="sticky-link active">
+
+        <a href="/" class="sticky-link  active-mob">
             <i class="w-icon-home"></i>
             <p>Home</p>
         </a>
-        <a href="demo12-shop.html" class="sticky-link">
-            <i class="w-icon-category"></i>
-            <p>Shop</p>
+        <a href="/store" class="sticky-link">
+            <i class="w-icon-products"></i>
+            <p>Store</p>
         </a>
-        <a href="my-account.html" class="sticky-link">
+        <a class="btm-img" href="/"> <img src="/images/logo-2.png" alt=""></a>
+        <% if (user) { %>
+        <a href="/account" class="sticky-link">
             <i class="w-icon-account"></i>
             <p>Account</p>
         </a>
-        <div class="cart-dropdown dir-up">
-            <a href="cart.html" class="sticky-link">
-                <i class="w-icon-cart"></i>
-                <p>Cart</p>
-            </a>
-            <div class="dropdown-box">
-                <div class="products">
-                    <div class="product product-cart">
-                        <div class="product-detail">
-                            <h3 class="product-name">
-                                <a href="product-default.html">Beige knitted elas<br>tic
-                                    runner shoes</a>
-                            </h3>
-                            <div class="price-box">
-                                <span class="product-quantity">1</span>
-                                <span class="product-price">₹25.68</span>
-                            </div>
-                        </div>
-                        <figure class="product-media">
-                            <a href="product-default.html">
-                                <img src="/images/cart/product-1.jpg" alt="product" height="84" width="94" />
-                            </a>
-                        </figure>
-                        <button class="btn btn-link btn-close">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
+        <% } else { %>
+        <a href="/login" class="sticky-link">
+            <i class="w-icon-account"></i>
+            <p>Login</p>
+        </a>
+        <% } %>
 
-                    <div class="product product-cart">
-                        <div class="product-detail">
-                            <h3 class="product-name">
-                                <a href="product-default.html">Blue utility pina<br>fore
-                                    denim dress</a>
-                            </h3>
-                            <div class="price-box">
-                                <span class="product-quantity">1</span>
-                                <span class="product-price">₹32.99</span>
-                            </div>
-                        </div>
-                        <figure class="product-media">
-                            <a href="product-default.html">
-                                <img src="/images/cart/product-2.jpg" alt="product" width="84" height="94" />
-                            </a>
-                        </figure>
-                        <button class="btn btn-link btn-close">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
 
-                <div class="cart-total">
-                    <label>Subtotal:</label>
-                    <span class="price">₹58.67</span>
-                </div>
-
-                <div class="cart-action">
-                    <a href="cart.html" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-                    <a href="checkout.html" class="btn btn-primary  btn-rounded">Checkout</a>
-                </div>
-            </div>
-            <!-- End of Dropdown Box -->
-        </div>
-
-        <div class="header-search hs-toggle dir-up">
-            <a href="#" class="search-toggle sticky-link">
-                <i class="w-icon-search"></i>
-                <p>Search</p>
-            </a>
-            <form action="#" class="input-wrapper">
-                <input type="text" class="form-control" name="search" autocomplete="off" placeholder="Search"
-                    required />
-                <button class="btn btn-search bg-white" type="submit">
-                    <i class="w-icon-search"></i>
-                </button>
-            </form>
-        </div>
+        <a href="contact-us.html" class="sticky-link">
+            <i class="w-icon-call2"></i>
+            <p>Contact </p>
+        </a>
     </div>
-    <!-- End of Sticky Footer -->
 
     <!-- Start of Scroll Top -->
     <a id="scroll-top" class="scroll-top" href="#top" title="Top" role="button"> <i class="w-icon-angle-up"></i> <svg
@@ -1393,9 +1377,9 @@
                                 <li><a href="faq.html">FAQs</a></li>
                                 <li><a href="error-404.html">Error 404</a></li>
                                 <li><a href="coming-soon.html">Coming Soon</a></li>
-                                <li><a href="wishlist.html">Wishlist</a></li>
-                                <li><a href="cart.html">Cart</a></li>
-                                <li><a href="checkout.html">Checkout</a></li>
+                                <li><a href="/wishlist">Wishlist</a></li>
+                                <li><a href="/cart">Cart</a></li>
+                                <li><a href="/checkout">Checkout</a></li>
                                 <li><a href="my-account.html">My Account</a></li>
                             </ul>
                         </li>
@@ -1898,6 +1882,7 @@
 
     <!-- Main JS -->
     <script src="/js/main.min.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 
 </html>

@@ -5,6 +5,7 @@ const productController = require('../controllers/productController');
 const { upload } = require('../utils/cloudinary');
 const Category = require('../models/Category');
 const Product = require('../models/Product');
+const Coupons = require('../models/Coupon');
 
 
 
@@ -68,6 +69,21 @@ router.get('/admin/products', isAdmin, async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
+    }
+});
+router.get('/admin/coupons', isAdmin, async (req, res) => {
+    try {
+        const categories = await Category.find({isActive:true}).populate('subCategories');
+        const coupons = await Coupons.find().populate('applicableCategories').lean();
+        res.render('admin/coupons', {
+            title: 'Admin coupons',
+            user: req.session.user || null,
+            categories,
+            coupons
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Error loading categories or coupons');
     }
 });
 router.get('/admin/category', isAdmin, async (req, res) => {

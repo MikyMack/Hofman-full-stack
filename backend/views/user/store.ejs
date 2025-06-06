@@ -66,9 +66,9 @@
                         <a href="/about" class="d-lg-show">About Us</a>
                         <a href="/contact" class="d-lg-show">Contact Us</a>
                         <% if (user) { %>
-                            <a href="/user/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <a href="/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
                             <span class="delimiter d-lg-show">/</span>
-                            <a href="/user/orders" class="ml-0 d-lg-show">My Orders</a>
+                            <a href="/orders" class="ml-0 d-lg-show">My Orders</a>
                             <% } else { %>
                                 <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
                                 <span class="delimiter d-lg-show">/</span>
@@ -104,7 +104,7 @@
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
                             </div>
                         </div>
-                        <a class="wishlist label-down link d-xs-show" href="wishlist.html">
+                        <a class="wishlist label-down link d-xs-show" href="/wishlist">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
                         </a>
@@ -169,8 +169,8 @@
                                     <span class="price">₹58.67</span>
                                 </div>
                                 <div class="cart-action">
-                                    <a href="cart.html" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-                                    <a href="checkout.html" class="btn btn-primary  btn-rounded">Checkout</a>
+                                    <a href="/cart" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
+                                    <a href="/checkout" class="btn btn-primary  btn-rounded">Checkout</a>
                                 </div>
                             </div>
                             <!-- End of Dropdown Box -->

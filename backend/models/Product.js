@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Color Variant subdocument (one image per color, each color has its own stock)
 const colorVariantSchema = new mongoose.Schema({
   _id: { type: String, default: () => Math.random().toString(36).substr(2, 9) },
   color: {

@@ -14714,7 +14714,7 @@ body .product-popup {
   color: inherit;
 }
 .header a:not(.btn):hover {
-  color: var(--theme-color);
+  color:  wheat; 
 }
 
 .header-top,
@@ -14756,7 +14756,7 @@ body .product-popup {
 }
 
 .header-top {
-  background: #f5f6f8;
+  background: #011f3f;
   font-size: 1.1rem;
   letter-spacing: -0.027em;
   text-transform: capitalize;
@@ -14799,6 +14799,7 @@ body .product-popup {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+          color: white;
 }
 .header-top .header-right i {
   margin-right: 0.6rem;
@@ -14885,6 +14886,7 @@ body .product-popup {
   white-space: nowrap;
   padding: 14px 0;
   text-transform: uppercase;
+  color: white;
 }
 
 .header-middle {

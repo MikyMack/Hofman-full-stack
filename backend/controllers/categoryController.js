@@ -15,13 +15,9 @@
          if (uploadIndex === -1) {
              console.warn('Invalid Cloudinary URL:', imageUrl);
              return;
-         }
-         
-         // Get all parts after 'upload' (should be: [version, folder, filename])
+         }        
          const partsAfterUpload = pathParts.slice(uploadIndex + 1);
-         
-         // The public ID is everything after 'upload' except the version prefix
-         // Join with '/' and remove file extension
+
          const publicId = partsAfterUpload.slice(1).join('/').replace(/\.[^/.]+$/, '');
          
          const result = await cloudinary.uploader.destroy(publicId);

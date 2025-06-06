@@ -28,8 +28,7 @@ router.post('/products', upload.any(), productController.createProduct);
 router.put('/products/:id', upload.any(), productController.updateProduct);
 router.delete('/products/:id', productController.deleteProduct);
 router.patch('/products/:id/status', productController.toggleProductStatus);
-// router.post('/products/:id/reviews', productController.addReview);
-// router.delete('/products/:id/reviews/:reviewId', productController.deleteReview);
+router.get('/product-type/:type', productController.getProductsByType);
 
 
 router.post('/admin-blogs', upload.single('image'), blogController.createBlog);

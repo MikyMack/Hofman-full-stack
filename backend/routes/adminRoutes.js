@@ -93,5 +93,11 @@ router.get('/admin-blogs',isAdmin, (req, res) => {
 router.get('/admin-banners',isAdmin, (req, res) => {
     res.render('admin/banners');
   });
+router.get('/admin/orders',isAdmin, (req, res) => {
+    res.render('admin/orders');
+  });
+router.get('/admin/users',isAdmin, (req, res) => {
+    res.render('admin/users');
+  });
 
 module.exports = router;

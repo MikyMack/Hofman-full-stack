@@ -33,7 +33,6 @@ async function uploadToCloudinary(file, folder = 'products') {
   }
 }
 
-// Get all products with pagination and filtering
 exports.getAllProducts = async (req, res) => {
   try {
     const { page = 1, limit = 10, search, category, subcategory, isActive } = req.query;
@@ -68,6 +67,51 @@ exports.getAllProducts = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
+
+exports.getProductsByType = async (req, res) => {
+  try {
+    const { type } = req.params;
+    const { limit = 10 } = req.query;
+
+    let query = { isActive: true };
+
+    switch(type) {
+      case 'best-deals':
+        query.bestDeals = true;
+        break;
+      case 'new-arrivals':
+        query.newArrivals = true;
+        break;
+      case 'best-seller':
+        query.bestSeller = true;
+        break;
+      case 'top-rated':
+        query.topRated = true;
+        break;
+      case 'all':
+        // Do nothing
+        break;
+      default:
+        return res.status(400).json({ success: false, message: 'Invalid product type' });
+    }
+
+    const products = await Product.find(query)
+      .populate('category', 'name')
+      .populate('subcategory', 'name')
+      .limit(parseInt(limit))
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      products
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+
 
 // Get single product by ID
 exports.getProduct = async (req, res) => {
@@ -272,26 +316,46 @@ exports.updateProduct = async (req, res) => {
     }
 
     // --- Handle Main Product Images ---
-    let images = product.images || [];
+    let images = product.images ? [...product.images] : [];
 
-    // Process existing images from form
+    // If existingMainImages is provided, use it as the base
     if (req.body.existingMainImages) {
       images = Array.isArray(req.body.existingMainImages)
         ? req.body.existingMainImages
         : [req.body.existingMainImages];
     }
 
-    // Process new uploaded images
+    // If new images are uploaded, replace the images at the corresponding indexes
     if (req.files && req.files.length > 0) {
+      // Find all main image files and their indexes
+      // Expecting fieldnames like mainImages[0], mainImages[1], etc.
       const mainImageFiles = req.files.filter(file =>
         file.fieldname === 'mainImages' || file.fieldname.startsWith('mainImages[')
       );
 
-      if (mainImageFiles.length > 0) {
-        const uploadedMainImages = await Promise.all(
-          mainImageFiles.map(file => uploadToCloudinary(file, 'products'))
-        );
-        images = [...images, ...uploadedMainImages];
+      // Map: index in images array -> file
+      const mainImageFileMap = {};
+      mainImageFiles.forEach(file => {
+        let idx = 0;
+        const match = file.fieldname.match(/mainImages\[(\d+)\]/);
+        if (match) {
+          idx = parseInt(match[1], 10);
+        }
+        mainImageFileMap[idx] = file;
+      });
+
+      // Upload and replace at the correct index
+      for (const [idxStr, file] of Object.entries(mainImageFileMap)) {
+        const idx = parseInt(idxStr, 10);
+        const uploadedUrl = await uploadToCloudinary(file, 'products');
+        // If index exists, replace; if not, push to the end
+        if (images.length > idx) {
+          images[idx] = uploadedUrl;
+        } else {
+          // Fill any gaps with nulls, then push
+          while (images.length < idx) images.push(null);
+          images.push(uploadedUrl);
+        }
       }
     }
 
@@ -337,12 +401,10 @@ exports.updateProduct = async (req, res) => {
           _id: existing._id || key, // Preserve existing ID
           color: variant.color,
           stock: variant.stock || 0,
-          // Priority: new uploaded image > existing image > form submitted image
-          image: colorVariantImages[key] ||
-            variant.existingImage ||
-            existing.image ||
-            variant.image ||
-            null
+          // If a new image is uploaded for this color variant, use it; else keep existing
+          image: colorVariantImages[key] !== undefined
+            ? colorVariantImages[key]
+            : (variant.existingImage || existing.image || variant.image || null)
         };
       });
     } else {

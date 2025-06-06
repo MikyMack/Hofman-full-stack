@@ -3,6 +3,7 @@
 
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -33,7 +34,7 @@
     <link rel="preload" href="/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2"
         crossorigin="anonymous">
     <link rel="preload" href="/vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2"
-            crossorigin="anonymous">
+        crossorigin="anonymous">
     <link rel="preload" href="/fonts/wolmart87d5.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
 
     <!-- Vendor CSS -->
@@ -50,6 +51,7 @@
 
     <!-- Default CSS -->
     <link rel="stylesheet" type="text/css" href="/css/style.min.css">
+ 
 </head>
 
 <body>
@@ -192,7 +194,7 @@
                     <li><a href="/">Home</a></li>
                     <li>Products</li>
                 </ul>
-            
+
             </nav>
             <!-- End of Breadcrumb -->
 
@@ -204,29 +206,20 @@
                             <div class="product product-single row">
                                 <div class="col-md-6 mb-6">
                                     <div class="product-gallery product-gallery-sticky">
-                                        <div class="swiper-container product-single-swiper swiper-theme nav-inner" data-swiper-options="{
-                                            'navigation': {
-                                                'nextEl': '.swiper-button-next',
-                                                'prevEl': '.swiper-button-prev'
-                                            }
-                                        }">
+                                        <div class="swiper-container product-single-swiper swiper-theme nav-inner">
                                             <div class="swiper-wrapper row cols-1 gutter-no" id="main-product-images">
-                                                <%
-                                                    let imagesToShow = (product.images && product.images.length) ? product.images : ['/images/hofmaan/sampleimage.jpg'];
-                                                %>
+                                                <% let imagesToShow=(product.images && product.images.length) ?
+                                                    product.images : ['/images/hofmaan/sampleimage.jpg']; %>
                                                 <% imagesToShow.forEach(function(img, idx) { %>
                                                     <div class="swiper-slide">
                                                         <figure class="product-image">
-                                                            <img src="<%= img %>"
-                                                                data-zoom-image="<%= img %>"
-                                                                alt="<%= product.name %> Image <%= idx+1 %>" width="800" height="900">
+                                                            <img src="<%= img %>" data-zoom-image="<%= img %>"
+                                                                alt="<%= product.name %> Image <%= idx+1 %>"
+                                                                width="800" height="900">
                                                         </figure>
                                                     </div>
                                                 <% }) %>
                                             </div>
-                                            <button class="swiper-button-next"></button>
-                                            <button class="swiper-button-prev"></button>
-                                            <a href="#" class="product-gallery-btn product-image-full"><i class="w-icon-zoom"></i></a>
                                         </div>
                                         <div class="product-thumbs-wrap swiper-container" data-swiper-options="{
                                             'navigation': {
@@ -234,11 +227,12 @@
                                                 'prevEl': '.swiper-button-prev'
                                             }
                                         }">
-                                            <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm" id="product-thumbs">
+                                            <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm"
+                                                id="product-thumbs">
                                                 <% imagesToShow.forEach(function(img, idx) { %>
                                                     <div class="product-thumb swiper-slide">
-                                                        <img src="<%= img %>"
-                                                            alt="Product Thumb <%= idx+1 %>" width="800" height="900">
+                                                        <img src="<%= img %>" alt="Product Thumb <%= idx+1 %>"
+                                                            width="100" height="110">
                                                     </div>
                                                 <% }) %>
                                             </div>
@@ -249,43 +243,41 @@
                                 </div>
                                 <div class="col-md-6 mb-4 mb-md-6">
                                     <div class="product-details" data-sticky-options="{'minWidth': 767}">
-                                        <h1 class="product-title text-uppercase"><%= product.name %></h1>
+                                        <h1 class="product-title text-uppercase">
+                                            <%= product.name %>
+                                        </h1>
                                         <div class="product-bm-wrapper">
                                             <figure class="brand">
                                                 <img src="<%= product.brandImage || '/images/logo.png' %>" alt="Brand"
                                                     width="102" height="48" />
                                             </figure>
-                                            <div class="product-meta">
-                                                <div class="product-categories">
-                                                    Category:
-                                                    <span class="product-category">
-                                                        <a href="#"><%= category ? category.name : 'N/A' %></a>
-                                                    </span>
-                                                </div>
-                                                <% if (product.subcategory) { %>
-                                                <div class="product-sku">
-                                                    Subcategory:  <span>
-                                                        <% 
-                                                            let subcategoryName = '-';
-                                                            if (product.category &&
-                                                                product.category.subCategories &&
-                                                                product.subcategory) {
-                                                                const foundSub = product.category.subCategories.find(function(sub) {
-                                                                    return (sub._id && sub._id.toString && sub._id.toString() === product.subcategory.toString())
-                                                                        || (sub._id == product.subcategory);
-                                                                });
-                                                                if (foundSub && foundSub.name) {
-                                                                    subcategoryName = foundSub.name;
-                                                                }
-                                                            }
-                                                        %>
-                                                        <%= subcategoryName %>
-                                                    </span>
-                                                </div>
-                                                <% } %>
-                                            </div>
+                                         
                                         </div>
-
+                                        <div class="product-meta">
+                                            <div class="product-categories">
+                                                Category:
+                                                <span class="product-category">
+                                                    <a href="#">
+                                                        <%= category ? category.name : 'N/A' %>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                            <% if (product.subcategory) { %>
+                                                <div class="product-sku">
+                                                    Subcategory: <span>
+                                                        <% let subcategoryName='-' ; if (product.category &&
+                                                            product.category.subCategories && product.subcategory) {
+                                                            const
+                                                            foundSub=product.category.subCategories.find(function(sub)
+                                                            { return (sub._id && sub._id.toString &&
+                                                            sub._id.toString()===product.subcategory.toString()) ||
+                                                            (sub._id==product.subcategory); }); if (foundSub &&
+                                                            foundSub.name) { subcategoryName=foundSub.name; } } %>
+                                                            <%= subcategoryName %>
+                                                    </span>
+                                                </div>
+                                            <% } %>
+                                        </div>
                                         <hr class="product-divider">
 
                                         <div class="product-price">
@@ -299,35 +291,50 @@
 
                                         <div class="product-short-desc">
                                             <% if (product.description) { %>
-                                                <p><%= product.description %></p>
+                                                <p>
+                                                    <%= product.description %>
+                                                </p>
                                             <% } %>
                                         </div>
 
                                         <hr class="product-divider">
 
-                                        <% if (product.hasColorVariants && product.colorVariants && product.colorVariants.length) { %>
-                                        <div class="product-form product-variation-form product-color-swatch">
-                                            <label>Color:</label>
-                                            <div class="d-flex align-items-center product-variations" id="color-options">
-                                                <% product.colorVariants.forEach(function(variant) { %>
-                                                    <a href="#"
-                                                        class="color"
-                                                        style="background-color: <%= variant.color || '#ccc' %>"
-                                                        data-color="<%= variant.color %>"></a>
-                                                <% }) %>
+                                        <% if (product.hasColorVariants && product.colorVariants &&
+                                            product.colorVariants.length) { %>
+                                            <div class="product-form product-variation-form product-color-swatch">
+                                                <div class="d-flex align-items-center mb-2" style="gap: 10px;">
+                                                    <label style="margin-bottom:0;">Color:</label>
+                                                    <a href="#" class="product-variation-clean" id="reset-color" style="display: none;">Reset</a>
+                                                </div>
+                                                <div class="d-flex align-items-center product-variations" id="color-options">
+                                                    <% product.colorVariants.forEach(function(variant) { %>
+                                                        <a href="#" class="color"
+                                                            style="background-color: <%= variant.color || '#ccc' %>"
+                                                            data-color="<%= variant.color %>"
+                                                            data-image="<%= variant.image || '' %>"
+                                                            data-variant-id="<%= variant._id %>">
+                                                        </a>
+                                                    <% }) %>
+                                                </div>
                                             </div>
-                                        </div>
                                         <% } %>
-                                        <% if (product.hasSizeVariants && product.sizeVariants && product.sizeVariants.length) { %>
-                                        <div class="product-form product-variation-form product-size-swatch">
-                                            <label class="mb-1">Size:</label>
-                                            <div class="flex-wrap d-flex align-items-center product-variations" id="size-options">
-                                                <% product.sizeVariants.forEach(function(variant) { %>
-                                                    <a href="#" class="size"><%= variant.size %></a>
-                                                <% }) %>
+
+                                        <% if (product.hasSizeVariants && product.sizeVariants &&
+                                            product.sizeVariants.length) { %>
+                                            <div class="product-form product-variation-form product-size-swatch">
+                                                <div class="d-flex align-items-center mb-2" style="gap: 10px;">
+                                                    <label class="mb-1">Size:</label>
+                                                    <a href="#" class="product-variation-clean" id="reset-size" style="display: none;">Clear</a>
+                                                </div>
+                                                <div class="flex-wrap d-flex align-items-center product-variations"
+                                                    id="size-options">
+                                                    <% product.sizeVariants.forEach(function(variant) { %>
+                                                        <a href="#" class="size">
+                                                            <%= variant.size %>
+                                                        </a>
+                                                    <% }) %>
+                                                </div>
                                             </div>
-                                            <a href="#" class="product-variation-clean">Clean All</a>
-                                        </div>
                                         <% } %>
 
                                         <div class="product-variation-price">
@@ -335,13 +342,17 @@
                                         </div>
 
                                         <div class="fix-bottom product-sticky-content sticky-content">
-                                            <div class="product-form container d-flex justify-content-center align-items-center ">
+                                            <div
+                                                class="product-form container d-flex justify-content-center align-items-center ">
                                                 <div class="product-qty-form">
                                                     <div class="input-group">
-                                                        <input class="quantity form-control" type="number" min="1"
-                                                            max="10000000" value="1">
-                                                        <button class="quantity-plus w-icon-plus"></button>
-                                                        <button class="quantity-minus w-icon-minus"></button>
+                                                        <input class="quantity form-control"
+                                                            type="number" min="1" max="10000000"
+                                                            value="1">
+                                                        <button
+                                                            class="quantity-plus w-icon-plus"></button>
+                                                        <button
+                                                            class="quantity-minus w-icon-minus"></button>
                                                     </div>
                                                 </div>
                                                 <button class="btn btn-primary main-btn btn-cart-new">
@@ -373,40 +384,46 @@
                                         <div class="row mb-4">
                                             <div class="col-md-12 mb-5">
                                                 <h4 class="title tab-pane-title font-weight-bold mb-2">More Details</h4>
-                                                <p class="mb-4"><%= product.moreDetails || 'No description available.' %></p>
+                                                <p class="mb-4">
+                                                    <%= product.moreDetails || 'No description available.' %>
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="row cols-md-3">
                                             <div class="mb-3">
-                                                <h5 class="sub-title font-weight-bold"><span class="mr-3">1.</span>Easy Returns</h5>
+                                                <h5 class="sub-title font-weight-bold"><span class="mr-3">1.</span>Easy
+                                                    Returns</h5>
                                                 <p class="detail pl-5">Hassle-Free Returns within 7 Days</p>
                                             </div>
                                             <div class="mb-3">
                                                 <h5 class="sub-title font-weight-bold"><span>2.</span>Free Shipping</h5>
                                                 <p class="detail pl-5">Free Shipping on Orders Above ₹2999<br>
-                                                This encourages higher cart value and improves conversion.</p>
+                                                    This encourages higher cart value and improves conversion.</p>
                                             </div>
                                             <div class="mb-3">
-                                                <h5 class="sub-title font-weight-bold"><span>3.</span> Secure Payment</h5>
+                                                <h5 class="sub-title font-weight-bold"><span>3.</span> Secure Payment
+                                                </h5>
                                                 <p class="detail pl-5">100% Secure Payments — UPI, Card, COD<br>
-                                                Reassures users that their transactions are safe.</p>
+                                                    Reassures users that their transactions are safe.</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="product-tab-specification">
                                         <ul class="list-none">
-                                           
+
                                             <% if (product.warrantyTime) { %>
-                                            <li>
-                                                <label>Warranty Time</label>
-                                                <p><%= product.warrantyTime %></p>
-                                            </li>
+                                                <li>
+                                                    <label>Warranty Time</label>
+                                                    <p>
+                                                        <%= product.warrantyTime %>
+                                                    </p>
+                                                </li>
                                             <% } %>
-   
+
                                         </ul>
                                     </div>
                                     <div class="tab-pane" id="product-tab-reviews">
-                                      
+
                                         <div class="tab tab-nav-boxed tab-nav-outline tab-nav-center">
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="show-all">
@@ -417,24 +434,37 @@
                                                                     <div class="comment-body">
                                                                         <figure class="comment-avatar">
                                                                             <img src="/images/hofmaan/dummy.jpg"
-                                                                                alt="Commenter Avatar" width="90" height="90">
+                                                                                alt="Commenter Avatar" width="90"
+                                                                                height="90">
                                                                         </figure>
                                                                         <div class="comment-content">
                                                                             <h4 class="comment-author">
-                                                                                <a href="#"><%= review.name %></a>
+                                                                                <a href="#">
+                                                                                    <%= review.name %>
+                                                                                </a>
                                                                                 <span class="comment-date">
-                                                                                    <%= review.createdAt ? new Date(review.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) : '' %>
+                                                                                    <%= review.createdAt ? new
+                                                                                        Date(review.createdAt).toLocaleDateString('en-IN',
+                                                                                        { year: 'numeric' ,
+                                                                                        month: 'short' , day: 'numeric'
+                                                                                        }) : '' %>
                                                                                 </span>
                                                                             </h4>
-                                                                            <div class="ratings-container comment-rating">
+                                                                            <div
+                                                                                class="ratings-container comment-rating">
                                                                                 <div class="ratings-full">
                                                                                     <span class="ratings"
                                                                                         style="width: <%= (review.rating/5)*100 %>%"></span>
-                                                                                    <span class="tooltiptext tooltip-top"></span>
+                                                                                    <span
+                                                                                        class="tooltiptext tooltip-top"></span>
                                                                                 </div>
                                                                             </div>
-                                                                            <p><%= review.review %></p>
-                                                                            <% /* Optionally, you can add helpful/unhelpful or images if you extend the schema */ %>
+                                                                            <p>
+                                                                                <%= review.review %>
+                                                                            </p>
+                                                                            <% /* Optionally, you can add
+                                                                                helpful/unhelpful or images if you
+                                                                                extend the schema */ %>
                                                                         </div>
                                                                     </div>
                                                                 </li>
@@ -476,77 +506,85 @@
                                                 <div class="swiper-slide product">
                                                     <figure class="product-media">
                                                         <a href="/product/<%= rp.slug || rp._id %>">
-                                                            <img src="<%= (rp.images && rp.images[0]) || '/images/hofmaan/sample3.jpg' %>" alt="Product"
-                                                                width="300" height="338" />
+                                                            <img src="<%= (rp.images && rp.images[0]) || '/images/hofmaan/sample3.jpg' %>"
+                                                                alt="Product" width="300" height="338" />
                                                             <% if (rp.images && rp.images[1]) { %>
-                                                                <img src="<%= rp.images[1] %>" alt="Product"
-                                                                    width="300" height="338" />
+                                                                <img src="<%= rp.images[1] %>" alt="Product" width="300"
+                                                                    height="338" />
                                                             <% } %>
                                                         </a>
                                                         <div class="product-action-vertical">
-                                                            <% if (typeof rp.stock === 'number' && rp.stock > 0) { %>
-                                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
+                                                            <% if (typeof rp.stock==='number' && rp.stock> 0) { %>
+                                                                <a href="#"
+                                                                    class="btn-product-icon btn-cart w-icon-cart"
                                                                     title="Add to cart"></a>
                                                             <% } %>
-                                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                            <a href="#"
+                                                                class="btn-product-icon btn-wishlist w-icon-heart"
                                                                 title="Add to wishlist"></a>
                                                         </div>
                                                         <div class="product-action">
-                                                            <% if (typeof rp.stock === 'number' && rp.stock > 0) { %>
-                                                                <a href="#" class="btn-product " title="">Add To Cart</a>
+                                                            <% if (typeof rp.stock==='number' && rp.stock> 0) { %>
+                                                                <a href="#" class="btn-product " title="">Add To
+                                                                    Cart</a>
                                                             <% } else { %>
-                                                                <span class="btn btn-danger disabled">Out of Stock</span>
+                                                                <span class="btn btn-danger disabled">Out of
+                                                                    Stock</span>
                                                             <% } %>
                                                         </div>
                                                     </figure>
                                                     <div class="product-details">
                                                         <h4 class="product-name">
-                                                            <a href="/product/<%= rp.slug || rp._id %>"><%= rp.name %></a>
+                                                            <a href="/product/<%= rp.slug || rp._id %>">
+                                                                <%= rp.name %>
+                                                            </a>
                                                         </h4>
-                                                       
-                                                        <% 
-                                        
-                                                            if (rp.colorVariants && rp.colorVariants.length) { 
-                                                        %>
-                                                        <div class="product-color">
-                                                            <% rp.colorVariants.forEach(function(c) { %>
-                                                                <span class="color-options-new" style="background-color: <%= c.color || c.hex || c.code || c.value || '#ccc' %>;"></span>
-                                                            <% }) %>
-                                                        </div>
+
+                                                        <% if (rp.colorVariants && rp.colorVariants.length) { %>
+                                                            <div class="product-color">
+                                                                <% rp.colorVariants.forEach(function(c) { %>
+                                                                    <span class="color-options-new"
+                                                                        style="background-color: <%= c.color || c.hex || c.code || c.value || '#ccc' %>;"></span>
+                                                                <% }) %>
+                                                            </div>
                                                         <% } %>
-                                                        <% 
-                                                        
-                                                            if (rp.sizeVariants && rp.sizeVariants.length) { 
-                                                        %>
-                                                        <div class="product-size">
-                                                            <% rp.sizeVariants.forEach(function(s) { %>
-                                                                <span class="size-options-new"><%= s.size %></span>
-                                                            <% }) %>
-                                                        </div>
+                                                        <% if (rp.sizeVariants && rp.sizeVariants.length) { %>
+                                                            <div class="product-size">
+                                                                <% rp.sizeVariants.forEach(function(s) { %>
+                                                                    <span class="size-options-new">
+                                                                        <%= s.size %>
+                                                                    </span>
+                                                                <% }) %>
+                                                            </div>
                                                         <% } %>
                                                         <div class="product-pa-wrapper">
                                                             <div class="product-price">
-                                                                <%
-                                                                   
-                                                                    var showOldPrice = (typeof rp.basePrice === 'number' && typeof rp.salePrice === 'number' && rp.salePrice < rp.basePrice && rp.salePrice > 0);
-                                                                %>
+                                                                <% var showOldPrice=(typeof
+                                                                    rp.basePrice==='number' && typeof
+                                                                    rp.salePrice==='number' &&
+                                                                    rp.salePrice < rp.basePrice &&
+                                                                    rp.salePrice> 0);
+                                                                    %>
                                                                 <% if (showOldPrice) { %>
-                                                                    <del class="old-price">₹<%= rp.basePrice %></del>
-                                                                    <ins class="new-price">₹<%= rp.salePrice %></ins>
-                                                                <% } else if (typeof rp.basePrice === 'number') { %>
+                                                                    <del class="old-price">₹<%=
+                                                                            rp.basePrice %></del>
+                                                                    <ins class="new-price">₹<%=
+                                                                            rp.salePrice %></ins>
+                                                                <% } else if (typeof
+                                                                    rp.basePrice==='number' ) {
+                                                                    %>
                                                                     ₹<%= rp.basePrice %>
-                                                                <% } else if (typeof rp.price === 'number') { %>
+                                                                <% } else if (typeof
+                                                                    rp.price==='number'
+                                                                    ) { %>
                                                                     ₹<%= rp.price %>
                                                                 <% } else { %>
-                                                                    Price Unavailable
+                                                                    Price
+                                                                    Unavailable
                                                                 <% } %>
                                                             </div>
                                                         </div>
-                                                        <% if (rp.moreDetails) { %>
-                                                            <div class="product-more-details">
-                                                                <small><%= rp.moreDetails %></small>
-                                                            </div>
-                                                        <% } %>
+                                                      
                                                     </div>
                                                 </div>
                                             <% }) %>
@@ -556,237 +594,296 @@
                                     </div>
                                 </div>
                             </section>
-
+                           
                             <script>
-                                // Color selection logic for dynamic image switching
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    var colorLinks = document.querySelectorAll('#color-options .color');
-                                    var mainImages = document.getElementById('main-product-images');
-                                    var thumbs = document.getElementById('product-thumbs');
-                                    var swiperSingle = null;
-                                    var swiperThumbs = null;
+                                // Swiper instance variables
+                                let mainSwiper = null;
+                                let thumbsSwiper = null;
 
-                                    // Try to get Swiper instances if available
-                                    function getSwiperInstance(container) {
-                                        if (container && container.swiper) return container.swiper;
-                                        if (window.Swiper && container) {
-                                            // fallback: try to get from global Swiper registry
-                                            return window.Swiper.instances ? window.Swiper.instances.find(function(sw) { return sw.el === container; }) : null;
+                                function reinitializeSwipers() {
+                                    // Destroy previous Swipers if exist
+                                    if (mainSwiper) {
+                                        mainSwiper.destroy(true, true);
+                                    }
+                                    if (thumbsSwiper) {
+                                        thumbsSwiper.destroy(true, true);
+                                    }
+                                    // Re-initialize Swipers
+                                    thumbsSwiper = new Swiper('.product-thumbs-wrap', {
+                                        spaceBetween: 10,
+                                        slidesPerView: 4,
+                                        freeMode: true,
+                                        watchSlidesProgress: true,
+                                        navigation: {
+                                            nextEl: '.swiper-button-next',
+                                            prevEl: '.swiper-button-prev',
+                                        },
+                                    });
+                                    mainSwiper = new Swiper('.product-single-swiper', {
+                                        loop: false,
+                                        spaceBetween: 10,
+                                        navigation: {
+                                            nextEl: '.swiper-button-next',
+                                            prevEl: '.swiper-button-prev',
+                                        },
+                                        thumbs: {
+                                            swiper: thumbsSwiper
                                         }
-                                        return null;
+                                    });
+                                    // Link Swipers
+                                    if (mainSwiper && thumbsSwiper) {
+                                        mainSwiper.controller.control = thumbsSwiper;
+                                        thumbsSwiper.controller.control = mainSwiper;
+                                    }
+                                }
+
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    // Color swatch logic
+                                    const colorVariants = document.querySelectorAll('#color-options .color');
+                                    const resetColorBtn = document.getElementById('reset-color');
+                                    const mainImagesContainer = document.getElementById('main-product-images');
+                                    const thumbsContainer = document.getElementById('product-thumbs');
+                                    // Size swatch logic
+                                    const sizeVariants = document.querySelectorAll('#size-options .size');
+                                    const resetSizeBtn = document.getElementById('reset-size');
+
+                                    // Store original images
+                                    const originalImages = [
+                                        <% let defaultImages = (product.images && product.images.length) ? 
+                                            product.images : ['/images/hofmaan/sampleimage.jpg']; %>
+                                        <% defaultImages.forEach(function(img) { %>
+                                            '<%= img %>',
+                                        <% }) %>
+                                    ];
+
+                                    // Function to update product images
+                                    function updateProductImages(images) {
+                                        // Remove all children
+                                        mainImagesContainer.innerHTML = '';
+                                        thumbsContainer.innerHTML = '';
+                                        // Only use unique images (avoid duplicates)
+                                        const uniqueImages = Array.from(new Set(images));
+                                        uniqueImages.forEach((img, index) => {
+                                            // Main image slide
+                                            const slideDiv = document.createElement('div');
+                                            slideDiv.className = 'swiper-slide';
+                                            const figure = document.createElement('figure');
+                                            figure.className = 'product-image';
+                                            const imgEl = document.createElement('img');
+                                            imgEl.src = img;
+                                            imgEl.setAttribute('data-zoom-image', img);
+                                            imgEl.alt = '<%= product.name %> Image ' + (index + 1);
+                                            imgEl.width = 800;
+                                            imgEl.height = 900;
+                                            figure.appendChild(imgEl);
+                                            slideDiv.appendChild(figure);
+                                            mainImagesContainer.appendChild(slideDiv);
+                                            // Thumbnail
+                                            const thumbDiv = document.createElement('div');
+                                            thumbDiv.className = 'product-thumb swiper-slide';
+                                            const thumbImg = document.createElement('img');
+                                            thumbImg.src = img;
+                                            thumbImg.alt = 'Product Thumb ' + (index + 1);
+                                            thumbImg.width = 100;
+                                            thumbImg.height = 110;
+                                            thumbImg.style.objectFit = 'cover';
+                                            thumbDiv.appendChild(thumbImg);
+                                            thumbsContainer.appendChild(thumbDiv);
+                                        });
+                                        // Re-initialize Swipers after DOM update
+                                        setTimeout(reinitializeSwipers, 0);
                                     }
 
-                                    // Helper to re-init Swiper after DOM update
-                                    function reinitSwipers() {
-                                        // Destroy previous Swipers if exist
-                                        if (mainImages && mainImages.closest('.swiper-container') && mainImages.closest('.swiper-container').swiper) {
-                                            mainImages.closest('.swiper-container').swiper.destroy(true, true);
-                                        }
-                                        if (thumbs && thumbs.closest('.swiper-container') && thumbs.closest('.swiper-container').swiper) {
-                                            thumbs.closest('.swiper-container').swiper.destroy(true, true);
-                                        }
-                                        // Re-init Swiper for main images
-                                        if (mainImages && mainImages.closest('.swiper-container')) {
-                                            new Swiper(mainImages.closest('.swiper-container'), {
-                                                navigation: {
-                                                    nextEl: '.swiper-button-next',
-                                                    prevEl: '.swiper-button-prev'
-                                                }
-                                            });
-                                        }
-                                        // Re-init Swiper for thumbs
-                                        if (thumbs && thumbs.closest('.swiper-container')) {
-                                            new Swiper(thumbs.closest('.swiper-container'), {
-                                                navigation: {
-                                                    nextEl: '.swiper-button-next',
-                                                    prevEl: '.swiper-button-prev'
-                                                }
-                                            });
-                                        }
+                                    // Function to reset to original images
+                                    function resetToOriginalImages() {
+                                        colorVariants.forEach(v => v.classList.remove('active'));
+                                        updateProductImages(originalImages);
+                                        resetColorBtn.classList.remove('visible');
                                     }
 
-                                    colorLinks.forEach(function(link) {
-                                        link.addEventListener('click', function(e) {
+                                    // Add click event listeners to color variants
+                                    colorVariants.forEach(variant => {
+                                        variant.addEventListener('click', function(e) {
                                             e.preventDefault();
-                                            var selectedColor = this.getAttribute('data-color');
-                                            // Remove active from all
-                                            colorLinks.forEach(function(l) { l.classList.remove('active'); });
+                                            // Remove active class from all variants
+                                            colorVariants.forEach(v => v.classList.remove('active'));
+                                            // Add active class to clicked variant
                                             this.classList.add('active');
-                                            // Fetch images for selected color from a JS object rendered inline
-                                            var colorImages = <%- JSON.stringify(product.colorImages || {}) %>;
-                                            var defaultImages = <%- JSON.stringify(product.images || ['/images/hofmaan/sampleimage.jpg']) %>;
-                                            var images = (colorImages[selectedColor] && colorImages[selectedColor].length) ? colorImages[selectedColor] : defaultImages;
-
-                                            // Update main images and thumbs
-                                            if (mainImages && thumbs) {
-                                                // Remove all children (not just innerHTML, to avoid layout issues)
-                                                while (mainImages.firstChild) mainImages.removeChild(mainImages.firstChild);
-                                                while (thumbs.firstChild) thumbs.removeChild(thumbs.firstChild);
-
-                                                images.forEach(function(img, idx) {
-                                                    // Main image slide
-                                                    var slide = document.createElement('div');
-                                                    slide.className = 'swiper-slide';
-                                                    var fig = document.createElement('figure');
-                                                    fig.className = 'product-image';
-                                                    var imageEl = document.createElement('img');
-                                                    imageEl.src = img;
-                                                    imageEl.setAttribute('data-zoom-image', img);
-                                                    imageEl.alt = "Product Image " + (idx+1);
-                                                    imageEl.width = 800;
-                                                    imageEl.height = 900;
-                                                    fig.appendChild(imageEl);
-                                                    slide.appendChild(fig);
-                                                    mainImages.appendChild(slide);
-
-                                                    // Thumb slide
-                                                    var thumb = document.createElement('div');
-                                                    thumb.className = 'product-thumb swiper-slide';
-                                                    var thumbImg = document.createElement('img');
-                                                    thumbImg.src = img;
-                                                    thumbImg.alt = "Product Thumb " + (idx+1);
-                                                    thumbImg.width = 800;
-                                                    thumbImg.height = 900;
-                                                    thumb.appendChild(thumbImg);
-                                                    thumbs.appendChild(thumb);
-                                                });
-
-                                                // Re-initialize Swiper to fix layout and ensure images are in the slider, not below
-                                                reinitSwipers();
+                                            // Get the variant image
+                                            const variantImage = this.getAttribute('data-image');
+                                            // If variant has an image, use it, otherwise use original images
+                                            let imagesToShow;
+                                            if (variantImage && variantImage.trim() !== '') {
+                                                imagesToShow = [variantImage];
+                                            } else {
+                                                imagesToShow = originalImages;
                                             }
+                                            updateProductImages(imagesToShow);
+                                            resetColorBtn.classList.add('visible');
                                         });
                                     });
+
+                                    // Add click event listener to reset button
+                                    if (resetColorBtn) {
+                                        resetColorBtn.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            resetToOriginalImages();
+                                        });
+                                    }
+
+                                    // --- Size swatch logic ---
+                                    function resetSizeSelection() {
+                                        sizeVariants.forEach(v => v.classList.remove('active'));
+                                        resetSizeBtn.classList.remove('visible');
+                                    }
+                                    sizeVariants.forEach(variant => {
+                                        variant.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            sizeVariants.forEach(v => v.classList.remove('active'));
+                                            this.classList.add('active');
+                                            resetSizeBtn.classList.add('visible');
+                                        });
+                                    });
+                                    if (resetSizeBtn) {
+                                        resetSizeBtn.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            resetSizeSelection();
+                                        });
+                                    }
+
+                                    // Initialize Swipers on page load
+                                    reinitializeSwipers();
                                 });
                             </script>
                         </div>
-                                });
-                            </script>
-                        </div>
-                        <!-- End of Main Content -->
-                   
-                        <!-- End of Sidebar -->
+
                     </div>
+                    <!-- End of Main Content -->
+
+                    <!-- End of Sidebar -->
                 </div>
             </div>
-            <!-- End of Page Content -->
-        </main>
-        <!-- End of Main -->
+    </div>
+    <!-- End of Page Content -->
+    </main>
+    <!-- End of Main -->
 
-        <!-- Start of Footer -->
-      <footer class="footer appear-animate" data-animation-options="{
+    <!-- Start of Footer -->
+    <footer class="footer appear-animate" data-animation-options="{
             'name': 'fadeIn'
         }">
-            <div class="footer-newsletter bg-primary">
-                <div class="container">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-xl-5 col-lg-6">
-                            <div class="icon-box icon-box-side text-white">
-                                <div class="icon-box-icon d-inline-flex">
-                                    <i class="w-icon-envelop3"></i>
-                                </div>
-                                <div class="icon-box-content">
-                                    <h4 class="icon-box-title text-white text-uppercase font-weight-bold">Subscribe To
-                                        Our Newsletter</h4>
-                                    <p class="text-white">Get all the latest information on Events, Sales and Offers.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-7 col-lg-6 col-md-9 mt-4 mt-lg-0 ">
-                            <form action="#" method="get"
-                                class="input-wrapper input-wrapper-inline input-wrapper-rounded">
-                                <input type="email" class="form-control mr-2 bg-white" name="email" id="email"
-                                    placeholder="Your E-mail Address" />
-                                <button class="btn btn-dark btn-rounded" type="submit">Subscribe<i
-                                        class="w-icon-long-arrow-right"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="footer-newsletter bg-primary">
             <div class="container">
-                <div class="footer-top">
-                    <div class="row">
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="widget widget-about mt-0 mb-4">
-                                <a href="demo12.html" class="logo-footer">
-                                    <img src="/images/logo.png" alt="logo-footer" width="200"
-                                        height="45" />
-                                </a>
-                                <div class="widget-body">
-                                    <p class="widget-about-title">Got Question? Call us 24/7</p>
-                                    <a href="tel:18005707777" class="widget-about-call">1-800-570-7777</a>
-                                    <p class="widget-about-desc">Register now to get updates on pronot get up icons
-                                        & coupons ster now toon.
-                                    </p>
-
-                                    <div class="social-icons social-icons-colored">
-                                        <a href="https://www.facebook.com/people/Hofmaan/61577157921909/" class="social-icon social-facebook w-icon-facebook"></a>
-   
-                                        <a href="https://www.instagram.com/hofmaan__/" class="social-icon social-instagram w-icon-instagram"></a>
-                                     
-                                        <a href="https://in.pinterest.com/hofmaanstore/" class="social-icon social-pinterest w-icon-pinterest"></a>
-                                    </div>
-                                </div>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-xl-5 col-lg-6">
+                        <div class="icon-box icon-box-side text-white">
+                            <div class="icon-box-icon d-inline-flex">
+                                <i class="w-icon-envelop3"></i>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="widget">
-                                <h3 class="widget-title">Company</h3>
-                                <ul class="widget-body">
-                                        <li><a href="/">Home</a></li>
-                                    <li><a href="/about">About Us</a></li>
-                                    <li><a href="/store"> Shop</a></li>
-                                     <li><a href="/blogs">Blogs</a></li>
-                                    <li><a href="/contact">Contact Us</a></li>
-
-                                    <li><a href="my-account.html">Orders</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="widget">
-                                <h4 class="widget-title">My Account</h4>
-                                <ul class="widget-body">
-                                    <li><a href="my-account.html">Track My Order</a></li>
-                                    <li><a href="cart.html">View Cart</a></li>
-                                    <li><a href="login.html">Sign In</a></li>
-                                    <li><a href="/contact">Help</a></li>
-                                    <li><a href="wishlist.html">My Wishlist</a></li>
-                                    <li><a href="privacy.html">Privacy Policy</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="widget">
-                                <h4 class="widget-title">Customer Service</h4>
-                                <ul class="widget-body">
-                                    <li><a href="terms-condition.html">Payment Methods</a></li>
-                                    <li><a href="terms-condition.html">Money-back guarantee!</a></li>
-                                    <li><a href="terms-condition.html">Product Returns</a></li>
-                                    <li><a href="/contact">Support Center</a></li>
-                                    <li><a href="terms-condition.html">Shipping</a></li>
-                                    <li><a href="terms-condition.html">Term and Conditions</a></li>
-                                </ul>
+                            <div class="icon-box-content">
+                                <h4 class="icon-box-title text-white text-uppercase font-weight-bold">Subscribe To
+                                    Our Newsletter</h4>
+                                <p class="text-white">Get all the latest information on Events, Sales and Offers.
+                                </p>
                             </div>
                         </div>
                     </div>
-                </div>
-               
-                <div class="footer-bottom">
-                    <div class="footer-left">
-                        <p class="copyright">Copyright © 2025 Hofmaan. All Rights Reserved.</p>
-                    </div>
-                    <div class="footer-right">
-                        <span class="payment-label mr-lg-8">We're using safe payment for</span>
-                        <figure class="payment">
-                            <img src="/images/payment.png" alt="payment" width="159" height="25" />
-                        </figure>
+                    <div class="col-xl-7 col-lg-6 col-md-9 mt-4 mt-lg-0 ">
+                        <form action="#" method="get" class="input-wrapper input-wrapper-inline input-wrapper-rounded">
+                            <input type="email" class="form-control mr-2 bg-white" name="email" id="email"
+                                placeholder="Your E-mail Address" />
+                            <button class="btn btn-dark btn-rounded" type="submit">Subscribe<i
+                                    class="w-icon-long-arrow-right"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </footer>
-        <!-- End of Footer -->
+        </div>
+        <div class="container">
+            <div class="footer-top">
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="widget widget-about mt-0 mb-4">
+                            <a href="demo12.html" class="logo-footer">
+                                <img src="/images/logo.png" alt="logo-footer" width="200" height="45" />
+                            </a>
+                            <div class="widget-body">
+                                <p class="widget-about-title">Got Question? Call us 24/7</p>
+                                <a href="tel:18005707777" class="widget-about-call">1-800-570-7777</a>
+                                <p class="widget-about-desc">Register now to get updates on pronot get up icons
+                                    & coupons ster now toon.
+                                </p>
+
+                                <div class="social-icons social-icons-colored">
+                                    <a href="https://www.facebook.com/people/Hofmaan/61577157921909/"
+                                        class="social-icon social-facebook w-icon-facebook"></a>
+
+                                    <a href="https://www.instagram.com/hofmaan__/"
+                                        class="social-icon social-instagram w-icon-instagram"></a>
+
+                                    <a href="https://in.pinterest.com/hofmaanstore/"
+                                        class="social-icon social-pinterest w-icon-pinterest"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="widget">
+                            <h3 class="widget-title">Company</h3>
+                            <ul class="widget-body">
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/about">About Us</a></li>
+                                <li><a href="/store"> Shop</a></li>
+                                <li><a href="/blogs">Blogs</a></li>
+                                <li><a href="/contact">Contact Us</a></li>
+
+                                <li><a href="my-account.html">Orders</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="widget">
+                            <h4 class="widget-title">My Account</h4>
+                            <ul class="widget-body">
+                                <li><a href="my-account.html">Track My Order</a></li>
+                                <li><a href="cart.html">View Cart</a></li>
+                                <li><a href="login.html">Sign In</a></li>
+                                <li><a href="/contact">Help</a></li>
+                                <li><a href="wishlist.html">My Wishlist</a></li>
+                                <li><a href="privacy.html">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="widget">
+                            <h4 class="widget-title">Customer Service</h4>
+                            <ul class="widget-body">
+                                <li><a href="terms-condition.html">Payment Methods</a></li>
+                                <li><a href="terms-condition.html">Money-back guarantee!</a></li>
+                                <li><a href="terms-condition.html">Product Returns</a></li>
+                                <li><a href="/contact">Support Center</a></li>
+                                <li><a href="terms-condition.html">Shipping</a></li>
+                                <li><a href="terms-condition.html">Term and Conditions</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-left">
+                    <p class="copyright">Copyright © 2025 Hofmaan. All Rights Reserved.</p>
+                </div>
+                <div class="footer-right">
+                    <span class="payment-label mr-lg-8">We're using safe payment for</span>
+                    <figure class="payment">
+                        <img src="/images/payment.png" alt="payment" width="159" height="25" />
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
     </div>
     <!-- End of Page Wrapper -->
 
@@ -809,25 +906,29 @@
                 <i class="w-icon-cart"></i>
                 <p>Cart</p>
             </a>
-        
+
             <!-- End of Dropdown Box -->
         </div>
-        
+
         <div class="header-search hs-toggle dir-up">
             <a href="wishlist.html" class="search-toggle sticky-link">
                 <i class="w-icon-heart"></i>
                 <p>Wishlist</p>
             </a>
-         
+
         </div>
     </div>
     <!-- End of Sticky Footer -->
 
     <!-- Start of Scroll Top -->
-    <a id="scroll-top" class="scroll-top" href="#top" title="Top" role="button"> <i class="w-icon-angle-up"></i> <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70"> <circle id="progress-indicator" fill="transparent" stroke="#000000" stroke-miterlimit="10" cx="35" cy="35" r="34" style="stroke-dasharray: 16.4198, 400;"></circle> </svg> </a>
+    <a id="scroll-top" class="scroll-top" href="#top" title="Top" role="button"> <i class="w-icon-angle-up"></i> <svg
+            version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70">
+            <circle id="progress-indicator" fill="transparent" stroke="#000000" stroke-miterlimit="10" cx="35" cy="35"
+                r="34" style="stroke-dasharray: 16.4198, 400;"></circle>
+        </svg> </a>
     <!-- End of Scroll Top -->
 
-   <!-- Start of Mobile Menu -->
+    <!-- Start of Mobile Menu -->
     <div class="mobile-menu-wrapper">
         <div class="mobile-menu-overlay"></div>
         <!-- End of .mobile-menu-overlay -->
@@ -837,8 +938,8 @@
 
         <div class="mobile-menu-container scrollable">
             <form action="#" method="get" class="input-wrapper">
-                <input type="text" class="form-control" name="search" autocomplete="off"
-                    placeholder="Search" required />
+                <input type="text" class="form-control" name="search" autocomplete="off" placeholder="Search"
+                    required />
                 <button class="btn btn-search" type="submit">
                     <i class="w-icon-search"></i>
                 </button>
@@ -860,28 +961,28 @@
                         <li><a href="/">Home</a></li>
                         <li>
                             <a href="/store">Shop</a>
-                     
+
                         </li>
                         <li>
                             <a href="/about">About Us</a>
-                  
+
                         </li>
                         <li>
                             <a href="/blogs">Blogs</a>
-                 
+
                         </li>
                         <li>
                             <a href="/contact">Contact Us</a>
-                        
+
                         </li>
-                 
+
                     </ul>
                 </div>
                 <div class="tab-pane" id="categories">
                     <ul class="mobile-menu">
                         <li>
                             <a href="/store">
-                             Shoes
+                                Shoes
                             </a>
                             <ul>
                                 <li>
@@ -889,132 +990,132 @@
                                     <ul>
                                         <li><a href="/store">Lofer</a>
                                         </li>
-                                    <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                  <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                             <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                              <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                                      <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                                   <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                                        </li>
-                                  <li><a href="/store">Lofer</a>
-                                        </li>
+                                </li>
                                 <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
                                 </li>
-                                <li>
-                                    <a href="#">Men</a>
-                                    <ul>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                        <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                          <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Men</a>
+                            <ul>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    </li>
+                    <li>
+                        <a href="/store">
+                            Wallet
+                        </a>
+                        <ul>
+
+                            <li>
+                                <a href="#"> Belt</a>
+                                <ul>
                                     <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="/store">
-                         Wallet
-                            </a>
-                            <ul>
-                         
-                                <li>
-                                    <a href="#"> Belt</a>
-                                    <ul>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                        <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                          <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Sandels</a>
-                                    <ul>
-                                          <li><a href="/store">Lofer</a>
-                                        </li>
-                                          <li><a href="/store">Lofer</a>
-                                        </li>
-                                            <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                           
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="/store">
-                             Sandels
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="#">Men</a>
-                                    <ul>
-                                  <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                      <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                               <li>
-                                    <a href="#">Women</a>
-                                    <ul>
-                                  <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                      <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                              
-                            </ul>
-                        </li>
-                
-                        <li>
-                            <a href="/store">
-                                SunGlass
-                            </a>
-                        </li>
-                  
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Sandels</a>
+                                <ul>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/store">
+                            Sandels
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="#">Men</a>
+                                <ul>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Women</a>
+                                <ul>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="/store">
+                            SunGlass
+                        </a>
+                    </li>
+
                     </ul>
                 </div>
             </div>

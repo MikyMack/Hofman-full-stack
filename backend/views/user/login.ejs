@@ -352,6 +352,18 @@
                             }).showToast();
                         }
 
+                        // Show toast for Google login result or error on page load
+                        window.addEventListener('DOMContentLoaded', () => {
+                            const params = new URLSearchParams(window.location.search);
+                            if (params.get('error') === 'google_failed') {
+                                showToast("Google login failed. Please try again.", "error");
+                            }
+
+                            if (params.get('googleLogin') === 'true') {
+                                showToast("Logged in with Google!", "success");
+                            }
+                        });
+
                         let registrationData = {};
                         let otpCountdown;
                         async function handleLogin(event) {
@@ -491,64 +503,15 @@
                                     body: JSON.stringify(registrationData)
                                 });
 
-                                // Handle duplicate key error (MongoServerError: E11000 ...)
-                                if (!registerResponse.ok) {
-                                    let registerResult;
-                                    try {
-                                        registerResult = await registerResponse.json();
-                                    } catch (e) {
-                                        registerResult = {};
-                                    }
-                                    // Check for Mongo duplicate key error
-                                    if (
-                                        registerResult &&
-                                        typeof registerResult.message === "string" &&
-                                        registerResult.message.includes("E11000 duplicate key error")
-                                    ) {
-                                        showToast("Email already registered. Please use a different email.", "error");
-                                    } else if (
-                                        registerResult &&
-                                        typeof registerResult.message === "string"
-                                    ) {
-                                        showToast(registerResult.message, "error");
-                                    } else {
-                                        showToast("Registration failed", "error");
-                                    }
-                                    return;
-                                }
-
                                 const registerResult = await registerResponse.json();
-                                if (!registerResult.success) {
-                                    // Defensive: handle error message if present
-                                    if (
-                                        registerResult &&
-                                        typeof registerResult.message === "string" &&
-                                        registerResult.message.includes("E11000 duplicate key error")
-                                    ) {
-                                        showToast("Email already registered. Please use a different email.", "error");
-                                    } else if (
-                                        registerResult &&
-                                        typeof registerResult.message === "string"
-                                    ) {
-                                        showToast(registerResult.message, "error");
-                                    } else {
-                                        showToast("Registration failed", "error");
-                                    }
-                                    return;
+                                if (!registerResponse.ok || !registerResult.success) {
+                                    throw new Error(registerResult.message || 'Registration failed');
                                 }
 
                                 showToast("Registration successful!", "success");
                                 window.location.href = '/auth/login';
                             } catch (err) {
-                                // Handle MongoServerError: E11000 duplicate key error
-                                if (
-                                    typeof err.message === "string" &&
-                                    err.message.includes("E11000 duplicate key error")
-                                ) {
-                                    showToast("Email already registered. Please use a different email.", "error");
-                                } else {
-                                    showToast(err.message, "error");
-                                }
+                                showToast(err.message, "error");
                             }
                         }
 

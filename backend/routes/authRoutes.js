@@ -22,28 +22,33 @@ router.get('/auth/google', (req, res, next) => {
 });
 
   // router.get('https://hofmaan.com/auth/google/callback',
-router.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/auth/login' }),
-  async (req, res) => {
-    req.session.user = req.user;
-
-    // Extract guestCart from state
-    let guestCart = [];
-    if (req.query.state) {
+  router.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/auth/login' }),
+    async (req, res) => {
       try {
-        guestCart = JSON.parse(decodeURIComponent(req.query.state));
+        req.session.user = req.user;
+  
+        let guestCart = [];
+        if (req.query.state) {
+          try {
+            guestCart = JSON.parse(decodeURIComponent(req.query.state));
+          } catch (err) {
+            // Ignore parse errors
+          }
+        }
+  
+        if (guestCart.length > 0) {
+          await auth.mergeGuestCartToUserCart(req, req.user._id, guestCart);
+        }
+  
+        res.redirect('/?googleLogin=true');
       } catch (err) {
-        // Do nothing if parsing fails
+        console.error('Callback error:', err.message);
+        res.redirect('/auth/login?error=google_failed');
       }
     }
-
-    if (guestCart.length > 0) {
-      await auth.mergeGuestCartToUserCart(req, req.user._id, guestCart);
-    }
-
-    res.redirect('/?googleLogin=true');
-  }
-);
+  );
+  
 
 
 router.get('/auth/login', (req, res) => {

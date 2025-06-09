@@ -20,7 +20,7 @@ router.get('/auth/google', (req, res, next) => {
     state: state
   })(req, res, next);
 });
-router.get('/auth/google/callback',
+router.get('https://hofmaan.com/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/auth/login' }),
   async (req, res) => {
     req.session.user = req.user;

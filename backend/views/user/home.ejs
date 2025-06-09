@@ -324,8 +324,8 @@
                                     'speed': 1500
                                 }">
                                 <div class="swiper-wrapper row gutter-no cols-1">
-                                    <% if (mainBanner && mainBanner.length > 0) { %>
-                                        <% mainBanner.forEach((banner, index) => { %>
+                                    <% if (mainBanner && mainBanner.length> 0) { %>
+                                        <% mainBanner.forEach((banner, index)=> { %>
                                             <div class="swiper-slide banner banner-fixed intro-slide br-sm"
                                                 style="background-image: url(<%= banner.image %>); background-color: #EAEAEA; position: relative; height: 400px; background-size: cover; background-position: center;">
                                                 <div class="main-banner-content-wrapper" style="
@@ -344,18 +344,18 @@
                                                                 data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '.5s', 'delay': '.2s'}">
                                                                 <%= banner.subtitle %>
                                                             </h3>
-                                                        <% } %>
-                                                        <% if (banner.title) { %>
-                                                            <h2 class="banner-title font-secondary text-capitalize text-black slide-animate"
-                                                                data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
-                                                                <%= banner.title %>
-                                                            </h2>
-                                                        <% } %>
-                                                        <% if (banner.description) { %>
-                                                            <h4 class="banner-price-info font-weight-normal text-black ls-25 slide-animate"
-                                                                data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
-                                                                <% 
-                                                                    const words = banner.description.split(' ');
+                                                            <% } %>
+                                                                <% if (banner.title) { %>
+                                                                    <h2 class="banner-title font-secondary text-capitalize text-black slide-animate"
+                                                                        data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
+                                                                        <%= banner.title %>
+                                                                    </h2>
+                                                                    <% } %>
+                                                                        <% if (banner.description) { %>
+                                                                            <h4 class="banner-price-info font-weight-normal text-black ls-25 slide-animate"
+                                                                                data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
+                                                                                <% const
+                                                                                    words=banner.description.split(' ');
                                                                     if (words.length > 6) {
                                                                         const firstSix = words.slice(0, 6).join(' ');
                                                                         const rest = words.slice(6).join(' ');
@@ -376,15 +376,16 @@
                                                                 data-animation-options="{' name': 'fadeInUpShorter'
                                                                                     , 'duration' : '.5s' , 'delay'
                                                                                     : '.6s' }">
-                                                                Shop Now
-                                                                <i class="w-icon-long-arrow-right"></i>
-                                                            </a>
-                                                        <% } %>
+                                                                                    Shop Now
+                                                                                    <i
+                                                                                        class="w-icon-long-arrow-right"></i>
+                                                                                    </a>
+                                                                                    <% } %>
                                                     </div>
                                                 </div>
                                             </div>
-                                        <% }) %>
-                                    <% } %>
+                                            <% }) %>
+                                                <% } %>
                                 </div>
                                 <div class="swiper-pagination"></div>
                             </div>
@@ -395,872 +396,853 @@
                 <!-- Banner Two Row Below Main Banner -->
                 <div class="intro-banner-row mb-2">
                     <div class="row">
-                        <% if (bannerTwo && bannerTwo.length > 0) { %>
-                            <% bannerTwo.forEach((banner, index) => { %>
+                        <% if (bannerTwo && bannerTwo.length> 0) { %>
+                            <% bannerTwo.forEach((banner, index)=> { %>
                                 <div class="col-lg-6 col-md-6 col-12 mb-4">
-                                    <div class="banner banner-fixed intro-banner<%= index === 1 ? ' intro-banner2' : '' %> br-sm h-100">
+                                    <div
+                                        class="banner banner-fixed intro-banner<%= index === 1 ? ' intro-banner2' : '' %> br-sm h-100">
                                         <figure class="br-sm">
                                             <img src="<%= banner.image %>" alt="Category Banner" width="680"
-                                                height="180" style="background-color: #565960; object-fit: cover; width: 100%;" />
+                                                height="180"
+                                                style="background-color: #565960; object-fit: cover; width: 100%;" />
                                         </figure>
                                         <div class="banner-content">
                                             <% if (banner.subtitle) { %>
-                                                <h5 class="banner-subtitle text-uppercase font-weight-bold <%= index === 1 ? 'text-default' : 'text-lighter' %>">
+                                                <h5
+                                                    class="banner-subtitle text-uppercase font-weight-bold <%= index === 1 ? 'text-default' : 'text-lighter' %>">
                                                     <%= banner.subtitle %>
                                                 </h5>
-                                            <% } %>
-                                            <% if (banner.title) { %>
-                                                <h3 class="banner-title font-secondary font-weight-bolder ls-25 <%= index === 1 ? 'text-dark' : 'text-white' %>">
-                                                    <%= banner.title %>
-                                                </h3>
-                                            <% } %>
-                                            <% if (banner.link) { %>
-                                                <a href="<%= banner.link %>"
-                                                    class="btn <%= index === 1 ? 'btn-dark' : 'btn-white' %> btn-link btn-slide-right btn-icon-right btn-infinite">
-                                                    Shop Now
-                                                    <i class="w-icon-long-arrow-right"></i>
-                                                </a>
-                                            <% } %>
-                                        </div>
-                                    </div>
-                                </div>
-                            <% }) %>
-                        <% } %>
-                    </div>
-                </div>
-                <!-- End of Intro-wrapper -->
-
-                <div class="swiper-container swiper-theme icon-box-wrapper br-sm mt-0 mb-10 appear-animate"
-                    data-swiper-options="{
-                    'slidesPerView': 1,
-                    'breakpoints': {
-                        '576': {
-                            'slidesPerView': 2
-                        },
-                        '992': {
-                            'slidesPerView': 3
-                        },
-                        '1200': {
-                            'slidesPerView': 4
-                        }
-                    }}">
-                    <div class="swiper-wrapper row cols-md-4 cols-sm-3 cols-1">
-                        <div class="swiper-slide icon-box icon-box-side text-dark">
-                            <span class="icon-box-icon icon-shipping">
-                                <i class="w-icon-truck"></i>
-                            </span>
-                            <div class="icon-box-content">
-                                <h4 class="icon-box-title font-weight-bolder">Free Shipping &amp; Returns</h4>
-                                <p class="text-default">For all orders over ₹999</p>
-                            </div>
-                        </div>
-                        <div class="swiper-slide icon-box icon-box-side text-dark">
-                            <span class="icon-box-icon icon-payment">
-                                <i class="w-icon-bag"></i>
-                            </span>
-                            <div class="icon-box-content">
-                                <h4 class="icon-box-title font-weight-bolder">Secure Payment</h4>
-                                <p class="text-default">We ensure secure payment</p>
-                            </div>
-                        </div>
-                        <div class="swiper-slide icon-box icon-box-side text-dark icon-box-money">
-                            <span class="icon-box-icon icon-money">
-                                <i class="w-icon-money"></i>
-                            </span>
-                            <div class="icon-box-content">
-                                <h4 class="icon-box-title font-weight-bolder">Money Back Guarantee</h4>
-                                <p class="text-default">Any back within 30 days</p>
-                            </div>
-                        </div>
-                        <div class="swiper-slide icon-box icon-box-side text-dark icon-box-chat mt-0">
-                            <span class="icon-box-icon icon-chat">
-                                <i class="w-icon-chat"></i>
-                            </span>
-                            <div class="icon-box-content">
-                                <h4 class="icon-box-title font-weight-bolder">Customer Support</h4>
-                                <p class="text-default">Call or email us 24/7</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End of Iocn Box Wrapper -->
-
-                <div class="title-link-wrapper title-select after-none appear-animate">
-                    <h2 class="title font-secondary font-weight-bolder">Best Deals</h2>
-                    <a href="/store" class="font-weight-bold ls-25">
-                        All Products
-                        <i class="w-icon-long-arrow-right"></i>
-                    </a>
-                </div>
-                <div class="swiper-container swiper-theme select-product-wrapper shadow-swiper appear-animate pb-2 mb-10"
-                    data-swiper-options='{
-                    "spaceBetween": 20,
-                    "slidesPerView": 2,
-                    "breakpoints": {
-                        "768": { "slidesPerView": 3 },
-                        "992": { "slidesPerView": 4 },
-                        "1200": { "slidesPerView": 5 }
-                    }
-                }'>
-                    <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2">
-                        <% bestDeals.forEach(product=> { %>
-                            <div class="swiper-slide product product-image-gap product-simple"
-                                data-product-id="<%= product._id %>" data-has-color="<%= product.hasColorVariants %>"
-                                data-has-size="<%= product.hasSizeVariants %>"
-                                data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
-                                data-product-image="<%= product.images[0] %>"
-                                    data-product-price="<%= product.salePrice || product.basePrice %>">
-
-                                        <figure class="product-media">
-                                            <a href="/product/<%= product._id %>">
-                                                <img src="<%= product.images[0] %>" alt="Product" width="295"
-                                                    height="335" loading="lazy" />
-                                                <% if (product.images[1]) { %>
-                                                    <img src="<%= product.images[1] %>" alt="Product" width="295"
-                                                        height="335" loading="lazy" />
-                                                    <% } %>
-                                            </a>
-                                        </figure>
-
-                                        <div class="product-details">
-                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                            <h4 class="product-name">
-                                                <a href="/product/<%= product._id %>">
-                                                    <%= product.name %>
-                                                </a>
-                                            </h4>
-
-                                            <div class="product-variations flex flex-wrap mb-2">
-                                                <% if (product.hasSizeVariants) { %>
-                                                    <div class="product-size mr-3 d-flex align-items-center">
-                                                        <span class="font-weight-bold mr-1">Size:</span>
-                                                        <div>
-                                                            <% product.sizeVariants.forEach(size=> { %>
-                                                                <span
-                                                                    class="size-option badge badge-light border px-2 py-1 mr-1"
-                                                                    data-size="<%= size.size %>"
-                                                                    data-stock="<%= size.stock %>"
-                                                                    style="cursor:pointer;">
-                                                                    <%= size.size %>
-                                                                </span>
-                                                                <% }) %>
-                                                        </div>
-                                                    </div>
-                                                    <% } %>
-
-                                                        <% if (product.hasColorVariants) { %>
-                                                            <div class="product-color">
-                                                                <span class="font-weight-bold mr-1"></span>
-                                                                <% product.colorVariants.forEach(color=> { %>
-                                                                    <span
-                                                                        class="color-option border rounded-circle d-inline-block mr-1 mb-1"
-                                                                        data-color="<%= color.color %>"
-                                                                        data-stock="<%= color.stock %>"
-                                                                        title="<%= color.color %>"
-                                                                        style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
-                                                                    </span>
-                                                                    <% }) %>
-                                                            </div>
-                                                            <% } %>
-                                            </div>
-
-                                            <div class="selected-variant-info"
-                                                style="min-height:24px;font-size:0.95em;color:#444;">
-                                                <!-- Will be filled by JS -->
-                                            </div>
-
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹<%= product.salePrice || product.basePrice
-                                                            %></ins>
-                                                    <% if (product.salePrice) { %>
-                                                        <del class="old-price">₹<%= product.basePrice %></del>
-                                                        <% } %>
-                                                </div>
-                                                <div class="product-action">
-                                                    <button
-                                                        class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
-                                                        data-product-id="<%= product._id %>"
-                                                        data-has-color="<%= product.hasColorVariants %>"
-                                                        data-has-size="<%= product.hasSizeVariants %>"
-                                                        data-product-name="<%= product.name.replace(/" /g, '&quot;' )
-                                                        %>"
-                                                        data-product-image="<%= product.images[0] %>"
-                                                            data-product-price="<%= product.salePrice ||
-                                                                product.basePrice %>">
-                                                                Add To Cart
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                            </div>
-                            <% }) %>
-                    </div>
-                    <div class="swiper-pagination mt-4"></div>
-                </div>
-
-                <!-- End of Selected Products Wrapper -->
-
-                <div class="banner-wrapper appear-animate row cols-md-2 mb-7">
-                    <% if (bannerThree && bannerThree.length> 0) { %>
-                        <% bannerThree.slice(0, 2).forEach((banner, index)=> { %>
-                            <div class="banner banner-fixed overlay-dark br-sm mt-4">
-                                <figure class="br-sm">
-                                    <img src="<%= banner.image %>" alt="Category Banner" width="680" height="180"
-                                        style="background-color: <%= index === 1 ? '#E5E6E8' : '#565960' %>; object-fit: cover;"
-                                        loading="lazy" />
-                                </figure>
-                                <div class="banner-content y-50">
-                                    <% if (banner.description) { %>
-                                        <h4
-                                            class="banner-price-info font-secondary font-weight-normal mb-0 <%= index === 1 ? 'text-default' : 'text-lighter' %>">
-                                            <%= banner.description %>
-                                        </h4>
-                                        <% } %>
-                                            <% if (banner.title) { %>
-                                                <h2
-                                                    class="banner-title font-secondary <%= index === 1 ? 'text-dark' : 'text-white' %>">
-                                                    <%= banner.title %>
-                                                </h2>
                                                 <% } %>
-                                                    <% if (banner.subtitle) { %>
+                                                    <% if (banner.title) { %>
                                                         <h3
-                                                            class="banner-subtitle font-weight-normal <%= index === 1 ? 'text-default' : 'text-lighter' %>">
-                                                            <%= banner.subtitle %>
+                                                            class="banner-title font-secondary font-weight-bolder ls-25 <%= index === 1 ? 'text-dark' : 'text-white' %>">
+                                                            <%= banner.title %>
                                                         </h3>
                                                         <% } %>
                                                             <% if (banner.link) { %>
                                                                 <a href="<%= banner.link %>"
-                                                                    class="btn btn-sm btn-outline <%= index === 1 ? 'btn-dark' : 'btn-white' %> btn-rounded btn-icon-right slide-animate">
+                                                                    class="btn <%= index === 1 ? 'btn-dark' : 'btn-white' %> btn-link btn-slide-right btn-icon-right btn-infinite">
                                                                     Shop Now
                                                                     <i class="w-icon-long-arrow-right"></i>
                                                                 </a>
                                                                 <% } %>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <% }) %>
-                                <% } %>
+                                <% }) %>
+                                    <% } %>
+                    </div>
                 </div>
-
-                <!-- End of Banner-wrapper -->
-
-                <div class="title-link-wrapper title-deals after-none appear-animate">
-                    <h2 class="title font-secondary mb-1">Deals Of The Day</h2>
-                    <a href="/store" class="font-weight-bold ls-25">
-                        More Products
-                        <i class="w-icon-long-arrow-right"></i>
-                    </a>
-                </div>
-                <div class="swiper-container swiper-theme mb-4 pg-inner animation-slider" data-swiper-options='{
-                    "spaceBetween": 20,
-                    "slidesPerView": 1,
-                    "breakpoints": {
-                        "992": {
-                            "slidesPerView": 2
-                        }
+                <!-- End of Intro-wrapper -->
+                <div class="swiper-container swiper-theme icon-box-wrapper br-sm mt-0 mb-10 appear-animate"
+                data-swiper-options="{
+                'slidesPerView': 1,
+                'breakpoints': {
+                    '576': {
+                        'slidesPerView': 2
+                    },
+                    '992': {
+                        'slidesPerView': 3
+                    },
+                    '1200': {
+                        'slidesPerView': 4
                     }
-                }'>
-                    <div class="swiper-wrapper row cols-lg-2">
-                        <% dealsOfTheDay.forEach(product=> { %>
-                            <div class="swiper-slide product product-list br-sm mb-0"
-                                data-product-id="<%= product._id %>"
-                                data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
-                                data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
-                                data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
-                                data-product-image="<%= product.images[0] %>"
-                                    data-product-price="<%= product.salePrice || product.basePrice %>">
-                                        <figure class="product-media">
+                }}">
+                <div class="py-4">
+                    <h3 class="font-secondary font-weight-bolder mb-3 text-center" style="letter-spacing:1px;">
+                        Our Brand & Sub-Brand
+                    </h3>
+                    <div class="row justify-content-center align-items-center w-100 mx-0">
+                        <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-3 mb-md-0">
+                            <img src="/images/logo.png" alt="Hofmaan Logo" class="img-fluid" style="max-height:60px; width:auto;">
+                           
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center">
+                            <img src="/images/logo-2.png" alt="Blackbuck Logo" class="img-fluid" style="max-height:60px; width:auto;">
+                          
+                    </div>
+                </div>
+            </div>
+            <!-- End of Iocn Box Wrapper -->
+
+            <div class="title-link-wrapper title-select after-none appear-animate">
+                <h2 class="title font-secondary font-weight-bolder">Best Deals</h2>
+                <a href="/store" class="font-weight-bold ls-25">
+                    All Products
+                    <i class="w-icon-long-arrow-right"></i>
+                </a>
+            </div>
+            <div class="swiper-container swiper-theme select-product-wrapper shadow-swiper appear-animate pb-2 mb-10"
+                data-swiper-options='{
+                "spaceBetween": 20,
+                "slidesPerView": 2,
+                "breakpoints": {
+                    "768": { "slidesPerView": 3 },
+                    "992": { "slidesPerView": 4 },
+                    "1200": { "slidesPerView": 5 }
+                }
+            }'>
+                <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2">
+                    <% bestDeals.forEach(product=> { %>
+                        <div class="swiper-slide product product-image-gap product-simple"
+                            data-product-id="<%= product._id %>" data-has-color="<%= product.hasColorVariants %>"
+                            data-has-size="<%= product.hasSizeVariants %>"
+                            data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
+                            data-product-image="<%= product.images[0] %>"
+                                data-product-price="<%= product.salePrice || product.basePrice %>">
+
+                                    <figure class="product-media">
+                                        <a href="/product/<%= product._id %>">
+                                            <img src="<%= product.images[0] %>" alt="Product" width="295"
+                                                height="335" loading="lazy" />
+                                            <% if (product.images[1]) { %>
+                                                <img src="<%= product.images[1] %>" alt="Product" width="295"
+                                                    height="335" loading="lazy" />
+                                                <% } %>
+                                        </a>
+                                    </figure>
+
+                                    <div class="product-details">
+                                        <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                        <h4 class="product-name">
                                             <a href="/product/<%= product._id %>">
-                                                <img src="<%= product.images[0] %>" alt="Product Image" width="315"
-                                                    height="355" loading="lazy">
-                                                <% if (product.images[1]) { %>
-                                                    <img src="<%= product.images[1] %>" alt="Product Image" width="315"
-                                                        height="355" loading="lazy">
-                                                    <% } %>
+                                                <%= product.name %>
                                             </a>
-                                        </figure>
-                                        <div class="product-details">
-                                            <h4 class="product-name">
-                                                <a href="/product/<%= product._id %>">
-                                                    <%= product.name %>
-                                                </a>
-                                            </h4>
-                                            <div class="product-variations flex flex-wrap justify-content-start">
-                                                <% if (product.sizeVariants && product.sizeVariants.length) { %>
-                                                    <div class="product-size mr-3 d-flex align-items-center">
-                                                        <span class="font-weight-bold mr-1">Size:</span>
-                                                        <div>
-                                                            <% product.sizeVariants.forEach(size=> { %>
+                                        </h4>
+
+                                        <div class="product-variations flex flex-wrap mb-2">
+                                            <% if (product.hasSizeVariants) { %>
+                                                <div class="product-size mr-3 d-flex align-items-center">
+                                                    <span class="font-weight-bold mr-1">Size:</span>
+                                                    <div>
+                                                        <% product.sizeVariants.forEach(size=> { %>
+                                                            <span
+                                                                class="size-option badge badge-light border px-2 py-1 mr-1"
+                                                                data-size="<%= size.size %>"
+                                                                data-stock="<%= size.stock %>"
+                                                                style="cursor:pointer;">
+                                                                <%= size.size %>
+                                                            </span>
+                                                            <% }) %>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+
+                                                    <% if (product.hasColorVariants) { %>
+                                                        <div class="product-color">
+                                                            <span class="font-weight-bold mr-1"></span>
+                                                            <% product.colorVariants.forEach(color=> { %>
                                                                 <span
-                                                                    class="size-option badge badge-light border px-2 py-1 mr-1"
-                                                                    data-size="<%= size.size %>"
-                                                                    data-stock="<%= size.stock %>"
-                                                                    style="cursor:pointer;">
-                                                                    <%= size.size %>
+                                                                    class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                                                                    data-color="<%= color.color %>"
+                                                                    data-stock="<%= color.stock %>"
+                                                                    title="<%= color.color %>"
+                                                                    style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
                                                                 </span>
                                                                 <% }) %>
                                                         </div>
-                                                    </div>
-                                                    <% } %>
-                                                        <% if (product.colorVariants && product.colorVariants.length) {
-                                                            %>
-                                                            <div class="product-color">
-                                                                <span class="font-weight-bold mr-1"></span>
-                                                                <% product.colorVariants.forEach(color=> { %>
-                                                                    <span
-                                                                        class="color-option border rounded-circle d-inline-block mr-1 mb-1"
-                                                                        data-color="<%= color.color %>"
-                                                                        data-stock="<%= color.stock %>"
-                                                                        title="<%= color.color %>"
-                                                                        style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
-                                                                    </span>
-                                                                    <% }) %>
-                                                            </div>
-                                                            <% } %>
-                                            </div>
-                                            <div class="selected-variant-info"
-                                                style="min-height:24px;font-size:0.95em;color:#444;">
-                                                <!-- Will be filled by JS -->
-                                            </div>
+                                                        <% } %>
+                                        </div>
+
+                                        <div class="selected-variant-info"
+                                            style="min-height:24px;font-size:0.95em;color:#444;">
+                                            <!-- Will be filled by JS -->
+                                        </div>
+
+                                        <div class="product-pa-wrapper">
                                             <div class="product-price">
-                                                <ins class="new-price">₹<%= product.salePrice || product.basePrice %>
-                                                </ins>
+                                                <ins class="new-price">₹<%= product.salePrice || product.basePrice
+                                                        %></ins>
                                                 <% if (product.salePrice) { %>
                                                     <del class="old-price">₹<%= product.basePrice %></del>
                                                     <% } %>
                                             </div>
-                                            <p class="text-default">
-                                                <%= product.description.substring(0, 100) %>...
-                                            </p>
                                             <div class="product-action">
                                                 <button
                                                     class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
                                                     data-product-id="<%= product._id %>"
-                                                    data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
-                                                    data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
-                                                    data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
+                                                    data-has-color="<%= product.hasColorVariants %>"
+                                                    data-has-size="<%= product.hasSizeVariants %>"
+                                                    data-product-name="<%= product.name.replace(/" /g, '&quot;' )
+                                                    %>"
                                                     data-product-image="<%= product.images[0] %>"
-                                                        data-product-price="<%= product.salePrice || product.basePrice
-                                                            %>">
-                                                            <i class="w-icon-cart"></i>
-                                                            <span>Add to cart</span>
+                                                        data-product-price="<%= product.salePrice ||
+                                                            product.basePrice %>">
+                                                            Add To Cart
                                                 </button>
-                                                <a href="/wishlist/add/<%= product._id %>"
-                                                    class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Add to wishlist"></a>
                                             </div>
                                         </div>
-                            </div>
-                            <% }); %>
-                    </div>
+                                    </div>
+                        </div>
+                        <% }) %>
                 </div>
+                <div class="swiper-pagination mt-4"></div>
+            </div>
 
-                <!-- End of Swiper -->
+            <!-- End of Selected Products Wrapper -->
 
-                <div class="swiper-container swiper-theme mb-8 pg-inner animation-slider" data-swiper-options='{
-                    "spaceBetween": 20,
-                    "slidesPerView": 1,
-                    "breakpoints": {
-                        "576": { "slidesPerView": 2 },
-                        "768": { "slidesPerView": 3 },
-                        "992": { "slidesPerView": 4 }
+            <div class="banner-wrapper appear-animate row cols-md-2 mb-7">
+                <% if (bannerThree && bannerThree.length> 0) { %>
+                    <% bannerThree.slice(0, 2).forEach((banner, index)=> { %>
+                        <div class="banner banner-fixed overlay-dark br-sm mt-4">
+                            <figure class="br-sm">
+                                <img src="<%= banner.image %>" alt="Category Banner" width="680" height="180"
+                                    style="background-color: <%= index === 1 ? '#E5E6E8' : '#565960' %>; object-fit: cover;"
+                                    loading="lazy" />
+                            </figure>
+                            <div class="banner-content y-50">
+                                <% if (banner.description) { %>
+                                    <h4
+                                        class="banner-price-info font-secondary font-weight-normal mb-0 <%= index === 1 ? 'text-default' : 'text-lighter' %>">
+                                        <%= banner.description %>
+                                    </h4>
+                                    <% } %>
+                                        <% if (banner.title) { %>
+                                            <h2
+                                                class="banner-title font-secondary <%= index === 1 ? 'text-dark' : 'text-white' %>">
+                                                <%= banner.title %>
+                                            </h2>
+                                            <% } %>
+                                                <% if (banner.subtitle) { %>
+                                                    <h3
+                                                        class="banner-subtitle font-weight-normal <%= index === 1 ? 'text-default' : 'text-lighter' %>">
+                                                        <%= banner.subtitle %>
+                                                    </h3>
+                                                    <% } %>
+                                                        <% if (banner.link) { %>
+                                                            <a href="<%= banner.link %>"
+                                                                class="btn btn-sm btn-outline <%= index === 1 ? 'btn-dark' : 'btn-white' %> btn-rounded btn-icon-right slide-animate">
+                                                                Shop Now
+                                                                <i class="w-icon-long-arrow-right"></i>
+                                                            </a>
+                                                            <% } %>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } %>
+            </div>
+
+            <!-- End of Banner-wrapper -->
+
+            <div class="title-link-wrapper title-deals after-none appear-animate">
+                <h2 class="title font-secondary mb-1">Deals Of The Day</h2>
+                <a href="/store" class="font-weight-bold ls-25">
+                    More Products
+                    <i class="w-icon-long-arrow-right"></i>
+                </a>
+            </div>
+            <div class="swiper-container swiper-theme mb-4 pg-inner animation-slider" data-swiper-options='{
+                "spaceBetween": 20,
+                "slidesPerView": 1,
+                "breakpoints": {
+                    "992": {
+                        "slidesPerView": 2
                     }
-                }'>
-                    <div class="swiper-wrapper row cols-xl-4 cols-lg-3 cols-sm-2 cols-1">
-                        <% allProducts.forEach(product=> { %>
-                            <div class="swiper-slide">
-                                <div class="product-widget-wrap">
-                                    <div class="product product-widget">
-                                        <figure class="product-media">
+                }
+            }'>
+                <div class="swiper-wrapper row cols-lg-2">
+                    <% dealsOfTheDay.forEach(product=> { %>
+                        <div class="swiper-slide product product-list br-sm mb-0"
+                            data-product-id="<%= product._id %>"
+                            data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
+                            data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
+                            data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
+                            data-product-image="<%= product.images[0] %>"
+                                data-product-price="<%= product.salePrice || product.basePrice %>">
+                                    <figure class="product-media">
+                                        <a href="/product/<%= product._id %>">
+                                            <img src="<%= product.images[0] %>" alt="Product Image" width="315"
+                                                height="355" loading="lazy">
+                                            <% if (product.images[1]) { %>
+                                                <img src="<%= product.images[1] %>" alt="Product Image" width="315"
+                                                    height="355" loading="lazy">
+                                                <% } %>
+                                        </a>
+                                    </figure>
+                                    <div class="product-details">
+                                        <h4 class="product-name">
                                             <a href="/product/<%= product._id %>">
-                                                <img src="<%= product.images[0] || '/images/default.jpg' %>"
-                                                    alt="Product" width="100" height="106">
-                                                <% if (product.images.length> 1) { %>
-                                                    <img src="<%= product.images[1] %>" alt="Product" width="100"
-                                                        height="106">
-                                                    <% } %>
+                                                <%= product.name %>
                                             </a>
-                                        </figure>
-                                        <div class="product-details">
-                                            <h4 class="product-name">
-                                                <a href="/product/<%= product._id %>">
-                                                    <%= product.name %>
-                                                </a>
-                                            </h4>
-                                            <div class="product-price">
-                                                <ins class="new-price">₹<%= product.salePrice || product.basePrice %>
-                                                </ins>
-                                                <% if (product.salePrice && product.salePrice < product.basePrice) { %>
-                                                    <del class="old-price">₹<%= product.basePrice %></del>
-                                                    <% } %>
-                                            </div>
+                                        </h4>
+                                        <div class="product-variations flex flex-wrap justify-content-start">
+                                            <% if (product.sizeVariants && product.sizeVariants.length) { %>
+                                                <div class="product-size mr-3 d-flex align-items-center">
+                                                    <span class="font-weight-bold mr-1">Size:</span>
+                                                    <div>
+                                                        <% product.sizeVariants.forEach(size=> { %>
+                                                            <span
+                                                                class="size-option badge badge-light border px-2 py-1 mr-1"
+                                                                data-size="<%= size.size %>"
+                                                                data-stock="<%= size.stock %>"
+                                                                style="cursor:pointer;">
+                                                                <%= size.size %>
+                                                            </span>
+                                                            <% }) %>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                                    <% if (product.colorVariants && product.colorVariants.length) {
+                                                        %>
+                                                        <div class="product-color">
+                                                            <span class="font-weight-bold mr-1"></span>
+                                                            <% product.colorVariants.forEach(color=> { %>
+                                                                <span
+                                                                    class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                                                                    data-color="<%= color.color %>"
+                                                                    data-stock="<%= color.stock %>"
+                                                                    title="<%= color.color %>"
+                                                                    style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
+                                                                </span>
+                                                                <% }) %>
+                                                        </div>
+                                                        <% } %>
+                                        </div>
+                                        <div class="selected-variant-info"
+                                            style="min-height:24px;font-size:0.95em;color:#444;">
+                                            <!-- Will be filled by JS -->
+                                        </div>
+                                        <div class="product-price">
+                                            <ins class="new-price">₹<%= product.salePrice || product.basePrice %>
+                                            </ins>
+                                            <% if (product.salePrice) { %>
+                                                <del class="old-price">₹<%= product.basePrice %></del>
+                                                <% } %>
+                                        </div>
+                                        <p class="text-default">
+                                            <%= product.description.substring(0, 100) %>...
+                                        </p>
+                                        <div class="product-action">
+                                            <button
+                                                class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
+                                                data-product-id="<%= product._id %>"
+                                                data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
+                                                data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
+                                                data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
+                                                data-product-image="<%= product.images[0] %>"
+                                                    data-product-price="<%= product.salePrice || product.basePrice
+                                                        %>">
+                                                        <i class="w-icon-cart"></i>
+                                                        <span>Add to cart</span>
+                                            </button>
+                                            <a href="/wishlist/add/<%= product._id %>"
+                                                class="btn-product-icon btn-wishlist w-icon-heart"
+                                                title="Add to wishlist"></a>
+                                        </div>
+                                    </div>
+                        </div>
+                        <% }); %>
+                </div>
+            </div>
+
+            <!-- End of Swiper -->
+
+            <div class="swiper-container swiper-theme mb-8 pg-inner animation-slider" data-swiper-options='{
+                "spaceBetween": 20,
+                "slidesPerView": 1,
+                "breakpoints": {
+                    "576": { "slidesPerView": 2 },
+                    "768": { "slidesPerView": 3 },
+                    "992": { "slidesPerView": 4 }
+                }
+            }'>
+                <div class="swiper-wrapper row cols-xl-4 cols-lg-3 cols-sm-2 cols-1">
+                    <% allProducts.forEach(product=> { %>
+                        <div class="swiper-slide">
+                            <div class="product-widget-wrap">
+                                <div class="product product-widget">
+                                    <figure class="product-media">
+                                        <a href="/product/<%= product._id %>">
+                                            <img src="<%= product.images[0] || '/images/default.jpg' %>"
+                                                alt="Product" width="100" height="106">
+                                            <% if (product.images.length> 1) { %>
+                                                <img src="<%= product.images[1] %>" alt="Product" width="100"
+                                                    height="106">
+                                                <% } %>
+                                        </a>
+                                    </figure>
+                                    <div class="product-details">
+                                        <h4 class="product-name">
+                                            <a href="/product/<%= product._id %>">
+                                                <%= product.name %>
+                                            </a>
+                                        </h4>
+                                        <div class="product-price">
+                                            <ins class="new-price">₹<%= product.salePrice || product.basePrice %>
+                                            </ins>
+                                            <% if (product.salePrice && product.salePrice < product.basePrice) { %>
+                                                <del class="old-price">₹<%= product.basePrice %></del>
+                                                <% } %>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <% }) %>
-                    </div>
-                </div>
-
-                <!-- End of Swiper -->
-            </div>
-            <div class="banner banner-fixed purchase-banner appear-animate">
-                <figure class="banner-img">
-                    <img src="/images/demos/demo12/banner/banner-5.jpg" alt="Banner" width="680" height="180"
-                        style="background-color: #342E30;" />
-                </figure>
-                <div class="banner-content text-center x-50 y-50 slide-animate"
-                    data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '15s', 'delay': '3s'}">
-                    <h3 class="banner-subtitle text-white text-uppercase font-secondary font-weight-bold">Today's
-                        Special</h3>
-                    <h2 class="banner-title text-white text-uppercase font-secondary font-weight-bolder mb-2">Trending
-                        Accessories Collection</h2>
-                    <p class="text-lighter font-weight-normal">
-                        Free shipping on clearance orders of ₹120
-                        or more
-                    </p>
-                    <a href="#0" class="btn btn-lg btn-outline btn-white btn-rounded btn-icon-right slide-animate">
-                        Purchase Now
-                        <i class="w-icon-long-arrow-right"></i>
-                    </a>
+                        </div>
+                        <% }) %>
                 </div>
             </div>
-            <!-- End of Banner -->
-            <div class="container">
-                <h2
-                    class="title title-latest-product font-secondary font-weight-bolder justify-content-center ls-normal mt-10 mb-2 pt-1 appear-animate">
-                    All Products
-                </h2>
-                <div class="tab tab-latest-product tab-nav-center tab-nav-underline tab-line-grow appear-animate">
-                    <ul class="nav nav-tabs bb-no justify-content-center" role="tablist">
-                        <li class="nav-item mb-2">
-                            <a class="nav-link active ls-normal" href="#tab1-1" data-container="all-products-container"
-                                data-type="all">All Products</a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a class="nav-link ls-normal" href="#tab1-2" data-container="best-deals-container"
-                                data-type="best-deals">Best Deals</a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a class="nav-link ls-normal" href="#tab1-3" data-container="new-arrivals-container"
-                                data-type="new-arrivals">New Arrivals</a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a class="nav-link ls-normal" href="#tab1-4" data-container="best-seller-container"
-                                data-type="best-seller">Best Seller</a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a class="nav-link ls-normal" href="#tab1-5" data-container="top-rated-container"
-                                data-type="top-rated">Top Rated</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- End of Tab -->
-                <div class="tab-content product-wrapper appear-animate">
-                    <!-- All Products Tab -->
-                    <div class="tab-pane active" id="tab1-1">
-                        <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
-                            data-swiper-options="{
-                          'spaceBetween': 20,
-                          'slidesPerView': 2,
-                          'breakpoints': {
-                            '576': { 'slidesPerView': 2 },
-                            '768': { 'slidesPerView': 3 },
-                            '992': { 'slidesPerView': 4 },
-                            '1200': { 'slidesPerView': 5 }
-                          }
-                        }">
-                            <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
-                                id="all-products-container">
-                                <!-- Products will be loaded here dynamically -->
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Best Deals Tab -->
-                    <div class="tab-pane" id="tab1-2">
-                        <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
-                            data-swiper-options="{
-                          'spaceBetween': 20,
-                          'slidesPerView': 2,
-                          'breakpoints': {
-                            '576': { 'slidesPerView': 2 },
-                            '768': { 'slidesPerView': 3 },
-                            '992': { 'slidesPerView': 4 },
-                            '1200': { 'slidesPerView': 5 }
-                          }
-                        }">
-                            <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
-                                id="best-deals-container">
-                                <!-- Products will be loaded here dynamically -->
-                            </div>
-                        </div>
-                    </div>
+            <!-- End of Swiper -->
+        </div>
 
-                    <!-- New Arrivals Tab -->
-                    <div class="tab-pane" id="tab1-3">
-                        <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
-                            data-swiper-options="{
-                          'spaceBetween': 20,
-                          'slidesPerView': 2,
-                          'breakpoints': {
-                            '576': { 'slidesPerView': 2 },
-                            '768': { 'slidesPerView': 3 },
-                            '992': { 'slidesPerView': 4 },
-                            '1200': { 'slidesPerView': 5 }
-                          }
-                        }">
-                            <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
-                                id="new-arrivals-container">
-                                <!-- Products will be loaded here dynamically -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Best Seller Tab -->
-                    <div class="tab-pane" id="tab1-4">
-                        <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
-                            data-swiper-options="{
-                          'spaceBetween': 20,
-                          'slidesPerView': 2,
-                          'breakpoints': {
-                            '576': { 'slidesPerView': 2 },
-                            '768': { 'slidesPerView': 3 },
-                            '992': { 'slidesPerView': 4 },
-                            '1200': { 'slidesPerView': 5 }
-                          }
-                        }">
-                            <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
-                                id="best-seller-container">
-                                <!-- Products will be loaded here dynamically -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Top Rated Tab -->
-                    <div class="tab-pane" id="tab1-5">
-                        <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
-                            data-swiper-options="{
-                          'spaceBetween': 20,
-                          'slidesPerView': 2,
-                          'breakpoints': {
-                            '576': { 'slidesPerView': 2 },
-                            '768': { 'slidesPerView': 3 },
-                            '992': { 'slidesPerView': 4 },
-                            '1200': { 'slidesPerView': 5 }
-                          }
-                        }">
-                            <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
-                                id="top-rated-container">
-                                <!-- Products will be loaded here dynamically -->
-                            </div>
-                        </div>
+                <div class="banner banner-fixed purchase-banner appear-animate">
+                    <figure class="banner-img">
+                        <img src="/images/demos/demo12/banner/banner-5.jpg" alt="Banner" width="680" height="180"
+                            style="background-color: #342E30;" />
+                    </figure>
+                    <div class="banner-content text-center x-50 y-50 slide-animate"
+                        data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '15s', 'delay': '3s'}">
+                        <h3 class="banner-subtitle text-white text-uppercase font-secondary font-weight-bold">Today's
+                            Special</h3>
+                        <h2 class="banner-title text-white text-uppercase font-secondary font-weight-bolder mb-2">
+                            Trending
+                            Accessories Collection</h2>
+                        <p class="text-lighter font-weight-normal">
+                            Free shipping on clearance orders of ₹120
+                            or more
+                        </p>
+                        <a href="#0" class="btn btn-lg btn-outline btn-white btn-rounded btn-icon-right slide-animate">
+                            Purchase Now
+                            <i class="w-icon-long-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
-                <!-- End of Tab Content -->
+                <!-- End of Banner -->
+                <div class="container">
+                    <h2
+                        class="title title-latest-product font-secondary font-weight-bolder justify-content-center ls-normal mt-10 mb-2 pt-1 appear-animate">
+                        All Products
+                    </h2>
+                    <div class="tab tab-latest-product tab-nav-center tab-nav-underline tab-line-grow appear-animate">
+                        <ul class="nav nav-tabs bb-no justify-content-center" role="tablist">
+                            <li class="nav-item mb-2">
+                                <a class="nav-link active ls-normal" href="#tab1-1"
+                                    data-container="all-products-container" data-type="all">All Products</a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link ls-normal" href="#tab1-2" data-container="best-deals-container"
+                                    data-type="best-deals">Best Deals</a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link ls-normal" href="#tab1-3" data-container="new-arrivals-container"
+                                    data-type="new-arrivals">New Arrivals</a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link ls-normal" href="#tab1-4" data-container="best-seller-container"
+                                    data-type="best-seller">Best Seller</a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link ls-normal" href="#tab1-5" data-container="top-rated-container"
+                                    data-type="top-rated">Top Rated</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- End of Tab -->
+                    <div class="tab-content product-wrapper appear-animate">
+                        <!-- All Products Tab -->
+                        <div class="tab-pane active" id="tab1-1">
+                            <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
+                                data-swiper-options="{
+                          'spaceBetween': 20,
+                          'slidesPerView': 2,
+                          'breakpoints': {
+                            '576': { 'slidesPerView': 2 },
+                            '768': { 'slidesPerView': 3 },
+                            '992': { 'slidesPerView': 4 },
+                            '1200': { 'slidesPerView': 5 }
+                          }
+                        }">
+                                <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
+                                    id="all-products-container">
+                                    <!-- Products will be loaded here dynamically -->
+                                </div>
+                            </div>
+                        </div>
 
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        // Load products for each tab
-                        loadProducts('all', 'all-products-container');
-                        loadProducts('best-deals', 'best-deals-container');
-                        loadProducts('new-arrivals', 'new-arrivals-container');
-                        loadProducts('best-seller', 'best-seller-container');
-                        loadProducts('top-rated', 'top-rated-container');
+                        <!-- Best Deals Tab -->
+                        <div class="tab-pane" id="tab1-2">
+                            <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
+                                data-swiper-options="{
+                          'spaceBetween': 20,
+                          'slidesPerView': 2,
+                          'breakpoints': {
+                            '576': { 'slidesPerView': 2 },
+                            '768': { 'slidesPerView': 3 },
+                            '992': { 'slidesPerView': 4 },
+                            '1200': { 'slidesPerView': 5 }
+                          }
+                        }">
+                                <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
+                                    id="best-deals-container">
+                                    <!-- Products will be loaded here dynamically -->
+                                </div>
+                            </div>
+                        </div>
 
-                        // Tab click handlers
-                        document.querySelectorAll('.nav-tabs a').forEach(tab => {
-                            tab.addEventListener('click', function (e) {
-                                e.preventDefault();
-                                // Activate tab
-                                document.querySelectorAll('.nav-tabs a').forEach(t => t.classList.remove('active'));
-                                this.classList.add('active');
-                                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-                                const tabId = this.getAttribute('href');
-                                const tabPane = document.querySelector(tabId);
-                                if (tabPane) tabPane.classList.add('active');
+                        <!-- New Arrivals Tab -->
+                        <div class="tab-pane" id="tab1-3">
+                            <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
+                                data-swiper-options="{
+                          'spaceBetween': 20,
+                          'slidesPerView': 2,
+                          'breakpoints': {
+                            '576': { 'slidesPerView': 2 },
+                            '768': { 'slidesPerView': 3 },
+                            '992': { 'slidesPerView': 4 },
+                            '1200': { 'slidesPerView': 5 }
+                          }
+                        }">
+                                <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
+                                    id="new-arrivals-container">
+                                    <!-- Products will be loaded here dynamically -->
+                                </div>
+                            </div>
+                        </div>
 
-                                const containerId = this.getAttribute('data-container');
-                                const type = this.getAttribute('data-type');
-                                const container = document.getElementById(containerId);
+                        <!-- Best Seller Tab -->
+                        <div class="tab-pane" id="tab1-4">
+                            <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
+                                data-swiper-options="{
+                          'spaceBetween': 20,
+                          'slidesPerView': 2,
+                          'breakpoints': {
+                            '576': { 'slidesPerView': 2 },
+                            '768': { 'slidesPerView': 3 },
+                            '992': { 'slidesPerView': 4 },
+                            '1200': { 'slidesPerView': 5 }
+                          }
+                        }">
+                                <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
+                                    id="best-seller-container">
+                                    <!-- Products will be loaded here dynamically -->
+                                </div>
+                            </div>
+                        </div>
 
-                                if (container && container.children.length === 0) {
-                                    loadProducts(type, containerId);
-                                }
+                        <!-- Top Rated Tab -->
+                        <div class="tab-pane" id="tab1-5">
+                            <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
+                                data-swiper-options="{
+                          'spaceBetween': 20,
+                          'slidesPerView': 2,
+                          'breakpoints': {
+                            '576': { 'slidesPerView': 2 },
+                            '768': { 'slidesPerView': 3 },
+                            '992': { 'slidesPerView': 4 },
+                            '1200': { 'slidesPerView': 5 }
+                          }
+                        }">
+                                <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
+                                    id="top-rated-container">
+                                    <!-- Products will be loaded here dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of Tab Content -->
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            // Load products for each tab
+                            loadProducts('all', 'all-products-container');
+                            loadProducts('best-deals', 'best-deals-container');
+                            loadProducts('new-arrivals', 'new-arrivals-container');
+                            loadProducts('best-seller', 'best-seller-container');
+                            loadProducts('top-rated', 'top-rated-container');
+
+                            // Tab click handlers
+                            document.querySelectorAll('.nav-tabs a').forEach(tab => {
+                                tab.addEventListener('click', function (e) {
+                                    e.preventDefault();
+                                    // Activate tab
+                                    document.querySelectorAll('.nav-tabs a').forEach(t => t.classList.remove('active'));
+                                    this.classList.add('active');
+                                    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+                                    const tabId = this.getAttribute('href');
+                                    const tabPane = document.querySelector(tabId);
+                                    if (tabPane) tabPane.classList.add('active');
+
+                                    const containerId = this.getAttribute('data-container');
+                                    const type = this.getAttribute('data-type');
+                                    const container = document.getElementById(containerId);
+
+                                    if (container && container.children.length === 0) {
+                                        loadProducts(type, containerId);
+                                    }
+                                });
                             });
                         });
-                    });
 
-                    function loadProducts(type, containerId) {
-                        const container = document.getElementById(containerId);
-                        if (!container) {
-                            console.error('Container not found:', containerId);
-                            return;
+                        function loadProducts(type, containerId) {
+                            const container = document.getElementById(containerId);
+                            if (!container) {
+                                console.error('Container not found:', containerId);
+                                return;
+                            }
+                            fetch(`/product-type/${type}?limit=10`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success && data.products.length > 0) {
+                                        container.innerHTML = '';
+
+                                        data.products.forEach(product => {
+                                            const productElement = createProductElement(product);
+                                            container.appendChild(productElement);
+                                        });
+
+                                        // Find the swiper-container parent
+                                        let swiperContainer = container;
+                                        while (swiperContainer && !swiperContainer.classList.contains('swiper-container')) {
+                                            swiperContainer = swiperContainer.parentElement;
+                                        }
+                                        if (swiperContainer) {
+                                            new Swiper(swiperContainer, {
+                                                spaceBetween: 20,
+                                                slidesPerView: 2,
+                                                breakpoints: {
+                                                    576: { slidesPerView: 2 },
+                                                    768: { slidesPerView: 3 },
+                                                    992: { slidesPerView: 4 },
+                                                    1200: { slidesPerView: 5 }
+                                                }
+                                            });
+                                        }
+                                    }
+                                })
+                                .catch(error => console.error('Error loading products:', error));
                         }
-                        fetch(`/product-type/${type}?limit=10`)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success && data.products.length > 0) {
-                                    container.innerHTML = '';
+                        // Cart functionality
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const selectedVariants = {};
 
-                                    data.products.forEach(product => {
-                                        const productElement = createProductElement(product);
-                                        container.appendChild(productElement);
+                            function updateSelectedVariantInfo(productId) {
+                                const productEl = document.querySelector(`.swiper-slide[data-product-id="${productId}"]`);
+                                if (!productEl) return;
+                                const infoDiv = productEl.querySelector('.selected-variant-info');
+                                if (!infoDiv) return;
+                                const variant = selectedVariants[productId] || {};
+                                let info = '';
+
+                                // Highlight selected size
+                                if (productEl.getAttribute('data-has-size') === 'true') {
+                                    const selectedSize = variant.selectedSize;
+                                    productEl.querySelectorAll('.size-option').forEach(el => {
+                                        if (el.getAttribute('data-size') === selectedSize) {
+                                            el.classList.add('active');
+                                        } else {
+                                            el.classList.remove('active');
+                                        }
+                                    });
+                                    info += selectedSize
+                                        ? `<span class="mr-2"><strong>Size:</strong> <span class="badge badge-success">${selectedSize}</span></span>`
+                                        : `<span class="mr-2 text-danger">Select Size</span>`;
+                                }
+
+                                // Highlight selected color
+                                if (productEl.getAttribute('data-has-color') === 'true') {
+                                    const selectedColor = variant.selectedColor;
+                                    productEl.querySelectorAll('.color-option').forEach(el => {
+                                        if (el.getAttribute('data-color') === selectedColor) {
+                                            el.classList.add('active');
+                                        } else {
+                                            el.classList.remove('active');
+                                        }
+                                    });
+                                    info += selectedColor
+                                        ? `<span class="mr-2"><strong>Color:</strong> <span class="badge badge-success" style="background:${selectedColor};color:#fff;border:1px solid #ccc;">${selectedColor}</span></span>`
+                                        : `<span class="mr-2 text-danger">Select Color</span>`;
+                                }
+
+                                infoDiv.innerHTML = info;
+                            }
+
+                            // Size selection
+                            document.addEventListener('click', function (e) {
+                                if (e.target.classList.contains('size-option')) {
+                                    const el = e.target;
+                                    const productEl = el.closest('.swiper-slide');
+                                    const productId = productEl.getAttribute('data-product-id');
+                                    // Remove active from siblings
+                                    productEl.querySelectorAll('.size-option').forEach(sib => sib.classList.remove('active'));
+                                    el.classList.add('active');
+                                    selectedVariants[productId] = selectedVariants[productId] || {};
+                                    selectedVariants[productId].selectedSize = el.getAttribute('data-size');
+                                    updateSelectedVariantInfo(productId);
+                                }
+                            });
+
+                            // Color selection
+                            document.addEventListener('click', function (e) {
+                                if (e.target.classList.contains('color-option')) {
+                                    const el = e.target;
+                                    const productEl = el.closest('.swiper-slide');
+                                    const productId = productEl.getAttribute('data-product-id');
+                                    // Remove active from siblings
+                                    productEl.querySelectorAll('.color-option').forEach(sib => sib.classList.remove('active'));
+                                    el.classList.add('active');
+                                    selectedVariants[productId] = selectedVariants[productId] || {};
+                                    selectedVariants[productId].selectedColor = el.getAttribute('data-color');
+                                    updateSelectedVariantInfo(productId);
+                                }
+                            });
+
+                            // Add to Cart button
+                            document.addEventListener('click', async function (e) {
+                                if (e.target.classList.contains('add-to-cart-btn')) {
+                                    e.preventDefault();
+                                    const btn = e.target;
+                                    const productId = btn.getAttribute('data-product-id');
+                                    const hasColor = btn.getAttribute('data-has-color') === 'true';
+                                    const hasSize = btn.getAttribute('data-has-size') === 'true';
+                                    const productName = btn.getAttribute('data-product-name');
+                                    const productImage = btn.getAttribute('data-product-image');
+                                    const productPrice = btn.getAttribute('data-product-price') ?
+                                        parseFloat(btn.getAttribute('data-product-price')) : null;
+
+                                    let selectedColor = null;
+                                    let selectedSize = null;
+
+                                    if (hasColor) {
+                                        selectedColor = (selectedVariants[productId] && selectedVariants[productId].selectedColor) || null;
+                                        if (!selectedColor) {
+                                            showToast('Please select a color.', "error");
+                                            updateSelectedVariantInfo(productId);
+                                            return;
+                                        }
+                                    }
+
+                                    if (hasSize) {
+                                        selectedSize = (selectedVariants[productId] && selectedVariants[productId].selectedSize) || null;
+                                        if (!selectedSize) {
+                                            showToast('Please select a size.', "error");
+                                            updateSelectedVariantInfo(productId);
+                                            return;
+                                        }
+                                    }
+
+                                    await addToCart(productId, 1, selectedColor, selectedSize, productName, productImage, productPrice);
+                                }
+                            });
+
+                            // Initialize variant info on new products
+                            const observer = new MutationObserver(function (mutations) {
+                                mutations.forEach(function (mutation) {
+                                    mutation.addedNodes.forEach(function (node) {
+                                        if (node.nodeType === 1 && node.classList && node.classList.contains('swiper-slide')) {
+                                            const productId = node.getAttribute('data-product-id');
+                                            updateSelectedVariantInfo(productId);
+                                        }
+                                    });
+                                });
+                            });
+
+                            // Observe all product containers
+                            document.querySelectorAll('[id$="-container"]').forEach(container => {
+                                observer.observe(container, { childList: true, subtree: true });
+                            });
+                        });
+
+                        function showToast(message, type = "success") {
+                            Toastify({
+                                text: message,
+                                duration: 2500,
+                                close: true,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: type === "success"
+                                    ? "linear-gradient(90deg, #00b09b, #96c93d)"
+                                    : "linear-gradient(90deg, #e74c3c, #c0392b)",
+                                stopOnFocus: true
+                            }).showToast();
+                        }
+
+                        async function addToCart(productId, quantity = 1, selectedColor = null, selectedSize = null, productName = null, productImage = null, productPrice = null) {
+                            const isLoggedIn = window.isLoggedIn === true || window.isLoggedIn === 'true';
+
+                            const item = {
+                                productId,
+                                quantity,
+                                selectedColor,
+                                selectedSize,
+                                productName,
+                                productImage,
+                                price: productPrice
+                            };
+
+                            if (isLoggedIn) {
+                                try {
+                                    const res = await fetch('/add-cart', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        credentials: 'include',
+                                        body: JSON.stringify(item)
                                     });
 
-                                    // Find the swiper-container parent
-                                    let swiperContainer = container;
-                                    while (swiperContainer && !swiperContainer.classList.contains('swiper-container')) {
-                                        swiperContainer = swiperContainer.parentElement;
-                                    }
-                                    if (swiperContainer) {
-                                        new Swiper(swiperContainer, {
-                                            spaceBetween: 20,
-                                            slidesPerView: 2,
-                                            breakpoints: {
-                                                576: { slidesPerView: 2 },
-                                                768: { slidesPerView: 3 },
-                                                992: { slidesPerView: 4 },
-                                                1200: { slidesPerView: 5 }
-                                            }
-                                        });
-                                    }
-                                }
-                            })
-                            .catch(error => console.error('Error loading products:', error));
-                    }
-                    // Cart functionality
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const selectedVariants = {};
-
-                        function updateSelectedVariantInfo(productId) {
-                            const productEl = document.querySelector(`.swiper-slide[data-product-id="${productId}"]`);
-                            if (!productEl) return;
-                            const infoDiv = productEl.querySelector('.selected-variant-info');
-                            if (!infoDiv) return;
-                            const variant = selectedVariants[productId] || {};
-                            let info = '';
-
-                            // Highlight selected size
-                            if (productEl.getAttribute('data-has-size') === 'true') {
-                                const selectedSize = variant.selectedSize;
-                                productEl.querySelectorAll('.size-option').forEach(el => {
-                                    if (el.getAttribute('data-size') === selectedSize) {
-                                        el.classList.add('active');
-                                    } else {
-                                        el.classList.remove('active');
-                                    }
-                                });
-                                info += selectedSize
-                                    ? `<span class="mr-2"><strong>Size:</strong> <span class="badge badge-success">${selectedSize}</span></span>`
-                                    : `<span class="mr-2 text-danger">Select Size</span>`;
-                            }
-
-                            // Highlight selected color
-                            if (productEl.getAttribute('data-has-color') === 'true') {
-                                const selectedColor = variant.selectedColor;
-                                productEl.querySelectorAll('.color-option').forEach(el => {
-                                    if (el.getAttribute('data-color') === selectedColor) {
-                                        el.classList.add('active');
-                                    } else {
-                                        el.classList.remove('active');
-                                    }
-                                });
-                                info += selectedColor
-                                    ? `<span class="mr-2"><strong>Color:</strong> <span class="badge badge-success" style="background:${selectedColor};color:#fff;border:1px solid #ccc;">${selectedColor}</span></span>`
-                                    : `<span class="mr-2 text-danger">Select Color</span>`;
-                            }
-
-                            infoDiv.innerHTML = info;
-                        }
-
-                        // Size selection
-                        document.addEventListener('click', function (e) {
-                            if (e.target.classList.contains('size-option')) {
-                                const el = e.target;
-                                const productEl = el.closest('.swiper-slide');
-                                const productId = productEl.getAttribute('data-product-id');
-                                // Remove active from siblings
-                                productEl.querySelectorAll('.size-option').forEach(sib => sib.classList.remove('active'));
-                                el.classList.add('active');
-                                selectedVariants[productId] = selectedVariants[productId] || {};
-                                selectedVariants[productId].selectedSize = el.getAttribute('data-size');
-                                updateSelectedVariantInfo(productId);
-                            }
-                        });
-
-                        // Color selection
-                        document.addEventListener('click', function (e) {
-                            if (e.target.classList.contains('color-option')) {
-                                const el = e.target;
-                                const productEl = el.closest('.swiper-slide');
-                                const productId = productEl.getAttribute('data-product-id');
-                                // Remove active from siblings
-                                productEl.querySelectorAll('.color-option').forEach(sib => sib.classList.remove('active'));
-                                el.classList.add('active');
-                                selectedVariants[productId] = selectedVariants[productId] || {};
-                                selectedVariants[productId].selectedColor = el.getAttribute('data-color');
-                                updateSelectedVariantInfo(productId);
-                            }
-                        });
-
-                        // Add to Cart button
-                        document.addEventListener('click', async function (e) {
-                            if (e.target.classList.contains('add-to-cart-btn')) {
-                                e.preventDefault();
-                                const btn = e.target;
-                                const productId = btn.getAttribute('data-product-id');
-                                const hasColor = btn.getAttribute('data-has-color') === 'true';
-                                const hasSize = btn.getAttribute('data-has-size') === 'true';
-                                const productName = btn.getAttribute('data-product-name');
-                                const productImage = btn.getAttribute('data-product-image');
-                                const productPrice = btn.getAttribute('data-product-price') ?
-                                    parseFloat(btn.getAttribute('data-product-price')) : null;
-
-                                let selectedColor = null;
-                                let selectedSize = null;
-
-                                if (hasColor) {
-                                    selectedColor = (selectedVariants[productId] && selectedVariants[productId].selectedColor) || null;
-                                    if (!selectedColor) {
-                                        showToast('Please select a color.', "error");
-                                        updateSelectedVariantInfo(productId);
+                                    const data = await res.json();
+                                    if (data.error) {
+                                        showToast(data.error, "error");
                                         return;
                                     }
+
+                                    showToast("Product added to your cart!", "success");
+                                } catch (err) {
+                                    console.error("Error adding to cart:", err);
+                                    showToast("Error adding to cart.", "error");
                                 }
-
-                                if (hasSize) {
-                                    selectedSize = (selectedVariants[productId] && selectedVariants[productId].selectedSize) || null;
-                                    if (!selectedSize) {
-                                        showToast('Please select a size.', "error");
-                                        updateSelectedVariantInfo(productId);
-                                        return;
-                                    }
-                                }
-
-                                await addToCart(productId, 1, selectedColor, selectedSize, productName, productImage, productPrice);
-                            }
-                        });
-
-                        // Initialize variant info on new products
-                        const observer = new MutationObserver(function (mutations) {
-                            mutations.forEach(function (mutation) {
-                                mutation.addedNodes.forEach(function (node) {
-                                    if (node.nodeType === 1 && node.classList && node.classList.contains('swiper-slide')) {
-                                        const productId = node.getAttribute('data-product-id');
-                                        updateSelectedVariantInfo(productId);
-                                    }
-                                });
-                            });
-                        });
-
-                        // Observe all product containers
-                        document.querySelectorAll('[id$="-container"]').forEach(container => {
-                            observer.observe(container, { childList: true, subtree: true });
-                        });
-                    });
-
-                    function showToast(message, type = "success") {
-                        Toastify({
-                            text: message,
-                            duration: 2500,
-                            close: true,
-                            gravity: "top",
-                            position: "right",
-                            backgroundColor: type === "success"
-                                ? "linear-gradient(90deg, #00b09b, #96c93d)"
-                                : "linear-gradient(90deg, #e74c3c, #c0392b)",
-                            stopOnFocus: true
-                        }).showToast();
-                    }
-
-                    async function addToCart(productId, quantity = 1, selectedColor = null, selectedSize = null, productName = null, productImage = null, productPrice = null) {
-                        const isLoggedIn = window.isLoggedIn === true || window.isLoggedIn === 'true';
-
-                        const item = {
-                            productId,
-                            quantity,
-                            selectedColor,
-                            selectedSize,
-                            productName,
-                            productImage,
-                            price: productPrice
-                        };
-
-                        if (isLoggedIn) {
-                            try {
-                                const res = await fetch('/add-cart', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    credentials: 'include',
-                                    body: JSON.stringify(item)
-                                });
-
-                                const data = await res.json();
-                                if (data.error) {
-                                    showToast(data.error, "error");
-                                    return;
-                                }
-
-                                showToast("Product added to your cart!", "success");
-                            } catch (err) {
-                                console.error("Error adding to cart:", err);
-                                showToast("Error adding to cart.", "error");
-                            }
-                        } else {
-                            let guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
-
-                            const exists = guestCart.find(p =>
-                                p.productId === item.productId &&
-                                p.selectedColor === item.selectedColor &&
-                                p.selectedSize === item.selectedSize
-                            );
-
-                            if (exists) {
-                                exists.quantity += item.quantity;
                             } else {
-                                guestCart.push(item);
+                                let guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+
+                                const exists = guestCart.find(p =>
+                                    p.productId === item.productId &&
+                                    p.selectedColor === item.selectedColor &&
+                                    p.selectedSize === item.selectedSize
+                                );
+
+                                if (exists) {
+                                    exists.quantity += item.quantity;
+                                } else {
+                                    guestCart.push(item);
+                                }
+
+                                localStorage.setItem('guestCart', JSON.stringify(guestCart));
+                                showToast("Product added to guest cart!", "success");
                             }
-
-                            localStorage.setItem('guestCart', JSON.stringify(guestCart));
-                            showToast("Product added to guest cart!", "success");
                         }
-                    }
 
-                    function createProductElement(product) {
-                        // Determine price display
-                        const priceHtml = product.salePrice > 0
-                            ? `<ins class="new-price">₹${product.salePrice.toFixed(2)}</ins><del class="old-price">₹${product.basePrice.toFixed(2)}</del>`
-                            : `<ins class="new-price">₹${product.basePrice.toFixed(2)}</ins>`;
+                        function createProductElement(product) {
+                            // Determine price display
+                            const priceHtml = product.salePrice > 0
+                                ? `<ins class="new-price">₹${product.salePrice.toFixed(2)}</ins><del class="old-price">₹${product.basePrice.toFixed(2)}</del>`
+                                : `<ins class="new-price">₹${product.basePrice.toFixed(2)}</ins>`;
 
-                        // Create size options if available
-                        let sizeOptions = '';
-                        if (product.hasSizeVariants && product.sizeVariants) {
-                            sizeOptions = product.sizeVariants.map(size =>
-                                `<span class="size-option badge badge-light border px-2 py-1 mr-1"
+                            // Create size options if available
+                            let sizeOptions = '';
+                            if (product.hasSizeVariants && product.sizeVariants) {
+                                sizeOptions = product.sizeVariants.map(size =>
+                                    `<span class="size-option badge badge-light border px-2 py-1 mr-1"
                   data-size="${size.size}"
                   data-stock="${size.stock}"
                   style="cursor:pointer;">
                ${size.size}
              </span>`
-                            ).join('');
-                        }
+                                ).join('');
+                            }
 
-                        // Create color options if available
-                        let colorOptions = '';
-                        if (product.hasColorVariants && product.colorVariants) {
-                            colorOptions = product.colorVariants.map(color =>
-                                `<span class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                            // Create color options if available
+                            let colorOptions = '';
+                            if (product.hasColorVariants && product.colorVariants) {
+                                colorOptions = product.colorVariants.map(color =>
+                                    `<span class="color-option border rounded-circle d-inline-block mr-1 mb-1"
                   data-color="${color.color}"
                   data-stock="${color.stock}"
                   title="${color.color}"
                   style="width:22px;height:22px;cursor:pointer;background:${color.color};border:2px solid #eee;">
              </span>`
-                            ).join('');
-                        }
+                                ).join('');
+                            }
 
-                        // Main product HTML
-                        return document.createRange().createContextualFragment(`
+                            // Main product HTML
+                            return document.createRange().createContextualFragment(`
         <div class="swiper-slide product product-image-gap product-simple"
             data-product-id="${product._id}"
             data-has-color="${product.hasColorVariants}"
@@ -1272,10 +1254,10 @@
             <figure class="product-media">
                 <a href="/product/${product._id}">
                     ${product.images && product.images[0] ?
-                                `<img src="${product.images[0]}" alt="${product.name}" width="295" height="335" />` :
-                                '<img src="/images/placeholder-product.jpg" alt="Product" width="295" height="335" />'}
+                                    `<img src="${product.images[0]}" alt="${product.name}" width="295" height="335" />` :
+                                    '<img src="/images/placeholder-product.jpg" alt="Product" width="295" height="335" />'}
                     ${product.images && product.images[1] ?
-                                `<img src="${product.images[1]}" alt="${product.name}" width="295" height="335" />` : ''}
+                                    `<img src="${product.images[1]}" alt="${product.name}" width="295" height="335" />` : ''}
                 </a>
             </figure>
 
@@ -1316,18 +1298,18 @@
             </div>
         </div>
     `);
-                    }
-                </script>
+                        }
+                    </script>
 
-                <div class="title-link-wrapper title-post after-none mb-4 appear-animate">
-                    <h2 class="title font-secondary ls-normal mb-0">From Our Blog</h2>
-                    <a href="blog-listing.html" class="font-weight-bold font-size-normal mb-0">
-                        View All Articles
-                        <i class="w-icon-long-arrow-right"></i>
-                    </a>
-                </div>
-                <div class="swiper-container swiper-theme post-wrapper pb-2 pb-lg-0 mb-5 appear-animate"
-                    data-swiper-options="{
+                    <div class="title-link-wrapper title-post after-none mb-4 appear-animate">
+                        <h2 class="title font-secondary ls-normal mb-0">From Our Blog</h2>
+                        <a href="blog-listing.html" class="font-weight-bold font-size-normal mb-0">
+                            View All Articles
+                            <i class="w-icon-long-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="swiper-container swiper-theme post-wrapper pb-2 pb-lg-0 mb-5 appear-animate"
+                        data-swiper-options="{
                     'slidesPerView': 1,
                     'spaceBetween': 20,
                     'breakpoints': {
@@ -1343,85 +1325,88 @@
                         }
                     }
                 }">
-                    <div class="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1">
+                        <div class="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1">
 
-                        <div class="swiper-slide post text-center overlay-zoom">
-                            <figure class="post-media br-sm">
-                                <a href="post-single.html">
-                                    <img src="/images/demos/demo12/blog/blog-1-650x440.jpg" alt="Post" width="325"
-                                        height="214" style="background-color: #b8bfc4;" />
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date mr-0">April 2, 2025</a>
+                            <div class="swiper-slide post text-center overlay-zoom">
+                                <figure class="post-media br-sm">
+                                    <a href="post-single.html">
+                                        <img src="/images/demos/demo12/blog/blog-1-650x440.jpg" alt="Post" width="325"
+                                            height="214" style="background-color: #b8bfc4;" />
+                                    </a>
+                                </figure>
+                                <div class="post-details">
+                                    <div class="post-meta">
+                                        by <a href="#" class="post-author">John Doe</a>
+                                        - <a href="#" class="post-date mr-0">April 2, 2025</a>
+                                    </div>
+                                    <h4 class="post-title"><a href="post-single.html">Aliquam tincidunt maurisus</a>
+                                    </h4>
+                                    <a href="post-single.html" class="btn btn-link btn-dark btn-underline">
+                                        Read More
+                                        <i class="w-icon-long-arrow-right"></i>
+                                    </a>
                                 </div>
-                                <h4 class="post-title"><a href="post-single.html">Aliquam tincidunt maurisus</a></h4>
-                                <a href="post-single.html" class="btn btn-link btn-dark btn-underline">
-                                    Read More
-                                    <i class="w-icon-long-arrow-right"></i>
-                                </a>
+                            </div>
+                            <div class="swiper-slide post text-center overlay-zoom">
+                                <figure class="post-media br-sm">
+                                    <a href="post-single.html">
+                                        <img src="/images/demos/demo12/blog/blog-2-650x440.jpg" alt="Post" width="325"
+                                            height="214" style="background-color: #596066;" />
+                                    </a>
+                                </figure>
+                                <div class="post-details">
+                                    <div class="post-meta">
+                                        by <a href="#" class="post-author">John Doe</a>
+                                        - <a href="#" class="post-date mr-0">April 2, 2025</a>
+                                    </div>
+                                    <h4 class="post-title"><a href="post-single.html">Vivamus Vestibulum Ntulla Nec
+                                            Ante</a>
+                                    </h4>
+                                    <a href="post-single.html" class="btn btn-link btn-dark btn-underline">Read More<i
+                                            class="w-icon-long-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide post text-center overlay-zoom">
+                                <figure class="post-media br-sm">
+                                    <a href="post-single.html">
+                                        <img src="/images/demos/demo12/blog/blog-3-650x440.jpg" alt="Post" width="325"
+                                            height="214" style="background-color: #eff3f4;" />
+                                    </a>
+                                </figure>
+                                <div class="post-details">
+                                    <div class="post-meta">
+                                        by <a href="#" class="post-author">John Doe</a>
+                                        - <a href="#" class="post-date mr-0">April 2, 2025</a>
+                                    </div>
+                                    <h4 class="post-title"><a href="post-single.html">Ligula sollicitudin Laoreet
+                                            viverra</a></h4>
+                                    <a href="post-single.html" class="btn btn-link btn-dark btn-underline">Read More<i
+                                            class="w-icon-long-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide post text-center overlay-zoom">
+                                <figure class="post-media br-sm">
+                                    <a href="post-single.html">
+                                        <img src="/images/demos/demo12/blog/blog-4-650x440.jpg" alt="Post" width="325"
+                                            height="214" style="background-color: #68605e;" />
+                                    </a>
+                                </figure>
+                                <div class="post-details">
+                                    <div class="post-meta">
+                                        by <a href="#" class="post-author">John Doe</a>
+                                        - <a href="#" class="post-date mr-0">April 2, 2025</a>
+                                    </div>
+                                    <h4 class="post-title"><a href="post-single.html">Cras Ornare Tristique Elit</a>
+                                    </h4>
+                                    <a href="post-single.html" class="btn btn-link btn-dark btn-underline">Read More<i
+                                            class="w-icon-long-arrow-right"></i></a>
+                                </div>
                             </div>
                         </div>
-                        <div class="swiper-slide post text-center overlay-zoom">
-                            <figure class="post-media br-sm">
-                                <a href="post-single.html">
-                                    <img src="/images/demos/demo12/blog/blog-2-650x440.jpg" alt="Post" width="325"
-                                        height="214" style="background-color: #596066;" />
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date mr-0">April 2, 2025</a>
-                                </div>
-                                <h4 class="post-title"><a href="post-single.html">Vivamus Vestibulum Ntulla Nec Ante</a>
-                                </h4>
-                                <a href="post-single.html" class="btn btn-link btn-dark btn-underline">Read More<i
-                                        class="w-icon-long-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide post text-center overlay-zoom">
-                            <figure class="post-media br-sm">
-                                <a href="post-single.html">
-                                    <img src="/images/demos/demo12/blog/blog-3-650x440.jpg" alt="Post" width="325"
-                                        height="214" style="background-color: #eff3f4;" />
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date mr-0">April 2, 2025</a>
-                                </div>
-                                <h4 class="post-title"><a href="post-single.html">Ligula sollicitudin Laoreet
-                                        viverra</a></h4>
-                                <a href="post-single.html" class="btn btn-link btn-dark btn-underline">Read More<i
-                                        class="w-icon-long-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide post text-center overlay-zoom">
-                            <figure class="post-media br-sm">
-                                <a href="post-single.html">
-                                    <img src="/images/demos/demo12/blog/blog-4-650x440.jpg" alt="Post" width="325"
-                                        height="214" style="background-color: #68605e;" />
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date mr-0">April 2, 2025</a>
-                                </div>
-                                <h4 class="post-title"><a href="post-single.html">Cras Ornare Tristique Elit</a></h4>
-                                <a href="post-single.html" class="btn btn-link btn-dark btn-underline">Read More<i
-                                        class="w-icon-long-arrow-right"></i></a>
-                            </div>
-                        </div>
+                        <div class="swiper-pagination mt-2"></div>
                     </div>
-                    <div class="swiper-pagination mt-2"></div>
                 </div>
-            </div>
-            <!-- End of Container -->
+                <!-- End of Container -->
 
         </main>
         <!-- End of Main -->

@@ -62,9 +62,15 @@
                         <a href="/store" class="d-lg-show">Store</a>
                         <a href="/about" class="d-lg-show">About Us</a>
                         <a href="/contact" class="d-lg-show">Contact Us</a>
-                        <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
-                        <span class="delimiter d-lg-show">/</span>
-                        <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
+                        <% if (user) { %>
+                            <a href="/account" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <span class="delimiter d-lg-show">/</span>
+                            <a href="/orders" class="ml-0 d-lg-show">My Orders</a>
+                            <% } else { %>
+                                <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
+                                <span class="delimiter d-lg-show">/</span>
+                                <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
+                                <% } %>
                     </div>
                 </div>
             </div>
@@ -95,13 +101,13 @@
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
                             </div>
                         </div>
-                        <a class="wishlist label-down link d-xs-show" href="wishlist.html">
+                        <a class="wishlist label-down link d-xs-show" href="/wishlist">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
                         </a>
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
-                            <a href="#" class="cart-toggle label-down link">
+                            <a href="/cart" class="cart-toggle label-down link">
                                 <i class="w-icon-cart">
                                     <span class="cart-count text-white">2</span>
                                 </i>
@@ -160,8 +166,8 @@
                                     <span class="price">₹58.67</span>
                                 </div>
                                 <div class="cart-action">
-                                    <a href="cart.html" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-                                    <a href="checkout.html" class="btn btn-primary  btn-rounded">Checkout</a>
+                                    <a href="/cart" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
+                                    <a href="/checkout" class="btn btn-primary  btn-rounded">Checkout</a>
                                 </div>
                             </div>
                             <!-- End of Dropdown Box -->
@@ -207,7 +213,7 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="sign-in">
-                                    <form action="/auth/login" method="POST">
+                                    <form id="loginForm" onsubmit="return handleLogin(event)">
                                         <div class="form-group">
                                             <label>Email address *</label>
                                             <input type="email" class="form-control" name="email" id="loginEmail"
@@ -253,13 +259,80 @@
                             </div>
                             <p class="text-center">Sign in with social account</p>
                             <div class="social-icons social-icon-border-color d-flex justify-content-center">
-                                <a href="/auth/google" class="social-icon social-google fab fa-google"></a>
+                                <a href="#" class="social-icon social-google fab fa-google"
+                                    onclick="handleGoogleLogin(event)"></a>
                             </div>
                         </div>
                     </div>
+
                     <script>
+                        // Helper function to show toast messages using Toastify
+                        function showToast(message, type) {
+                            Toastify({
+                                text: message,
+                                duration: 3000,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: type === "success" ? "#4CAF50" : "#ff0000",
+                            }).showToast();
+                        }
+
                         let registrationData = {};
                         let otpCountdown;
+                        async function handleLogin(event) {
+                            event.preventDefault();
+
+                            const email = document.getElementById('loginEmail').value;
+                            const password = document.getElementById('loginPassword').value;
+
+                            // Get guestCart from localStorage
+                            const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+
+                            try {
+                                const response = await fetch('/auth/login', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        email,
+                                        password,
+                                        guestCart // Send guest cart to server
+                                    })
+                                });
+
+                                if (!response.ok) {
+                                    const error = await response.json();
+                                    throw new Error(error.message || 'Login failed');
+                                }
+
+                                // Clear guest cart on successful login
+                                localStorage.removeItem('guestCart');
+
+                                showToast("Login successful!", "success");
+                                window.location.href = '/';
+                            } catch (err) {
+                                showToast(err.message, "error");
+                            }
+                        }
+
+                        function handleGoogleLogin(event) {
+                            event.preventDefault();
+
+                            const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+                            const encodedCart = encodeURIComponent(JSON.stringify(guestCart));
+
+                            // Save cart to server session before redirecting
+                            fetch('/auth/store-guest-cart', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ guestCart })
+                            }).then(() => {
+                                window.location.href = `/auth/google?guestCart=${encodedCart}`;
+                            });
+                        }
 
                         async function handleRegistration(event) {
                             event.preventDefault();
@@ -312,13 +385,7 @@
     `;
                                 startCountdown();
                             } catch (err) {
-                                Toastify({
-                                    text: err.message,
-                                    duration: 3000,
-                                    gravity: "top",
-                                    position: "right",
-                                    backgroundColor: "#ff0000",
-                                }).showToast();
+                                showToast(err.message, "error");
                             }
                         }
 
@@ -354,22 +421,10 @@
                                     throw new Error(registerResult.message || 'Registration failed');
                                 }
 
-                                Toastify({
-                                    text: "Registration successful!",
-                                    duration: 3000,
-                                    gravity: "top",
-                                    position: "right",
-                                    backgroundColor: "#4CAF50",
-                                }).showToast();
+                                showToast("Registration successful!", "success");
                                 window.location.href = '/auth/login';
                             } catch (err) {
-                                Toastify({
-                                    text: err.message,
-                                    duration: 3000,
-                                    gravity: "top",
-                                    position: "right",
-                                    backgroundColor: "#ff0000",
-                                }).showToast();
+                                showToast(err.message, "error");
                             }
                         }
 
@@ -386,32 +441,14 @@
                                 });
 
                                 if (response.ok) {
-                                    Toastify({
-                                        text: "OTP resent successfully",
-                                        duration: 3000,
-                                        gravity: "top",
-                                        position: "right",
-                                        backgroundColor: "#4CAF50",
-                                    }).showToast();
+                                    showToast("OTP resent successfully", "success");
                                     startCountdown();
                                 } else {
                                     const error = await response.text();
-                                    Toastify({
-                                        text: error || 'Failed to resend OTP',
-                                        duration: 3000,
-                                        gravity: "top",
-                                        position: "right",
-                                        backgroundColor: "#ff0000",
-                                    }).showToast();
+                                    showToast(error || 'Failed to resend OTP', "error");
                                 }
                             } catch (err) {
-                                Toastify({
-                                    text: "Failed to resend OTP",
-                                    duration: 3000,
-                                    gravity: "top",
-                                    position: "right",
-                                    backgroundColor: "#ff0000",
-                                }).showToast();
+                                showToast("Failed to resend OTP", "error");
                             }
                         }
 
@@ -1118,9 +1155,10 @@
         </div>
     </div>
     <!-- End of Mobile Menu -->
-
+  
+      
     <!-- Plugin JS File -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
     <script src="/js/main.min.js"></script>

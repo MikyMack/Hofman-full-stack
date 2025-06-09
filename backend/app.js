@@ -12,6 +12,7 @@ const publicRoutes = require('./routes/publicRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const apiRoutes = require('./routes/apiRoutes');
 const cuponRoutes = require('./routes/couponRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 const app = express();
 
@@ -60,6 +61,7 @@ app.use('/', publicRoutes);
 app.use('/', adminRoutes);
 app.use('/', apiRoutes); 
 app.use('/', cuponRoutes); 
+app.use('/', cartRoutes); 
 
 
 app.use((req, res, next) => {

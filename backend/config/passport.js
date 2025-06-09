@@ -6,8 +6,9 @@ require('dotenv').config();
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_SECRET,
-  callbackURL: '/auth/google/callback'
-}, async (accessToken, refreshToken, profile, done) => {
+  callbackURL: '/auth/google/callback',
+  passReqToCallback: true  // 🔥 Add this
+}, async (req, accessToken, refreshToken, profile, done) => {
   try {
     const existing = await User.findOne({ googleId: profile.id });
     if (existing) return done(null, existing);
@@ -22,6 +23,7 @@ passport.use(new GoogleStrategy({
     done(err, null);
   }
 }));
+
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser((id, done) =>

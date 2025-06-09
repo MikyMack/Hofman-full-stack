@@ -10,13 +10,39 @@ router.post('/auth/login', auth.login);
 router.post('/auth/admin-login', auth.adminLogin);
 router.post('/auth/send-otp', auth.sendOtpLogin);
 router.post('/auth/verify-otp', auth.verifyOtpRegister);
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-router.get('/auth/google/callback', passport.authenticate('google', {
-  failureRedirect: '/auth/login'
-}), (req, res) => {
-  req.session.user = req.user;
-  res.redirect('/');
+router.post('/auth/store-guest-cart', auth.storeGuestCart);
+router.get('/auth/google', (req, res, next) => {
+  const guestCart = req.query.guestCart;
+  const state = guestCart ? encodeURIComponent(guestCart) : '';
+  
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    state: state
+  })(req, res, next);
 });
+router.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/auth/login' }),
+  async (req, res) => {
+    req.session.user = req.user;
+
+    // Extract guestCart from state
+    let guestCart = [];
+    if (req.query.state) {
+      try {
+        guestCart = JSON.parse(decodeURIComponent(req.query.state));
+      } catch (err) {
+        // Do nothing if parsing fails
+      }
+    }
+
+    if (guestCart.length > 0) {
+      await auth.mergeGuestCartToUserCart(req, req.user._id, guestCart);
+    }
+
+    res.redirect('/?googleLogin=true');
+  }
+);
+
 
 router.get('/auth/login', (req, res) => {
   res.render('user/login', {

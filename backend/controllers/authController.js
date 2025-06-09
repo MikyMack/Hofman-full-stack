@@ -1,7 +1,59 @@
 const User = require('../models/User');
+const Cart = require('../models/Cart');
+const Product = require('../models/Product');
 const bcrypt = require('bcrypt');
 const sendOtp = require('../utils/sendOtp');
 const crypto = require('crypto');
+
+
+exports.mergeGuestCartToUserCart = async function(req, userId, guestCart = []) {
+  if (!guestCart || guestCart.length === 0) return;
+
+  try {
+    // Find or create user's cart
+    let userCart = await Cart.findOne({ user: userId }) || 
+                  new Cart({ user: userId, items: [] });
+    for (const guestItem of guestCart) {
+
+      const productFromDb = await Product.findById(guestItem.productId);
+      if (!productFromDb) continue; // skip if product not found
+
+      const existingItem = userCart.items.find(item =>
+        item.product.toString() === guestItem.productId &&
+        item.selectedColor === guestItem.selectedColor &&
+        item.selectedSize === guestItem.selectedSize
+      );
+
+      if (existingItem) {
+        existingItem.quantity += guestItem.quantity;
+      } else {
+        userCart.items.push({
+          product: guestItem.productId,
+          quantity: guestItem.quantity,
+          selectedColor: guestItem.selectedColor,
+          selectedSize: guestItem.selectedSize,
+          price: productFromDb.salePrice,
+          productName: productFromDb.name || guestItem.productName,
+          productImage: productFromDb.images[0] || guestItem.productImage
+        });
+      }
+    }
+
+    // Recalculate totals and save
+    userCart.recalculateTotals();
+    await userCart.save();
+
+  } catch (err) {
+    console.error('Error merging carts:', err);
+    throw err;
+  }
+};
+
+exports.storeGuestCart = (req, res) => {
+  req.session.guestCart = req.body.guestCart;
+  res.sendStatus(200);
+};
+
 
 
 // Register user
@@ -37,25 +89,43 @@ exports.register = async (req, res) => {
   };
   
 
-// Login user with email & password
-exports.login = async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      req.flash('error', 'Invalid email or password');
-      return res.redirect('/auth/login');
+  exports.login = async (req, res) => {
+    const { email, password, guestCart } = req.body;
+  
+    try {
+      const user = await User.findOne({ email });
+      if (!user || !(await bcrypt.compare(password, user.password))) {
+        req.flash('error', 'Invalid email or password');
+        return res.redirect('/auth/login');
+      }
+  
+      req.session.user = user;
+      
+      // Merge both session guest cart and localStorage guest cart
+      const sessionGuestCart = req.session.guestCart || [];
+      const localStorageGuestCart = guestCart || [];
+      const combinedGuestCart = [...sessionGuestCart, ...localStorageGuestCart];
+      
+      if (combinedGuestCart.length > 0) {
+        await this.mergeGuestCartToUserCart(req, user._id, combinedGuestCart);
+      }
+      
+      // Clear all guest cart data
+      req.session.guestCart = [];
+      if (req.session.guestCartId) {
+        await Cart.deleteOne({ sessionId: req.session.guestCartId });
+        delete req.session.guestCartId;
+      }
+      
+      res.redirect(user.role === 'admin' ? '/admin/dashboard' : '/');
+    } catch (err) {
+      console.error(err);
+      req.flash('error', 'Login failed');
+      res.redirect('/auth/login');
     }
+  };
 
-    req.session.user = user;
-    res.redirect(user.role === 'admin' ? '/admin/dashboard' : '/');
-  } catch (err) {
-    console.error(err);
-    req.flash('error', 'Login failed');
-    res.redirect('/auth/login');
-  }
-};
+
 
 // Send OTP for login
 exports.sendOtpLogin = async (req, res) => {

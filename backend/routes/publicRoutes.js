@@ -5,6 +5,7 @@ const Product = require('../models/Product');
 const MainBanner = require('../models/MainBanner');
 const BannerTwo = require('../models/BannerTwo');
 const BannerThree = require('../models/BannerThree');
+const Cart = require('../models/Cart');
 
 
 router.get('/', async (req, res) => {
@@ -25,6 +26,12 @@ router.get('/', async (req, res) => {
         const bestSeller = await Product.find({ isActive: true, bestSeller: true }).sort({ createdAt: -1 }).limit(10).lean();
         const topRated = await Product.find({ isActive: true, topRated: true }).sort({ createdAt: -1 }).limit(10).lean();
 
+        // Fetch cart items for the logged-in user
+        let cart = null;
+        if (req.user) {
+            cart = await Cart.findOne({ user: req.user._id }).lean();
+        }
+        
         res.render('user/home', {
             user: req.user || null,
             categories,
@@ -36,8 +43,11 @@ router.get('/', async (req, res) => {
             dealsOfTheDay,
             newArrivals,
             bestSeller,
-            topRated
+            topRated,
+            cartItems: cart?.items || [],
+            cartSubtotal: cart?.subtotal || 0
         });
+        
     } catch (err) {
         console.error('Error fetching homepage data:', err);
         res.render('user/home', {
@@ -51,18 +61,19 @@ router.get('/', async (req, res) => {
             dealsOfTheDay: [],
             newArrivals: [],
             bestSeller: [],
-            topRated: []
+            topRated: [],
+            cartItems:[]
         });
     }
 });
 
-  
+
 router.get('/about', (req, res) => {
     res.render('user/about', { user: req.user || null });
-}); 
+});
 router.get('/store', (req, res) => {
     res.render('user/store', { user: req.user || null });
-}); 
+});
 router.get('/product/:id', async (req, res) => {
     try {
         const productId = req.params.id;
@@ -72,11 +83,11 @@ router.get('/product/:id', async (req, res) => {
             .lean();
 
         if (!product) {
-            return res.status(404).render('user/product-details', { 
-                user: req.user || null, 
-                product: null, 
-                relatedProducts: [], 
-                category: null 
+            return res.status(404).render('user/product-details', {
+                user: req.user || null,
+                product: null,
+                relatedProducts: [],
+                category: null
             });
         }
 
@@ -85,60 +96,60 @@ router.get('/product/:id', async (req, res) => {
 
         let relatedProducts = [];
         if (category && category._id) {
-            relatedProducts = await Product.find({ 
-                _id: { $ne: product._id }, 
-                category: category._id, 
-                isActive: true 
+            relatedProducts = await Product.find({
+                _id: { $ne: product._id },
+                category: category._id,
+                isActive: true
             })
-            .limit(10)
-            .lean();
+                .limit(10)
+                .lean();
         }
 
-        res.render('user/product-details', { 
-            user: req.user || null, 
-            product, 
-            relatedProducts, 
-            category 
+        res.render('user/product-details', {
+            user: req.user || null,
+            product,
+            relatedProducts,
+            category
         });
     } catch (err) {
         console.error('Error fetching product details:', err);
-        res.status(500).render('user/product-details', { 
-            user: req.user || null, 
-            product: null, 
-            relatedProducts: [], 
-            category: null 
+        res.status(500).render('user/product-details', {
+            user: req.user || null,
+            product: null,
+            relatedProducts: [],
+            category: null
         });
     }
-}); 
+});
 router.get('/contact', (req, res) => {
     res.render('user/contact', { user: req.user || null });
-}); 
+});
 router.get('/account', (req, res) => {
     res.render('user/account', { user: req.user || null });
-}); 
+});
 router.get('/orders', (req, res) => {
     res.render('user/orders', { user: req.user || null });
-}); 
+});
 router.get('/cart', (req, res) => {
     res.render('user/cart', { user: req.user || null });
-}); 
+});
 router.get('/wishlist', (req, res) => {
     res.render('user/wishlist', { user: req.user || null });
-}); 
+});
 router.get('/checkout', (req, res) => {
     res.render('user/checkout', { user: req.user || null });
-}); 
+});
 router.get('/privacy', (req, res) => {
     res.render('user/privacy', { user: req.user || null });
-}); 
+});
 router.get('/terms-and-conditions', (req, res) => {
     res.render('user/terms-conditions', { user: req.user || null });
-}); 
+});
 router.get('/blogs', (req, res) => {
     res.render('user/blogs', { user: req.user || null });
-}); 
+});
 router.get('/blogs/:id', (req, res) => {
     res.render('user/blogDetails', { user: req.user || null });
-}); 
+});
 
 module.exports = router;

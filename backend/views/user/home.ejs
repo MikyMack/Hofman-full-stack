@@ -115,6 +115,24 @@
                                     <span class="cart-count text-white">
                                         <% if (user) { %>
                                             <%= cartItems && cartItems.length ? cartItems.length : " " %>
+                                        <% } else { %>
+                                            <span id="guest-cart-count"></span>
+                                            <script>
+                                                document.addEventListener('DOMContentLoaded', function() {
+                                                    var guestCartCount = document.getElementById('guest-cart-count');
+                                                    var guestCart = localStorage.getItem('guestCart');
+                                                    var count = 0;
+                                                    if (guestCart) {
+                                                        try {
+                                                            var cartArr = JSON.parse(guestCart);
+                                                            if (Array.isArray(cartArr)) {
+                                                                count = cartArr.length;
+                                                            }
+                                                        } catch (e) {}
+                                                    }
+                                                    guestCartCount.textContent = count > 0 ? count : " ";
+                                                });
+                                            </script>
                                         <% } %>
                                     </span>
                                 </i>

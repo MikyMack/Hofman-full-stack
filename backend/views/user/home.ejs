@@ -48,6 +48,24 @@
     <link rel="stylesheet" type="text/css" href="/css/demo12.min.css">
     <link rel="stylesheet" type="text/css" href="/css/style.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <style>
+        /* Highlight selected size */
+        .size-option.active,
+        .size-option.selected {
+            background: #001F3F !important;
+            color: #fff !important;
+            border-color: #001F3F !important;
+            box-shadow: 0 0 0 2px #a5d6a7;
+        }
+
+        /* Highlight selected color */
+        .color-option.active,
+        .color-option.selected {
+            border: 2px solid #001F3F !important;
+            box-shadow: 0 0 0 2px #a5d6a7;
+            outline: 2px solid #001F3F;
+        }
+    </style>
 </head>
 
 <body class="home">
@@ -115,25 +133,25 @@
                                     <span class="cart-count text-white">
                                         <% if (user) { %>
                                             <%= cartItems && cartItems.length ? cartItems.length : " " %>
-                                        <% } else { %>
-                                            <span id="guest-cart-count"></span>
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', function() {
-                                                    var guestCartCount = document.getElementById('guest-cart-count');
-                                                    var guestCart = localStorage.getItem('guestCart');
-                                                    var count = 0;
-                                                    if (guestCart) {
-                                                        try {
-                                                            var cartArr = JSON.parse(guestCart);
-                                                            if (Array.isArray(cartArr)) {
-                                                                count = cartArr.length;
+                                                <% } else { %>
+                                                    <span id="guest-cart-count"></span>
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', function () {
+                                                            var guestCartCount = document.getElementById('guest-cart-count');
+                                                            var guestCart = localStorage.getItem('guestCart');
+                                                            var count = 0;
+                                                            if (guestCart) {
+                                                                try {
+                                                                    var cartArr = JSON.parse(guestCart);
+                                                                    if (Array.isArray(cartArr)) {
+                                                                        count = cartArr.length;
+                                                                    }
+                                                                } catch (e) { }
                                                             }
-                                                        } catch (e) {}
-                                                    }
-                                                    guestCartCount.textContent = count > 0 ? count : " ";
-                                                });
-                                            </script>
-                                        <% } %>
+                                                            guestCartCount.textContent = count > 0 ? count : " ";
+                                                        });
+                                                    </script>
+                                                    <% } %>
                                     </span>
                                 </i>
                                 <span class="cart-label">Cart</span>
@@ -144,7 +162,7 @@
                                     <a href="#" class="btn-close">Close<i class="w-icon-long-arrow-right"></i></a>
                                 </div>
                                 <div class="products" id="cart-products-list">
-                                    <% if (user && cartItems && cartItems.length > 0) { %>
+                                    <% if (user && cartItems && cartItems.length> 0) { %>
                                         <% cartItems.forEach(function(item) { %>
                                             <div class="product product-cart">
                                                 <div class="product-detail">
@@ -159,30 +177,34 @@
                                                             ₹<%= item.price ? item.price.toFixed(2) : '0.00' %>
                                                         </span>
                                                         <% if (item.selectedColor) { %>
-                                                            <span class="badge badge-light ml-2">Color: <%= item.selectedColor %></span>
-                                                        <% } %>
-                                                        <% if (item.selectedSize) { %>
-                                                            <span class="badge badge-light ml-2">Size: <%= item.selectedSize %></span>
-                                                        <% } %>
+                                                            <span class="badge badge-light ml-2">Color: <%=
+                                                                    item.selectedColor %></span>
+                                                            <% } %>
+                                                                <% if (item.selectedSize) { %>
+                                                                    <span class="badge badge-light ml-2">Size: <%=
+                                                                            item.selectedSize %></span>
+                                                                    <% } %>
                                                     </div>
                                                 </div>
                                                 <figure class="product-media">
-                                                    <img src="<%= item.productImage %>" alt="product" height="84" width="94">
+                                                    <img src="<%= item.productImage %>" alt="product" height="84"
+                                                        width="94">
                                                 </figure>
                                             </div>
-                                        <% }); %>
-                                    <% } else if (!user) { %>
-                                        <!-- Guest cart will be rendered by JS -->
-                                    <% } else { %>
-                                        <div class="text-center py-3">
-                                            <span>Your cart is empty.</span>
-                                        </div>
-                                    <% } %>
+                                            <% }); %>
+                                                <% } else if (!user) { %>
+                                                    <!-- Guest cart will be rendered by JS -->
+                                                    <% } else { %>
+                                                        <div class="text-center py-3">
+                                                            <span>Your cart is empty.</span>
+                                                        </div>
+                                                        <% } %>
                                 </div>
                                 <div class="cart-total" id="cart-subtotal-section">
                                     <label>Subtotal:</label>
                                     <span class="price" id="cart-subtotal-amount">
-                                        ₹<%= user && typeof cartSubtotal === 'number' ? cartSubtotal.toFixed(2) : '0.00' %>
+                                        ₹<%= user && typeof cartSubtotal==='number' ? cartSubtotal.toFixed(2) : '0.00'
+                                            %>
                                     </span>
                                 </div>
                                 <div class="cart-action">
@@ -191,35 +213,35 @@
                                 </div>
                             </div>
                             <% if (!user) { %>
-                            <script>
-                                // Guest cart rendering for non-logged-in users
-                                function renderGuestCart() {
-                                    const cartProductsList = document.getElementById('cart-products-list');
-                                    const subtotalSection = document.getElementById('cart-subtotal-amount');
-                                    let guestCart = localStorage.getItem('guestCart');
-                                    if (!guestCart) {
-                                        cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
-                                        subtotalSection.textContent = '₹0.00';
-                                        return;
-                                    }
-                                    try {
-                                        guestCart = JSON.parse(guestCart);
-                                    } catch (e) {
-                                        cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
-                                        subtotalSection.textContent = '₹0.00';
-                                        return;
-                                    }
-                                    // guestCart is now an array of cart items
-                                    if (!Array.isArray(guestCart) || guestCart.length === 0) {
-                                        cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
-                                        subtotalSection.textContent = '₹0.00';
-                                        return;
-                                    }
-                                    let html = '';
-                                    let subtotal = 0;
-                                    guestCart.forEach(function(item) {
-                                        subtotal += (item.price || 0) * (item.quantity || 1);
-                                        html += `
+                                <script>
+                                    // Guest cart rendering for non-logged-in users
+                                    function renderGuestCart() {
+                                        const cartProductsList = document.getElementById('cart-products-list');
+                                        const subtotalSection = document.getElementById('cart-subtotal-amount');
+                                        let guestCart = localStorage.getItem('guestCart');
+                                        if (!guestCart) {
+                                            cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
+                                            subtotalSection.textContent = '₹0.00';
+                                            return;
+                                        }
+                                        try {
+                                            guestCart = JSON.parse(guestCart);
+                                        } catch (e) {
+                                            cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
+                                            subtotalSection.textContent = '₹0.00';
+                                            return;
+                                        }
+                                        // guestCart is now an array of cart items
+                                        if (!Array.isArray(guestCart) || guestCart.length === 0) {
+                                            cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
+                                            subtotalSection.textContent = '₹0.00';
+                                            return;
+                                        }
+                                        let html = '';
+                                        let subtotal = 0;
+                                        guestCart.forEach(function (item) {
+                                            subtotal += (item.price || 0) * (item.quantity || 1);
+                                            html += `
                                             <div class="product product-cart">
                                                 <div class="product-detail">
                                                     <a href="/product/${item.productId}" class="product-name">
@@ -241,14 +263,14 @@
                                                 </figure>
                                             </div>
                                         `;
-                                    });
-                                    cartProductsList.innerHTML = html;
-                                    subtotalSection.textContent = '₹' + subtotal.toFixed(2);
-                                }
-                                document.addEventListener('DOMContentLoaded', renderGuestCart);
-                            </script>
-                            <% } %>
-                            <!-- End of Dropdown Box -->
+                                        });
+                                        cartProductsList.innerHTML = html;
+                                        subtotalSection.textContent = '₹' + subtotal.toFixed(2);
+                                    }
+                                    document.addEventListener('DOMContentLoaded', renderGuestCart);
+                                </script>
+                                <% } %>
+                                    <!-- End of Dropdown Box -->
                         </div>
                     </div>
                 </div>
@@ -284,10 +306,10 @@
                 </div>
 
 
-
+                <!-- Main Banner Full Width -->
                 <div class="intro-section mb-2">
                     <div class="row">
-                        <div class="intro-wrapper col-lg-9 mt-4 mb-4">
+                        <div class="col-12 mt-4 mb-4">
                             <div class="swiper-container swiper-theme pg-inner pg-white animation-slider"
                                 data-swiper-options="{
                                     'spaceBetween': 0,
@@ -302,8 +324,8 @@
                                     'speed': 1500
                                 }">
                                 <div class="swiper-wrapper row gutter-no cols-1">
-                                    <% if (mainBanner && mainBanner.length> 0) { %>
-                                        <% mainBanner.forEach((banner, index)=> { %>
+                                    <% if (mainBanner && mainBanner.length > 0) { %>
+                                        <% mainBanner.forEach((banner, index) => { %>
                                             <div class="swiper-slide banner banner-fixed intro-slide br-sm"
                                                 style="background-image: url(<%= banner.image %>); background-color: #EAEAEA; position: relative; height: 400px; background-size: cover; background-position: center;">
                                                 <div class="main-banner-content-wrapper" style="
@@ -322,29 +344,28 @@
                                                                 data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '.5s', 'delay': '.2s'}">
                                                                 <%= banner.subtitle %>
                                                             </h3>
-                                                            <% } %>
-                                                                <% if (banner.title) { %>
-                                                                    <h2 class="banner-title font-secondary text-capitalize text-black slide-animate"
-                                                                        data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
-                                                                        <%= banner.title %>
-                                                                    </h2>
-                                                                    <% } %>
-                                                                        <% if (banner.description) { %>
-                                                                            <h4 class="banner-price-info font-weight-normal text-black ls-25 slide-animate"
-                                                                                data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
-                                                                                <% if (banner.description) { const
-                                                                                    words=banner.description.split(' ');
-                                                                        if (words.length > 6) {
-                                                                            const firstSix = words.slice(0, 6).join(' ');
-                                                                            const rest = words.slice(6).join(' ');
-                                                                %>
-                                                                            <%= firstSix %><br><%= rest %>
+                                                        <% } %>
+                                                        <% if (banner.title) { %>
+                                                            <h2 class="banner-title font-secondary text-capitalize text-black slide-animate"
+                                                                data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
+                                                                <%= banner.title %>
+                                                            </h2>
+                                                        <% } %>
+                                                        <% if (banner.description) { %>
+                                                            <h4 class="banner-price-info font-weight-normal text-black ls-25 slide-animate"
+                                                                data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
                                                                 <% 
-                                                                        } else { 
+                                                                    const words = banner.description.split(' ');
+                                                                    if (words.length > 6) {
+                                                                        const firstSix = words.slice(0, 6).join(' ');
+                                                                        const rest = words.slice(6).join(' ');
                                                                 %>
-                                                                            <%= banner.description %>
+                                                                    <%= firstSix %><br><%= rest %>
                                                                 <% 
-                                                                        }
+                                                                    } else { 
+                                                                %>
+                                                                    <%= banner.description %>
+                                                                <% 
                                                                     }
                                                                 %>
                                                             </h4>
@@ -355,59 +376,56 @@
                                                                 data-animation-options="{' name': 'fadeInUpShorter'
                                                                                     , 'duration' : '.5s' , 'delay'
                                                                                     : '.6s' }">
-                                                                                    Shop Now
-                                                                                    <i
-                                                                                        class="w-icon-long-arrow-right"></i>
-                                                                                    </a>
-                                                                                    <% } %>
+                                                                Shop Now
+                                                                <i class="w-icon-long-arrow-right"></i>
+                                                            </a>
+                                                        <% } %>
                                                     </div>
                                                 </div>
-
                                             </div>
-                                            <% }) %>
-                                                <% } %>
+                                        <% }) %>
+                                    <% } %>
                                 </div>
                                 <div class="swiper-pagination"></div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-
-
-                        <div class="intro-banner-wrapper col-lg-3 mt-4">
-                            <% if (bannerTwo && bannerTwo.length> 0) { %>
-                                <% bannerTwo.forEach((banner, index)=> { %>
-                                    <div
-                                        class="banner banner-fixed intro-banner<%= index === 1 ? ' intro-banner2' : '' %> br-sm mb-4">
+                <!-- Banner Two Row Below Main Banner -->
+                <div class="intro-banner-row mb-2">
+                    <div class="row">
+                        <% if (bannerTwo && bannerTwo.length > 0) { %>
+                            <% bannerTwo.forEach((banner, index) => { %>
+                                <div class="col-lg-6 col-md-6 col-12 mb-4">
+                                    <div class="banner banner-fixed intro-banner<%= index === 1 ? ' intro-banner2' : '' %> br-sm h-100">
                                         <figure class="br-sm">
                                             <img src="<%= banner.image %>" alt="Category Banner" width="680"
-                                                height="180" style="background-color: #565960; object-fit: cover;" />
+                                                height="180" style="background-color: #565960; object-fit: cover; width: 100%;" />
                                         </figure>
                                         <div class="banner-content">
                                             <% if (banner.subtitle) { %>
-                                                <h5
-                                                    class="banner-subtitle text-uppercase font-weight-bold <%= index === 1 ? 'text-default' : 'text-lighter' %>">
+                                                <h5 class="banner-subtitle text-uppercase font-weight-bold <%= index === 1 ? 'text-default' : 'text-lighter' %>">
                                                     <%= banner.subtitle %>
                                                 </h5>
-                                                <% } %>
-                                                    <% if (banner.title) { %>
-                                                        <h3
-                                                            class="banner-title font-secondary font-weight-bolder ls-25 <%= index === 1 ? 'text-dark' : 'text-white' %>">
-                                                            <%= banner.title %>
-                                                        </h3>
-                                                        <% } %>
-                                                            <% if (banner.link) { %>
-                                                                <a href="<%= banner.link %>"
-                                                                    class="btn <%= index === 1 ? 'btn-dark' : 'btn-white' %> btn-link btn-slide-right btn-icon-right btn-infinite">
-                                                                    Shop Now
-                                                                    <i class="w-icon-long-arrow-right"></i>
-                                                                </a>
-                                                                <% } %>
+                                            <% } %>
+                                            <% if (banner.title) { %>
+                                                <h3 class="banner-title font-secondary font-weight-bolder ls-25 <%= index === 1 ? 'text-dark' : 'text-white' %>">
+                                                    <%= banner.title %>
+                                                </h3>
+                                            <% } %>
+                                            <% if (banner.link) { %>
+                                                <a href="<%= banner.link %>"
+                                                    class="btn <%= index === 1 ? 'btn-dark' : 'btn-white' %> btn-link btn-slide-right btn-icon-right btn-infinite">
+                                                    Shop Now
+                                                    <i class="w-icon-long-arrow-right"></i>
+                                                </a>
+                                            <% } %>
                                         </div>
                                     </div>
-                                    <% }) %>
-                                        <% } %>
-                        </div>
-
+                                </div>
+                            <% }) %>
+                        <% } %>
                     </div>
                 </div>
                 <!-- End of Intro-wrapper -->
@@ -487,254 +505,97 @@
                     <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2">
                         <% bestDeals.forEach(product=> { %>
                             <div class="swiper-slide product product-image-gap product-simple"
-                                data-product-id="<%= product._id %>" 
-                                data-has-color="<%= product.hasColorVariants %>"
+                                data-product-id="<%= product._id %>" data-has-color="<%= product.hasColorVariants %>"
                                 data-has-size="<%= product.hasSizeVariants %>"
-                                data-product-name="<%= product.name.replace(/"/g, '&quot;') %>"
+                                data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
                                 data-product-image="<%= product.images[0] %>"
-                                data-product-price="<%= product.salePrice || product.basePrice %>">
+                                    data-product-price="<%= product.salePrice || product.basePrice %>">
 
-                                <figure class="product-media">
-                                    <a href="/product/<%= product._id %>">
-                                        <img src="<%= product.images[0] %>" alt="Product" width="295" height="335"
-                                            loading="lazy" />
-                                        <% if (product.images[1]) { %>
-                                            <img src="<%= product.images[1] %>" alt="Product" width="295" height="335"
-                                                loading="lazy" />
-                                        <% } %>
-                                    </a>
-                                </figure>
+                                        <figure class="product-media">
+                                            <a href="/product/<%= product._id %>">
+                                                <img src="<%= product.images[0] %>" alt="Product" width="295"
+                                                    height="335" loading="lazy" />
+                                                <% if (product.images[1]) { %>
+                                                    <img src="<%= product.images[1] %>" alt="Product" width="295"
+                                                        height="335" loading="lazy" />
+                                                    <% } %>
+                                            </a>
+                                        </figure>
 
-                                <div class="product-details">
-                                    <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                    <h4 class="product-name">
-                                        <a href="/product/<%= product._id %>">
-                                            <%= product.name %>
-                                        </a>
-                                    </h4>
+                                        <div class="product-details">
+                                            <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                            <h4 class="product-name">
+                                                <a href="/product/<%= product._id %>">
+                                                    <%= product.name %>
+                                                </a>
+                                            </h4>
 
-                                    <div class="product-variations flex flex-wrap mb-2">
-                                        <% if (product.hasSizeVariants) { %>
-                                            <div class="product-size mr-3 d-flex align-items-center">
-                                                <span class="font-weight-bold mr-1">Size:</span>
-                                                <div>
-                                                    <% product.sizeVariants.forEach(size=> { %>
-                                                        <span class="size-option badge badge-light border px-2 py-1 mr-1"
-                                                            data-size="<%= size.size %>"
-                                                            data-stock="<%= size.stock %>"
-                                                            style="cursor:pointer;">
-                                                            <%= size.size %>
-                                                        </span>
-                                                    <% }) %>
+                                            <div class="product-variations flex flex-wrap mb-2">
+                                                <% if (product.hasSizeVariants) { %>
+                                                    <div class="product-size mr-3 d-flex align-items-center">
+                                                        <span class="font-weight-bold mr-1">Size:</span>
+                                                        <div>
+                                                            <% product.sizeVariants.forEach(size=> { %>
+                                                                <span
+                                                                    class="size-option badge badge-light border px-2 py-1 mr-1"
+                                                                    data-size="<%= size.size %>"
+                                                                    data-stock="<%= size.stock %>"
+                                                                    style="cursor:pointer;">
+                                                                    <%= size.size %>
+                                                                </span>
+                                                                <% }) %>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
+
+                                                        <% if (product.hasColorVariants) { %>
+                                                            <div class="product-color">
+                                                                <span class="font-weight-bold mr-1"></span>
+                                                                <% product.colorVariants.forEach(color=> { %>
+                                                                    <span
+                                                                        class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                                                                        data-color="<%= color.color %>"
+                                                                        data-stock="<%= color.stock %>"
+                                                                        title="<%= color.color %>"
+                                                                        style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
+                                                                    </span>
+                                                                    <% }) %>
+                                                            </div>
+                                                            <% } %>
+                                            </div>
+
+                                            <div class="selected-variant-info"
+                                                style="min-height:24px;font-size:0.95em;color:#444;">
+                                                <!-- Will be filled by JS -->
+                                            </div>
+
+                                            <div class="product-pa-wrapper">
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹<%= product.salePrice || product.basePrice
+                                                            %></ins>
+                                                    <% if (product.salePrice) { %>
+                                                        <del class="old-price">₹<%= product.basePrice %></del>
+                                                        <% } %>
+                                                </div>
+                                                <div class="product-action">
+                                                    <button
+                                                        class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
+                                                        data-product-id="<%= product._id %>"
+                                                        data-has-color="<%= product.hasColorVariants %>"
+                                                        data-has-size="<%= product.hasSizeVariants %>"
+                                                        data-product-name="<%= product.name.replace(/" /g, '&quot;' )
+                                                        %>"
+                                                        data-product-image="<%= product.images[0] %>"
+                                                            data-product-price="<%= product.salePrice ||
+                                                                product.basePrice %>">
+                                                                Add To Cart
+                                                    </button>
                                                 </div>
                                             </div>
-                                        <% } %>
-
-                                        <% if (product.hasColorVariants) { %>
-                                            <div class="product-color">
-                                                <span class="font-weight-bold mr-1"></span>
-                                                <% product.colorVariants.forEach(color=> { %>
-                                                    <span class="color-option border rounded-circle d-inline-block mr-1 mb-1"
-                                                        data-color="<%= color.color %>"
-                                                        data-stock="<%= color.stock %>"
-                                                        title="<%= color.color %>"
-                                                        style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
-                                                    </span>
-                                                <% }) %>
-                                            </div>
-                                        <% } %>
-                                    </div>
-
-                                    <div class="selected-variant-info" style="min-height:24px;font-size:0.95em;color:#444;">
-                                        <!-- Will be filled by JS -->
-                                    </div>
-
-                                    <div class="product-pa-wrapper">
-                                        <div class="product-price">
-                                            <ins class="new-price">₹<%= product.salePrice || product.basePrice %></ins>
-                                            <% if (product.salePrice) { %>
-                                                <del class="old-price">₹<%= product.basePrice %></del>
-                                            <% } %>
                                         </div>
-                                        <div class="product-action">
-                                            <button
-                                                class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
-                                                data-product-id="<%= product._id %>"
-                                                data-has-color="<%= product.hasColorVariants %>"
-                                                data-has-size="<%= product.hasSizeVariants %>"
-                                                data-product-name="<%= product.name.replace(/"/g, '&quot;') %>"
-                                                data-product-image="<%= product.images[0] %>"
-                                                data-product-price="<%= product.salePrice || product.basePrice %>">
-                                                Add To Cart
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                        <% }) %>
+                            <% }) %>
                     </div>
-                       
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            const selectedVariants = {};
-
-                            function updateSelectedVariantInfo(productId) {
-                                const productEl = document.querySelector('.swiper-slide[data-product-id="' + productId + '"]');
-                                if (!productEl) return;
-                                const infoDiv = productEl.querySelector('.selected-variant-info');
-                                if (!infoDiv) return;
-                                const variant = selectedVariants[productId] || {};
-                                let info = '';
-                                if (productEl.getAttribute('data-has-size') === 'true') {
-                                    info += variant.selectedSize
-                                        ? `<span class="mr-2"><strong>Size:</strong> <span class="badge badge-success">${variant.selectedSize}</span></span>`
-                                        : `<span class="mr-2 text-danger">Select Size</span>`;
-                                }
-                                if (productEl.getAttribute('data-has-color') === 'true') {
-                                    info += variant.selectedColor
-                                        ? `<span class="mr-2"><strong>Color:</strong> <span class="badge badge-success" style="background:${variant.selectedColor};color:#fff;border:1px solid #ccc;">${variant.selectedColor}</span></span>`
-                                        : `<span class="mr-2 text-danger">Select Color</span>`;
-                                }
-                                infoDiv.innerHTML = info;
-                            }
-
-                            // Size selection
-                            document.querySelectorAll('.product-size .size-option').forEach(function (el) {
-                                el.addEventListener('click', function () {
-                                    const productEl = el.closest('.swiper-slide');
-                                    const productId = productEl.getAttribute('data-product-id');
-                                    // Remove active from siblings
-                                    productEl.querySelectorAll('.product-size .size-option').forEach(sib => sib.classList.remove('active'));
-                                    el.classList.add('active');
-                                    selectedVariants[productId] = selectedVariants[productId] || {};
-                                    selectedVariants[productId].selectedSize = el.getAttribute('data-size');
-                                    updateSelectedVariantInfo(productId);
-                                });
-                            });
-
-                            // Color selection
-                            document.querySelectorAll('.product-color .color-option').forEach(function (el) {
-                                el.addEventListener('click', function () {
-                                    const productEl = el.closest('.swiper-slide');
-                                    const productId = productEl.getAttribute('data-product-id');
-                                    // Remove active from siblings
-                                    productEl.querySelectorAll('.product-color .color-option').forEach(sib => sib.classList.remove('active'));
-                                    el.classList.add('active');
-                                    selectedVariants[productId] = selectedVariants[productId] || {};
-                                    selectedVariants[productId].selectedColor = el.getAttribute('data-color');
-                                    updateSelectedVariantInfo(productId);
-                                });
-                            });
-
-                            // Add to Cart button
-                            document.querySelectorAll('.add-to-cart-btn').forEach(function (btn) {
-                                btn.addEventListener('click', async function (e) {
-                                    e.preventDefault();
-                                    const productId = btn.getAttribute('data-product-id');
-                                    const hasColor = btn.getAttribute('data-has-color') === 'true';
-                                    const hasSize = btn.getAttribute('data-has-size') === 'true';
-                                    const productName = btn.getAttribute('data-product-name');
-                                    const productImage = btn.getAttribute('data-product-image');
-                                    const productPrice = btn.getAttribute('data-product-price') ? parseFloat(btn.getAttribute('data-product-price')) : null;
-
-                                    let selectedColor = null;
-                                    let selectedSize = null;
-
-                                    if (hasColor) {
-                                        selectedColor = (selectedVariants[productId] && selectedVariants[productId].selectedColor) || null;
-                                        if (!selectedColor) {
-                                            showToast('Please select a color.', "error");
-                                            updateSelectedVariantInfo(productId);
-                                            return;
-                                        }
-                                    }
-                                    if (hasSize) {
-                                        selectedSize = (selectedVariants[productId] && selectedVariants[productId].selectedSize) || null;
-                                        if (!selectedSize) {
-                                            showToast('Please select a size.', "error");
-                                            updateSelectedVariantInfo(productId);
-                                            return;
-                                        }
-                                    }
-
-                                    await addToCart(productId, 1, selectedColor, selectedSize, productName, productImage, productPrice);
-                                });
-                            });
-
-                            // On page load, show default variant info
-                            document.querySelectorAll('.swiper-slide.product').forEach(function (el) {
-                                const productId = el.getAttribute('data-product-id');
-                                updateSelectedVariantInfo(productId);
-                            });
-                        });
-
-                        function showToast(message, type = "success") {
-                            Toastify({
-                                text: message,
-                                duration: 2500,
-                                close: true,
-                                gravity: "top",
-                                position: "right",
-                                backgroundColor: type === "success" 
-                                    ? "linear-gradient(90deg, #00b09b, #96c93d)" 
-                                    : "linear-gradient(90deg, #e74c3c, #c0392b)",
-                                stopOnFocus: true
-                            }).showToast();
-                        }
-
-                        // Add price to guestCart
-                        async function addToCart(productId, quantity = 1, selectedColor = null, selectedSize = null, productName = null, productImage = null, productPrice = null) {
-                            var isLoggedIn = <%= user ? 'true' : 'false' %>;
-                            isLoggedIn = (isLoggedIn === true || isLoggedIn === 'true');
-
-                            const item = { productId, quantity, selectedColor, selectedSize };
-
-                            if (productName) item.productName = productName;
-                            if (productImage) item.productImage = productImage;
-                            if (typeof productPrice === "number" && !isNaN(productPrice)) item.price = productPrice;
-
-                            if (isLoggedIn) {
-                                localStorage.removeItem('guestCart');
-                                try {
-                                    const res = await fetch('/add-cart', {
-                                        method: 'POST',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        credentials: 'include',
-                                        body: JSON.stringify(item)
-                                    });
-
-                                    const data = await res.json();
-                                    if (data.error) {
-                                        showToast(data.error, "error");
-                                        return;
-                                    }
-
-                                    showToast("Product added to your cart!", "success");
-                                } catch (err) {
-                                    console.error("Error adding to cart:", err);
-                                    showToast("Error adding to cart.", "error");
-                                }
-                            } else {
-                                let guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
-
-                                const exists = guestCart.find(p =>
-                                    p.productId === item.productId &&
-                                    p.selectedColor === item.selectedColor &&
-                                    p.selectedSize === item.selectedSize
-                                );
-
-                                if (exists) {
-                                    exists.quantity += item.quantity;
-                                } else {
-                                    guestCart.push(item);
-                                }
-
-                                localStorage.setItem('guestCart', JSON.stringify(guestCart));
-                                showToast("Product added to guest cart!", "success");
-                            }
-                        }
-                    </script>
-                        
                     <div class="swiper-pagination mt-4"></div>
                 </div>
 
@@ -801,53 +662,94 @@
                 }'>
                     <div class="swiper-wrapper row cols-lg-2">
                         <% dealsOfTheDay.forEach(product=> { %>
-                            <div class="swiper-slide">
-                                <div class="product product-list br-sm mb-0">
-                                    <figure class="product-media">
-                                        <a href="/product/<%= product._id %>">
-                                            <img src="<%= product.images[0] %>" alt="Product Image" width="315"
-                                                height="355" loading="lazy">
-                                            <% if (product.images[1]) { %>
-                                                <img src="<%= product.images[1] %>" alt="Product Image" width="315"
-                                                    height="355" loading="lazy">
-                                                <% } %>
-                                        </a>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name">
+                            <div class="swiper-slide product product-list br-sm mb-0"
+                                data-product-id="<%= product._id %>"
+                                data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
+                                data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
+                                data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
+                                data-product-image="<%= product.images[0] %>"
+                                    data-product-price="<%= product.salePrice || product.basePrice %>">
+                                        <figure class="product-media">
                                             <a href="/product/<%= product._id %>">
-                                                <%= product.name %>
+                                                <img src="<%= product.images[0] %>" alt="Product Image" width="315"
+                                                    height="355" loading="lazy">
+                                                <% if (product.images[1]) { %>
+                                                    <img src="<%= product.images[1] %>" alt="Product Image" width="315"
+                                                        height="355" loading="lazy">
+                                                    <% } %>
                                             </a>
-                                        </h4>
-                                        <div class="product-variations">
-                                            <div class="product-color">
-                                                <% if (product.colorVariants && product.colorVariants.length) { %>
-                                                    <% product.colorVariants.forEach(c=> { %>
-                                                        <span class="color-options"
-                                                            style="background-color: <%= c.color %>;"></span>
-                                                        <% }); %>
+                                        </figure>
+                                        <div class="product-details">
+                                            <h4 class="product-name">
+                                                <a href="/product/<%= product._id %>">
+                                                    <%= product.name %>
+                                                </a>
+                                            </h4>
+                                            <div class="product-variations flex flex-wrap justify-content-start">
+                                                <% if (product.sizeVariants && product.sizeVariants.length) { %>
+                                                    <div class="product-size mr-3 d-flex align-items-center">
+                                                        <span class="font-weight-bold mr-1">Size:</span>
+                                                        <div>
+                                                            <% product.sizeVariants.forEach(size=> { %>
+                                                                <span
+                                                                    class="size-option badge badge-light border px-2 py-1 mr-1"
+                                                                    data-size="<%= size.size %>"
+                                                                    data-stock="<%= size.stock %>"
+                                                                    style="cursor:pointer;">
+                                                                    <%= size.size %>
+                                                                </span>
+                                                                <% }) %>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
+                                                        <% if (product.colorVariants && product.colorVariants.length) {
+                                                            %>
+                                                            <div class="product-color">
+                                                                <span class="font-weight-bold mr-1"></span>
+                                                                <% product.colorVariants.forEach(color=> { %>
+                                                                    <span
+                                                                        class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                                                                        data-color="<%= color.color %>"
+                                                                        data-stock="<%= color.stock %>"
+                                                                        title="<%= color.color %>"
+                                                                        style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
+                                                                    </span>
+                                                                    <% }) %>
+                                                            </div>
                                                             <% } %>
                                             </div>
+                                            <div class="selected-variant-info"
+                                                style="min-height:24px;font-size:0.95em;color:#444;">
+                                                <!-- Will be filled by JS -->
+                                            </div>
+                                            <div class="product-price">
+                                                <ins class="new-price">₹<%= product.salePrice || product.basePrice %>
+                                                </ins>
+                                                <% if (product.salePrice) { %>
+                                                    <del class="old-price">₹<%= product.basePrice %></del>
+                                                    <% } %>
+                                            </div>
+                                            <p class="text-default">
+                                                <%= product.description.substring(0, 100) %>...
+                                            </p>
+                                            <div class="product-action">
+                                                <button
+                                                    class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
+                                                    data-product-id="<%= product._id %>"
+                                                    data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
+                                                    data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
+                                                    data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
+                                                    data-product-image="<%= product.images[0] %>"
+                                                        data-product-price="<%= product.salePrice || product.basePrice
+                                                            %>">
+                                                            <i class="w-icon-cart"></i>
+                                                            <span>Add to cart</span>
+                                                </button>
+                                                <a href="/wishlist/add/<%= product._id %>"
+                                                    class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    title="Add to wishlist"></a>
+                                            </div>
                                         </div>
-                                        <div class="product-price text-primary">
-                                            ₹<%= product.salePrice> 0 ? product.salePrice.toFixed(2) :
-                                                product.basePrice.toFixed(2) %>
-                                        </div>
-                                        <p class="text-default">
-                                            <%= product.description.substring(0, 100) %>...
-                                        </p>
-                                        <div class="product-action">
-                                            <a href="/cart/add/<%= product._id %>" class="btn-dark btn-product"
-                                                title="Add to cart">
-                                                <i class="w-icon-cart"></i>
-                                                <span>Add to cart</span>
-                                            </a>
-                                            <a href="/wishlist/add/<%= product._id %>"
-                                                class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="Add to wishlist"></a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <% }); %>
                     </div>
@@ -1056,6 +958,7 @@
                     </div>
                 </div>
                 <!-- End of Tab Content -->
+
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         // Load products for each tab
@@ -1098,7 +1001,7 @@
                             .then(response => response.json())
                             .then(data => {
                                 if (data.success && data.products.length > 0) {
-                                    container.innerHTML = ''; // Clear existing content
+                                    container.innerHTML = '';
 
                                     data.products.forEach(product => {
                                         const productElement = createProductElement(product);
@@ -1126,6 +1029,203 @@
                             })
                             .catch(error => console.error('Error loading products:', error));
                     }
+                    // Cart functionality
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const selectedVariants = {};
+
+                        function updateSelectedVariantInfo(productId) {
+                            const productEl = document.querySelector(`.swiper-slide[data-product-id="${productId}"]`);
+                            if (!productEl) return;
+                            const infoDiv = productEl.querySelector('.selected-variant-info');
+                            if (!infoDiv) return;
+                            const variant = selectedVariants[productId] || {};
+                            let info = '';
+
+                            // Highlight selected size
+                            if (productEl.getAttribute('data-has-size') === 'true') {
+                                const selectedSize = variant.selectedSize;
+                                productEl.querySelectorAll('.size-option').forEach(el => {
+                                    if (el.getAttribute('data-size') === selectedSize) {
+                                        el.classList.add('active');
+                                    } else {
+                                        el.classList.remove('active');
+                                    }
+                                });
+                                info += selectedSize
+                                    ? `<span class="mr-2"><strong>Size:</strong> <span class="badge badge-success">${selectedSize}</span></span>`
+                                    : `<span class="mr-2 text-danger">Select Size</span>`;
+                            }
+
+                            // Highlight selected color
+                            if (productEl.getAttribute('data-has-color') === 'true') {
+                                const selectedColor = variant.selectedColor;
+                                productEl.querySelectorAll('.color-option').forEach(el => {
+                                    if (el.getAttribute('data-color') === selectedColor) {
+                                        el.classList.add('active');
+                                    } else {
+                                        el.classList.remove('active');
+                                    }
+                                });
+                                info += selectedColor
+                                    ? `<span class="mr-2"><strong>Color:</strong> <span class="badge badge-success" style="background:${selectedColor};color:#fff;border:1px solid #ccc;">${selectedColor}</span></span>`
+                                    : `<span class="mr-2 text-danger">Select Color</span>`;
+                            }
+
+                            infoDiv.innerHTML = info;
+                        }
+
+                        // Size selection
+                        document.addEventListener('click', function (e) {
+                            if (e.target.classList.contains('size-option')) {
+                                const el = e.target;
+                                const productEl = el.closest('.swiper-slide');
+                                const productId = productEl.getAttribute('data-product-id');
+                                // Remove active from siblings
+                                productEl.querySelectorAll('.size-option').forEach(sib => sib.classList.remove('active'));
+                                el.classList.add('active');
+                                selectedVariants[productId] = selectedVariants[productId] || {};
+                                selectedVariants[productId].selectedSize = el.getAttribute('data-size');
+                                updateSelectedVariantInfo(productId);
+                            }
+                        });
+
+                        // Color selection
+                        document.addEventListener('click', function (e) {
+                            if (e.target.classList.contains('color-option')) {
+                                const el = e.target;
+                                const productEl = el.closest('.swiper-slide');
+                                const productId = productEl.getAttribute('data-product-id');
+                                // Remove active from siblings
+                                productEl.querySelectorAll('.color-option').forEach(sib => sib.classList.remove('active'));
+                                el.classList.add('active');
+                                selectedVariants[productId] = selectedVariants[productId] || {};
+                                selectedVariants[productId].selectedColor = el.getAttribute('data-color');
+                                updateSelectedVariantInfo(productId);
+                            }
+                        });
+
+                        // Add to Cart button
+                        document.addEventListener('click', async function (e) {
+                            if (e.target.classList.contains('add-to-cart-btn')) {
+                                e.preventDefault();
+                                const btn = e.target;
+                                const productId = btn.getAttribute('data-product-id');
+                                const hasColor = btn.getAttribute('data-has-color') === 'true';
+                                const hasSize = btn.getAttribute('data-has-size') === 'true';
+                                const productName = btn.getAttribute('data-product-name');
+                                const productImage = btn.getAttribute('data-product-image');
+                                const productPrice = btn.getAttribute('data-product-price') ?
+                                    parseFloat(btn.getAttribute('data-product-price')) : null;
+
+                                let selectedColor = null;
+                                let selectedSize = null;
+
+                                if (hasColor) {
+                                    selectedColor = (selectedVariants[productId] && selectedVariants[productId].selectedColor) || null;
+                                    if (!selectedColor) {
+                                        showToast('Please select a color.', "error");
+                                        updateSelectedVariantInfo(productId);
+                                        return;
+                                    }
+                                }
+
+                                if (hasSize) {
+                                    selectedSize = (selectedVariants[productId] && selectedVariants[productId].selectedSize) || null;
+                                    if (!selectedSize) {
+                                        showToast('Please select a size.', "error");
+                                        updateSelectedVariantInfo(productId);
+                                        return;
+                                    }
+                                }
+
+                                await addToCart(productId, 1, selectedColor, selectedSize, productName, productImage, productPrice);
+                            }
+                        });
+
+                        // Initialize variant info on new products
+                        const observer = new MutationObserver(function (mutations) {
+                            mutations.forEach(function (mutation) {
+                                mutation.addedNodes.forEach(function (node) {
+                                    if (node.nodeType === 1 && node.classList && node.classList.contains('swiper-slide')) {
+                                        const productId = node.getAttribute('data-product-id');
+                                        updateSelectedVariantInfo(productId);
+                                    }
+                                });
+                            });
+                        });
+
+                        // Observe all product containers
+                        document.querySelectorAll('[id$="-container"]').forEach(container => {
+                            observer.observe(container, { childList: true, subtree: true });
+                        });
+                    });
+
+                    function showToast(message, type = "success") {
+                        Toastify({
+                            text: message,
+                            duration: 2500,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: type === "success"
+                                ? "linear-gradient(90deg, #00b09b, #96c93d)"
+                                : "linear-gradient(90deg, #e74c3c, #c0392b)",
+                            stopOnFocus: true
+                        }).showToast();
+                    }
+
+                    async function addToCart(productId, quantity = 1, selectedColor = null, selectedSize = null, productName = null, productImage = null, productPrice = null) {
+                        const isLoggedIn = window.isLoggedIn === true || window.isLoggedIn === 'true';
+
+                        const item = {
+                            productId,
+                            quantity,
+                            selectedColor,
+                            selectedSize,
+                            productName,
+                            productImage,
+                            price: productPrice
+                        };
+
+                        if (isLoggedIn) {
+                            try {
+                                const res = await fetch('/add-cart', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    credentials: 'include',
+                                    body: JSON.stringify(item)
+                                });
+
+                                const data = await res.json();
+                                if (data.error) {
+                                    showToast(data.error, "error");
+                                    return;
+                                }
+
+                                showToast("Product added to your cart!", "success");
+                            } catch (err) {
+                                console.error("Error adding to cart:", err);
+                                showToast("Error adding to cart.", "error");
+                            }
+                        } else {
+                            let guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+
+                            const exists = guestCart.find(p =>
+                                p.productId === item.productId &&
+                                p.selectedColor === item.selectedColor &&
+                                p.selectedSize === item.selectedSize
+                            );
+
+                            if (exists) {
+                                exists.quantity += item.quantity;
+                            } else {
+                                guestCart.push(item);
+                            }
+
+                            localStorage.setItem('guestCart', JSON.stringify(guestCart));
+                            showToast("Product added to guest cart!", "success");
+                        }
+                    }
 
                     function createProductElement(product) {
                         // Determine price display
@@ -1137,7 +1237,12 @@
                         let sizeOptions = '';
                         if (product.hasSizeVariants && product.sizeVariants) {
                             sizeOptions = product.sizeVariants.map(size =>
-                                `<span class="size-options">${size.size}</span>`
+                                `<span class="size-option badge badge-light border px-2 py-1 mr-1"
+                  data-size="${size.size}"
+                  data-stock="${size.stock}"
+                  style="cursor:pointer;">
+               ${size.size}
+             </span>`
                             ).join('');
                         }
 
@@ -1145,40 +1250,72 @@
                         let colorOptions = '';
                         if (product.hasColorVariants && product.colorVariants) {
                             colorOptions = product.colorVariants.map(color =>
-                                `<span class="color-options" style="background-color: ${color.color}"></span>`
+                                `<span class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                  data-color="${color.color}"
+                  data-stock="${color.stock}"
+                  title="${color.color}"
+                  style="width:22px;height:22px;cursor:pointer;background:${color.color};border:2px solid #eee;">
+             </span>`
                             ).join('');
                         }
 
                         // Main product HTML
                         return document.createRange().createContextualFragment(`
-    <div class="swiper-slide product product-image-gap product-simple">
-      <figure class="product-media">
-        <a href="/product/${product._id}">
-          ${product.images && product.images.length > 0 ?
+        <div class="swiper-slide product product-image-gap product-simple"
+            data-product-id="${product._id}"
+            data-has-color="${product.hasColorVariants}"
+            data-has-size="${product.hasSizeVariants}"
+            data-product-name="${product.name.replace(/"/g, '&quot;')}"
+            data-product-image="${product.images && product.images[0] ? product.images[0] : ''}"
+            data-product-price="${product.salePrice || product.basePrice}">
+
+            <figure class="product-media">
+                <a href="/product/${product._id}">
+                    ${product.images && product.images[0] ?
                                 `<img src="${product.images[0]}" alt="${product.name}" width="295" height="335" />` :
                                 '<img src="/images/placeholder-product.jpg" alt="Product" width="295" height="335" />'}
-          ${product.images && product.images.length > 1 ?
+                    ${product.images && product.images[1] ?
                                 `<img src="${product.images[1]}" alt="${product.name}" width="295" height="335" />` : ''}
-        </a>
-      </figure>
-      <div class="product-details">
-        <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-        <h4 class="product-name">
-          <a href="/product/${product._id}">${product.name}</a>
-        </h4>
-        <div class="product-variations d-flex flex-wrap">
-          ${sizeOptions ? `<div class="product-size">${sizeOptions}</div>` : ''}
-          ${colorOptions ? `<div class="product-color">${colorOptions}</div>` : ''}
+                </a>
+            </figure>
+
+            <div class="product-details">
+                <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                <h4 class="product-name">
+                    <a href="/product/${product._id}">${product.name}</a>
+                </h4>
+
+                <div class="product-variations flex flex-wrap mb-2">
+                    ${product.hasSizeVariants ? `
+                        <div class="product-size mr-3 d-flex align-items-center">
+                            <span class="font-weight-bold mr-1">Size:</span>
+                            <div>${sizeOptions}</div>
+                        </div>` : ''}
+
+                    ${product.hasColorVariants ? `
+                        <div class="product-color">
+                            <span class="font-weight-bold mr-1">Color:</span>
+                            ${colorOptions}
+                        </div>` : ''}
+                </div>        
+
+                <div class="product-pa-wrapper">
+                    <div class="product-price">${priceHtml}</div>
+                    <div class="product-action">
+                        <button class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
+                            data-product-id="${product._id}"
+                            data-has-color="${product.hasColorVariants}"
+                            data-has-size="${product.hasSizeVariants}"
+                            data-product-name="${product.name.replace(/"/g, '&quot;')}"
+                            data-product-image="${product.images && product.images[0] ? product.images[0] : ''}"
+                            data-product-price="${product.salePrice || product.basePrice}">
+                            Add To Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="product-pa-wrapper">
-          <div class="product-price">${priceHtml}</div>
-          <div class="product-action">
-            <a href="#" class="btn-cart btn-product btn btn-link btn-underline">Add To Cart</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  `);
+    `);
                     }
                 </script>
 
@@ -1955,22 +2092,185 @@
 
     <script>
         window.addEventListener('load', () => {
-          const urlParams = new URLSearchParams(window.location.search);
-          const googleLogin = urlParams.get('googleLogin');
-      
-          if (googleLogin === 'true') {
-            localStorage.removeItem('guestCart');
-            console.log('🛒 Guest cart cleared after Google login');
-      
-            // Optionally clean the URL so query param disappears
-            const cleanUrl = window.location.origin + window.location.pathname;
-            window.history.replaceState({}, document.title, cleanUrl);
-          }
+            const urlParams = new URLSearchParams(window.location.search);
+            const googleLogin = urlParams.get('googleLogin');
+
+            if (googleLogin === 'true') {
+                localStorage.removeItem('guestCart');
+                console.log('🛒 Guest cart cleared after Google login');
+
+                // Optionally clean the URL so query param disappears
+                const cleanUrl = window.location.origin + window.location.pathname;
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
         });
-      </script>
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectedVariants = {};
+
+            function updateSelectedVariantInfo(productId) {
+                const productEl = document.querySelector('.swiper-slide[data-product-id="' + productId + '"]');
+                if (!productEl) return;
+                const infoDiv = productEl.querySelector('.selected-variant-info');
+                if (!infoDiv) return;
+                const variant = selectedVariants[productId] || {};
+                let info = '';
+                if (productEl.getAttribute('data-has-size') === 'true') {
+                    info += variant.selectedSize
+                        ? `<span class="mr-2"><strong>Size:</strong> <span class="badge badge-success">${variant.selectedSize}</span></span>`
+                        : `<span class="mr-2 text-danger">Select Size</span>`;
+                }
+                if (productEl.getAttribute('data-has-color') === 'true') {
+                    info += variant.selectedColor
+                        ? `<span class="mr-2"><strong>Color:</strong> <span class="badge badge-success" style="background:${variant.selectedColor};color:#fff;border:1px solid #ccc;">${variant.selectedColor}</span></span>`
+                        : `<span class="mr-2 text-danger">Select Color</span>`;
+                }
+                infoDiv.innerHTML = info;
+            }
+
+            // Size selection
+            document.querySelectorAll('.product-size .size-option').forEach(function (el) {
+                el.addEventListener('click', function () {
+                    const productEl = el.closest('.swiper-slide');
+                    const productId = productEl.getAttribute('data-product-id');
+                    // Remove active from siblings
+                    productEl.querySelectorAll('.product-size .size-option').forEach(sib => sib.classList.remove('active'));
+                    el.classList.add('active');
+                    selectedVariants[productId] = selectedVariants[productId] || {};
+                    selectedVariants[productId].selectedSize = el.getAttribute('data-size');
+                    updateSelectedVariantInfo(productId);
+                });
+            });
+
+            // Color selection
+            document.querySelectorAll('.product-color .color-option').forEach(function (el) {
+                el.addEventListener('click', function () {
+                    const productEl = el.closest('.swiper-slide');
+                    const productId = productEl.getAttribute('data-product-id');
+                    // Remove active from siblings
+                    productEl.querySelectorAll('.product-color .color-option').forEach(sib => sib.classList.remove('active'));
+                    el.classList.add('active');
+                    selectedVariants[productId] = selectedVariants[productId] || {};
+                    selectedVariants[productId].selectedColor = el.getAttribute('data-color');
+                    updateSelectedVariantInfo(productId);
+                });
+            });
+
+            // Add to Cart button
+            document.querySelectorAll('.add-to-cart-btn').forEach(function (btn) {
+                btn.addEventListener('click', async function (e) {
+                    e.preventDefault();
+                    const productId = btn.getAttribute('data-product-id');
+                    const hasColor = btn.getAttribute('data-has-color') === 'true';
+                    const hasSize = btn.getAttribute('data-has-size') === 'true';
+                    const productName = btn.getAttribute('data-product-name');
+                    const productImage = btn.getAttribute('data-product-image');
+                    const productPrice = btn.getAttribute('data-product-price') ? parseFloat(btn.getAttribute('data-product-price')) : null;
+
+                    let selectedColor = null;
+                    let selectedSize = null;
+
+                    if (hasColor) {
+                        selectedColor = (selectedVariants[productId] && selectedVariants[productId].selectedColor) || null;
+                        if (!selectedColor) {
+                            showToast('Please select a color.', "error");
+                            updateSelectedVariantInfo(productId);
+                            return;
+                        }
+                    }
+                    if (hasSize) {
+                        selectedSize = (selectedVariants[productId] && selectedVariants[productId].selectedSize) || null;
+                        if (!selectedSize) {
+                            showToast('Please select a size.', "error");
+                            updateSelectedVariantInfo(productId);
+                            return;
+                        }
+                    }
+
+                    await addToCart(productId, 1, selectedColor, selectedSize, productName, productImage, productPrice);
+                });
+            });
+
+            // On page load, show default variant info
+            document.querySelectorAll('.swiper-slide.product').forEach(function (el) {
+                const productId = el.getAttribute('data-product-id');
+                updateSelectedVariantInfo(productId);
+            });
+        });
+
+        function showToast(message, type = "success") {
+            Toastify({
+                text: message,
+                duration: 2500,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: type === "success"
+                    ? "linear-gradient(90deg, #00b09b, #96c93d)"
+                    : "linear-gradient(90deg, #e74c3c, #c0392b)",
+                stopOnFocus: true
+            }).showToast();
+        }
+
+        // Add price to guestCart
+        async function addToCart(productId, quantity = 1, selectedColor = null, selectedSize = null, productName = null, productImage = null, productPrice = null) {
+            var isLoggedIn = <%= user ? 'true' : 'false' %>;
+            isLoggedIn = (isLoggedIn === true || isLoggedIn === 'true');
+
+            const item = { productId, quantity, selectedColor, selectedSize };
+
+            if (productName) item.productName = productName;
+            if (productImage) item.productImage = productImage;
+            if (typeof productPrice === "number" && !isNaN(productPrice)) item.price = productPrice;
+
+            if (isLoggedIn) {
+                localStorage.removeItem('guestCart');
+                try {
+                    const res = await fetch('/add-cart', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify(item)
+                    });
+
+                    const data = await res.json();
+                    if (data.error) {
+                        showToast(data.error, "error");
+                        return;
+                    }
+
+                    showToast("Product added to your cart!", "success");
+                } catch (err) {
+                    console.error("Error adding to cart:", err);
+                    showToast("Error adding to cart.", "error");
+                }
+            } else {
+                let guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+
+                const exists = guestCart.find(p =>
+                    p.productId === item.productId &&
+                    p.selectedColor === item.selectedColor &&
+                    p.selectedSize === item.selectedSize
+                );
+
+                if (exists) {
+                    exists.quantity += item.quantity;
+                } else {
+                    guestCart.push(item);
+                }
+
+                localStorage.setItem('guestCart', JSON.stringify(guestCart));
+                showToast("Product added to guest cart!", "success");
+            }
+        }
+    </script>
+    <script>
+        window.isLoggedIn = <%= user ? 'true' : 'false' %>;
+    </script>
 
     <!-- Plugin JS File -->
-     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/parallax/parallax.min.js"></script>
     <script src="/vendor/jquery.plugin/jquery.plugin.min.js"></script>

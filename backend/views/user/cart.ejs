@@ -1,9 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- Mirrored from portotheme.com/html/wolmart/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 31 May 2025 15:19:48 GMT -->
-<!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
@@ -113,7 +109,29 @@
                             <div class="cart-overlay"></div>
                             <a href="/cart" class="cart-toggle label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count text-white">2</span>
+                                    <span class="cart-count text-white">
+                                        <% if (user) { %>
+                                            <%= cartItems && cartItems.length ? cartItems.length : " " %>
+                                        <% } else { %>
+                                            <span id="guest-cart-count"></span>
+                                            <script>
+                                                document.addEventListener('DOMContentLoaded', function() {
+                                                    var guestCartCount = document.getElementById('guest-cart-count');
+                                                    var guestCart = localStorage.getItem('guestCart');
+                                                    var count = 0;
+                                                    if (guestCart) {
+                                                        try {
+                                                            var cartArr = JSON.parse(guestCart);
+                                                            if (Array.isArray(cartArr)) {
+                                                                count = cartArr.length;
+                                                            }
+                                                        } catch (e) {}
+                                                    }
+                                                    guestCartCount.textContent = count > 0 ? count : " ";
+                                                });
+                                            </script>
+                                        <% } %>
+                                    </span>
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
@@ -122,58 +140,111 @@
                                     <span>Shopping Cart</span>
                                     <a href="#" class="btn-close">Close<i class="w-icon-long-arrow-right"></i></a>
                                 </div>
-                                <div class="products">
-                                    <div class="product product-cart">
-                                        <div class="product-detail">
-                                            <a href="product-default.html" class="product-name">Beige knitted
-                                                elastic
-                                                runner shoes</a>
-                                            <div class="price-box">
-                                                <span class="product-quantity">1</span>
-                                                <span class="product-price">₹25.68</span>
+                                <div class="products" id="cart-products-list">
+                                    <% if (user && cartItems && cartItems.length > 0) { %>
+                                        <% cartItems.forEach(function(item) { %>
+                                            <div class="product product-cart">
+                                                <div class="product-detail">
+                                                    <a href="/product/<%= item.product %>" class="product-name">
+                                                        <%= item.productName %>
+                                                    </a>
+                                                    <div class="price-box">
+                                                        <span class="product-quantity">
+                                                            <%= item.quantity %>
+                                                        </span>
+                                                        <span class="product-price ml-2">
+                                                            ₹<%= item.price ? item.price.toFixed(2) : '0.00' %>
+                                                        </span>
+                                                        <% if (item.selectedColor) { %>
+                                                            <span class="badge badge-light ml-2">Color: <%= item.selectedColor %></span>
+                                                        <% } %>
+                                                        <% if (item.selectedSize) { %>
+                                                            <span class="badge badge-light ml-2">Size: <%= item.selectedSize %></span>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                                <figure class="product-media">
+                                                    <img src="<%= item.productImage %>" alt="product" height="84" width="94">
+                                                </figure>
                                             </div>
+                                        <% }); %>
+                                    <% } else if (!user) { %>
+                                        <!-- Guest cart will be rendered by JS -->
+                                    <% } else { %>
+                                        <div class="text-center py-3">
+                                            <span>Your cart is empty.</span>
                                         </div>
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/cart/product-1.jpg" alt="product" height="84"
-                                                    width="94">
-                                            </a>
-                                        </figure>
-                                        <button class="btn btn-link btn-close">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                    <div class="product product-cart">
-                                        <div class="product-detail">
-                                            <a href="product-default.html" class="product-name">Blue utility
-                                                pina<br>fore
-                                                denim dress
-                                            </a>
-                                            <div class="price-box">
-                                                <span class="product-quantity">1</span>
-                                                <span class="product-price">₹32.99</span>
-                                            </div>
-                                        </div>
-                                        <figure class="product-media">
-                                            <a href="product-default.html">
-                                                <img src="/images/cart/product-2.jpg" alt="product" width="84"
-                                                    height="94">
-                                            </a>
-                                        </figure>
-                                        <button class="btn btn-link btn-close">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
+                                    <% } %>
                                 </div>
-                                <div class="cart-total">
+                                <div class="cart-total" id="cart-subtotal-section">
                                     <label>Subtotal:</label>
-                                    <span class="price">₹58.67</span>
+                                    <span class="price" id="cart-subtotal-amount">
+                                        ₹<%= user && typeof cartSubtotal === 'number' ? cartSubtotal.toFixed(2) : '0.00' %>
+                                    </span>
                                 </div>
                                 <div class="cart-action">
                                     <a href="/cart" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-                                    <a href="/checkout" class="btn btn-primary  btn-rounded">Checkout</a>
+                                    <a href="/checkout" class="btn btn-primary btn-rounded">Checkout</a>
                                 </div>
                             </div>
+                            <% if (!user) { %>
+                            <script>
+                                // Guest cart rendering for non-logged-in users
+                                function renderGuestCart() {
+                                    const cartProductsList = document.getElementById('cart-products-list');
+                                    const subtotalSection = document.getElementById('cart-subtotal-amount');
+                                    let guestCart = localStorage.getItem('guestCart');
+                                    if (!guestCart) {
+                                        cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
+                                        subtotalSection.textContent = '₹0.00';
+                                        return;
+                                    }
+                                    try {
+                                        guestCart = JSON.parse(guestCart);
+                                    } catch (e) {
+                                        cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
+                                        subtotalSection.textContent = '₹0.00';
+                                        return;
+                                    }
+                                    // guestCart is now an array of cart items
+                                    if (!Array.isArray(guestCart) || guestCart.length === 0) {
+                                        cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
+                                        subtotalSection.textContent = '₹0.00';
+                                        return;
+                                    }
+                                    let html = '';
+                                    let subtotal = 0;
+                                    guestCart.forEach(function(item) {
+                                        subtotal += (item.price || 0) * (item.quantity || 1);
+                                        html += `
+                                            <div class="product product-cart">
+                                                <div class="product-detail">
+                                                    <a href="/product/${item.productId}" class="product-name">
+                                                        ${item.productName || ''}
+                                                    </a>
+                                                    <div class="price-box">
+                                                        <span class="product-quantity">
+                                                            ${item.quantity || 1}
+                                                        </span>
+                                                        <span class="product-price ml-2">
+                                                            ₹${item.price ? Number(item.price).toFixed(2) : '0.00'}
+                                                        </span>
+                                                        ${item.selectedColor ? `<span class="badge badge-light ml-2">Color: ${item.selectedColor}</span>` : ''}
+                                                        ${item.selectedSize ? `<span class="badge badge-light ml-2">Size: ${item.selectedSize}</span>` : ''}
+                                                    </div>
+                                                </div>
+                                                <figure class="product-media">
+                                                    <img src="${item.productImage || ''}" alt="product" height="84" width="94">
+                                                </figure>
+                                            </div>
+                                        `;
+                                    });
+                                    cartProductsList.innerHTML = html;
+                                    subtotalSection.textContent = '₹' + subtotal.toFixed(2);
+                                }
+                                document.addEventListener('DOMContentLoaded', renderGuestCart);
+                            </script>
+                            <% } %>
                             <!-- End of Dropdown Box -->
                         </div>
                     </div>

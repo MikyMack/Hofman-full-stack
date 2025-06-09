@@ -3,6 +3,7 @@
 
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -34,7 +35,7 @@
     <link rel="preload" href="/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2"
         crossorigin="anonymous">
     <link rel="preload" href="/vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2"
-            crossorigin="anonymous">
+        crossorigin="anonymous">
     <link rel="preload" href="/fonts/wolmart87d5.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
 
     <!-- Vendor CSS -->
@@ -52,7 +53,7 @@
 
 <body>
     <div class="page-wrapper">
-      
+
         <!-- Start of Header -->
         <header class="header">
             <div class="header-top">
@@ -191,7 +192,7 @@
                     <ul class="breadcrumb bb-no">
                         <li><a href="/">Home</a></li>
                         <li><a href="/store">Shop</a></li>
-                      
+
                     </ul>
                 </div>
             </nav>
@@ -204,255 +205,171 @@
                     <div class="shop-default-banner banner d-flex align-items-center mb-5 br-xs"
                         style="background-image: url(/images/banner/banner.png); background-color: #FFC74E;">
                         <div class="banner-content">
-   <h4 style="color: white!important;"  class="banner-subtitle font-weight-bold">Lofers Collection</h4>
-             <h3 class="banner-title text-white text-uppercase font-weight-bolder ls-10">Slide Into Sophistication</h3>
+                            <h4 style="color: white!important;" class="banner-subtitle font-weight-bold">Lofers
+                                Collection</h4>
+                            <h3 class="banner-title text-white text-uppercase font-weight-bolder ls-10">Slide Into
+                                Sophistication</h3>
                             <a href="/store" class="btn btn-dark new-btn btn-rounded btn-icon-right">Discover
                                 Now<i class="w-icon-long-arrow-right"></i></a>
                         </div>
                     </div>
                     <!-- End of Shop Banner -->
 
-          
 
-                    <!-- Start of Shop Category -->
+
+               
                     <div class="shop-default-category category-ellipse-section mb-6">
-                        <div class="swiper-container swiper-theme shadow-swiper"
-                            data-swiper-options="{
+                        <div class="swiper-container swiper-theme shadow-swiper" data-swiper-options="{
                             'spaceBetween': 20,
-                            'slidesPerView': 2,
+                            'slidesPerView': 3,
                             'breakpoints': {
-                                '480': {
-                                    'slidesPerView': 3
-                                },
-                                '576': {
-                                    'slidesPerView': 4
-                                },
-                                '768': {
-                                    'slidesPerView': 6
-                                },
-                                '992': {
-                                    'slidesPerView': 7
-                                },
-                                '1200': {
-                                    'slidesPerView': 8,
-                                    'spaceBetween': 30
-                                }
+                                '480': { 'slidesPerView': 3 },
+                                '576': { 'slidesPerView': 4 },
+                                '768': { 'slidesPerView': 6 },
+                                '992': { 'slidesPerView': 7 },
+                                '1200': { 'slidesPerView': 8, 'spaceBetween': 30 }
                             }
                         }">
                             <div class="swiper-wrapper row gutter-lg cols-xl-8 cols-lg-7 cols-md-6 cols-sm-4 cols-xs-3 cols-2">
-                                <div class="swiper-slide category-wrap">
-                                    <div class="category category-ellipse">
-                                        <figure class="category-media">
-                                            <a href="/store">
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Categroy"
-                                                    width="190" height="190" style="background-color: #5C92C0;" />
-                                            </a>
-                                        </figure>
-                                        <div class="category-content">
-                                            <h4 class="category-name">
-                                                <a href="/store">LOFFERS</a>
-                                            </h4>
+                                <% categories.forEach(function(category) { %>
+                                    <div class="swiper-slide category-wrap">
+                                        <div class="category category-ellipse">
+                                            <figure class="category-media">
+                                                <a href="/store?<%= 'category=' + encodeURIComponent(category.slug || category.name) %>">
+                                                    <img src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt="<%= category.name %>" width="190" height="190" style="background-color: <%= category.bgColor || '#E4E4E4' %>;" />
+                                                </a>
+                                            </figure>
+                                            <div class="category-content">
+                                                <h4 class="category-name">
+                                                    <a href="/store?<%= 'category=' + encodeURIComponent(category.slug || category.name) %>"><%= category.name %></a>
+                                                </h4>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide category-wrap">
-                                    <div class="category category-ellipse">
-                                        <figure class="category-media">
-                                            <a href="/store">
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Categroy"
-                                                    width="190" height="190" style="background-color: #B8BDC1;" />
-                                            </a>
-                                        </figure>
-                                        <div class="category-content">
-                                            <h4 class="category-name">
-                                                <a href="/store">LOFFERS</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide category-wrap">
-                                    <div class="category category-ellipse">
-                                        <figure class="category-media">
-                                            <a href="/store">
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Categroy"
-                                                    width="190" height="190" style="background-color: #99C4CA;" />
-                                            </a>
-                                        </figure>
-                                        <div class="category-content">
-                                            <h4 class="category-name">
-                                                <a href="/store">LOFFERS</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide category-wrap">
-                                    <div class="category category-ellipse">
-                                        <figure class="category-media">
-                                            <a href="/store">
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Categroy"
-                                                    width="190" height="190" style="background-color: #4E5B63;" />
-                                            </a>
-                                        </figure>
-                                        <div class="category-content">
-                                            <h4 class="category-name">
-                                                <a href="/store">LOFFERS</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide category-wrap">
-                                    <div class="category category-ellipse">
-                                        <figure class="category-media">
-                                            <a href="/store">
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Categroy"
-                                                    width="190" height="190" style="background-color: #D3E5EF;" />
-                                            </a>
-                                        </figure>
-                                        <div class="category-content">
-                                            <h4 class="category-name">
-                                                <a href="/store">LOFFERS</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide category-wrap">
-                                    <div class="category category-ellipse">
-                                        <figure class="category-media">
-                                            <a href="/store">
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Categroy"
-                                                    width="190" height="190" style="background-color: #65737C;" />
-                                            </a>
-                                        </figure>
-                                        <div class="category-content">
-                                            <h4 class="category-name">
-                                                <a href="/store">LOFFERS</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide category-wrap">
-                                    <div class="category category-ellipse">
-                                        <figure class="category-media">
-                                            <a href="/store">
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Categroy"
-                                                    width="190" height="190" style="background-color: #E4E4E4;" />
-                                            </a>
-                                        </figure>
-                                        <div class="category-content">
-                                            <h4 class="category-name">
-                                                <a href="/store">LOFFERS</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide category-wrap">
-                                    <div class="category category-ellipse">
-                                        <figure class="category-media">
-                                            <a href="/store">
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Categroy"
-                                                    width="190" height="190" style="background-color: #D3D8DE;" />
-                                            </a>
-                                        </figure>
-                                        <div class="category-content">
-                                            <h4 class="category-name">
-                                                <a href="/store">LOFFERS</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
+                                <% }) %>
                             </div>
                             <div class="swiper-pagination"></div>
                         </div>
                     </div>
-                    <!-- End of Shop Category -->
-
-                    <!-- Start of Shop Content -->
+               
                     <div class="shop-content row gutter-lg mb-10">
                         <!-- Start of Sidebar, Shop Sidebar -->
                         <aside class="sidebar shop-sidebar sticky-sidebar-wrapper sidebar-fixed">
-                            <!-- Start of Sidebar Overlay -->
                             <div class="sidebar-overlay"></div>
                             <a class="sidebar-close" href="#"><i class="close-icon"></i></a>
-
-                            <!-- Start of Sidebar Content -->
                             <div class="sidebar-content scrollable">
-                                <!-- Start of Sticky Sidebar -->
                                 <div class="sticky-sidebar">
                                     <div class="filter-actions">
                                         <label>Filter :</label>
-                                        <a href="#" class="btn btn-dark btn-link filter-clean">Clean All</a>
+                                        <a href="/store" class="btn btn-dark btn-link filter-clean">Clean All</a>
                                     </div>
-                                    <!-- Start of Collapsible widget -->
+                                    <!-- Categories Filter -->
                                     <div class="widget widget-collapsible">
                                         <h3 class="widget-title"><span>All Categories</span></h3>
                                         <ul class="widget-body filter-items search-ul">
-                                            <li><a href="#">Shoes</a></li>
-                                            <li><a href="#">Sandles</a></li>
-                                            <li><a href="#">Wallet</a></li>
-                                            <li><a href="#">Bags</a></li>
-  
-                                         <li><a href="#">Shoes</a></li>
-                                            <li><a href="#">Sandles</a></li>
-                                            <li><a href="#">Wallet</a></li>
-                                            <li><a href="#">Bags</a></li>
+                                            <% categories.forEach(function(category) { %>
+                                                <li>
+                                                    <a href="/store?<%= 'category=' + encodeURIComponent(category.slug || category.name) %>"><%= category.name %></a>
+                                                </li>
+                                            <% }) %>
                                         </ul>
                                     </div>
-                                    <!-- End of Collapsible Widget -->
-
-                                    <!-- Start of Collapsible Widget -->
+                                    <!-- Price Filter -->
                                     <div class="widget widget-collapsible">
                                         <h3 class="widget-title"><span>Price</span></h3>
                                         <div class="widget-body">
                                             <ul class="filter-items search-ul">
-                                                <li><a href="#">₹0.00 - ₹100.00</a></li>
-                                                <li><a href="#">₹100.00 - ₹200.00</a></li>
-                                                <li><a href="#">₹200.00 - ₹300.00</a></li>
-                                                <li><a href="#">₹300.00 - ₹500.00</a></li>
-                                                <li><a href="#">₹500.00+</a></li>
+                                                <% 
+                                                    const priceRanges = [
+                                                        { min: 0, max: 100 },
+                                                        { min: 100, max: 200 },
+                                                        { min: 200, max: 300 },
+                                                        { min: 300, max: 500 },
+                                                        { min: 500, max: null }
+                                                    ];
+                                                %>
+                                                <% priceRanges.forEach(function(range) { %>
+                                                    <li>
+                                                        <a href="/store?<%= 
+                                                            (filters.category ? 'category=' + encodeURIComponent(filters.category) + '&' : '') +
+                                                            'minPrice=' + range.min + 
+                                                            (range.max !== null ? '&maxPrice=' + range.max : '')
+                                                        %>">
+                                                            ₹<%= range.min %>.00<% if(range.max !== null) { %> - ₹<%= range.max %>.00<% } else { %>+<% } %>
+                                                        </a>
+                                                    </li>
+                                                <% }) %>
                                             </ul>
-                                            <form class="price-range">
-                                                <input type="number" name="min_price" class="min_price text-center"
-                                                    placeholder="₹min"><span class="delimiter">-</span><input
-                                                    type="number" name="max_price" class="max_price text-center"
-                                                    placeholder="₹max"><a href="#"
-                                                    class="btn btn-primary btn-rounded">Go</a>
+                                            <form class="price-range" method="get" action="/store">
+                                                <input type="number" name="minPrice" class="min_price text-center" placeholder="₹min" value="<%= filters.minPrice || '' %>">
+                                                <span class="delimiter">-</span>
+                                                <input type="number" name="maxPrice" class="max_price text-center" placeholder="₹max" value="<%= filters.maxPrice || '' %>">
+                                                <% if (filters.category) { %>
+                                                    <input type="hidden" name="category" value="<%= filters.category %>">
+                                                <% } %>
+                                                <button type="submit" class="btn btn-primary btn-rounded">Go</button>
                                             </form>
                                         </div>
                                     </div>
-                                    <!-- End of Collapsible Widget -->
-
-                                    <!-- Start of Collapsible Widget -->
+                                    <!-- Size Filter -->
                                     <div class="widget widget-collapsible">
                                         <h3 class="widget-title"><span>Size</span></h3>
                                         <ul class="widget-body filter-items item-check mt-1">
-                                            <li><a href="#">Extra Large</a></li>
-                                            <li><a href="#">Large</a></li>
-                                            <li><a href="#">Medium</a></li>
-                                            <li><a href="#">Small</a></li>
+                                            <% 
+                                                let sizeSet = new Set();
+                                                products.forEach(function(product) {
+                                                    if (product.sizeVariants && Array.isArray(product.sizeVariants)) {
+                                                        product.sizeVariants.forEach(function(variant) {
+                                                            if (variant.size) sizeSet.add(variant.size);
+                                                        });
+                                                    }
+                                                });
+                                                let sizes = Array.from(sizeSet);
+                                                sizes.sort();
+                                            %>
+                                            <% sizes.forEach(function(size) { %>
+                                                <li>
+                                                    <a href="/store?<%= 
+                                                        (filters.category ? 'category=' + encodeURIComponent(filters.category) + '&' : '') +
+                                                        (filters.minPrice ? 'minPrice=' + filters.minPrice + '&' : '') +
+                                                        (filters.maxPrice ? 'maxPrice=' + filters.maxPrice + '&' : '') +
+                                                        'size=' + encodeURIComponent(size)
+                                                    %>"><%= size %></a>
+                                                </li>
+                                            <% }) %>
                                         </ul>
                                     </div>
-                                    <!-- End of Collapsible Widget -->
-
-                               
-
-                                    <!-- Start of Collapsible Widget -->
+                                    <!-- Color Filter -->
                                     <div class="widget widget-collapsible">
                                         <h3 class="widget-title"><span>Color</span></h3>
                                         <ul class="widget-body filter-items item-check mt-1">
-                                            <li><a href="#">Black</a></li>
-                                            <li><a href="#">Blue</a></li>
-                                            <li><a href="#">Brown</a></li>
-                                            <li><a href="#">Green</a></li>
-                                            <li><a href="#">Grey</a></li>
-                                            <li><a href="#">Orange</a></li>
-                                            <li><a href="#">Yellow</a></li>
+                                            <% 
+                                                let colorSet = new Set();
+                                                products.forEach(function(product) {
+                                                    if (product.colorVariants && Array.isArray(product.colorVariants)) {
+                                                        product.colorVariants.forEach(function(variant) {
+                                                            if (variant.color) colorSet.add(variant.color);
+                                                        });
+                                                    }
+                                                });
+                                                let colors = Array.from(colorSet);
+                                                colors.sort();
+                                            %>
+                                            <% colors.forEach(function(color) { %>
+                                                <li>
+                                                    <a href="/store?<%= 
+                                                        (filters.category ? 'category=' + encodeURIComponent(filters.category) + '&' : '') +
+                                                        (filters.minPrice ? 'minPrice=' + filters.minPrice + '&' : '') +
+                                                        (filters.maxPrice ? 'maxPrice=' + filters.maxPrice + '&' : '') +
+                                                        (filters.size ? 'size=' + encodeURIComponent(filters.size) + '&' : '') +
+                                                        'color=' + encodeURIComponent(color)
+                                                    %>"><%= color %></a>
+                                                </li>
+                                            <% }) %>
                                         </ul>
                                     </div>
-                                    <!-- End of Collapsible Widget -->
                                 </div>
-                                <!-- End of Sidebar Content -->
                             </div>
-                            <!-- End of Sidebar Content -->
                         </aside>
                         <!-- End of Shop Sidebar -->
 
@@ -465,654 +382,143 @@
                                             class="w-icon-category"></i><span>Filters</span></a>
                                     <div class="toolbox-item toolbox-sort select-box text-dark">
                                         <label>Sort By :</label>
-                                        <select name="orderby" class="form-control">
-                                            <option value="default" selected="selected">Default sorting</option>
-                                            <option value="popularity">Sort by popularity</option>
-                                            <option value="rating">Sort by average rating</option>
-                                            <option value="date">Sort by latest</option>
-                                            <option value="price-low">Sort by pric: low to high</option>
-                                            <option value="price-high">Sort by price: high to low</option>
-                                        </select>
+                                        <form method="get" action="/store" style="display:inline;">
+                                            <select name="sort" class="form-control" onchange="this.form.submit()">
+                                                <option value="" <%= !filters.sort ? 'selected' : '' %>>Default sorting</option>
+                                                <option value="popularity" <%= filters.sort === 'popularity' ? 'selected' : '' %>>Sort by popularity</option>
+                                                <option value="rating" <%= filters.sort === 'rating' ? 'selected' : '' %>>Sort by average rating</option>
+                                                <option value="date" <%= filters.sort === 'date' ? 'selected' : '' %>>Sort by latest</option>
+                                                <option value="price-low" <%= filters.sort === 'price-low' ? 'selected' : '' %>>Sort by price: low to high</option>
+                                                <option value="price-high" <%= filters.sort === 'price-high' ? 'selected' : '' %>>Sort by price: high to low</option>
+                                            </select>
+                                            <% // Preserve other filters in sort form %>
+                                            <% Object.keys(filters).forEach(function(key) { 
+                                                if (['sort', 'page', 'limit'].indexOf(key) === -1 && filters[key]) { %>
+                                                <input type="hidden" name="<%= key %>" value="<%= filters[key] %>">
+                                            <% } }) %>
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="toolbox-right">
                                     <div class="toolbox-item toolbox-show select-box">
-                                        <select name="count" class="form-control">
-                                            <option value="9">Show 9</option>
-                                            <option value="12" selected="selected">Show 12</option>
-                                            <option value="24">Show 24</option>
-                                            <option value="36">Show 36</option>
-                                        </select>
+                                        <form method="get" action="/store" style="display:inline;">
+                                            <select name="limit" class="form-control" onchange="this.form.submit()">
+                                                <option value="9" <%= filters.limit == 9 ? 'selected' : '' %>>Show 9</option>
+                                                <option value="12" <%= (!filters.limit || filters.limit == 12) ? 'selected' : '' %>>Show 12</option>
+                                                <option value="24" <%= filters.limit == 24 ? 'selected' : '' %>>Show 24</option>
+                                                <option value="36" <%= filters.limit == 36 ? 'selected' : '' %>>Show 36</option>
+                                            </select>
+                                            <% // Preserve other filters in limit form %>
+                                            <% Object.keys(filters).forEach(function(key) { 
+                                                if (['limit', 'page'].indexOf(key) === -1 && filters[key]) { %>
+                                                <input type="hidden" name="<%= key %>" value="<%= filters[key] %>">
+                                            <% } }) %>
+                                        </form>
                                     </div>
                                     <div class="toolbox-item toolbox-layout">
                                         <a href="/store" class="icon-mode-grid btn-layout active">
                                             <i class="w-icon-grid"></i>
                                         </a>
-                                   
                                     </div>
                                 </div>
                             </nav>
                             <div class="product-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-2">
-                                 <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
+                                <% if (products.length === 0) { %>
+                                    <div class="col-12 text-center py-5">
+                                        <h4>No products found.</h4>
                                     </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
+                                <% } else { %>
+                                    <% products.forEach(function(product) { %>
+                                        <div class="product-wrap">
+                                            <div class="product text-center">
+                                                <figure class="product-media">
+                                                    <a href="/product/<%= product.slug || product._id %>">
+                                                        <img src="<%= (product.images && product.images[0]) ? product.images[0] : '/images/hofmaan/category.jpg' %>" alt="Product" width="300" height="338" />
+                                                        <% if (product.images && product.images[1]) { %>
+                                                            <img src="<%= product.images[1] %>" alt="Product" width="300" height="338" />
+                                                        <% } %>
+                                                    </a>
+                                                    <div class="product-action-horizontal">
+                                                        <form method="post" action="/cart/add" style="display:inline;">
+                                                            <input type="hidden" name="productId" value="<%= product._id %>">
+                                                            <button type="submit" class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></button>
+                                                        </form>
+                                                        <a href="/wishlist/add/<%= product._id %>" class="btn-product-icon btn-wishlist w-icon-heart" title="Wishlist"></a>
+                                                    </div>
+                                                </figure>
+                                                <div class="product-details">
+                                                    <div class="product-cat">
+                                                        <a href="/store?category=<%= encodeURIComponent(product.categoryName || product.category) %>"><%= product.categoryName || product.category %></a>
+                                                    </div>
+                                                    <h3 class="product-name">
+                                                        <a class="text-uppercase" href="/product/<%= product.slug || product._id %>"><%= product.name %></a>
+                                                    </h3>
+                                                    <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
+                                                        <% if (product.sizeVariants && product.sizeVariants.length > 0) { %>
+                                                            <div class="product-size-new">
+                                                                <% product.sizeVariants.forEach(function(variant) { %>
+                                                                    <span class="size-options-new"><%= variant.size %></span>
+                                                                <% }) %>
+                                                            </div>
+                                                        <% } %>
+                                                        <% if (product.colorVariants && product.colorVariants.length > 0) { %>
+                                                            <div class="product-color">
+                                                                <% product.colorVariants.forEach(function(variant) { %>
+                                                                    <span class="color-options-new" style="background-color:<%= variant.colorCode || variant.color || '#ccc' %>;" title="<%= variant.color %>"></span>
+                                                                <% }) %>
+                                                            </div>
+                                                        <% } %>
+                                                    </div>
+                                                    <div class="product-pa-wrapper">
+                                                        <div class="product-price">
+                                                            <% if (product.salePrice && product.salePrice > 0 && product.salePrice < product.basePrice) { %>
+                                                                <ins class="new-price">₹<%= product.salePrice.toFixed(2) %></ins>
+                                                                <del class="old-price">₹<%= product.basePrice.toFixed(2) %></del>
+                                                            <% } else { %>
+                                                                <ins class="new-price">₹<%= product.basePrice.toFixed(2) %></ins>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
-                                    </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                              <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
-                                    </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                             <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
-                                    </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
-                                    </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                  <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
-                                    </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                   <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
-                                    </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                  <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
-                                    </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                              <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
-                                    </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
-                                    </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                  <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
-                                    </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                   <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a href="product-Details.html">
-                                                <img src="/images/hofmaan/category.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                              
-                                                <img src="/images/hofmaan/sample3.jpg" alt="Product" width="300"
-                                                    height="338" />
-                                            </a>
-                                            </a>
-                                            <div class="product-action-horizontal">
-                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                   
-                                            </div>
-                                            
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="/store">Shoe</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a class="text-uppercase" href="product-Details.html">LOFERS</a>
-                                            </h3>
-                                    
-                                                 <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
-                                    <div class="product-size-new">
-                                        <span class="size-options-new">S</span>
-                                        <span class="size-options-new">M</span>
-                                        <span class="size-options-new">L</span>
-                                        <span class="size-options-new">XL</span>
-                                    </div>
-                                    <div class="product-color">
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new"></span>
-                                        <span class="color-options-new "></span>
-                                    </div>
-                                </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                               <ins class="new-price">₹30.00</ins><del
-                                                        class="old-price">₹60.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <% }) %>
+                                <% } %>
                             </div>
 
                             <div class="toolbox toolbox-pagination justify-content-between">
                                 <p class="showing-info mb-2 mb-sm-0">
-                                    Showing<span>1-12 of 60</span>Products
+                                    <% 
+                                        let start = (currentPage - 1) * (filters.limit ? parseInt(filters.limit) : 12) + 1;
+                                        let end = Math.min(currentPage * (filters.limit ? parseInt(filters.limit) : 12), totalProducts);
+                                    %>
+                                    Showing <span><%= start %>-<%= end %> of <%= totalProducts %></span> Products
                                 </p>
                                 <ul class="pagination">
-                                    <li class="prev disabled">
-                                        <a href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                    <li class="prev <%= currentPage === 1 ? 'disabled' : '' %>">
+                                        <a href="<%= currentPage === 1 ? '#' : ('/store?' + 
+                                            Object.keys(filters).map(function(key) {
+                                                if (key !== 'page' && filters[key]) return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
+                                            }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + 'page=' + (currentPage - 1)
+                                        ) %>" aria-label="Previous" tabindex="-1" aria-disabled="<%= currentPage === 1 ? 'true' : 'false' %>">
                                             <i class="w-icon-long-arrow-left"></i>Prev
                                         </a>
                                     </li>
-                                    <li class="page-item active">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    <li class="next">
-                                        <a href="#" aria-label="Next">
+                                    <% for (let i = 1; i <= totalPages; i++) { %>
+                                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                            <a class="page-link" href="/store?<%= 
+                                                Object.keys(filters).map(function(key) {
+                                                    if (key !== 'page' && filters[key]) return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
+                                                }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + 'page=' + i
+                                            %>"><%= i %></a>
+                                        </li>
+                                    <% } %>
+                                    <li class="next <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                        <a href="<%= currentPage === totalPages ? '#' : ('/store?' + 
+                                            Object.keys(filters).map(function(key) {
+                                                if (key !== 'page' && filters[key]) return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
+                                            }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + 'page=' + (currentPage + 1)
+                                        ) %>" aria-label="Next" aria-disabled="<%= currentPage === totalPages ? 'true' : 'false' %>">
                                             Next<i class="w-icon-long-arrow-right"></i>
                                         </a>
                                     </li>
@@ -1121,13 +527,13 @@
                         </div>
                         <!-- End of Shop Main Content -->
                     </div>
-                    <!-- End of Shop Content -->
+                
                 </div>
             </div>
             <!-- End of Page Content -->
         </main>
         <!-- End of Main -->
-      <footer class="footer appear-animate" data-animation-options="{
+        <footer class="footer appear-animate" data-animation-options="{
             'name': 'fadeIn'
         }">
             <div class="footer-newsletter bg-primary">
@@ -1164,8 +570,7 @@
                         <div class="col-lg-4 col-sm-6">
                             <div class="widget widget-about mt-0 mb-4">
                                 <a href="demo12.html" class="logo-footer">
-                                    <img src="/images/logo.png" alt="logo-footer" width="200"
-                                        height="45" />
+                                    <img src="/images/logo.png" alt="logo-footer" width="200" height="45" />
                                 </a>
                                 <div class="widget-body">
                                     <p class="widget-about-title">Got Question? Call us 24/7</p>
@@ -1175,11 +580,14 @@
                                     </p>
 
                                     <div class="social-icons social-icons-colored">
-                                        <a href="https://www.facebook.com/people/Hofmaan/61577157921909/" class="social-icon social-facebook w-icon-facebook"></a>
-   
-                                        <a href="https://www.instagram.com/hofmaan__/" class="social-icon social-instagram w-icon-instagram"></a>
-                                     
-                                        <a href="https://in.pinterest.com/hofmaanstore/" class="social-icon social-pinterest w-icon-pinterest"></a>
+                                        <a href="https://www.facebook.com/people/Hofmaan/61577157921909/"
+                                            class="social-icon social-facebook w-icon-facebook"></a>
+
+                                        <a href="https://www.instagram.com/hofmaan__/"
+                                            class="social-icon social-instagram w-icon-instagram"></a>
+
+                                        <a href="https://in.pinterest.com/hofmaanstore/"
+                                            class="social-icon social-pinterest w-icon-pinterest"></a>
                                     </div>
                                 </div>
                             </div>
@@ -1188,10 +596,10 @@
                             <div class="widget">
                                 <h3 class="widget-title">Company</h3>
                                 <ul class="widget-body">
-                                        <li><a href="/">Home</a></li>
+                                    <li><a href="/">Home</a></li>
                                     <li><a href="/about">About Us</a></li>
                                     <li><a href="/store"> Shop</a></li>
-                                     <li><a href="blogs.html">Blogs</a></li>
+                                    <li><a href="blogs.html">Blogs</a></li>
                                     <li><a href="/contact">Contact Us</a></li>
 
                                     <li><a href="my-account.html">Orders</a></li>
@@ -1226,7 +634,7 @@
                         </div>
                     </div>
                 </div>
-               
+
                 <div class="footer-bottom">
                     <div class="footer-left">
                         <p class="copyright">Copyright © 2025 Hofmaan. All Rights Reserved.</p>
@@ -1244,7 +652,7 @@
     </div>
     <!-- End of Page Wrapper -->
 
-   <!-- Start of Sticky Footer -->
+    <!-- Start of Sticky Footer -->
     <div class="sticky-footer sticky-content fix-bottom">
         <a href="/" class="sticky-link active">
             <i class="w-icon-home"></i>
@@ -1263,22 +671,26 @@
                 <i class="w-icon-cart"></i>
                 <p>Cart</p>
             </a>
-        
+
             <!-- End of Dropdown Box -->
         </div>
-        
+
         <div class="header-search hs-toggle dir-up">
             <a href="wishlist.html" class="search-toggle sticky-link">
                 <i class="w-icon-heart"></i>
                 <p>Wishlist</p>
             </a>
-         
+
         </div>
     </div>
     <!-- End of Sticky Footer -->
 
     <!-- Start of Scroll Top -->
-    <a id="scroll-top" class="scroll-top" href="#top" title="Top" role="button"> <i class="w-icon-angle-up"></i> <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70"> <circle id="progress-indicator" fill="transparent" stroke="#000000" stroke-miterlimit="10" cx="35" cy="35" r="34" style="stroke-dasharray: 16.4198, 400;"></circle> </svg> </a>
+    <a id="scroll-top" class="scroll-top" href="#top" title="Top" role="button"> <i class="w-icon-angle-up"></i> <svg
+            version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70">
+            <circle id="progress-indicator" fill="transparent" stroke="#000000" stroke-miterlimit="10" cx="35" cy="35"
+                r="34" style="stroke-dasharray: 16.4198, 400;"></circle>
+        </svg> </a>
     <!-- End of Scroll Top -->
     <!-- Start of Mobile Menu -->
     <div class="mobile-menu-wrapper">
@@ -1290,8 +702,8 @@
 
         <div class="mobile-menu-container scrollable">
             <form action="#" method="get" class="input-wrapper">
-                <input type="text" class="form-control" name="search" autocomplete="off"
-                    placeholder="Search" required />
+                <input type="text" class="form-control" name="search" autocomplete="off" placeholder="Search"
+                    required />
                 <button class="btn btn-search" type="submit">
                     <i class="w-icon-search"></i>
                 </button>
@@ -1313,28 +725,28 @@
                         <li><a href="/">Home</a></li>
                         <li>
                             <a href="/store">Shop</a>
-                     
+
                         </li>
                         <li>
                             <a href="/about">About Us</a>
-                  
+
                         </li>
                         <li>
                             <a href="blogs.html">Blogs</a>
-                 
+
                         </li>
                         <li>
                             <a href="/contact">Contact Us</a>
-                        
+
                         </li>
-                 
+
                     </ul>
                 </div>
                 <div class="tab-pane" id="categories">
                     <ul class="mobile-menu">
                         <li>
                             <a href="/store">
-                             Shoes
+                                Shoes
                             </a>
                             <ul>
                                 <li>
@@ -1342,132 +754,132 @@
                                     <ul>
                                         <li><a href="/store">Lofer</a>
                                         </li>
-                                    <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                  <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                             <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                              <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                                      <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                                   <li><a href="/store">Lofer</a>
+                                        <li><a href="/store">Lofer</a>
                                         </li>
-                                        </li>
-                                  <li><a href="/store">Lofer</a>
-                                        </li>
+                                </li>
                                 <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
                                 </li>
-                                <li>
-                                    <a href="#">Men</a>
-                                    <ul>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                        <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                          <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Men</a>
+                            <ul>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                                <li><a href="/store">Lofer</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    </li>
+                    <li>
+                        <a href="/store">
+                            Wallet
+                        </a>
+                        <ul>
+
+                            <li>
+                                <a href="#"> Belt</a>
+                                <ul>
                                     <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="/store">
-                         Wallet
-                            </a>
-                            <ul>
-                         
-                                <li>
-                                    <a href="#"> Belt</a>
-                                    <ul>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                        <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                          <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Sandels</a>
-                                    <ul>
-                                          <li><a href="/store">Lofer</a>
-                                        </li>
-                                          <li><a href="/store">Lofer</a>
-                                        </li>
-                                            <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                           
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="/store">
-                             Sandels
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="#">Men</a>
-                                    <ul>
-                                  <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                      <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                               <li>
-                                    <a href="#">Women</a>
-                                    <ul>
-                                  <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                           <li><a href="/store">Lofer</a>
-                                        </li>
-                                         <li><a href="/store">Lofer</a>
-                                        </li>
-                                      <li><a href="/store">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                              
-                            </ul>
-                        </li>
-                
-                        <li>
-                            <a href="/store">
-                                SunGlass
-                            </a>
-                        </li>
-                  
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Sandels</a>
+                                <ul>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/store">
+                            Sandels
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="#">Men</a>
+                                <ul>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Women</a>
+                                <ul>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                    <li><a href="/store">Lofer</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="/store">
+                            SunGlass
+                        </a>
+                    </li>
+
                     </ul>
                 </div>
             </div>
@@ -1475,7 +887,7 @@
     </div>
     <!-- End of Mobile Menu -->
 
-  
+
 
     <!-- Plugin JS File -->
     <script src="/vendor/jquery/jquery.min.js"></script>

@@ -6679,10 +6679,20 @@ blockquote {
 
 .category img {
   display: block;
-  width: 100%;
-  height: auto;
+  width: 200px;
+  height: 150px;
   margin-left: auto;
   margin-right: auto;
+  object-fit: cover;
+}
+@media (max-width:769px){
+  .category img{
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .category .category-name {
@@ -16618,8 +16628,8 @@ body .product-popup {
 }
 
 .header-middle {
-  padding-top: 3.2rem;
-  padding-bottom: 3.2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   color: #333;
   background: #fff;
   font-size: 1.2rem;
@@ -17394,7 +17404,7 @@ body .product-popup {
 }
 
 .cart-dropdown .products {
-  max-height: 28rem;
+  max-height: 100vh;
   border-bottom: 1px solid #eee;
   padding-bottom: 2.1rem;
 }

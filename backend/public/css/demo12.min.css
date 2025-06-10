@@ -21,6 +21,10 @@
 /* -------------------------------------------
     Swiper Container
 ---------------------------------------------- */
+:root {
+  --theme-color: #001F3F;
+  --background-color: white;
+}
 .swiper {
   position: relative;
 }
@@ -10253,9 +10257,10 @@ body .product-popup {
 .product-variations {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  margin-top: 0.5rem;
+  justify-content: space-between!important;
+margin-top: 1.3rem;
+
+
 }
 
 .product-color {
@@ -11164,6 +11169,7 @@ body .product-popup {
   .product-list {
     display: block;
     margin-bottom: 2rem;
+    width: 100%!important;
   }
 
   .product-list .product-media {
@@ -18299,7 +18305,7 @@ body .product-popup {
 
 .header-middle .header-search {
   padding-bottom: 0.2rem;
-  border-bottom: 1px solid #eee;
+
 }
 
 .header-middle .header-search.hs-expanded .select-box::after {
@@ -18337,7 +18343,7 @@ body .product-popup {
   flex-wrap: nowrap;
   position: relative;
   scroll-behavior: smooth;
-  padding: 0 0.5rem 1rem 0.5rem;
+
   box-sizing: border-box;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -18420,15 +18426,93 @@ body .product-popup {
   display: none;
   position: absolute;
   background-color: white;
-  min-width: 160px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  min-width: 200px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   z-index: 1000;
-  top: 100%;
+  top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
-  padding: 0.5rem 0;
-  border-radius: 4px;
+  padding: 0.75rem 0;
+  border-radius: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Dropdown arrow */
+.subcategory-dropdown::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent transparent rgba(255, 255, 255, 0.95) transparent;
+  filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.05));
+}
+
+/* Dropdown items */
+.subcategory-dropdown a {
+  display: block;
+  padding: 0.6rem 1.5rem;
+  color: #444;
+  text-decoration: none;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* Hover effects */
+.subcategory-dropdown a:hover {
+  background-color: #f8f8f8;
+  color: #4a90e2;
+  transform: translateX(10px);
+  width: 94%;
+}
+
+/* Animated dot indicator */
+.subcategory-dropdown a::before {
+  content: '';
+  position: absolute;
+  left: 0rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background-color:var(--theme-color) ;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.subcategory-dropdown a:hover::before {
+  opacity: 1;
+}
+
+/* Show dropdown with animation */
+.category.dropdown:hover .subcategory-dropdown {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  animation: dropdownFade 0.3s ease-out;
+}
+
+@keyframes dropdownFade {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .subcategory-dropdown a {
@@ -18436,7 +18520,7 @@ body .product-popup {
   padding: 0.3rem 1rem;
   color: #333;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1.3rem;
   white-space: nowrap;
 }
 
@@ -18452,11 +18536,18 @@ body .product-popup {
 /* On mobile, make dropdown open on click (optional via JS or CSS if needed) */
 @media (max-width: 767px) {
   .subcategory-dropdown {
-    position: static;
+    position: absolute;
     transform: none;
     box-shadow: none;
     background-color: transparent;
-    padding: 0;
+    padding: 10px;
+    top: 50%;
+    z-index: 9999!important;
+    display: none!important;
+   
+  }
+  .category-wrapper{
+    position: relative;
   }
 
   .subcategory-dropdown a {
@@ -18487,6 +18578,7 @@ body .product-popup {
 .intro-section .btn i {
   margin-left: 0.4rem;
   font-size: 1.8rem;
+
 }
 
 .intro-wrapper .swiper-pagination {

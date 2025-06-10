@@ -64,9 +64,9 @@
                         <a href="/about" class="d-lg-show">About Us</a>
                         <a href="/contact" class="d-lg-show">Contact Us</a>
                         <% if (user) { %>
-                            <a href="/user/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <a href="/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
                             <span class="delimiter d-lg-show">/</span>
-                            <a href="/user/orders" class="ml-0 d-lg-show">My Orders</a>
+                            <a href="/orders" class="ml-0 d-lg-show">My Orders</a>
                         <% } else { %>
                             <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
                             <span class="delimiter d-lg-show">/</span>
@@ -95,15 +95,15 @@
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
                             </div>
                         </div>
-                        <a class="wishlist label-down link d-xs-show" href="wishlist.html">
+                        <a class="wishlist label-down link d-xs-show" href="/wishlist">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
                         </a>                     
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
-                            <a href="#" class=" label-down link">
+                            <a href="/cart" class=" label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count text-white">2</span>
+                                    <span class="cart-count text-white">+</span>
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
@@ -560,7 +560,7 @@ We’re known for quality, care,  and <br> quick support</p>
                                     <li><a href="cart.html">View Cart</a></li>
                                     <li><a href="login.html">Sign In</a></li>
                                     <li><a href="/contact">Help</a></li>
-                                    <li><a href="wishlist.html">My Wishlist</a></li>
+                                    <li><a href="/wishlist">My Wishlist</a></li>
                                     <li><a href="privacy.html">Privacy Policy</a></li>
                                 </ul>
                             </div>

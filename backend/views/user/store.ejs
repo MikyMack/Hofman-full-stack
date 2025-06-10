@@ -49,6 +49,7 @@
 
     <!-- Default CSS -->
     <link rel="stylesheet" type="text/css" href="/css/style.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 
 <body>
@@ -67,7 +68,7 @@
                         <a href="/about" class="d-lg-show">About Us</a>
                         <a href="/contact" class="d-lg-show">Contact Us</a>
                         <% if (user) { %>
-                            <a href="/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <a href="/account" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
                             <span class="delimiter d-lg-show">/</span>
                             <a href="/orders" class="ml-0 d-lg-show">My Orders</a>
                             <% } else { %>
@@ -149,19 +150,14 @@
                     <div class="shop-default-banner banner d-flex align-items-center mb-5 br-xs"
                         style="background-image: url(/images/banner/banner.png); background-color: #FFC74E;">
                         <div class="banner-content">
-                            <h4 style="color: white!important;" class="banner-subtitle font-weight-bold">Lofers
-                                Collection</h4>
-                            <h3 class="banner-title text-white text-uppercase font-weight-bolder ls-10">Slide Into
-                                Sophistication</h3>
-                            <a href="/store" class="btn btn-dark new-btn btn-rounded btn-icon-right">Discover
-                                Now<i class="w-icon-long-arrow-right"></i></a>
+                            <h4 style="color: white!important;" class="banner-subtitle font-weight-bold">Lofers Collection</h4>
+                            <h3 class="banner-title text-white text-uppercase font-weight-bolder ls-10">Slide Into Sophistication</h3>
+                            <a href="/store" class="btn btn-dark new-btn btn-rounded btn-icon-right">Discover Now<i class="w-icon-long-arrow-right"></i></a>
                         </div>
                     </div>
                     <!-- End of Shop Banner -->
-
-
-
-               
+            
+                    <!-- Categories Carousel -->
                     <div class="shop-default-category category-ellipse-section mb-6">
                         <div class="swiper-container swiper-theme shadow-swiper" data-swiper-options="{
                             'spaceBetween': 20,
@@ -205,8 +201,9 @@
                                 <div class="sticky-sidebar">
                                     <div class="filter-actions">
                                         <label>Filter :</label>
-                                        <a href="/store" class="btn btn-dark btn-link filter-clean">Clean All</a>
+                                        <a href="/store" class="btn btn-dark btn-link ">Clean All</a>
                                     </div>
+                                    
                                     <!-- Categories Filter -->
                                     <div class="widget widget-collapsible">
                                         <h3 class="widget-title"><span>All Categories</span></h3>
@@ -218,6 +215,7 @@
                                             <% }) %>
                                         </ul>
                                     </div>
+                                    
                                     <!-- Price Filter -->
                                     <div class="widget widget-collapsible">
                                         <h3 class="widget-title"><span>Price</span></h3>
@@ -255,83 +253,114 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <!-- Size Filter -->
+                                    
+                                    <!-- Size Filter (Checkboxes + Apply Button) -->
                                     <div class="widget widget-collapsible">
                                         <h3 class="widget-title"><span>Size</span></h3>
-                                        <ul class="widget-body filter-items item-check mt-1">
-                                            <% 
-                                                let sizeSet = new Set();
-                                                products.forEach(function(product) {
-                                                    if (product.sizeVariants && Array.isArray(product.sizeVariants)) {
-                                                        product.sizeVariants.forEach(function(variant) {
-                                                            if (variant.size) sizeSet.add(variant.size);
-                                                        });
+                                        <form id="size-filter-form" method="get" action="/store">
+                                            <ul class="widget-body filter-items item-check mt-1">
+                                                <% 
+                                                    let sizeSet = new Set();
+                                                    products.forEach(function(product) {
+                                                        if (product.sizeVariants && Array.isArray(product.sizeVariants)) {
+                                                            product.sizeVariants.forEach(function(variant) {
+                                                                if (variant.size) sizeSet.add(variant.size);
+                                                            });
+                                                        }
+                                                    });
+                                                    let sizes = Array.from(sizeSet);
+                                                    sizes.sort();
+                                                    // For multi-select, parse filters.size as array or string
+                                                    let selectedSizes = [];
+                                                    if (filters.size) {
+                                                        if (Array.isArray(filters.size)) {
+                                                            selectedSizes = filters.size;
+                                                        } else if (typeof filters.size === 'string') {
+                                                            selectedSizes = filters.size.split(',');
+                                                        }
                                                     }
-                                                });
-                                                let sizes = Array.from(sizeSet);
-                                                sizes.sort();
-                                            %>
-                                            <% sizes.forEach(function(size) { %>
-                                                <li>
-                                                    <a href="/store?<%= 
-                                                        (filters.category ? 'category=' + encodeURIComponent(filters.category) + '&' : '') +
-                                                        (filters.minPrice ? 'minPrice=' + filters.minPrice + '&' : '') +
-                                                        (filters.maxPrice ? 'maxPrice=' + filters.maxPrice + '&' : '') +
-                                                        'size=' + encodeURIComponent(size)
-                                                    %>"><%= size %></a>
-                                                </li>
-                                            <% }) %>
-                                        </ul>
+                                                %>
+                                                <% sizes.forEach(function(size) { %>
+                                                    <li>
+                                                        <label style="cursor:pointer;">
+                                                            <input  type="checkbox" name="size" value="<%= size %>" <%= selectedSizes.includes(size) ? 'checked' : '' %> />
+                                                            <span style="color: #363636;"><%= size %></span>
+                                                        </label>
+                                                    </li>
+                                                <% }) %>
+                                            </ul>
+                                            <% // Preserve other filters except size %>
+                                            <% Object.keys(filters).forEach(function(key) { 
+                                                if (['size', 'page'].indexOf(key) === -1 && filters[key]) { %>
+                                                <input type="hidden" name="<%= key %>" value="<%= filters[key] %>">
+                                            <% } }) %>
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block mt-2">Apply Size Filter</button>
+                                        </form>
                                     </div>
-                                    <!-- Color Filter -->
+                                    
+                                    <!-- Color Filter (Checkboxes + Apply Button) -->
                                     <div class="widget widget-collapsible">
                                         <h3 class="widget-title"><span>Color</span></h3>
-                                        <ul class="widget-body filter-items item-check mt-1">
-                                            <% 
-                                                let colorSet = new Set();
-                                                products.forEach(function(product) {
-                                                    if (product.colorVariants && Array.isArray(product.colorVariants)) {
-                                                        product.colorVariants.forEach(function(variant) {
-                                                            if (variant.color) colorSet.add(variant.color);
-                                                        });
+                                        <form id="color-filter-form" method="get" action="/store">
+                                            <ul class="widget-body filter-items item-check mt-1">
+                                                <% 
+                                                    let colorSet = new Set();
+                                                    products.forEach(function(product) {
+                                                        if (product.colorVariants && Array.isArray(product.colorVariants)) {
+                                                            product.colorVariants.forEach(function(variant) {
+                                                                if (variant.color) colorSet.add(variant.color);
+                                                            });
+                                                        }
+                                                    });
+                                                    let colors = Array.from(colorSet);
+                                                    colors.sort();
+                                                    // For multi-select, parse filters.color as array or string
+                                                    let selectedColors = [];
+                                                    if (filters.color) {
+                                                        if (Array.isArray(filters.color)) {
+                                                            selectedColors = filters.color;
+                                                        } else if (typeof filters.color === 'string') {
+                                                            selectedColors = filters.color.split(',');
+                                                        }
                                                     }
-                                                });
-                                                let colors = Array.from(colorSet);
-                                                colors.sort();
-                                            %>
-                                            <% colors.forEach(function(color) { %>
-                                                <li>
-                                                    <a href="/store?<%= 
-                                                        (filters.category ? 'category=' + encodeURIComponent(filters.category) + '&' : '') +
-                                                        (filters.minPrice ? 'minPrice=' + filters.minPrice + '&' : '') +
-                                                        (filters.maxPrice ? 'maxPrice=' + filters.maxPrice + '&' : '') +
-                                                        (filters.size ? 'size=' + encodeURIComponent(filters.size) + '&' : '') +
-                                                        'color=' + encodeURIComponent(color)
-                                                    %>"><%= color %></a>
-                                                </li>
-                                            <% }) %>
-                                        </ul>
+                                                %>
+                                                <% colors.forEach(function(color) { %>
+                                                    <li>
+                                                        <label style="cursor:pointer;">
+                                                            <input type="checkbox" name="color" value="<%= color %>" <%= selectedColors.includes(color) ? 'checked' : '' %> />
+                                                            <span style="color:#363636 ;"><%= color %></span>
+                                                        </label>
+                                                    </li>
+                                                <% }) %>
+                                            </ul>
+                                            <% // Preserve other filters except color %>
+                                            <% Object.keys(filters).forEach(function(key) { 
+                                                if (['color', 'page'].indexOf(key) === -1 && filters[key]) { %>
+                                                <input type="hidden" name="<%= key %>" value="<%= filters[key] %>">
+                                            <% } }) %>
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block mt-2">Apply Color Filter</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </aside>
                         <!-- End of Shop Sidebar -->
-
+            
                         <!-- Start of Shop Main Content -->
                         <div class="main-content">
                             <nav class="toolbox sticky-toolbox sticky-content fix-top">
                                 <div class="toolbox-left">
-                                    <a href="#" class="btn btn-primary btn-outline btn-rounded left-sidebar-toggle 
-                                        btn-icon-left d-block d-lg-none"><i
-                                            class="w-icon-category"></i><span>Filters</span></a>
+                                    <a href="#" class="btn btn-primary btn-outline btn-rounded left-sidebar-toggle btn-icon-left d-block d-lg-none">
+                                        <i class="w-icon-category"></i><span>Filters</span>
+                                    </a>
                                     <div class="toolbox-item toolbox-sort select-box text-dark">
                                         <label>Sort By :</label>
                                         <form method="get" action="/store" style="display:inline;">
                                             <select name="sort" class="form-control" onchange="this.form.submit()">
                                                 <option value="" <%= !filters.sort ? 'selected' : '' %>>Default sorting</option>
-                                                <option value="popularity" <%= filters.sort === 'popularity' ? 'selected' : '' %>>Sort by popularity</option>
-                                                <option value="rating" <%= filters.sort === 'rating' ? 'selected' : '' %>>Sort by average rating</option>
-                                                <option value="date" <%= filters.sort === 'date' ? 'selected' : '' %>>Sort by latest</option>
+                                                <option value="bestDeals" <%= filters.sort === 'bestDeals' ? 'selected' : '' %>>Sort by Best Deals</option>
+                                                <option value="newArrivals" <%= filters.sort === 'newArrivals' ? 'selected' : '' %>>Sort by New Arrivals</option>
+                                                <option value="bestSeller" <%= filters.sort === 'bestSeller' ? 'selected' : '' %>>Sort by Best Seller</option>
                                                 <option value="price-low" <%= filters.sort === 'price-low' ? 'selected' : '' %>>Sort by price: low to high</option>
                                                 <option value="price-high" <%= filters.sort === 'price-high' ? 'selected' : '' %>>Sort by price: high to low</option>
                                             </select>
@@ -359,13 +388,11 @@
                                             <% } }) %>
                                         </form>
                                     </div>
-                                    <div class="toolbox-item toolbox-layout">
-                                        <a href="/store" class="icon-mode-grid btn-layout active">
-                                            <i class="w-icon-grid"></i>
-                                        </a>
-                                    </div>
+                                 
                                 </div>
                             </nav>
+                            
+                            <!-- Products Grid -->
                             <div class="product-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-2">
                                 <% if (products.length === 0) { %>
                                     <div class="col-12 text-center py-5">
@@ -373,7 +400,14 @@
                                     </div>
                                 <% } else { %>
                                     <% products.forEach(function(product) { %>
-                                        <div class="product-wrap">
+                                        <div class="product-wrap" 
+                                            data-product-id="<%= product._id %>"
+                                            data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
+                                            data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
+                                            data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
+                                            data-product-image="<%= (product.images && product.images[0]) ? product.images[0] : '/images/hofmaan/category.jpg' %>"
+                                            data-product-price="<%= product.salePrice || product.basePrice %>">
+                                            
                                             <div class="product text-center">
                                                 <figure class="product-media">
                                                     <a href="/product/<%= product.slug || product._id %>">
@@ -383,36 +417,42 @@
                                                         <% } %>
                                                     </a>
                                                     <div class="product-action-horizontal">
-                                                        <form method="post" action="/cart/add" style="display:inline;">
-                                                            <input type="hidden" name="productId" value="<%= product._id %>">
-                                                            <button type="submit" class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></button>
-                                                        </form>
+                                                        <a href="#" class="btn-product-icon btn-cart w-icon-cart add-to-cart-btn" title="Add to cart"></a>
                                                         <a href="/wishlist/add/<%= product._id %>" class="btn-product-icon btn-wishlist w-icon-heart" title="Wishlist"></a>
                                                     </div>
                                                 </figure>
                                                 <div class="product-details">
-                                                    <div class="product-cat">
-                                                        <a href="/store?category=<%= encodeURIComponent(product.categoryName || product.category) %>"><%= product.categoryName || product.category %></a>
-                                                    </div>
+                                                  
                                                     <h3 class="product-name">
                                                         <a class="text-uppercase" href="/product/<%= product.slug || product._id %>"><%= product.name %></a>
                                                     </h3>
-                                                    <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center ">
+                                                    
+                                                    <!-- Variant Selection -->
+                                                    <div class="selected-variant-info mb-2 text-sm"></div>
+                                                    
+                                                    <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center">
                                                         <% if (product.sizeVariants && product.sizeVariants.length > 0) { %>
                                                             <div class="product-size-new">
                                                                 <% product.sizeVariants.forEach(function(variant) { %>
-                                                                    <span class="size-options-new"><%= variant.size %></span>
+                                                                    <span class="size-options-new" 
+                                                                        data-size="<%= variant.size %>"
+                                                                        data-stock="<%= variant.stock %>"><%= variant.size %></span>
                                                                 <% }) %>
                                                             </div>
                                                         <% } %>
                                                         <% if (product.colorVariants && product.colorVariants.length > 0) { %>
                                                             <div class="product-color">
                                                                 <% product.colorVariants.forEach(function(variant) { %>
-                                                                    <span class="color-options-new" style="background-color:<%= variant.colorCode || variant.color || '#ccc' %>;" title="<%= variant.color %>"></span>
+                                                                    <span class="color-options-new" 
+                                                                        style="background-color:<%= variant.colorCode || variant.color || '#ccc' %>;" 
+                                                                        title="<%= variant.color %>"
+                                                                        data-color="<%= variant.color %>"
+                                                                        data-stock="<%= variant.stock %>"></span>
                                                                 <% }) %>
                                                             </div>
                                                         <% } %>
                                                     </div>
+                                                    
                                                     <div class="product-pa-wrapper">
                                                         <div class="product-price">
                                                             <% if (product.salePrice && product.salePrice > 0 && product.salePrice < product.basePrice) { %>
@@ -429,7 +469,8 @@
                                     <% }) %>
                                 <% } %>
                             </div>
-
+            
+                            <!-- Pagination -->
                             <div class="toolbox toolbox-pagination justify-content-between">
                                 <p class="showing-info mb-2 mb-sm-0">
                                     <% 
@@ -471,9 +512,258 @@
                         </div>
                         <!-- End of Shop Main Content -->
                     </div>
-                
                 </div>
             </div>
+        
+            <script>
+                // Cart functionality with Toastify notifications
+                (function() {
+                    const selectedVariants = {};
+                    
+                    // Update selected variant info display
+                    function updateSelectedVariantInfo(productId) {
+                        const productEl = document.querySelector(`.product-wrap[data-product-id="${productId}"]`);
+                        if (!productEl) return;
+                        
+                        const infoDiv = productEl.querySelector('.selected-variant-info');
+                        if (!infoDiv) return;
+                        
+                        const variant = selectedVariants[productId] || {};
+                        let info = '';
+                        
+                        if (productEl.getAttribute('data-has-size') === 'true') {
+                            info += variant.selectedSize 
+                                ? `<span class="mr-2"><strong>Size:</strong> <span class="badge badge-success">${variant.selectedSize}</span></span>`
+                                : `<span class="mr-2 text-danger">Select Size</span>`;
+                        }
+                        
+                        if (productEl.getAttribute('data-has-color') === 'true') {
+                            info += variant.selectedColor 
+                                ? `<span class="mr-2"><strong>Color:</strong> <span class="badge badge-success" style="background:${variant.selectedColor};color:#fff;border:1px solid #ccc;">${variant.selectedColor}</span></span>`
+                                : `<span class="mr-2 text-danger">Select Color</span>`;
+                        }
+                        
+                        infoDiv.innerHTML = info;
+                    }
+                    
+                    // Show Toast notification
+                    function showToast(message, type = "success") {
+                        if (window._toastifyActive) return;
+                        window._toastifyActive = true;
+                        
+                        Toastify({
+                            text: message,
+                            duration: 2500,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: type === "success" 
+                                ? "linear-gradient(90deg, #00b09b, #96c93d)" 
+                                : "linear-gradient(90deg, #e74c3c, #c0392b)",
+                            stopOnFocus: true,
+                            callback: function() {
+                                window._toastifyActive = false;
+                            }
+                        }).showToast();
+                        
+                        setTimeout(function() {
+                            window._toastifyActive = false;
+                        }, 2600);
+                    }
+                    
+                    // Add to cart function
+                    async function addToCart(productId, quantity = 1, selectedColor = null, selectedSize = null, productName = null, productImage = null, productPrice = null) {
+                        const isLoggedIn = <%= user ? 'true' : 'false' %>;
+                        
+                        const item = { 
+                            productId, 
+                            quantity, 
+                            selectedColor, 
+                            selectedSize,
+                            productName,
+                            productImage,
+                            price: productPrice
+                        };
+                        
+                        if (isLoggedIn) {
+                            try {
+                                const response = await fetch('/add-cart', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(item)
+                                });
+                                
+                                const data = await response.json();
+                                
+                                if (data.error) {
+                                    showToast(data.error, "error");
+                                } else {
+                                    showToast("Product added to cart!", "success");
+                                    updateCartCount(data.cartCount);
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                                showToast("Failed to add to cart", "error");
+                            }
+                        } else {
+                            // Guest cart in localStorage
+                            let guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+                            
+                            // Check if item already exists
+                            const existingItemIndex = guestCart.findIndex(item => 
+                                item.productId === productId && 
+                                item.selectedColor === selectedColor && 
+                                item.selectedSize === selectedSize
+                            );
+                            
+                            if (existingItemIndex >= 0) {
+                                // Update quantity if exists
+                                guestCart[existingItemIndex].quantity += quantity;
+                            } else {
+                                // Add new item
+                                guestCart.push(item);
+                            }
+                            
+                            localStorage.setItem('guestCart', JSON.stringify(guestCart));
+                            showToast("Product added to guest cart!", "success");
+                            updateCartCount(guestCart.reduce((total, item) => total + item.quantity, 0));
+                        }
+                    }
+                    
+                    // Update cart count in UI
+                    function updateCartCount(count) {
+                        const cartCountElements = document.querySelectorAll('.cart-count');
+                        cartCountElements.forEach(el => {
+                            el.textContent = count;
+                            el.style.display = count > 0 ? 'inline-block' : 'none';
+                        });
+                    }
+                    
+                    // Initialize event listeners when DOM is loaded
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Size selection
+                        document.querySelectorAll('.size-options-new').forEach(el => {
+                            el.addEventListener('click', function() {
+                                const productWrap = this.closest('.product-wrap');
+                                const productId = productWrap.getAttribute('data-product-id');
+                                
+                                // Remove active from siblings
+                                productWrap.querySelectorAll('.size-options-new').forEach(sib => {
+                                    sib.classList.remove('active');
+                                });
+                                
+                                this.classList.add('active');
+                                
+                                selectedVariants[productId] = selectedVariants[productId] || {};
+                                selectedVariants[productId].selectedSize = this.getAttribute('data-size');
+                                
+                                updateSelectedVariantInfo(productId);
+                            });
+                        });
+                        
+                        // Color selection
+                        document.querySelectorAll('.color-options-new').forEach(el => {
+                            el.addEventListener('click', function() {
+                                const productWrap = this.closest('.product-wrap');
+                                const productId = productWrap.getAttribute('data-product-id');
+                                
+                                // Remove active from siblings
+                                productWrap.querySelectorAll('.color-options-new').forEach(sib => {
+                                    sib.classList.remove('active');
+                                });
+                                
+                                this.classList.add('active');
+                                
+                                selectedVariants[productId] = selectedVariants[productId] || {};
+                                selectedVariants[productId].selectedColor = this.getAttribute('data-color');
+                                
+                                updateSelectedVariantInfo(productId);
+                            });
+                        });
+                        
+                        // Add to cart button
+                        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                            btn.addEventListener('click', async function(e) {
+                                e.preventDefault();
+                                
+                                const productWrap = this.closest('.product-wrap');
+                                const productId = productWrap.getAttribute('data-product-id');
+                                const hasColor = productWrap.getAttribute('data-has-color') === 'true';
+                                const hasSize = productWrap.getAttribute('data-has-size') === 'true';
+                                const productName = productWrap.getAttribute('data-product-name');
+                                const productImage = productWrap.getAttribute('data-product-image');
+                                const productPrice = parseFloat(productWrap.getAttribute('data-product-price'));
+                                
+                                let selectedColor = null;
+                                let selectedSize = null;
+                                
+                                if (hasColor) {
+                                    selectedColor = (selectedVariants[productId] && selectedVariants[productId].selectedColor) || null;
+                                    if (!selectedColor) {
+                                        showToast('Please select a color', "error");
+                                        updateSelectedVariantInfo(productId);
+                                        return;
+                                    }
+                                }
+                                
+                                if (hasSize) {
+                                    selectedSize = (selectedVariants[productId] && selectedVariants[productId].selectedSize) || null;
+                                    if (!selectedSize) {
+                                        showToast('Please select a size', "error");
+                                        updateSelectedVariantInfo(productId);
+                                        return;
+                                    }
+                                }
+                                
+                                await addToCart(
+                                    productId, 
+                                    1, 
+                                    selectedColor, 
+                                    selectedSize, 
+                                    productName, 
+                                    productImage, 
+                                    productPrice
+                                );
+                            });
+                        });
+                        
+                        // Initialize variant info displays
+                        document.querySelectorAll('.product-wrap').forEach(productWrap => {
+                            const productId = productWrap.getAttribute('data-product-id');
+                            updateSelectedVariantInfo(productId);
+                        });
+
+                        // For size and color filter forms: allow multi-select and submit as comma-separated values
+                        function handleMultiCheckboxForm(formId, inputName) {
+                            const form = document.getElementById(formId);
+                            if (!form) return;
+                            form.addEventListener('submit', function(e) {
+                                // Before submit, collect all checked values and set as a single input
+                                const checkboxes = form.querySelectorAll('input[type="checkbox"][name="' + inputName + '"]:checked');
+                                const values = Array.from(checkboxes).map(cb => cb.value);
+                                // Remove all name="inputName" checkboxes from submit, add a hidden input
+                                checkboxes.forEach(cb => cb.removeAttribute('name'));
+                                let hidden = form.querySelector('input[type="hidden"][name="' + inputName + '"]');
+                                if (!hidden) {
+                                    hidden = document.createElement('input');
+                                    hidden.type = 'hidden';
+                                    hidden.name = inputName;
+                                    form.appendChild(hidden);
+                                }
+                                hidden.value = values.join(',');
+                            });
+                        }
+                        handleMultiCheckboxForm('size-filter-form', 'size');
+                        handleMultiCheckboxForm('color-filter-form', 'color');
+                    });
+                    
+                    // Make functions available globally if needed
+                    window.showToast = showToast;
+                    window.addToCart = addToCart;
+                })();
+            </script>
             <!-- End of Page Content -->
         </main>
         <!-- End of Main -->
@@ -747,6 +1037,7 @@
 
 
     <!-- Plugin JS File -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/sticky/sticky.js"></script>
     <script src="/vendor/jquery.plugin/jquery.plugin.min.js"></script>

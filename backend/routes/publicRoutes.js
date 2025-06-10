@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 const Category = require('../models/Category');
 const Product = require('../models/Product');
@@ -31,7 +32,7 @@ router.get('/', async (req, res) => {
         if (req.user) {
             cart = await Cart.findOne({ user: req.user._id }).lean();
         }
-        
+
         res.render('user/home', {
             user: req.user || null,
             categories,
@@ -47,7 +48,7 @@ router.get('/', async (req, res) => {
             cartItems: cart?.items || [],
             cartSubtotal: cart?.subtotal || 0
         });
-        
+
     } catch (err) {
         console.error('Error fetching homepage data:', err);
         res.render('user/home', {
@@ -62,19 +63,22 @@ router.get('/', async (req, res) => {
             newArrivals: [],
             bestSeller: [],
             topRated: [],
-            cartItems:[]
+            cartItems: []
         });
     }
 });
 
 
-router.get('/about', (req, res) => {
-    res.render('user/about', { user: req.user || null });
+router.get('/about', async (req, res) => {
+    const categories = await Category.find({ isActive: true })
+        .select('name imageUrl isActive subCategories')
+        .lean();
+    res.render('user/about', { user: req.user || null, categories });
 });
 router.get('/store', async (req, res) => {
     try {
-        // Parse filters from query params
-        const {
+        // Parse query parameters
+        let {
             page = 1,
             limit = 12,
             category,
@@ -82,87 +86,176 @@ router.get('/store', async (req, res) => {
             maxPrice,
             size,
             color,
-            bestDeals,
-            dealsOfTheDay,
-            newArrivals,
-            bestSeller
+            sort
         } = req.query;
+
+        // Parse size and color as arrays (for multi-select)
+        if (size) {
+            if (Array.isArray(size)) {
+                size = size.flatMap(s => typeof s === 'string' ? s.split(',') : []);
+            } else if (typeof size === 'string') {
+                size = size.split(',');
+            }
+        }
+        if (color) {
+            if (Array.isArray(color)) {
+                color = color.flatMap(c => typeof c === 'string' ? c.split(',') : []);
+            } else if (typeof color === 'string') {
+                color = color.split(',');
+            }
+        }
 
         // Build filter object
         let filter = { isActive: true };
 
-        // Category filter
+        // Category filter (robust for names with spaces, special chars, and slugs)
         if (category) {
-            filter.category = category;
+            // Try to find the category by slug or name (case-insensitive)
+            // First, decode URI component in case it's encoded (e.g., "What's%20New")
+            let decodedCategory = decodeURIComponent(category);
+
+            // Find the category document
+            const foundCategory = await Category.findOne({
+                $or: [
+                    { slug: decodedCategory },
+                    { name: { $regex: new RegExp('^' + decodedCategory + '$', 'i') } }
+                ]
+            }).lean();
+
+            if (foundCategory) {
+                filter.category = foundCategory._id;
+            } else if (mongoose.Types.ObjectId.isValid(category)) {
+                // fallback: treat as ObjectId
+                filter.category = category;
+            } else {
+                // fallback: try regex on categoryName or category.slug (legacy)
+                filter.$or = [
+                    { 'categoryName': { $regex: new RegExp(decodedCategory, 'i') } },
+                    { 'category.slug': { $regex: new RegExp(decodedCategory, 'i') } }
+                ];
+            }
         }
 
         // Price filter
         if (minPrice || maxPrice) {
-            filter.$and = [];
+            filter.$and = filter.$and || [];
             if (minPrice) {
-                filter.$and.push({ $or: [
-                    { salePrice: { $gte: Number(minPrice) } },
-                    { $and: [
-                        { $or: [ { salePrice: 0 }, { salePrice: { $exists: false } } ] },
-                        { basePrice: { $gte: Number(minPrice) } }
-                    ]}
-                ]});
+                filter.$and.push({
+                    $or: [
+                        { salePrice: { $gte: Number(minPrice) } },
+                        { 
+                            $and: [
+                                { $or: [{ salePrice: 0 }, { salePrice: { $exists: false } }] },
+                                { basePrice: { $gte: Number(minPrice) } }
+                            ]
+                        }
+                    ]
+                });
             }
             if (maxPrice) {
-                filter.$and.push({ $or: [
-                    { salePrice: { $lte: Number(maxPrice) } },
-                    { $and: [
-                        { $or: [ { salePrice: 0 }, { salePrice: { $exists: false } } ] },
-                        { basePrice: { $lte: Number(maxPrice) } }
-                    ]}
-                ]});
+                filter.$and.push({
+                    $or: [
+                        { salePrice: { $lte: Number(maxPrice) } },
+                        { 
+                            $and: [
+                                { $or: [{ salePrice: 0 }, { salePrice: { $exists: false } }] },
+                                { basePrice: { $lte: Number(maxPrice) } }
+                            ]
+                        }
+                    ]
+                });
             }
+            // Remove $and if empty
+            if (filter.$and.length === 0) delete filter.$and;
         }
 
-        // Size filter
-        if (size) {
-            filter.hasSizeVariants = true;
-            filter['sizeVariants.size'] = size;
+        // Size filter (multi-select support)
+        if (size && size.length > 0) {
+            filter['sizeVariants.size'] = { $in: size };
         }
 
-        // Color filter
-        if (color) {
-            filter.hasColorVariants = true;
-            filter['colorVariants.color'] = color;
+        // Color filter (multi-select support)
+        if (color && color.length > 0) {
+            filter['colorVariants.color'] = { $in: color };
         }
 
-        // Boolean flags
-        if (bestDeals === 'true') filter.bestDeals = true;
-        if (dealsOfTheDay === 'true') filter.dealsOfTheDay = true;
-        if (newArrivals === 'true') filter.newArrivals = true;
-        if (bestSeller === 'true') filter.bestSeller = true;
-
-        // Fetch categories for filter sidebar
+        // Get categories for sidebar
         const categories = await Category.find({}).lean();
 
-        // Pagination
+        // Calculate pagination
         const skip = (Number(page) - 1) * Number(limit);
-
-        // Get total count for pagination
         const totalProducts = await Product.countDocuments(filter);
 
-        // Fetch products with filters and pagination
-        const products = await Product.find(filter)
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(Number(limit))
-            .lean();
+        // Build base query
+        let productsQuery = Product.find(filter);
 
-        // Fetch cart items for the logged-in user
+        // Apply sorting
+        switch (sort) {
+            case 'price-low':
+                productsQuery.sort({
+                    salePrice: 1,
+                    basePrice: 1
+                });
+                break;
+            case 'price-high':
+                productsQuery.sort({
+                    salePrice: -1,
+                    basePrice: -1
+                });
+                break;
+            case 'newArrivals':
+                productsQuery.sort({ createdAt: -1 });
+                break;
+            case 'bestSeller':
+                productsQuery.sort({ soldCount: -1 });
+                break;
+            case 'bestDeals':
+                productsQuery = await Product.aggregate([
+                    { $match: filter },
+                    { $addFields: {
+                        discountPercent: {
+                            $cond: {
+                                if: { $gt: ['$salePrice', 0] },
+                                then: {
+                                    $multiply: [
+                                        { $divide: [
+                                            { $subtract: ['$basePrice', '$salePrice'] },
+                                            '$basePrice'
+                                        ]},
+                                        100
+                                    ]
+                                },
+                                else: 0
+                            }
+                        }
+                    }},
+                    { $sort: { discountPercent: -1 } },
+                    { $skip: skip },
+                    { $limit: Number(limit) }
+                ]);
+                break;
+            default:
+                productsQuery.sort({ createdAt: -1 });
+        }
+
+        // If not using aggregation (bestDeals case)
+        if (sort !== 'bestDeals') {
+            productsQuery = await productsQuery
+                .skip(skip)
+                .limit(Number(limit))
+                .lean();
+        }
+
+        // Get cart info if user is logged in
         let cart = null;
         if (req.user) {
             cart = await Cart.findOne({ user: req.user._id }).lean();
         }
 
         res.render('user/store', {
-            user: req.user || null,
+            user: req.user,
             categories,
-            products,
+            products: sort === 'bestDeals' ? productsQuery : await productsQuery,
             currentPage: Number(page),
             totalPages: Math.ceil(totalProducts / Number(limit)),
             totalProducts,
@@ -170,20 +263,18 @@ router.get('/store', async (req, res) => {
                 category,
                 minPrice,
                 maxPrice,
-                size,
-                color,
-                bestDeals,
-                dealsOfTheDay,
-                newArrivals,
-                bestSeller
+                size: Array.isArray(size) ? size.join(',') : size,
+                color: Array.isArray(color) ? color.join(',') : color,
+                sort,
+                limit: Number(limit)
             },
-            cartItems: cart?.items || [],
-            cartSubtotal: cart?.subtotal || 0
+            cartItems: cart?.items || []
         });
+
     } catch (err) {
         console.error('Error fetching store data:', err);
-        res.render('user/store', {
-            user: req.user || null,
+        res.status(500).render('user/store', {
+            user: req.user,
             categories: [],
             products: [],
             currentPage: 1,
@@ -194,6 +285,7 @@ router.get('/store', async (req, res) => {
         });
     }
 });
+
 router.get('/product/:id', async (req, res) => {
     try {
         const productId = req.params.id;
@@ -241,36 +333,53 @@ router.get('/product/:id', async (req, res) => {
         });
     }
 });
-router.get('/contact', (req, res) => {
-    res.render('user/contact', { user: req.user || null });
+router.get('/contact', async (req, res) => {
+    const categories = await Category.find({ isActive: true })
+        .select('name imageUrl isActive subCategories')
+        .lean();
+    res.render('user/contact', { user: req.user || null, categories });
 });
-router.get('/account', (req, res) => {
-    res.render('user/account', { user: req.user || null });
+router.get('/account', async (req, res) => {
+    const categories = await Category.find({ isActive: true })
+        .select('name imageUrl isActive subCategories')
+        .lean();
+    res.render('user/account', { user: req.user || null, categories });
 });
-router.get('/orders', (req, res) => {
-    res.render('user/orders', { user: req.user || null });
+router.get('/orders', async (req, res) => {
+    const categories = await Category.find({ isActive: true })
+        .select('name imageUrl isActive subCategories')
+        .lean();
+    res.render('user/orders', { user: req.user || null, categories });
 });
-router.get('/cart', async(req, res) => {
+router.get('/cart', async (req, res) => {
     try {
         let cart = null;
         if (req.user) {
             cart = await Cart.findOne({ user: req.user._id }).lean();
         }
-        res.render('user/cart', { user: req.user || null ,  cartItems: cart?.items || [],
-            cartSubtotal: cart?.subtotal || 0});
+        const categories = await Category.find({ isActive: true })
+            .select('name imageUrl isActive subCategories')
+            .lean();
+        res.render('user/cart', {
+            user: req.user || null, categories, cartItems: cart?.items || [],
+            cartSubtotal: cart?.subtotal || 0
+        });
     } catch (error) {
         res.render('user/home', {
             user: req.user || null,
-            cartItems:[]
+            cartItems: [], categories: []
         });
     }
-    
+
 });
 router.get('/wishlist', (req, res) => {
     res.render('user/wishlist', { user: req.user || null });
 });
-router.get('/checkout', (req, res) => {
-    res.render('user/checkout', { user: req.user || null });
+router.get('/checkout', async (req, res) => {
+    const categories = await Category.find({ isActive: true })
+        .select('name imageUrl isActive subCategories')
+        .lean();
+    res.render('user/checkout', { user: req.user || null, categories });
 });
 router.get('/privacy', (req, res) => {
     res.render('user/privacy', { user: req.user || null });

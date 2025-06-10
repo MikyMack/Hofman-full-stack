@@ -23298,7 +23298,7 @@ aside .sp-sidebar-banner span {
 
 .toolbox select {
   max-width: none;
-  width: 15.4rem;
+  width: 18.4rem;
   padding: 0.75em 2.7rem 0.75em 1.4rem;
   border-radius: 0.3rem;
   cursor: pointer;
@@ -23308,7 +23308,7 @@ aside .sp-sidebar-banner span {
 .toolbox .toolbox-show select {
   padding-left: 1.3rem;
   padding-right: 2.8rem;
-  width: 9.4rem;
+  width: 13.4rem;
 }
 
 .toolbox .item-found {
@@ -25005,3 +25005,4 @@ color: var(--theme-color)!important;
     color: var(--theme-color);
   }
 }
+

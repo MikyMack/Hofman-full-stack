@@ -154,13 +154,7 @@
                                                         </span>
                                                         <span class="product-price ml-2">
                                                             ₹<%= item.price ? item.price.toFixed(2) : '0.00' %>
-                                                        </span>
-                                                        <% if (item.selectedColor) { %>
-                                                            <span class="badge badge-light ml-2">Color: <%= item.selectedColor %></span>
-                                                        <% } %>
-                                                        <% if (item.selectedSize) { %>
-                                                            <span class="badge badge-light ml-2">Size: <%= item.selectedSize %></span>
-                                                        <% } %>
+                                                        </span>                                                   
                                                     </div>
                                                 </div>
                                                 <figure class="product-media">
@@ -229,9 +223,7 @@
                                                         <span class="product-price ml-2">
                                                             ₹${item.price ? Number(item.price).toFixed(2) : '0.00'}
                                                         </span>
-                                                        ${item.selectedColor ? `<span class="badge badge-light ml-2">Color: ${item.selectedColor}</span>` : ''}
-                                                        ${item.selectedSize ? `<span class="badge badge-light ml-2">Size: ${item.selectedSize}</span>` : ''}
-                                                    </div>
+                                                   </div>
                                                 </div>
                                                 <figure class="product-media">
                                                     <img src="${item.productImage || ''}" alt="product" height="84" width="94">
@@ -657,8 +649,8 @@
                                 <h4 class="widget-title">My Account</h4>
                                 <ul class="widget-body">
                                     <li><a href="my-account.html">Track My Order</a></li>
-                                    <li><a href="cart.html">View Cart</a></li>
-                                    <li><a href="login.html">Sign In</a></li>
+                                    <li><a href="/cart">View Cart</a></li>
+                                    <li><a href="/auth/login">Sign In</a></li>
                                     <li><a href="/contact">Help</a></li>
                                     <li><a href="wishlist.html">My Wishlist</a></li>
                                     <li><a href="privacy.html">Privacy Policy</a></li>

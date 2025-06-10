@@ -3,7 +3,8 @@ const router = express.Router();
 const passport = require('passport');
 
 const auth = require('../controllers/authController');
-
+const Category = require('../models/Category')
+ 
 // Form submissions
 router.post('/auth/register', auth.register);
 router.post('/auth/login', auth.login);
@@ -51,10 +52,13 @@ router.get('/auth/google', (req, res, next) => {
   
 
 
-router.get('/auth/login', (req, res) => {
+router.get('/auth/login', async(req, res) => {
+  const categories = await Category.find({ isActive: true })
+  .select('name imageUrl isActive subCategories')
+  .lean();
   res.render('user/login', {
-    title: 'Login',
-    user: req.session.user || null
+    title: 'Login',categories,
+    user: req.session.user || null 
   });
 });
 

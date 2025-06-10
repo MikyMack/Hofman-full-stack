@@ -56,7 +56,7 @@
             color: #fff !important;
             border-color: #001F3F !important;
             box-shadow: 0 0 0 2px #a5d6a7;
-          
+
         }
 
         /* Highlight selected color */
@@ -177,14 +177,7 @@
                                                         <span class="product-price ml-2">
                                                             ₹<%= item.price ? item.price.toFixed(2) : '0.00' %>
                                                         </span>
-                                                        <% if (item.selectedColor) { %>
-                                                            <span class="badge badge-light ml-2">Color: <%=
-                                                                    item.selectedColor %></span>
-                                                            <% } %>
-                                                                <% if (item.selectedSize) { %>
-                                                                    <span class="badge badge-light ml-2">Size: <%=
-                                                                            item.selectedSize %></span>
-                                                                    <% } %>
+
                                                     </div>
                                                 </div>
                                                 <figure class="product-media">
@@ -255,9 +248,7 @@
                                                         <span class="product-price ml-2">
                                                             ₹${item.price ? Number(item.price).toFixed(2) : '0.00'}
                                                         </span>
-                                                        ${item.selectedColor ? `<span class="badge badge-light ml-2">Color: ${item.selectedColor}</span>` : ''}
-                                                        ${item.selectedSize ? `<span class="badge badge-light ml-2">Size: ${item.selectedSize}</span>` : ''}
-                                                    </div>
+                                                   </div>
                                                 </div>
                                                 <figure class="product-media">
                                                     <img src="${item.productImage || ''}" alt="product" height="84" width="94">
@@ -436,7 +427,7 @@
                 </div>
                 <!-- End of Intro-wrapper -->
                 <div class="swiper-container container  swiper-theme icon-box-wrapper br-sm mt-0 mb-10 appear-animate"
-                data-swiper-options="{
+                    data-swiper-options="{
                 'slidesPerView': 1,
                 'breakpoints': {
                     '576': {
@@ -449,32 +440,34 @@
                         'slidesPerView': 4
                     }
                 }}">
-                <div class="py-4">
-                    <h3 class="font-secondary font-weight-bolder mb-3 text-center" style="letter-spacing:1px;">
-                        Our Brand & Sub-Brand
-                    </h3>
-                    <div class="row justify-content-center align-items-center w-100 mx-0">
-                        <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-3 mb-md-0">
-                            <img src="/images/logo.png" alt="Hofmaan Logo" class="img-fluid" style="max-height:60px; width:auto;">
-                           
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center">
-                            <img src="/images/logo-2.png" alt="Blackbuck Logo" class="img-fluid" style="max-height:60px; width:auto;">
-                          
-                    </div>
-                </div>
-            </div>
-            <!-- End of Iocn Box Wrapper -->
+                    <div class="py-4">
+                        <h3 class="font-secondary font-weight-bolder mb-3 text-center" style="letter-spacing:1px;">
+                            Our Brand & Sub-Brand
+                        </h3>
+                        <div class="row justify-content-center align-items-center w-100 mx-0">
+                            <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-3 mb-md-0">
+                                <img src="/images/logo.png" alt="Hofmaan Logo" class="img-fluid"
+                                    style="max-height:60px; width:auto;">
 
-            <div class="title-link-wrapper title-select after-none appear-animate">
-                <h2 class="title font-secondary font-weight-bolder">Best Deals</h2>
-                <a href="/store" class="font-weight-bold ls-25">
-                    All Products
-                    <i class="w-icon-long-arrow-right"></i>
-                </a>
-            </div>
-            <div class="swiper-container swiper-theme select-product-wrapper shadow-swiper appear-animate pb-2 mb-10"
-                data-swiper-options='{
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center">
+                                <img src="/images/logo-2.png" alt="Blackbuck Logo" class="img-fluid"
+                                    style="max-height:60px; width:auto;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of Iocn Box Wrapper -->
+
+                    <div class="title-link-wrapper title-select after-none appear-animate">
+                        <h2 class="title font-secondary font-weight-bolder">Best Deals</h2>
+                        <a href="/store" class="font-weight-bold ls-25">
+                            All Products
+                            <i class="w-icon-long-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="swiper-container swiper-theme select-product-wrapper shadow-swiper appear-animate pb-2 mb-10"
+                        data-swiper-options='{
                 "spaceBetween": 20,
                 "slidesPerView": 2,
                 "breakpoints": {
@@ -483,156 +476,241 @@
                     "1200": { "slidesPerView": 5 }
                 }
             }'>
-                <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2">
-                    <% bestDeals.forEach(product=> { %>
-                        <div class="swiper-slide product product-image-gap product-simple"
-                            data-product-id="<%= product._id %>" data-has-color="<%= product.hasColorVariants %>"
-                            data-has-size="<%= product.hasSizeVariants %>"
-                            data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
-                            data-product-image="<%= product.images[0] %>"
-                                data-product-price="<%= product.salePrice || product.basePrice %>">
+                        <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2">
+                            <% bestDeals.forEach(product=> { %>
+                                <div class="swiper-slide product product-image-gap product-simple"
+                                    data-product-id="<%= product._id %>"
+                                    data-has-color="<%= product.hasColorVariants %>"
+                                    data-has-size="<%= product.hasSizeVariants %>"
+                                    data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
+                                    data-product-image="<%= product.images[0] %>"
+                                        data-product-price="<%= product.salePrice || product.basePrice %>">
 
-                                    <figure class="product-media">
-                                        <a href="/product/<%= product._id %>">
-                                            <img src="<%= product.images[0] %>" alt="Product" width="295"
-                                                height="335" loading="lazy" />
-                                            <% if (product.images[1]) { %>
-                                                <img src="<%= product.images[1] %>" alt="Product" width="295"
-                                                    height="335" loading="lazy" />
-                                                <% } %>
-                                        </a>
-                                    </figure>
-
-                                    <div class="product-details">
-                                        <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                                        <h4 class="product-name">
-                                            <a href="/product/<%= product._id %>">
-                                                <%= product.name %>
-                                            </a>
-                                        </h4>
-
-                                        <div class="product-variations flex flex-wrap mb-2">
-                                            <% if (product.hasSizeVariants) { %>
-                                                <div class="product-size mr-3 d-flex align-items-center">
-                                                    <span class="font-weight-bold mr-1">Size:</span>
-                                                    <div>
-                                                        <% product.sizeVariants.forEach(size=> { %>
-                                                            <span
-                                                                class="size-option badge badge-light border px-2 py-1 mr-1"
-                                                                data-size="<%= size.size %>"
-                                                                data-stock="<%= size.stock %>"
-                                                                style="cursor:pointer;">
-                                                                <%= size.size %>
-                                                            </span>
-                                                            <% }) %>
-                                                    </div>
-                                                </div>
-                                                <% } %>
-
-                                                    <% if (product.hasColorVariants) { %>
-                                                        <div class="product-color">
-                                                            <span class="font-weight-bold mr-1"></span>
-                                                            <% product.colorVariants.forEach(color=> { %>
-                                                                <span
-                                                                    class="color-option border rounded-circle d-inline-block mr-1 mb-1"
-                                                                    data-color="<%= color.color %>"
-                                                                    data-stock="<%= color.stock %>"
-                                                                    title="<%= color.color %>"
-                                                                    style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
-                                                                </span>
-                                                                <% }) %>
-                                                        </div>
+                                            <figure class="product-media">
+                                                <a href="/product/<%= product._id %>">
+                                                    <img src="<%= product.images[0] %>" alt="Product" width="295"
+                                                        height="335" loading="lazy" />
+                                                    <% if (product.images[1]) { %>
+                                                        <img src="<%= product.images[1] %>" alt="Product" width="295"
+                                                            height="335" loading="lazy" />
                                                         <% } %>
-                                        </div>
+                                                </a>
+                                            </figure>
 
-                                        <div class="selected-variant-info"
-                                            style="min-height:24px;font-size:0.95em;color:#444;">
-                                            <!-- Will be filled by JS -->
-                                        </div>
+                                            <div class="product-details">
+                                                <% if (user) { %>
+                                                    <a href="#" class="btn-wishlist w-icon-heart"
+                                                        data-product-id="<%= product._id %>" title="Add to wishlist"
+                                                        onclick="event.preventDefault(); addToWishlist('<%= product._id %>', this);">
+                                                    </a>
+                                                    <% } else { %>
+                                                        <a href="/auth/login" class="btn-wishlist w-icon-heart"
+                                                            title="Login to add to wishlist">
+                                                        </a>
+                                                        <% } %>
+                                                            <h4 class="product-name">
+                                                                <a href="/product/<%= product._id %>">
+                                                                    <%= product.name %>
+                                                                </a>
+                                                            </h4>
 
-                                        <div class="product-pa-wrapper">
-                                            <div class="product-price">
-                                                <ins class="new-price">₹<%= product.salePrice || product.basePrice
-                                                        %></ins>
-                                                <% if (product.salePrice) { %>
-                                                    <del class="old-price">₹<%= product.basePrice %></del>
-                                                    <% } %>
+                                                            <div class="product-variations flex flex-wrap mb-2">
+                                                                <% if (product.hasSizeVariants) { %>
+                                                                    <div
+                                                                        class="product-size mr-3 d-flex align-items-center">
+                                                                        <span class="font-weight-bold mr-1">Size:</span>
+                                                                        <div>
+                                                                            <% product.sizeVariants.forEach(size=> { %>
+                                                                                <span
+                                                                                    class="size-option badge badge-light border px-2 py-1 mr-1"
+                                                                                    data-size="<%= size.size %>"
+                                                                                    data-stock="<%= size.stock %>"
+                                                                                    style="cursor:pointer;">
+                                                                                    <%= size.size %>
+                                                                                </span>
+                                                                                <% }) %>
+                                                                        </div>
+                                                                    </div>
+                                                                    <% } %>
+
+                                                                        <% if (product.hasColorVariants) { %>
+                                                                            <div class="product-color">
+                                                                                <span
+                                                                                    class="font-weight-bold mr-1"></span>
+                                                                                <% product.colorVariants.forEach(color=>
+                                                                                    { %>
+                                                                                    <span
+                                                                                        class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                                                                                        data-color="<%= color.color %>"
+                                                                                        data-stock="<%= color.stock %>"
+                                                                                        title="<%= color.color %>"
+                                                                                        style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
+                                                                                    </span>
+                                                                                    <% }) %>
+                                                                            </div>
+                                                                            <% } %>
+                                                            </div>
+
+                                                            <div class="selected-variant-info"
+                                                                style="min-height:24px;font-size:0.95em;color:#444;">
+                                                                <!-- Will be filled by JS -->
+                                                            </div>
+
+                                                            <div class="product-pa-wrapper">
+                                                                <div class="product-price">
+                                                                    <ins class="new-price">₹<%= product.salePrice ||
+                                                                            product.basePrice %></ins>
+                                                                    <% if (product.salePrice) { %>
+                                                                        <del class="old-price">₹<%= product.basePrice %>
+                                                                                </del>
+                                                                        <% } %>
+                                                                </div>
+                                                                <div class="product-action">
+                                                                    <button
+                                                                        class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
+                                                                        data-product-id="<%= product._id %>"
+                                                                        data-has-color="<%= product.hasColorVariants %>"
+                                                                        data-has-size="<%= product.hasSizeVariants %>"
+                                                                        data-product-name="<%= product.name.replace(/"
+                                                                        /g, '&quot;' ) %>"
+                                                                        data-product-image="<%= product.images[0] %>"
+                                                                            data-product-price="<%= product.salePrice ||
+                                                                                product.basePrice %>">
+                                                                                Add To Cart
+                                                                    </button>
+                                                                </div>
+                                                            </div>
                                             </div>
-                                            <div class="product-action">
-                                                <button
-                                                    class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
-                                                    data-product-id="<%= product._id %>"
-                                                    data-has-color="<%= product.hasColorVariants %>"
-                                                    data-has-size="<%= product.hasSizeVariants %>"
-                                                    data-product-name="<%= product.name.replace(/" /g, '&quot;' )
-                                                    %>"
-                                                    data-product-image="<%= product.images[0] %>"
-                                                        data-product-price="<%= product.salePrice ||
-                                                            product.basePrice %>">
-                                                            Add To Cart
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                </div>
+                                <% }) %>
                         </div>
-                        <% }) %>
-                </div>
-                <div class="swiper-pagination mt-4"></div>
-            </div>
+                        <script>
+                            // Add selected class toggle to color and size
+                            document.querySelectorAll('.color-option').forEach(el => {
+                                el.addEventListener('click', () => {
+                                    el.parentElement.querySelectorAll('.color-option').forEach(c => c.classList.remove('selected'));
+                                    el.classList.add('selected');
+                                });
+                            });
 
-            <!-- End of Selected Products Wrapper -->
+                            document.querySelectorAll('.size-option').forEach(el => {
+                                el.addEventListener('click', () => {
+                                    el.parentElement.querySelectorAll('.size-option').forEach(s => s.classList.remove('selected'));
+                                    el.classList.add('selected');
+                                });
+                            });
 
-            <div class="banner-wrapper appear-animate row cols-md-2 mb-7">
-                <% if (bannerThree && bannerThree.length> 0) { %>
-                    <% bannerThree.slice(0, 2).forEach((banner, index)=> { %>
-                        <div class="banner banner-fixed overlay-dark br-sm mt-4">
-                            <figure class="br-sm">
-                                <img src="<%= banner.image %>" alt="Category Banner" width="680" height="180"
-                                    style="background-color: <%= index === 1 ? '#E5E6E8' : '#565960' %>; object-fit: cover;"
-                                    loading="lazy" />
-                            </figure>
-                            <div class="banner-content y-50">
-                                <% if (banner.description) { %>
-                                    <h4
-                                        class="banner-price-info font-secondary font-weight-normal mb-0 <%= index === 1 ? 'text-default' : 'text-lighter' %>">
-                                        <%= banner.description %>
-                                    </h4>
-                                    <% } %>
-                                        <% if (banner.title) { %>
-                                            <h2
-                                                class="banner-title font-secondary <%= index === 1 ? 'text-dark' : 'text-white' %>">
-                                                <%= banner.title %>
-                                            </h2>
+                            function addToWishlist(productId, el) {
+                                const productCard = el.closest('.product');
+                                const hasColor = productCard.dataset.hasColor === 'true';
+                                const hasSize = productCard.dataset.hasSize === 'true';
+
+                                const selectedColor = productCard.querySelector('.color-option.selected')?.dataset.color || null;
+                                const selectedSize = productCard.querySelector('.size-option.selected')?.dataset.size || null;
+
+                                const body = {
+                                    productId,
+                                    ...(hasColor ? { selectedColor } : {}),
+                                    ...(hasSize ? { selectedSize } : {})
+                                };
+
+                                fetch('/create-wishlist', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(body)
+                                })
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        if (data && data.success) {
+                                            Toastify({
+                                                text: "Added to wishlist!",
+                                                duration: 2000,
+                                                gravity: "top",
+                                                position: "right",
+                                                backgroundColor: "#001F3F",
+                                            }).showToast();
+                                            if (el) el.classList.add('active');
+                                        } else {
+                                            Toastify({
+                                                text: data.error || "Could not add to wishlist.",
+                                                duration: 2000,
+                                                gravity: "top",
+                                                position: "right",
+                                                backgroundColor: "#dc3545",
+                                            }).showToast();
+                                        }
+                                    })
+                                    .catch(() => {
+                                        Toastify({
+                                            text: "Error adding to wishlist.",
+                                            duration: 2000,
+                                            gravity: "top",
+                                            position: "right",
+                                            backgroundColor: "#dc3545",
+                                        }).showToast();
+                                    });
+                            }
+
+                        </script>
+
+                        <div class="swiper-pagination mt-4"></div>
+                    </div>
+
+                    <!-- End of Selected Products Wrapper -->
+
+                    <div class="banner-wrapper appear-animate row cols-md-2 mb-7">
+                        <% if (bannerThree && bannerThree.length> 0) { %>
+                            <% bannerThree.slice(0, 2).forEach((banner, index)=> { %>
+                                <div class="banner banner-fixed overlay-dark br-sm mt-4">
+                                    <figure class="br-sm">
+                                        <img src="<%= banner.image %>" alt="Category Banner" width="680" height="180"
+                                            style="background-color: <%= index === 1 ? '#E5E6E8' : '#565960' %>; object-fit: cover;"
+                                            loading="lazy" />
+                                    </figure>
+                                    <div class="banner-content y-50">
+                                        <% if (banner.description) { %>
+                                            <h4
+                                                class="banner-price-info font-secondary font-weight-normal mb-0 <%= index === 1 ? 'text-default' : 'text-lighter' %>">
+                                                <%= banner.description %>
+                                            </h4>
                                             <% } %>
-                                                <% if (banner.subtitle) { %>
-                                                    <h3
-                                                        class="banner-subtitle font-weight-normal <%= index === 1 ? 'text-default' : 'text-lighter' %>">
-                                                        <%= banner.subtitle %>
-                                                    </h3>
+                                                <% if (banner.title) { %>
+                                                    <h2
+                                                        class="banner-title font-secondary <%= index === 1 ? 'text-dark' : 'text-white' %>">
+                                                        <%= banner.title %>
+                                                    </h2>
                                                     <% } %>
-                                                        <% if (banner.link) { %>
-                                                            <a href="<%= banner.link %>"
-                                                                class="btn btn-sm btn-outline <%= index === 1 ? 'btn-dark' : 'btn-white' %> btn-rounded btn-icon-right slide-animate">
-                                                                Shop Now
-                                                                <i class="w-icon-long-arrow-right"></i>
-                                                            </a>
+                                                        <% if (banner.subtitle) { %>
+                                                            <h3
+                                                                class="banner-subtitle font-weight-normal <%= index === 1 ? 'text-default' : 'text-lighter' %>">
+                                                                <%= banner.subtitle %>
+                                                            </h3>
                                                             <% } %>
-                            </div>
-                        </div>
-                        <% }) %>
-                            <% } %>
-            </div>
+                                                                <% if (banner.link) { %>
+                                                                    <a href="<%= banner.link %>"
+                                                                        class="btn btn-sm btn-outline <%= index === 1 ? 'btn-dark' : 'btn-white' %> btn-rounded btn-icon-right slide-animate">
+                                                                        Shop Now
+                                                                        <i class="w-icon-long-arrow-right"></i>
+                                                                    </a>
+                                                                    <% } %>
+                                    </div>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+                    </div>
 
-            <!-- End of Banner-wrapper -->
+                    <!-- End of Banner-wrapper -->
 
-            <div class="title-link-wrapper title-deals after-none appear-animate">
-                <h2 class="title font-secondary mb-1">Deals Of The Day</h2>
-                <a href="/store" class="font-weight-bold ls-25">
-                    More Products
-                    <i class="w-icon-long-arrow-right"></i>
-                </a>
-            </div>
-            <div class="swiper-container swiper-theme mb-4 pg-inner animation-slider" data-swiper-options='{
+                    <div class="title-link-wrapper title-deals after-none appear-animate">
+                        <h2 class="title font-secondary mb-1">Deals Of The Day</h2>
+                        <a href="/store" class="font-weight-bold ls-25">
+                            More Products
+                            <i class="w-icon-long-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="swiper-container swiper-theme mb-4 pg-inner animation-slider" data-swiper-options='{
                 "spaceBetween": 20,
                 "slidesPerView": 1,
                 "breakpoints": {
@@ -641,101 +719,103 @@
                     }
                 }
             }'>
-                <div class="swiper-wrapper row cols-lg-2">
-                    <% dealsOfTheDay.forEach(product=> { %>
-                        <div class="swiper-slide product product-list br-sm mb-0"
-                            data-product-id="<%= product._id %>"
-                            data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
-                            data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
-                            data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
-                            data-product-image="<%= product.images[0] %>"
-                                data-product-price="<%= product.salePrice || product.basePrice %>">
-                                    <figure class="product-media">
-                                        <a href="/product/<%= product._id %>">
-                                            <img src="<%= product.images[0] %>" alt="Product Image" width="315"
-                                                height="355" loading="lazy">
-                                            <% if (product.images[1]) { %>
-                                                <img src="<%= product.images[1] %>" alt="Product Image" width="315"
-                                                    height="355" loading="lazy">
-                                                <% } %>
-                                        </a>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name">
-                                            <a href="/product/<%= product._id %>">
-                                                <%= product.name %>
-                                            </a>
-                                        </h4>
-                                        <div class="product-variations flex flex-wrap justify-content-start">
-                                            <% if (product.sizeVariants && product.sizeVariants.length) { %>
-                                                <div class="product-size mr-3 d-flex align-items-center">
-                                                    <span class="font-weight-bold mr-1">Size:</span>
-                                                    <div>
-                                                        <% product.sizeVariants.forEach(size=> { %>
-                                                            <span
-                                                                class="size-option badge badge-light border px-2 py-1 mr-1"
-                                                                data-size="<%= size.size %>"
-                                                                data-stock="<%= size.stock %>"
-                                                                style="cursor:pointer;">
-                                                                <%= size.size %>
-                                                            </span>
-                                                            <% }) %>
-                                                    </div>
-                                                </div>
-                                                <% } %>
-                                                    <% if (product.colorVariants && product.colorVariants.length) {
-                                                        %>
-                                                        <div class="product-color">
-                                                            <span class="font-weight-bold mr-1"></span>
-                                                            <% product.colorVariants.forEach(color=> { %>
-                                                                <span
-                                                                    class="color-option border rounded-circle d-inline-block mr-1 mb-1"
-                                                                    data-color="<%= color.color %>"
-                                                                    data-stock="<%= color.stock %>"
-                                                                    title="<%= color.color %>"
-                                                                    style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
-                                                                </span>
-                                                                <% }) %>
+                        <div class="swiper-wrapper row cols-lg-2">
+                            <% dealsOfTheDay.forEach(product=> { %>
+                                <div class="swiper-slide product product-list br-sm mb-0"
+                                    data-product-id="<%= product._id %>"
+                                    data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
+                                    data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
+                                    data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
+                                    data-product-image="<%= product.images[0] %>"
+                                        data-product-price="<%= product.salePrice || product.basePrice %>">
+                                            <figure class="product-media">
+                                                <a href="/product/<%= product._id %>">
+                                                    <img src="<%= product.images[0] %>" alt="Product Image" width="315"
+                                                        height="355" loading="lazy">
+                                                    <% if (product.images[1]) { %>
+                                                        <img src="<%= product.images[1] %>" alt="Product Image"
+                                                            width="315" height="355" loading="lazy">
+                                                        <% } %>
+                                                </a>
+                                            </figure>
+                                            <div class="product-details">
+                                                <h4 class="product-name">
+                                                    <a href="/product/<%= product._id %>">
+                                                        <%= product.name %>
+                                                    </a>
+                                                </h4>
+                                                <div class="product-variations flex flex-wrap justify-content-start">
+                                                    <% if (product.sizeVariants && product.sizeVariants.length) { %>
+                                                        <div class="product-size mr-3 d-flex align-items-center">
+                                                            <span class="font-weight-bold mr-1">Size:</span>
+                                                            <div>
+                                                                <% product.sizeVariants.forEach(size=> { %>
+                                                                    <span
+                                                                        class="size-option badge badge-light border px-2 py-1 mr-1"
+                                                                        data-size="<%= size.size %>"
+                                                                        data-stock="<%= size.stock %>"
+                                                                        style="cursor:pointer;">
+                                                                        <%= size.size %>
+                                                                    </span>
+                                                                    <% }) %>
+                                                            </div>
                                                         </div>
                                                         <% } %>
-                                        </div>
-                                     
-                                        <div class="product-price">
-                                            <ins class="new-price">₹<%= product.salePrice || product.basePrice %>
-                                            </ins>
-                                            <% if (product.salePrice) { %>
-                                                <del class="old-price">₹<%= product.basePrice %></del>
-                                                <% } %>
-                                        </div>
-                                        <p class="text-default">
-                                            <%= product.description.substring(0, 50) %>...
-                                        </p>
-                                        <div class="product-action">
-                                            <button
-                                                class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
-                                                data-product-id="<%= product._id %>"
-                                                data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
-                                                data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
-                                                data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
-                                                data-product-image="<%= product.images[0] %>"
-                                                    data-product-price="<%= product.salePrice || product.basePrice
-                                                        %>">
-                                                        <i class="w-icon-cart"></i>
-                                                        <span>Add to cart</span>
-                                            </button>
-                                            <a href="/wishlist/add/<%= product._id %>"
-                                                class="btn-product-icon btn-wishlist w-icon-heart"
-                                                title="Add to wishlist"></a>
-                                        </div>
-                                    </div>
+                                                            <% if (product.colorVariants &&
+                                                                product.colorVariants.length) { %>
+                                                                <div class="product-color">
+                                                                    <span class="font-weight-bold mr-1"></span>
+                                                                    <% product.colorVariants.forEach(color=> { %>
+                                                                        <span
+                                                                            class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                                                                            data-color="<%= color.color %>"
+                                                                            data-stock="<%= color.stock %>"
+                                                                            title="<%= color.color %>"
+                                                                            style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
+                                                                        </span>
+                                                                        <% }) %>
+                                                                </div>
+                                                                <% } %>
+                                                </div>
+
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹<%= product.salePrice || product.basePrice
+                                                            %>
+                                                    </ins>
+                                                    <% if (product.salePrice) { %>
+                                                        <del class="old-price">₹<%= product.basePrice %></del>
+                                                        <% } %>
+                                                </div>
+                                                <p class="text-default">
+                                                    <%= product.description.substring(0, 50) %>...
+                                                </p>
+                                                <div class="product-action">
+                                                    <button
+                                                        class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
+                                                        data-product-id="<%= product._id %>"
+                                                        data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
+                                                        data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
+                                                        data-product-name="<%= product.name.replace(/" /g, '&quot;' )
+                                                        %>"
+                                                        data-product-image="<%= product.images[0] %>"
+                                                            data-product-price="<%= product.salePrice ||
+                                                                product.basePrice %>">
+                                                                <i class="w-icon-cart"></i>
+                                                                <span>Add to cart</span>
+                                                    </button>
+                                                    <a href="/wishlist/add/<%= product._id %>"
+                                                        class="btn-product-icon btn-wishlist w-icon-heart"
+                                                        title="Add to wishlist"></a>
+                                                </div>
+                                            </div>
+                                </div>
+                                <% }); %>
                         </div>
-                        <% }); %>
-                </div>
-            </div>
+                    </div>
 
-            <!-- End of Swiper -->
+                    <!-- End of Swiper -->
 
-            <div class="swiper-container swiper-theme mb-8 pg-inner animation-slider" data-swiper-options='{
+                    <div class="swiper-container swiper-theme mb-8 pg-inner animation-slider" data-swiper-options='{
                 "spaceBetween": 20,
                 "slidesPerView": 1,
                 "breakpoints": {
@@ -744,44 +824,46 @@
                     "992": { "slidesPerView": 4 }
                 }
             }'>
-                <div class="swiper-wrapper row cols-xl-4 cols-lg-3 cols-sm-2 cols-1">
-                    <% allProducts.forEach(product=> { %>
-                        <div class="swiper-slide">
-                            <div class="product-widget-wrap">
-                                <div class="product product-widget">
-                                    <figure class="product-media">
-                                        <a href="/product/<%= product._id %>">
-                                            <img src="<%= product.images[0] || '/images/default.jpg' %>"
-                                                alt="Product" width="100" height="106">
-                                            <% if (product.images.length> 1) { %>
-                                                <img src="<%= product.images[1] %>" alt="Product" width="100"
-                                                    height="106">
-                                                <% } %>
-                                        </a>
-                                    </figure>
-                                    <div class="product-details">
-                                        <h4 class="product-name">
-                                            <a href="/product/<%= product._id %>">
-                                                <%= product.name %>
-                                            </a>
-                                        </h4>
-                                        <div class="product-price">
-                                            <ins class="new-price">₹<%= product.salePrice || product.basePrice %>
-                                            </ins>
-                                            <% if (product.salePrice && product.salePrice < product.basePrice) { %>
-                                                <del class="old-price">₹<%= product.basePrice %></del>
-                                                <% } %>
+                        <div class="swiper-wrapper row cols-xl-4 cols-lg-3 cols-sm-2 cols-1">
+                            <% allProducts.forEach(product=> { %>
+                                <div class="swiper-slide">
+                                    <div class="product-widget-wrap">
+                                        <div class="product product-widget">
+                                            <figure class="product-media">
+                                                <a href="/product/<%= product._id %>">
+                                                    <img src="<%= product.images[0] || '/images/default.jpg' %>"
+                                                        alt="Product" width="100" height="106">
+                                                    <% if (product.images.length> 1) { %>
+                                                        <img src="<%= product.images[1] %>" alt="Product" width="100"
+                                                            height="106">
+                                                        <% } %>
+                                                </a>
+                                            </figure>
+                                            <div class="product-details">
+                                                <h4 class="product-name">
+                                                    <a href="/product/<%= product._id %>">
+                                                        <%= product.name %>
+                                                    </a>
+                                                </h4>
+                                                <div class="product-price">
+                                                    <ins class="new-price">₹<%= product.salePrice || product.basePrice
+                                                            %>
+                                                    </ins>
+                                                    <% if (product.salePrice && product.salePrice < product.basePrice) {
+                                                        %>
+                                                        <del class="old-price">₹<%= product.basePrice %></del>
+                                                        <% } %>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <% }) %>
                         </div>
-                        <% }) %>
-                </div>
-            </div>
+                    </div>
 
-            <!-- End of Swiper -->
-        </div>
+                    <!-- End of Swiper -->
+                </div>
 
                 <div class="banner banner-fixed purchase-banner appear-animate">
                     <figure class="banner-img">
@@ -796,7 +878,7 @@
                             Trending
                             Accessories Collection</h2>
                         <p class="text-lighter font-weight-normal">
-                            Free shipping  for all orders
+                            Free shipping for all orders
                         </p>
                         <a href="#0" class="btn btn-lg btn-outline btn-white btn-rounded btn-icon-right slide-animate">
                             Purchase Now
@@ -1469,7 +1551,7 @@
                             <div class="widget">
                                 <h3 class="widget-title">Company</h3>
                                 <ul class="widget-body">
-                                    <li><a href="about-us.html">About Us</a></li>
+                                    <li><a href="/about">About Us</a></li>
                                     <li><a href="#">Team Member</a></li>
                                     <li><a href="#">Career</a></li>
                                     <li><a href="/contact">Contact Us</a></li>
@@ -1484,7 +1566,7 @@
                                 <ul class="widget-body">
                                     <li><a href="#">Track My Order</a></li>
                                     <li><a href="/cart">View Cart</a></li>
-                                    <li><a href="login.html">Sign In</a></li>
+                                    <li><a href="/auth/login">Sign In</a></li>
                                     <li><a href="#">Help</a></li>
                                     <li><a href="/wishlist">My Wishlist</a></li>
                                     <li><a href="#">Privacy Policy</a></li>
@@ -1617,7 +1699,7 @@
         <!-- End of .mobile-menu-close -->
 
         <div class="mobile-menu-container scrollable">
-         <img class="side-logo" src="/images/logo.png" alt="logo">
+            <img class="side-logo" src="/images/logo.png" alt="logo">
             <!-- End of Search Form -->
             <div class="tab">
                 <ul class="nav nav-tabs" role="tablist">
@@ -1633,37 +1715,41 @@
                 <div class="tab-pane active" id="main-menu">
                     <ul class="mobile-menu">
                         <li><a href="/">Home</a></li>
-                          <li><a href="/store">Store</a></li>
-                             <li><a href="/login">Profile</a></li>
-                                                          <li><a href="/wishlist">Wishlist</a></li>
-                                                           <li><a href="/cart">Cart</a></li>
-                                  <li><a href="/about">About Us</a></li>
-                                      <li><a href="/about">Blogs</a></li>
-                                                     <li><a href="/contact">Contact Us</a></li>
-                                                   
+                        <li><a href="/store">Store</a></li>
+                        <li><a href="/login">Profile</a></li>
+                        <li><a href="/wishlist">Wishlist</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/about">Blogs</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
+
                     </ul>
                 </div>
                 <div class="tab-pane" id="categories">
-            <ul class="mobile-menu">
-    <% categories.forEach(category => { %>
-        <li>
-            <a style="gap: 10px!important; display: flex;" href="/category/<%= category._id %>">
-               <img style="height: 30px; width: 30px; border-radius: 50px;" src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt=""> <%= category.name %>
-            </a>
-            <% if (category.subCategories && category.subCategories.length > 0) { %>
-                <ul>
-                    <% category.subCategories.forEach(sub => { %>
-                        <% if (sub.isActive) { %>
+                    <ul class="mobile-menu">
+                        <% categories.forEach(category=> { %>
                             <li>
-                                <a href="/subcategory/<%= sub._id %>"><%= sub.name %></a>
+                                <a style="gap: 10px!important; display: flex;" href="/category/<%= category._id %>">
+                                    <img style="height: 30px; width: 30px; border-radius: 50px;"
+                                        src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt="">
+                                    <%= category.name %>
+                                </a>
+                                <% if (category.subCategories && category.subCategories.length> 0) { %>
+                                    <ul>
+                                        <% category.subCategories.forEach(sub=> { %>
+                                            <% if (sub.isActive) { %>
+                                                <li>
+                                                    <a href="/subcategory/<%= sub._id %>">
+                                                        <%= sub.name %>
+                                                    </a>
+                                                </li>
+                                                <% } %>
+                                                    <% }); %>
+                                    </ul>
+                                    <% } %>
                             </li>
-                        <% } %>
-                    <% }); %>
-                </ul>
-            <% } %>
-        </li>
-    <% }); %>
-</ul>
+                            <% }); %>
+                    </ul>
 
                 </div>
             </div>
@@ -1678,16 +1764,13 @@
 
             if (googleLogin === 'true') {
                 localStorage.removeItem('guestCart');
-                console.log('🛒 Guest cart cleared after Google login');
-
-                // Optionally clean the URL so query param disappears
                 const cleanUrl = window.location.origin + window.location.pathname;
                 window.history.replaceState({}, document.title, cleanUrl);
             }
         });
     </script>
     <script>
-        // Prevent double Toastify notifications by ensuring only one event listener is attached
+
         (function () {
             const selectedVariants = {};
 
@@ -1794,7 +1877,7 @@
                 });
             });
 
-            window.showToast = function(message, type = "success") {
+            window.showToast = function (message, type = "success") {
                 // Prevent duplicate Toastify notifications by using a flag
                 if (window._toastifyActive) return;
                 window._toastifyActive = true;
@@ -1808,17 +1891,17 @@
                         ? "linear-gradient(90deg, #00b09b, #96c93d)"
                         : "linear-gradient(90deg, #e74c3c, #c0392b)",
                     stopOnFocus: true,
-                    callback: function() {
+                    callback: function () {
                         window._toastifyActive = false;
                     }
                 }).showToast();
-                setTimeout(function() {
+                setTimeout(function () {
                     window._toastifyActive = false;
                 }, 2600);
             };
 
             // Add price to guestCart
-            window.addToCart = async function(productId, quantity = 1, selectedColor = null, selectedSize = null, productName = null, productImage = null, productPrice = null) {
+            window.addToCart = async function (productId, quantity = 1, selectedColor = null, selectedSize = null, productName = null, productImage = null, productPrice = null) {
                 var isLoggedIn = <%= user ? 'true' : 'false' %>;
                 isLoggedIn = (isLoggedIn === true || isLoggedIn === 'true');
 

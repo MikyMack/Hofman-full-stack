@@ -14,7 +14,7 @@
     <meta name="author" content="D-THEMES">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="icon" type="image/png" href="/images/logo.png">
 
     <!-- WebFont.js -->
     <script>
@@ -23,35 +23,35 @@
         };
         ( function ( d ) {
             var wf = d.createElement( 'script' ), s = d.scripts[0];
-            wf.src = 'assets/js/webfont.js';
+            wf.src = '/js/webfont.js';
             wf.async = true;
             s.parentNode.insertBefore( wf, s );
         } )( document );
     </script>
 
-    <link rel="preload" href="assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2" as="font" type="font/woff2"
+    <link rel="preload" href="/vendor/fontawesome-free/webfonts/fa-regular-400.woff2" as="font" type="font/woff2"
         crossorigin="anonymous">
-    <link rel="preload" href="assets/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2"
+    <link rel="preload" href="/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2"
         crossorigin="anonymous">
-    <link rel="preload" href="assets/vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2"
+    <link rel="preload" href="/vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2"
             crossorigin="anonymous">
-    <link rel="preload" href="assets/fonts/wolmart87d5.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/wolmart87d5.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/fontawesome-free/css/all.min.css">
 
     <!-- Plugin CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/magnific-popup/magnific-popup.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/magnific-popup/magnific-popup.min.css">
 
     <!-- Default CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/style.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.min.css">
 </head>
 
 <body>
     <div class="page-wrapper">
    
         <!-- Start of Header -->
-       <header class="header">
+        <header class="header">
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
@@ -59,15 +59,18 @@
                     </div>
                     <div class="header-right">
                         <span class="divider d-lg-show"></span>
-                          <a href="index.html" class="d-lg-show">Home</a>
-                        <a href="shop.html" class="d-lg-show">Store</a>
-                        <a href="about-us.html" class="d-lg-show">About Us</a>
-                                             <a href="blogs.html" class="d-lg-show">Blogs</a>
-                        <a href="contact-us.html" class="d-lg-show">Contact Us</a>
-                        <a href="assets/ajax/login.html" class="d-lg-show login sign-in"><i
-                                class="w-icon-account"></i>Sign In</a>
-                        <span class="delimiter d-lg-show">/</span>
-                        <a href="assets/ajax/login.html" class="ml-0 d-lg-show login register">Register</a>
+                        <a href="/store" class="d-lg-show">Store</a>
+                        <a href="/about" class="d-lg-show">About Us</a>
+                        <a href="/contact" class="d-lg-show">Contact Us</a>
+                        <% if (user) { %>
+                            <a href="/user/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <span class="delimiter d-lg-show">/</span>
+                            <a href="/user/orders" class="ml-0 d-lg-show">My Orders</a>
+                        <% } else { %>
+                            <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
+                            <span class="delimiter d-lg-show">/</span>
+                            <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -76,17 +79,9 @@
                 <div class="container">
                     <div class="header-left mr-md-4">
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
-                        <a href="index.html" class="logo">
-                            <img src="assets/images/logo.png" alt="logo" width="250">
-                        </a>
-                        <form method="get" action="#"
-                            class="input-wrapper header-search  hs-expanded sticky-border hs-round d-none d-md-flex">                            
-                            <input type="text" class="form-control header-sticky-border bg-white pt-0 pb-0" name="search" id="search"
-                                placeholder="Search in..." required />
-                            <button class="btn btn-search header-sticky-border-btn" type="submit">
-                                <i class="w-icon-search"></i>
-                            </button>
-                        </form>
+                        <a href="/" class="logo">
+                            <img src="/images/logo.png" alt="logo" width="250">
+                        </a>                      
                     </div>
                     <div class="header-right ml-4">
                         <div class="header-call d-xs-show d-lg-flex align-items-center">
@@ -99,19 +94,19 @@
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
                             </div>
                         </div>
-                        <a class="wishlist label-down link d-xs-show" href="wishlist.html">
+                        <a class="wishlist label-down link d-xs-show" href="/wishlist">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
                         </a>                     
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
-                            <a href="cart.html" class="cart-toggle1 label-down link">
+                            <a href="/cart" class=" label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count text-white">2</span>
+                                    <span class="cart-count text-white">+</span>
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
-                     
+                         
                             <!-- End of Dropdown Box -->
                         </div>
                     </div>
@@ -474,7 +469,7 @@
                         <div class="col-lg-4 col-sm-6">
                             <div class="widget widget-about mt-0 mb-4">
                                 <a href="demo12.html" class="logo-footer">
-                                    <img src="assets/images/logo.png" alt="logo-footer" width="200"
+                                    <img src="/images/logo.png" alt="logo-footer" width="200"
                                         height="45" />
                                 </a>
                                 <div class="widget-body">
@@ -516,7 +511,7 @@
                                     <li><a href="cart.html">View Cart</a></li>
                                     <li><a href="login.html">Sign In</a></li>
                                     <li><a href="contact-us.html">Help</a></li>
-                                    <li><a href="wishlist.html">My Wishlist</a></li>
+                                    <li><a href="/wishlist">My Wishlist</a></li>
                                     <li><a href="privacy.html">Privacy Policy</a></li>
                                 </ul>
                             </div>
@@ -544,7 +539,7 @@
                     <div class="footer-right">
                         <span class="payment-label mr-lg-8">We're using safe payment for</span>
                         <figure class="payment">
-                            <img src="assets/images/payment.png" alt="payment" width="159" height="25" />
+                            <img src="/images/payment.png" alt="payment" width="159" height="25" />
                         </figure>
                     </div>
                 </div>
@@ -700,11 +695,11 @@
     <!-- End of Mobile Menu -->
 
     <!-- Plugin JS File -->
-   <script src="assets/vendor/jquery/jquery.min.js"></script>
-    <script src="assets/vendor/sticky/sticky.js"></script>
-    <script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/main.min.js"></script>
-          <script src="assets/js/script.js"></script>
+   <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/sticky/sticky.js"></script>
+    <script src="/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script src="/js/main.min.js"></script>
+          <script src="/js/script.js"></script>
 </body>
 
 

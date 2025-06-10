@@ -24997,3 +24997,11 @@ color: var(--theme-color)!important;
   justify-content: center;
   align-items: center;
 }
+.bnr-btn{
+  background-color: var(--theme-color);
+  color: white;
+  &:hover{
+    background-color: white;
+    color: var(--theme-color);
+  }
+}

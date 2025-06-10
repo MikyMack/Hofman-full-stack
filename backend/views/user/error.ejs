@@ -269,8 +269,8 @@
     <!-- End of Page Wrapper -->
 
     <!-- Start of Sticky Footer -->
-  <div class="btm-main">
-      <div class="search-bar" id="searchBar">
+   <div class="btm-main">
+        <div class="search-bar" id="searchBar">
             <div class="search-container">
                 <div class="search-input-wrapper">
                     <i class="fas fa-search search-input-icon"></i>
@@ -278,37 +278,36 @@
                 </div>
                 <button class="search-btn" id="searchButton">
                     <i class="fas fa-search"></i>
-                    <span>Search</span>
                 </button>
-        
+
             </div>
         </div>
-     
+
         <nav class="mobile-bottom-nav">
-            
+
             <div class="mob-btm-nav">
-                <a href="cart.html" class="sticky-link1">
+                <a href="/cart" class="sticky-link1">
                     <i class="fas fa-shopping-cart"></i>
                     <p>Cart</p>
                 </a>
             </div>
-            
+
             <div class="mob-btm-nav">
-                <a href="my-account.html" class="sticky-link1">
+                <a href="/orders" class="sticky-link1">
                     <i class="fas fa-clipboard-list"></i>
                     <p>Orders</p>
                 </a>
             </div>
-            
+
             <div class="mob-btm-nav">
-                <a href="search.html" id="searchBtn" class="sticky-link1">
+                <a href="#0" id="searchBtn" class="sticky-link1">
                     <i class="fas fa-search"></i>
                     <p>Search</p>
                 </a>
             </div>
-            
+
             <div class="mob-btm-nav">
-                <a href="wishlist.html" class="sticky-link1">
+                <a href="/wishlist" class="sticky-link1">
                     <i class="fas fa-heart"></i>
                     <p>Wishlist</p>
                 </a>
@@ -316,32 +315,34 @@
         </nav>
     </div>
 
-
-
-
-
-     
     <div class="sticky-footer sticky-content fix-bottom">
 
-        <a href="index.html" class="sticky-link ">
+        <a href="/" class="sticky-link  ">
             <i class="w-icon-home"></i>
             <p>Home</p>
         </a>
-        <a href="shop.html" class="sticky-link">
+        <a href="/store" class="sticky-link">
             <i class="w-icon-products"></i>
-            <p>Shop</p>
+            <p>Store</p>
         </a>
-        <a class="btm-img" href="index.html"> <img src="assets/images/hofmaan/logo-2.png" alt=""></a>
-        <a href="my-account.html" class="sticky-link">
-            <i class="w-icon-account"></i>
-            <p>Account</p>
-        </a>
-  
-        
-  <a href="contact-us.html" class="sticky-link">
-            <i class="w-icon-call2"></i>
-            <p>Contact </p>
-        </a>
+        <a class="btm-img" href="/"> <img src="/images/logo-2.png" alt=""></a>
+        <% if (user) { %>
+            <a href="/account" class="sticky-link">
+                <i class="w-icon-account"></i>
+                <p>Account</p>
+            </a>
+            <% } else { %>
+                <a href="/login" class="sticky-link">
+                    <i class="w-icon-account"></i>
+                    <p>Login</p>
+                </a>
+                <% } %>
+
+
+                    <a href="contact-us.html" class="sticky-link">
+                        <i class="w-icon-call2"></i>
+                        <p>Contact </p>
+                    </a>
     </div>
     <!-- End of Sticky Footer -->
 
@@ -358,13 +359,7 @@
         <!-- End of .mobile-menu-close -->
 
         <div class="mobile-menu-container scrollable">
-            <form action="#" method="get" class="input-wrapper">
-                <input type="text" class="form-control" name="search" autocomplete="off"
-                    placeholder="Search" required />
-                <button class="btn btn-search" type="submit">
-                    <i class="w-icon-search"></i>
-                </button>
-            </form>
+         <img class="side-logo" src="/images/logo.png" alt="logo">
             <!-- End of Search Form -->
             <div class="tab">
                 <ul class="nav nav-tabs" role="tablist">
@@ -379,165 +374,39 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="main-menu">
                     <ul class="mobile-menu">
-                        <li><a href="index.html">Home</a></li>
-                        <li>
-                            <a href="shop.html">Shop</a>
-                     
-                        </li>
-                        <li>
-                            <a href="about-us.html">About Us</a>
-                  
-                        </li>
-                        <li>
-                            <a href="blogs.html">Blogs</a>
-                 
-                        </li>
-                        <li>
-                            <a href="contact-us.html">Contact Us</a>
-                        
-                        </li>
-                 
+                        <li><a href="/">Home</a></li>
+                          <li><a href="/store">Store</a></li>
+                             <li><a href="/login">Profile</a></li>
+                                                          <li><a href="/wishlist">Wishlist</a></li>
+                                                           <li><a href="/cart">Cart</a></li>
+                                  <li><a href="/about">About Us</a></li>
+                                      <li><a href="/about">Blogs</a></li>
+                                                     <li><a href="/contact">Contact Us</a></li>
+                                                   
                     </ul>
                 </div>
                 <div class="tab-pane" id="categories">
-                    <ul class="mobile-menu">
-                        <li>
-                            <a href="shop.html">
-                             Shoes
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="#">Women</a>
-                                    <ul>
-                                        <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    <li><a href="shop.html">Lofer</a>
-                                        </li>
-                  <li><a href="shop.html">Lofer</a>
-                                        </li>
-                             <li><a href="shop.html">Lofer</a>
-                                        </li>
-                              <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                      <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                   <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                        </li>
-                                  <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Men</a>
-                                    <ul>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                        <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                          <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="shop.html">
-                         Wallet
-                            </a>
-                            <ul>
-                         
-                                <li>
-                                    <a href="#"> Belt</a>
-                                    <ul>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                        <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                          <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Sandels</a>
-                                    <ul>
-                                          <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                          <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                            <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                           
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="shop.html">
-                             Sandels
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="#">Men</a>
-                                    <ul>
-                                  <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                      <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                               <li>
-                                    <a href="#">Women</a>
-                                    <ul>
-                                  <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                      <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                              
-                            </ul>
-                        </li>
-                
-                        <li>
-                            <a href="shop.html">
-                                SunGlass
-                            </a>
-                        </li>
-                  
-                    </ul>
+            <ul class="mobile-menu">
+    <% categories.forEach(category => { %>
+        <li>
+            <a style="gap: 10px!important; display: flex;" href="/category/<%= category._id %>">
+               <img style="height: 30px; width: 30px; border-radius: 50px;" src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt=""> <%= category.name %>
+            </a>
+            <% if (category.subCategories && category.subCategories.length > 0) { %>
+                <ul>
+                    <% category.subCategories.forEach(sub => { %>
+                        <% if (sub.isActive) { %>
+                            <li>
+                                <a href="/subcategory/<%= sub._id %>"><%= sub.name %></a>
+                            </li>
+                        <% } %>
+                    <% }); %>
+                </ul>
+            <% } %>
+        </li>
+    <% }); %>
+</ul>
+
                 </div>
             </div>
         </div>

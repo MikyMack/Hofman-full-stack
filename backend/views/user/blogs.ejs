@@ -14,7 +14,7 @@
     <meta name="author" content="D-THEMES">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="icon" type="image/png" href="/images/logo.png">
 
     <!-- WebFont.js -->
     <script>
@@ -29,22 +29,22 @@
         } )( document );
     </script>
 
-    <link rel="preload" href="assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2" as="font" type="font/woff2"
+    <link rel="preload" href="/vendor/fontawesome-free/webfonts/fa-regular-400.woff2" as="font" type="font/woff2"
         crossorigin="anonymous">
-    <link rel="preload" href="assets/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2"
+    <link rel="preload" href="/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2"
         crossorigin="anonymous">
-    <link rel="preload" href="assets/vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2"
+    <link rel="preload" href="/vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2"
             crossorigin="anonymous">
-    <link rel="preload" href="assets/fonts/wolmart87d5.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/wolmart87d5.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/fontawesome-free/css/all.min.css">
 
     <!-- Plugin CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/magnific-popup/magnific-popup.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/magnific-popup/magnific-popup.min.css">
 
     <!-- Default CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/style.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.min.css">
 </head>
 
 <body>
@@ -58,15 +58,18 @@
                     </div>
                     <div class="header-right">
                         <span class="divider d-lg-show"></span>
-                          <a href="index.html" class="d-lg-show">Home</a>
-                        <a href="shop.html" class="d-lg-show">Store</a>
-                        <a href="about-us.html" class="d-lg-show">About Us</a>
-                                             <a href="blogs.html" class="d-lg-show">Blogs</a>
-                        <a href="contact-us.html" class="d-lg-show">Contact Us</a>
-                        <a href="assets/ajax/login.html" class="d-lg-show login sign-in"><i
-                                class="w-icon-account"></i>Sign In</a>
-                        <span class="delimiter d-lg-show">/</span>
-                        <a href="assets/ajax/login.html" class="ml-0 d-lg-show login register">Register</a>
+                        <a href="/store" class="d-lg-show">Store</a>
+                        <a href="/about" class="d-lg-show">About Us</a>
+                        <a href="/contact" class="d-lg-show">Contact Us</a>
+                        <% if (user) { %>
+                            <a href="/user/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <span class="delimiter d-lg-show">/</span>
+                            <a href="/user/orders" class="ml-0 d-lg-show">My Orders</a>
+                        <% } else { %>
+                            <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
+                            <span class="delimiter d-lg-show">/</span>
+                            <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -75,17 +78,9 @@
                 <div class="container">
                     <div class="header-left mr-md-4">
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
-                        <a href="index.html" class="logo">
-                            <img src="assets/images/logo.png" alt="logo" width="250">
-                        </a>
-                        <form method="get" action="#"
-                            class="input-wrapper header-search  hs-expanded sticky-border hs-round d-none d-md-flex">                            
-                            <input type="text" class="form-control header-sticky-border bg-white pt-0 pb-0" name="search" id="search"
-                                placeholder="Search in..." required />
-                            <button class="btn btn-search header-sticky-border-btn" type="submit">
-                                <i class="w-icon-search"></i>
-                            </button>
-                        </form>
+                        <a href="/" class="logo">
+                            <img src="/images/logo.png" alt="logo" width="250">
+                        </a>                      
                     </div>
                     <div class="header-right ml-4">
                         <div class="header-call d-xs-show d-lg-flex align-items-center">
@@ -104,7 +99,7 @@
                         </a>                     
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
-                            <a href="cart.html" class="cart-toggle1 label-down link">
+                            <a href="#" class=" label-down link">
                                 <i class="w-icon-cart">
                                     <span class="cart-count text-white">2</span>
                                 </i>
@@ -154,7 +149,7 @@
                         <article class="post post-grid-type grid-item overlay-zoom fashion">
                             <figure class="post-media br-sm">
                                 <a href="blogDetails.html">
-                                    <img src="assets/images/blog/2cols/1.jpg" width="600"
+                                    <img src="/images/blog/2cols/1.jpg" width="600"
                                         height="420" alt="blog">
                                 </a>
                             </figure>
@@ -180,7 +175,7 @@
                         <article class="post post-grid-type grid-item overlay-zoom others technology">
                             <figure class="post-media br-sm">
                                 <a href="blogDetails.html">
-                                    <img src="assets/images/blog/2cols/2.jpg" width="600"
+                                    <img src="/images/blog/2cols/2.jpg" width="600"
                                         height="420" alt="blog">
                                 </a>
                             </figure>
@@ -208,7 +203,7 @@
                         <article class="post post-grid-type grid-item overlay-zoom clothes">
                             <figure class="post-media br-sm">
                                 <a href="blogDetails.html">
-                                    <img src="assets/images/blog/2cols/3.jpg" width="600"
+                                    <img src="/images/blog/2cols/3.jpg" width="600"
                                         height="420" alt="blog">
                                 </a>
                             </figure>
@@ -235,7 +230,7 @@
                         <article class="post post-grid-type grid-item overlay-zoom lifestyle">
                             <figure class="post-media br-sm">
                                 <a href="blogDetails.html">
-                                    <img src="assets/images/blog/2cols/4.jpg" width="600"
+                                    <img src="/images/blog/2cols/4.jpg" width="600"
                                         height="420" alt="blog">
                                 </a>
                             </figure>
@@ -262,7 +257,7 @@
                         <article class="post post-grid-type grid-item overlay-zoom entertainment shoes lifestyle others">
                             <figure class="post-media br-sm">
                                 <a href="blogDetails.html">
-                                    <img src="assets/images/blog/2cols/5.jpg" width="600"
+                                    <img src="/images/blog/2cols/5.jpg" width="600"
                                         height="420" alt="blog">
                                 </a>
                             </figure>
@@ -291,7 +286,7 @@
                         <article class="post post-grid-type grid-item overlay-zoom fashion lifestyle">
                             <figure class="post-media br-sm">
                                 <a href="blogDetails.html">
-                                    <img src="assets/images/blog/2cols/6.jpg" width="600"
+                                    <img src="/images/blog/2cols/6.jpg" width="600"
                                         height="420" alt="blog">
                                 </a>
                             </figure>
@@ -460,8 +455,8 @@
     <!-- End of Page Wrapper -->
 
     <!-- Start of Sticky Footer -->
-  <div class="btm-main">
-      <div class="search-bar" id="searchBar">
+   <div class="btm-main">
+        <div class="search-bar" id="searchBar">
             <div class="search-container">
                 <div class="search-input-wrapper">
                     <i class="fas fa-search search-input-icon"></i>
@@ -469,37 +464,36 @@
                 </div>
                 <button class="search-btn" id="searchButton">
                     <i class="fas fa-search"></i>
-                    <span>Search</span>
                 </button>
-        
+
             </div>
         </div>
-     
+
         <nav class="mobile-bottom-nav">
-            
+
             <div class="mob-btm-nav">
-                <a href="cart.html" class="sticky-link1">
+                <a href="/cart" class="sticky-link1">
                     <i class="fas fa-shopping-cart"></i>
                     <p>Cart</p>
                 </a>
             </div>
-            
+
             <div class="mob-btm-nav">
-                <a href="my-account.html" class="sticky-link1">
+                <a href="/orders" class="sticky-link1">
                     <i class="fas fa-clipboard-list"></i>
                     <p>Orders</p>
                 </a>
             </div>
-            
+
             <div class="mob-btm-nav">
-                <a href="search.html" id="searchBtn" class="sticky-link1">
+                <a href="#0" id="searchBtn" class="sticky-link1">
                     <i class="fas fa-search"></i>
                     <p>Search</p>
                 </a>
             </div>
-            
+
             <div class="mob-btm-nav">
-                <a href="wishlist.html" class="sticky-link1">
+                <a href="/wishlist" class="sticky-link1">
                     <i class="fas fa-heart"></i>
                     <p>Wishlist</p>
                 </a>
@@ -507,32 +501,34 @@
         </nav>
     </div>
 
-
-
-
-
-     
     <div class="sticky-footer sticky-content fix-bottom">
 
-        <a href="index.html" class="sticky-link ">
+        <a href="/" class="sticky-link  ">
             <i class="w-icon-home"></i>
             <p>Home</p>
         </a>
-        <a href="shop.html" class="sticky-link">
+        <a href="/store" class="sticky-link">
             <i class="w-icon-products"></i>
-            <p>Shop</p>
+            <p>Store</p>
         </a>
-        <a class="btm-img" href="index.html"> <img src="assets/images/hofmaan/logo-2.png" alt=""></a>
-        <a href="my-account.html" class="sticky-link">
-            <i class="w-icon-account"></i>
-            <p>Account</p>
-        </a>
-  
-        
-  <a href="contact-us.html" class="sticky-link">
-            <i class="w-icon-call2"></i>
-            <p>Contact </p>
-        </a>
+        <a class="btm-img" href="/"> <img src="/images/logo-2.png" alt=""></a>
+        <% if (user) { %>
+            <a href="/account" class="sticky-link">
+                <i class="w-icon-account"></i>
+                <p>Account</p>
+            </a>
+            <% } else { %>
+                <a href="/login" class="sticky-link">
+                    <i class="w-icon-account"></i>
+                    <p>Login</p>
+                </a>
+                <% } %>
+
+
+                    <a href="contact-us.html" class="sticky-link">
+                        <i class="w-icon-call2"></i>
+                        <p>Contact </p>
+                    </a>
     </div>
     <!-- End of Sticky Footer -->
 
@@ -549,13 +545,7 @@
         <!-- End of .mobile-menu-close -->
 
         <div class="mobile-menu-container scrollable">
-            <form action="#" method="get" class="input-wrapper">
-                <input type="text" class="form-control" name="search" autocomplete="off"
-                    placeholder="Search" required />
-                <button class="btn btn-search" type="submit">
-                    <i class="w-icon-search"></i>
-                </button>
-            </form>
+         <img class="side-logo" src="/images/logo.png" alt="logo">
             <!-- End of Search Form -->
             <div class="tab">
                 <ul class="nav nav-tabs" role="tablist">
@@ -570,165 +560,39 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="main-menu">
                     <ul class="mobile-menu">
-                        <li><a href="index.html">Home</a></li>
-                        <li>
-                            <a href="shop.html">Shop</a>
-                     
-                        </li>
-                        <li>
-                            <a href="about-us.html">About Us</a>
-                  
-                        </li>
-                        <li>
-                            <a href="blogs.html">Blogs</a>
-                 
-                        </li>
-                        <li>
-                            <a href="contact-us.html">Contact Us</a>
-                        
-                        </li>
-                 
+                        <li><a href="/">Home</a></li>
+                          <li><a href="/store">Store</a></li>
+                             <li><a href="/login">Profile</a></li>
+                                                          <li><a href="/wishlist">Wishlist</a></li>
+                                                           <li><a href="/cart">Cart</a></li>
+                                  <li><a href="/about">About Us</a></li>
+                                      <li><a href="/about">Blogs</a></li>
+                                                     <li><a href="/contact">Contact Us</a></li>
+                                                   
                     </ul>
                 </div>
                 <div class="tab-pane" id="categories">
-                    <ul class="mobile-menu">
-                        <li>
-                            <a href="shop.html">
-                             Shoes
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="#">Women</a>
-                                    <ul>
-                                        <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    <li><a href="shop.html">Lofer</a>
-                                        </li>
-                  <li><a href="shop.html">Lofer</a>
-                                        </li>
-                             <li><a href="shop.html">Lofer</a>
-                                        </li>
-                              <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                      <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                   <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                        </li>
-                                  <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Men</a>
-                                    <ul>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                        <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                          <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="shop.html">
-                         Wallet
-                            </a>
-                            <ul>
-                         
-                                <li>
-                                    <a href="#"> Belt</a>
-                                    <ul>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                        <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                          <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Sandels</a>
-                                    <ul>
-                                          <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                          <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                            <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                           
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="shop.html">
-                             Sandels
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="#">Men</a>
-                                    <ul>
-                                  <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                      <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                               <li>
-                                    <a href="#">Women</a>
-                                    <ul>
-                                  <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                           <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                         <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                      <li><a href="shop.html">Lofer</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                              
-                            </ul>
-                        </li>
-                
-                        <li>
-                            <a href="shop.html">
-                                SunGlass
-                            </a>
-                        </li>
-                  
-                    </ul>
+            <ul class="mobile-menu">
+    <% categories.forEach(category => { %>
+        <li>
+            <a style="gap: 10px!important; display: flex;" href="/category/<%= category._id %>">
+               <img style="height: 30px; width: 30px; border-radius: 50px;" src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt=""> <%= category.name %>
+            </a>
+            <% if (category.subCategories && category.subCategories.length > 0) { %>
+                <ul>
+                    <% category.subCategories.forEach(sub => { %>
+                        <% if (sub.isActive) { %>
+                            <li>
+                                <a href="/subcategory/<%= sub._id %>"><%= sub.name %></a>
+                            </li>
+                        <% } %>
+                    <% }); %>
+                </ul>
+            <% } %>
+        </li>
+    <% }); %>
+</ul>
+
                 </div>
             </div>
         </div>
@@ -736,11 +600,11 @@
     <!-- End of Mobile Menu -->
 
     <!-- Plugin JS File -->
-    <script src="assets/vendor/jquery/jquery.min.js"></script>
-    <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-    <script src="assets/vendor/isotope/isotope.pkgd.min.js"></script>
-    <script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/main.min.js"></script>
-          <script src="assets/js/script.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="/vendor/isotope/isotope.pkgd.min.js"></script>
+    <script src="/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script src="/js/main.min.js"></script>
+          <script src="/js/script.js"></script>
 </body>
 </html>

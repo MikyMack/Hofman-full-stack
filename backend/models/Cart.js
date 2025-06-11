@@ -93,12 +93,15 @@ const cartSchema = new mongoose.Schema({
 // Recalculate totals (handles % and fixed discounts)
 cartSchema.methods.recalculateTotals = function() {
   this.subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  
-  if (this.couponType === 'percentage') {
-    this.discount = this.subtotal * (this.discount / 100); // Convert % to absolute value
+
+  let discount = 0;
+  if (this.couponInfo?.discountType === 'percentage') {
+    discount = this.subtotal * (this.couponInfo.discountValue / 100);
+  } else if (this.couponInfo?.discountType === 'fixed') {
+    discount = this.couponInfo.discountValue;
   }
-  
-  this.total = Math.max(0, this.subtotal - this.discount); // Prevent negative totals
+
+  this.total = Math.max(0, this.subtotal - discount);
 };
 
 module.exports = mongoose.model('Cart', cartSchema);

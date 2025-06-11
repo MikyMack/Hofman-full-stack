@@ -109,29 +109,7 @@
                             <div class="cart-overlay"></div>
                             <a href="/cart" class="cart-toggle label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count text-white">
-                                        <% if (user) { %>
-                                            <%= cartItems && cartItems.length ? cartItems.length : " " %>
-                                        <% } else { %>
-                                            <span id="guest-cart-count"></span>
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', function() {
-                                                    var guestCartCount = document.getElementById('guest-cart-count');
-                                                    var guestCart = localStorage.getItem('guestCart');
-                                                    var count = 0;
-                                                    if (guestCart) {
-                                                        try {
-                                                            var cartArr = JSON.parse(guestCart);
-                                                            if (Array.isArray(cartArr)) {
-                                                                count = cartArr.length;
-                                                            }
-                                                        } catch (e) {}
-                                                    }
-                                                    guestCartCount.textContent = count > 0 ? count : " ";
-                                                });
-                                            </script>
-                                        <% } %>
-                                    </span>
+                            
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
@@ -140,48 +118,7 @@
                                     <span>Shopping Cart</span>
                                     <a href="#" class="btn-close">Close<i class="w-icon-long-arrow-right"></i></a>
                                 </div>
-                                <div class="products" id="cart-products-list">
-                                    <% if (user && cartItems && cartItems.length > 0) { %>
-                                        <% cartItems.forEach(function(item) { %>
-                                            <div class="product product-cart">
-                                                <div class="product-detail">
-                                                    <a href="/product/<%= item.product %>" class="product-name">
-                                                        <%= item.productName %>
-                                                    </a>
-                                                    <div class="price-box">
-                                                        <span class="product-quantity">
-                                                            <%= item.quantity %>
-                                                        </span>
-                                                        <span class="product-price ml-2">
-                                                            ₹<%= item.price ? item.price.toFixed(2) : '0.00' %>
-                                                        </span>
-                                                        <% if (item.selectedColor) { %>
-                                                            <span class="badge badge-light ml-2">Color: <%= item.selectedColor %></span>
-                                                        <% } %>
-                                                        <% if (item.selectedSize) { %>
-                                                            <span class="badge badge-light ml-2">Size: <%= item.selectedSize %></span>
-                                                        <% } %>
-                                                    </div>
-                                                </div>
-                                                <figure class="product-media">
-                                                    <img src="<%= item.productImage %>" alt="product" height="84" width="94">
-                                                </figure>
-                                            </div>
-                                        <% }); %>
-                                    <% } else if (!user) { %>
-                                        <!-- Guest cart will be rendered by JS -->
-                                    <% } else { %>
-                                        <div class="text-center py-3">
-                                            <span>Your cart is empty.</span>
-                                        </div>
-                                    <% } %>
-                                </div>
-                                <div class="cart-total" id="cart-subtotal-section">
-                                    <label>Subtotal:</label>
-                                    <span class="price" id="cart-subtotal-amount">
-                                        ₹<%= user && typeof cartSubtotal === 'number' ? cartSubtotal.toFixed(2) : '0.00' %>
-                                    </span>
-                                </div>
+                               
                                 <div class="cart-action">
                                     <a href="/cart" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
                                     <a href="/checkout" class="btn btn-primary btn-rounded">Checkout</a>

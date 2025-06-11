@@ -277,7 +277,7 @@
                     <% categories.forEach(category=> { %>
                         <div class="category text-center py-2 px-3 dropdown">
                             <h4 class="category-name">
-                                <a href="/category/<%= category._id %>">
+                                <a href="/store?category=<%= category._id %>">
                                     <%= category.name %>
                                 </a>
                             </h4>
@@ -286,7 +286,7 @@
                                 <div class="subcategory-dropdown">
                                     <% category.subCategories.forEach(sub=> { %>
                                         <% if (sub.isActive) { %>
-                                            <a href="/subcategory/<%= sub._id %>">
+                                            <a href="/store?subcategory=<%= sub._id %>">
                                                 <%= sub.name %>
                                             </a>
                                             <% } %>

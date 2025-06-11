@@ -63,14 +63,14 @@
                         <a href="/about" class="d-lg-show">About Us</a>
                         <a href="/contact" class="d-lg-show">Contact Us</a>
                         <% if (user) { %>
-                            <a href="/account" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <a href="/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
                             <span class="delimiter d-lg-show">/</span>
                             <a href="/orders" class="ml-0 d-lg-show">My Orders</a>
-                            <% } else { %>
-                                <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
-                                <span class="delimiter d-lg-show">/</span>
-                                <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
-                                <% } %>
+                        <% } else { %>
+                            <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
+                            <span class="delimiter d-lg-show">/</span>
+                            <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -81,22 +81,15 @@
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
                         <a href="/" class="logo">
                             <img src="/images/logo.png" alt="logo" width="200">
-                        </a>
-                        <form method="get" action="#"
-                            class="input-wrapper header-search hs-expanded hs-round d-none d-md-flex">
-                            <input type="text" class="form-control bg-white pt-0 pb-0" name="search" id="search"
-                                placeholder="Search in..." required />
-                            <button class="btn btn-search" type="submit">
-                                <i class="w-icon-search"></i>
-                            </button>
-                        </form>
+                        </a>                      
                     </div>
                     <div class="header-right ml-4">
                         <div class="header-call d-xs-show d-lg-flex align-items-center">
                             <a href="tel:#" class="w-icon-call"></a>
                             <div class="call-info d-lg-show">
                                 <h4 class="chat font-size-md text-normal ls-normal text-white mb-0">
-                                    <a href="" class="text-capitalize text-primary font-weight-normal">Customer care</a>
+                                    <a href=""
+                                        class="text-capitalize text-primary font-weight-normal">Customer care</a>
                                 </h4>
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
                             </div>
@@ -104,84 +97,16 @@
                         <a class="wishlist label-down link d-xs-show" href="/wishlist">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
-                        </a>
+                        </a>                     
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
-                            <a href="/cart" class="cart-toggle label-down link">
+                            <a href="/cart" class=" label-down link">
                                 <i class="w-icon-cart">
-                            
+                                    <span class="cart-count text-white">+</span>
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
-                            <div class="dropdown-box">
-                                <div class="cart-header">
-                                    <span>Shopping Cart</span>
-                                    <a href="#" class="btn-close">Close<i class="w-icon-long-arrow-right"></i></a>
-                                </div>
-                               
-                                <div class="cart-action">
-                                    <a href="/cart" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-                                    <a href="/checkout" class="btn btn-primary btn-rounded">Checkout</a>
-                                </div>
-                            </div>
-                            <% if (!user) { %>
-                            <script>
-                                // Guest cart rendering for non-logged-in users
-                                function renderGuestCart() {
-                                    const cartProductsList = document.getElementById('cart-products-list');
-                                    const subtotalSection = document.getElementById('cart-subtotal-amount');
-                                    let guestCart = localStorage.getItem('guestCart');
-                                    if (!guestCart) {
-                                        cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
-                                        subtotalSection.textContent = '₹0.00';
-                                        return;
-                                    }
-                                    try {
-                                        guestCart = JSON.parse(guestCart);
-                                    } catch (e) {
-                                        cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
-                                        subtotalSection.textContent = '₹0.00';
-                                        return;
-                                    }
-                                    // guestCart is now an array of cart items
-                                    if (!Array.isArray(guestCart) || guestCart.length === 0) {
-                                        cartProductsList.innerHTML = '<div class="text-center py-3"><span>Your cart is empty.</span></div>';
-                                        subtotalSection.textContent = '₹0.00';
-                                        return;
-                                    }
-                                    let html = '';
-                                    let subtotal = 0;
-                                    guestCart.forEach(function(item) {
-                                        subtotal += (item.price || 0) * (item.quantity || 1);
-                                        html += `
-                                            <div class="product product-cart">
-                                                <div class="product-detail">
-                                                    <a href="/product/${item.productId}" class="product-name">
-                                                        ${item.productName || ''}
-                                                    </a>
-                                                    <div class="price-box">
-                                                        <span class="product-quantity">
-                                                            ${item.quantity || 1}
-                                                        </span>
-                                                        <span class="product-price ml-2">
-                                                            ₹${item.price ? Number(item.price).toFixed(2) : '0.00'}
-                                                        </span>
-                                                        ${item.selectedColor ? `<span class="badge badge-light ml-2">Color: ${item.selectedColor}</span>` : ''}
-                                                        ${item.selectedSize ? `<span class="badge badge-light ml-2">Size: ${item.selectedSize}</span>` : ''}
-                                                    </div>
-                                                </div>
-                                                <figure class="product-media">
-                                                    <img src="${item.productImage || ''}" alt="product" height="84" width="94">
-                                                </figure>
-                                            </div>
-                                        `;
-                                    });
-                                    cartProductsList.innerHTML = html;
-                                    subtotalSection.textContent = '₹' + subtotal.toFixed(2);
-                                }
-                                document.addEventListener('DOMContentLoaded', renderGuestCart);
-                            </script>
-                            <% } %>
+                         
                             <!-- End of Dropdown Box -->
                         </div>
                     </div>

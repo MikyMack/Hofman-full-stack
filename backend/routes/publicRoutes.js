@@ -441,7 +441,9 @@ router.get('/checkout', async (req, res) => {
             categories,
             addresses,
             cart,
-            defaultAddress: addresses.find(addr => addr.isDefault) || null
+            defaultAddress: addresses.find(addr => addr.isDefault) || null,
+            selectedBillingAddress: req.query.billingAddressId || null,
+            selectedShippingAddress: req.query.shippingAddressId || null
         });
 
     } catch (error) {
@@ -544,7 +546,25 @@ router.post('/place-order', async (req, res) => {
             });
         }
 
-        // 2. Create order
+        // 2. Get selected addresses
+        const billingAddress = await Address.findById(req.body.billingAddressId);
+        let shippingAddress;
+        
+        if (req.body.shippingAddressId === req.body.billingAddressId) {
+            // Same address for both
+            shippingAddress = billingAddress;
+        } else {
+            shippingAddress = await Address.findById(req.body.shippingAddressId);
+        }
+
+        if (!billingAddress || !shippingAddress) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Please select valid billing and shipping addresses' 
+            });
+        }
+
+        // 3. Create order
         const order = new Order({
             user: req.user?._id,
             items: cart.items.map(item => ({
@@ -555,33 +575,49 @@ router.post('/place-order', async (req, res) => {
                 quantity: item.quantity,
                 price: item.price
             })),
-            address: {
-                name: req.body.name,
-                phone: req.body.phone,
-                pincode: req.body.zip,
-                state: req.body.state,
-                city: req.body.town,
-                addressLine1: req.body['street-address-1'],
-                addressLine2: req.body['street-address-2']
+            billingAddress: {
+                name: billingAddress.name,
+                phone: billingAddress.phone,
+                pincode: billingAddress.pincode,
+                state: billingAddress.state,
+                city: billingAddress.city,
+                district: billingAddress.district || '',
+                addressLine1: billingAddress.addressLine1,
+                addressLine2: billingAddress.addressLine2 || '',
+                landmark: billingAddress.landmark || '',
+                addressType: billingAddress.addressType
+            },
+            shippingAddress: {
+                name: shippingAddress.name,
+                phone: shippingAddress.phone,
+                pincode: shippingAddress.pincode,
+                state: shippingAddress.state,
+                city: shippingAddress.city,
+                district: shippingAddress.district || '',
+                addressLine1: shippingAddress.addressLine1,
+                addressLine2: shippingAddress.addressLine2 || '',
+                landmark: shippingAddress.landmark || '',
+                addressType: shippingAddress.addressType
             },
             totalAmount: cart.total,
             couponUsed: cart.couponInfo?.validated ? {
                 code: cart.couponInfo.code,
                 discountType: cart.couponInfo.discountType,
                 discountValue: cart.couponInfo.discountValue,
-                discountAmount: cart.discountAmount
+                discountAmount: cart.discountAmount,
+                couponId: cart.couponInfo._id // Make sure this is populated in validateCartCoupon
             } : null
         });
 
-        // 3. Update coupon usage if applied
+        // 4. Update coupon usage if applied
         if (cart.couponInfo?.validated) {
             await Coupon.updateOne(
-                { code: cart.couponInfo.code },
+                { _id: cart.couponInfo._id },
                 { $inc: { usedCount: 1 } }
             );
         }
 
-        // 4. Save order and clear cart
+        // 5. Save order and clear cart
         await order.save();
         await Cart.deleteOne({ _id: cart._id });
 

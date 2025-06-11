@@ -49,18 +49,32 @@ const cartSchema = new mongoose.Schema({
     type: [cartItemSchema], 
     default: [] 
   },
-  couponCode: { 
-    type: String, 
-    default: null 
-  },
-  couponType: {                    
-    type: String, 
-    enum: ['percentage', 'fixed'], 
-    default: null 
-  },
-  discount: { 
-    type: Number, 
-    default: 0 
+  couponInfo: { 
+    code: {
+      type: String,
+      default: null
+    },
+    discountType: {
+      type: String,
+      enum: ['percentage', 'fixed'],
+      default: null
+    },
+    discountValue: { 
+      type: Number,
+      default: 0
+    },
+    discountAmount: { 
+      type: Number,
+      default: 0
+    },
+    validated: { 
+      type: Boolean,
+      default: false
+    },
+    minPurchase: {  
+      type: Number,
+      default: 0
+    }
   },
   subtotal: { 
     type: Number, 

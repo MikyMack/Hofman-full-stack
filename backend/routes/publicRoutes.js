@@ -8,6 +8,10 @@ const BannerTwo = require('../models/BannerTwo');
 const BannerThree = require('../models/BannerThree');
 const Cart = require('../models/Cart');
 const Wishlist = require('../models/Wishlist');
+const Address = require('../models/Address');
+const Coupon = require('../models/Coupon');
+const Order = require('../models/Order');
+const { createEmptyCart, validateCartCoupon } = require('../utils/cartUtils');
 
 
 router.get('/', async (req, res) => {
@@ -409,11 +413,193 @@ router.get('/wishlist', async (req, res) => {
     }
 });
 router.get('/checkout', async (req, res) => {
-    const categories = await Category.find({ isActive: true })
-        .select('name imageUrl isActive subCategories')
-        .lean();
-    res.render('user/checkout', { user: req.user || null, categories });
+    try {
+        // 1. Get basic data
+        const categories = await Category.find({ isActive: true })
+            .select('name imageUrl isActive subCategories')
+            .lean();
+
+        // 2. Get user addresses (if logged in)
+        const addresses = req.user ? 
+            await Address.find({ user: req.user._id })
+                .sort({ isDefault: -1, createdAt: -1 })
+                .lean() : [];
+
+        // 3. Get and validate cart
+        let cart;
+        if (req.user) {
+            cart = await Cart.findOne({ user: req.user._id }).lean();
+        } else {
+            cart = await Cart.findOne({ sessionId: req.sessionID }).lean();
+        }
+
+        cart = cart ? await validateCartCoupon(cart) : createEmptyCart();
+        
+        // 4. Render checkout page
+        res.render('user/checkout', {
+            user: req.user || null,
+            categories,
+            addresses,
+            cart,
+            defaultAddress: addresses.find(addr => addr.isDefault) || null
+        });
+
+    } catch (error) {
+        console.error('Checkout error:', error);
+        res.status(500).render('error', { 
+            message: 'Error loading checkout page',
+            error: process.env.NODE_ENV === 'development' ? error : null
+        });
+    }
 });
+router.post('/apply-coupon', async (req, res) => {
+    try {
+        const { couponCode } = req.body;
+        
+        // Find cart
+        let cart;
+        if (req.user) {
+            cart = await Cart.findOne({ user: req.user._id });
+        } else {
+            cart = await Cart.findOne({ sessionId: req.sessionID });
+        }
+
+        if (!cart) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Cart not found' 
+            });
+        }
+
+        // Find valid coupon
+        const coupon = await Coupon.findOne({
+            code: couponCode.toUpperCase(),
+            isActive: true,
+            validFrom: { $lte: new Date() },
+            validUntil: { $gte: new Date() },
+            $or: [
+                { maxUses: null },
+                { $expr: { $lt: ["$usedCount", "$maxUses"] } }
+            ]
+        });
+
+        if (!coupon) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Invalid or expired coupon' 
+            });
+        }
+
+        // Check minimum purchase
+        const subtotal = cart.items.reduce((sum, item) => 
+            sum + (item.price * item.quantity), 0);
+        
+        if (subtotal < coupon.minPurchase) {
+            return res.status(400).json({ 
+                success: false,
+                message: `Minimum purchase of ₹${coupon.minPurchase} required`
+            });
+        }
+
+        // Apply coupon to cart
+        cart.couponInfo = {
+            code: coupon.code,
+            discountType: coupon.discountType,
+            discountValue: coupon.value,
+            minPurchase: coupon.minPurchase,
+            validated: true
+        };
+
+        await cart.save();
+        const updatedCart = await validateCartCoupon(cart.toObject());
+
+        res.json({
+            success: true,
+            cart: updatedCart,
+            message: 'Coupon applied successfully'
+        });
+
+    } catch (error) {
+        res.status(500).json({ 
+            success: false,
+            message: 'Failed to apply coupon' 
+        });
+    }
+});
+
+router.post('/place-order', async (req, res) => {
+    try {
+        // 1. Get cart
+        let cart;
+        if (req.user) {
+            cart = await Cart.findOne({ user: req.user._id });
+        } else {
+            cart = await Cart.findOne({ sessionId: req.sessionID });
+        }
+
+        if (!cart || cart.items.length === 0) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Your cart is empty' 
+            });
+        }
+
+        // 2. Create order
+        const order = new Order({
+            user: req.user?._id,
+            items: cart.items.map(item => ({
+                product: item.product,
+                name: item.productName,
+                selectedColor: item.selectedColor,
+                selectedSize: item.selectedSize,
+                quantity: item.quantity,
+                price: item.price
+            })),
+            address: {
+                name: req.body.name,
+                phone: req.body.phone,
+                pincode: req.body.zip,
+                state: req.body.state,
+                city: req.body.town,
+                addressLine1: req.body['street-address-1'],
+                addressLine2: req.body['street-address-2']
+            },
+            totalAmount: cart.total,
+            couponUsed: cart.couponInfo?.validated ? {
+                code: cart.couponInfo.code,
+                discountType: cart.couponInfo.discountType,
+                discountValue: cart.couponInfo.discountValue,
+                discountAmount: cart.discountAmount
+            } : null
+        });
+
+        // 3. Update coupon usage if applied
+        if (cart.couponInfo?.validated) {
+            await Coupon.updateOne(
+                { code: cart.couponInfo.code },
+                { $inc: { usedCount: 1 } }
+            );
+        }
+
+        // 4. Save order and clear cart
+        await order.save();
+        await Cart.deleteOne({ _id: cart._id });
+
+        res.json({ 
+            success: true,
+            orderId: order._id,
+            message: 'Order placed successfully'
+        });
+
+    } catch (error) {
+        console.error('Order placement error:', error);
+        res.status(500).json({ 
+            success: false,
+            message: 'Failed to place order' 
+        });
+    }
+});
+
 router.get('/privacy', (req, res) => {
     res.render('user/privacy', { user: req.user || null });
 });

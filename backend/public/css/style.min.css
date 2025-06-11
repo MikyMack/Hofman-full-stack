@@ -6679,38 +6679,48 @@ blockquote {
 
 .category img {
   display: block;
-  width: 200px;
+  width: 150px;
   height: 150px;
   margin-left: auto;
   margin-right: auto;
   object-fit: cover;
+  border-radius: 50%; 
 }
-@media (max-width:400px){
-  .category img{
-   height: 80px!important;
-    width: 80px!important;
-  }  .category-media{
-    height: 80px!important;
-    width: 80px!important;
-  }
-}
-@media (max-width:769px){
-  .category img{
+
+@media (max-width: 769px) {
+  .category img {
     width: 120px;
     height: 120px;
-    object-fit: cover;
     margin-left: 0;
     margin-right: 0;
-  
+    border-radius: 50%;
   }
-  .category-media{
-    height: 120px;
+
+  .category-media {
     width: 120px;
+    height: 120px;
+    border-radius: 50%;
   }
-  .category-content{
-    text-align: start!important;
+
+  .category-content {
+    text-align: start;
   }
 }
+
+@media (max-width: 400px) {
+  .category img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
+
+  .category-media {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
+}
+
 
 .category .category-name {
   margin-bottom: 0;

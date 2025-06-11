@@ -25005,3 +25005,38 @@ color: var(--theme-color)!important;
     color: var(--theme-color);
   }
 }
+.related-details{
+  padding: 10px;
+}
+@media(max-width:1250px){
+  .details-btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .details-qty div input{
+    width: 100%!important;
+  }
+
+  .btn-wishlist{
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+@media(max-width:700px){
+  .details-btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .details-qty div input{
+    width: 100%!important;
+  }
+
+  .btn-wishlist{
+    width: 100%;
+    margin-top: 1rem;
+  }
+}

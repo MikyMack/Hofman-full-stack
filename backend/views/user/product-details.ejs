@@ -332,9 +332,9 @@
 
                                                         <div class="fix-bottom product-sticky-content sticky-content">
                                                             <div
-                                                                class="product-form container d-flex justify-content-center align-items-center ">
-                                                                <div class="product-qty-form">
-                                                                    <div class="input-group">
+                                                                class="product-form container details-qty d-flex justify-content-start align-items-center ">
+                                                                <div class="product-qty-form details-qty">
+                                                                    <div class="input-group mt-2">
                                                                         <input class="quantity form-control"
                                                                             type="number" min="1" max="10000000"
                                                                             value="1">
@@ -344,7 +344,7 @@
                                                                             class="quantity-minus w-icon-minus"></button>
                                                                     </div>
                                                                 </div>
-                                                                <button class="btn btn-primary main-btn btn-cart-new">
+                                                                <button class="btn btn-primary details-btn main-btn btn-cart-new">
                                                                     <i class="w-icon-cart"></i>
                                                                     <span>Add to Cart</span>
                                                                 </button>
@@ -832,7 +832,7 @@
                                                                     <% } %>
                                                         </div>
                                                     </figure>
-                                                    <div class="product-details">
+                                                    <div class="product-details related-details">
                                                         <h4 class="product-name">
                                                             <a href="/product/<%= rp.slug || rp._id %>">
                                                                 <%= rp.name %>
@@ -1404,7 +1404,7 @@
                 <p>Account</p>
             </a>
             <% } else { %>
-                <a href="/login" class="sticky-link">
+                <a href="/auth/login" class="sticky-link">
                     <i class="w-icon-account"></i>
                     <p>Login</p>
                 </a>
@@ -1564,6 +1564,7 @@
 
     <!-- Main JS File -->
     <script src="/js/main.min.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 
 

@@ -13,9 +13,19 @@ const orderSchema = new mongoose.Schema({
         price: Number
       }
     ],
-  
-    // 📦 Shipping / Delivery Address (same for both)
-    address: {
+    billingAddress: {
+      name: String,
+      phone: String,
+      pincode: String,
+      state: String,
+      city: String,
+      district: String,
+      addressLine1: String,
+      addressLine2: String,
+      landmark: String,
+      addressType: String
+    },
+    shippingAddress: {
       name: String,
       phone: String,
       pincode: String,

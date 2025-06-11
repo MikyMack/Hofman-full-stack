@@ -46,6 +46,350 @@
 
     <!-- Default CSS -->
     <link rel="stylesheet" type="text/css" href="/css/style.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-color: #1f2937;
+            --light-text: #6b7280;
+            --border-color: #e5e7eb;
+            --bg-color: #f9fafb;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --radius: 0.5rem;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+      
+
+     
+
+
+        /* Header */
+        .page-header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+      
+
+        /* Main Content */
+        .page-content {
+            padding: 2rem 0;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .title-sub {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Layout */
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 992px) {
+            .checkout-layout {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        /* Address Selection */
+        .address-selection {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .address-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .address-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .address-card:hover {
+            border-color: var(--primary-color);
+        }
+
+        .address-card.selected {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+
+        .address-card h5 {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .address-card p {
+            margin-bottom: 0.25rem;
+            color: var(--light-text);
+            font-size: 0.875rem;
+        }
+
+        .address-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+        }
+
+        .use-address-btn {
+            margin-top: 0.75rem;
+            background: none;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .use-address-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-input {
+            width: 1.25rem;
+            height: 1.25rem;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 1rem;
+        }
+
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .order-table th, .order-table td {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .order-table th {
+            font-weight: 600;
+        }
+
+        .order-table tfoot th {
+            font-weight: 700;
+        }
+
+        .order-table tfoot tr:last-child th,
+        .order-table tfoot tr:last-child td {
+            border-bottom: none;
+            font-size: 1.125rem;
+        }
+
+        .product-name {
+            font-weight: 500;
+        }
+
+        .product-name small {
+            color: var(--light-text);
+            font-size: 0.875rem;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            margin-top: 1.5rem;
+        }
+
+        .payment-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+        }
+
+        .payment-header {
+            padding: 1rem;
+            background-color: var(--bg-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .payment-header:hover {
+            background-color: #f3f4f6;
+        }
+
+        .payment-body {
+            padding: 1rem;
+            display: none;
+        }
+
+        .payment-body.expanded {
+            display: block;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            text-decoration: underline;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        /* Coupon Section */
+        .coupon-toggle {
+            margin-bottom: 1rem;
+        }
+
+        .coupon-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .input-wrapper-inline {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background-color: #ecfdf5;
+            color: var(--success-color);
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert-error {
+            background-color: #fef2f2;
+            color: var(--error-color);
+            border: 1px solid #fecaca;
+        }
+
+        /* Utility Classes */
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-5 { margin-top: 1.5rem; }
+
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-5 { margin-bottom: 1.5rem; }
+
+        .hidden { display: none; }
+    </style>
 </head>
 
 <body>
@@ -132,319 +476,366 @@
 
 
             <!-- Start of PageContent -->
-            <div class="page-content">
+            <main class="page-content">
                 <div class="container">
-
-
-                    <div class="coupon-toggle">
-                        Have a coupon? <a href="#" class="show-coupon font-weight-bold text-uppercase text-dark">Enter
-                            your
-                            code</a>
-                    </div>
-                    <div class="coupon-content mb-4">
-                        <p>If you have a coupon code, please apply it below.</p>
-                        <div class="input-wrapper-inline">
-                            <input type="text" name="coupon_code" class="form-control form-control-md mr-1 mb-2"
-                                placeholder="Coupon code" id="coupon_code">
-                            <button type="submit" class="btn button btn-rounded btn-coupon mb-2" name="apply_coupon"
-                                value="Apply coupon">Apply Coupon</button>
-                        </div>
-                    </div>
-                    <form class="form checkout-form" action="#" method="post">
-                        <div class="row mb-9">
-                            <div class="col-lg-7 pr-lg-4 mb-4">
-                                <h3 class="title billing-title text-uppercase ls-10 pt-1 pb-3 mb-0">
-                                    Billing Details
-                                </h3>
-                                <div class="row gutter-sm">
-                                    <div class="col-xs-6">
-                                        <div class="form-group">
-                                            <label>First name *</label>
-                                            <input type="text" class="form-control form-control-md" name="firstname"
-                                                required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <div class="form-group">
-                                            <label>Last name *</label>
-                                            <input type="text" class="form-control form-control-md" name="lastname"
-                                                required>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Country / Region *</label>
-                                    <div class="select-box">
-                                        <select name="country" class="form-control form-control-md">
-
-                                            <option value="default" selected="selected">India</option>
-                                            <option value="uk">United Kingdom (UK)</option>
-
-                                            <option value="fr">Dubai</option>
-                                            <option value="aus">Australia</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row gutter-sm">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Town / City *</label>
-                                            <input type="text" class="form-control form-control-md" name="town"
-                                                required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Postcode *</label>
-                                            <input type="text" class="form-control form-control-md" name="zip" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-
-
-                                        <div class="form-group">
-                                            <label>State *</label>
-                                            <input type="text" class="form-control form-control-md" name="zip" required>
-
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Phone *</label>
-                                            <input type="text" class="form-control form-control-md" name="phone"
-                                                required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Street address *</label>
-                                    <input type="text" placeholder="House number and street name"
-                                        class="form-control form-control-md mb-2" name="street-address-1" required>
-                                    <input type="text" placeholder="Apartment, suite, unit, etc. (optional)"
-                                        class="form-control form-control-md" name="street-address-2" required>
-                                </div>
-                                <div class="form-group mb-7">
-                                    <label>Email address *</label>
-                                    <input type="email" class="form-control form-control-md" name="email" required>
-                                </div>
-                                <div class="form-group checkbox-toggle pb-2">
-                                    <input type="checkbox" class="custom-checkbox" id="shipping-toggle"
-                                        name="shipping-toggle">
-                                    <label for="shipping-toggle">Ship to a different address?</label>
-                                </div>
-                                <div class="checkbox-content">
-                                    <div class="row gutter-sm">
-                                        <div class="col-xs-6">
-                                            <div class="form-group">
-                                                <label>First name *</label>
-                                                <input type="text" class="form-control form-control-md" name="firstname"
-                                                    required>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-6">
-                                            <div class="form-group">
-                                                <label>Last name *</label>
-                                                <input type="text" class="form-control form-control-md" name="lastname"
-                                                    required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Company name (optional)</label>
-                                        <input type="text" class="form-control form-control-md" name="company-name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Country / Region *</label>
-                                        <div class="select-box">
-                                            <select name="country" class="form-control form-control-md">
-
-                                                <option value="default" selected="selected">India</option>
-                                                <option value="uk">United Kingdom (UK)</option>
-
-                                                <option value="fr">Dubai</option>
-                                                <option value="aus">Australia</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row gutter-sm">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Town / City *</label>
-                                                <input type="text" class="form-control form-control-md" name="town"
-                                                    required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Postcode *</label>
-                                                <input type="text" class="form-control form-control-md" name="postcode"
-                                                    required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-
-
-                                            <div class="form-group">
-                                                <label>State *</label>
-                                                <input type="text" class="form-control form-control-md" name="zip"
-                                                    required>
-
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Phone *</label>
-                                                <input type="text" class="form-control form-control-md" name="phone"
-                                                    required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Street address *</label>
-                                        <input type="text" placeholder="House number and street name"
-                                            class="form-control form-control-md mb-2" name="street-address-1" required>
-                                        <input type="text" placeholder="Apartment, suite, unit, etc. (optional)"
-                                            class="form-control form-control-md" name="street-address-2" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group mt-3">
-                                    <label for="order-notes">Order notes (optional)</label>
-                                    <textarea class="form-control mb-0" id="order-notes" name="order-notes" cols="30"
-                                        rows="4"
-                                        placeholder="Notes about your order, e.g special notes for delivery"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-lg-5 mb-4 sticky-sidebar-wrapper">
-                                <div class="order-summary-wrapper sticky-sidebar">
-                                    <h3 class="title text-uppercase ls-10">Your Order</h3>
-                                    <div class="order-summary">
-                                        <table class="order-table">
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="2">
-                                                        <b>Product</b>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="bb-no">
-                                                    <td class="product-name">Palm Print Jacket <i
-                                                            class="fas fa-times"></i> <span
-                                                            class="product-quantity">1</span></td>
-                                                    <td class="product-total">₹40.00</td>
-                                                </tr>
-                                                <tr class="bb-no">
-                                                    <td class="product-name">Brown Backpack <i class="fas fa-times"></i>
-                                                        <span class="product-quantity">1</span>
-                                                    </td>
-                                                    <td class="product-total">₹60.00</td>
-                                                </tr>
-                                                <tr class="cart-subtotal bb-no">
-                                                    <td>
-                                                        <b>Subtotal</b>
-                                                    </td>
-                                                    <td>
-                                                        <b>₹100.00</b>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <!-- In your order summary section -->
-                                            <tfoot>
-                                                <tr class="cart-subtotal">
-                                                    <th>Subtotal</th>
-                                                    <td>₹<%= cart.subtotal.toFixed(2) %>
-                                                    </td>
-                                                </tr>
-
-                                                <% if (cart.couponInfo && cart.couponInfo.validated) { %>
-                                                    <tr class="cart-discount">
-                                                        <th>Discount (<%= cart.couponInfo.code %>)</th>
-                                                        <td>-₹<%= cart.discountAmount.toFixed(2) %>
-                                                        </td>
-                                                    </tr>
+                    <h1 class="title">Checkout</h1>
+        
+                    <div class="checkout-layout">
+                        <!-- Left Column - Address and Payment -->
+                        <div class="checkout-left">
+                            <!-- Address Selection -->
+                            <% if (addresses && addresses.length > 0) { %>
+                                <section class="address-selection">
+                                    <h2 class="title-sub">Select Addresses</h2>
+                                    
+                                    <!-- Billing Address -->
+                                    <div class="mb-5">
+                                        <h3 class="title-sub mb-3">Billing Address</h3>
+                                        <div class="address-grid">
+                                            <% addresses.forEach(address => { %>
+                                                <div class="address-card <%= selectedBillingAddress === address._id.toString() ? 'selected' : '' %>" 
+                                                     data-address-id="<%= address._id %>" data-address-type="billing">
+                                                    <% if (address.isDefault) { %>
+                                                        <span class="address-badge">Default</span>
                                                     <% } %>
-
-                                                        <tr class="order-total">
-                                                            <th>Total</th>
-                                                            <td>₹<%= cart.total.toFixed(2) %>
-                                                            </td>
-                                                        </tr>
-                                            </tfoot>
-                                        </table>
-
-                                        <div class="payment-methods" id="payment_method">
-                                            <h4 class="title font-weight-bold ls-25 pb-0 mb-1">Payment Methods</h4>
-                                            <div class="accordion payment-accordion">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <a href="#cash-on-delivery" class="collapse">. Credit / Debit
-                                                            Card</a>
-                                                    </div>
-                                                    <div id="cash-on-delivery" class="card-body expanded">
-                                                        <p class="mb-0">
-                                                            Pay securely using Visa, Mastercard, or RuPay cards. All
-                                                            transactions are encrypted and safe.
-                                                        </p>
-                                                    </div>
+                                                    <h5><%= address.name %></h5>
+                                                    <p><%= address.addressLine1 %></p>
+                                                    <% if (address.addressLine2) { %>
+                                                        <p><%= address.addressLine2 %></p>
+                                                    <% } %>
+                                                    <p><%= address.city %>, <%= address.state %> - <%= address.pincode %></p>
+                                                    <p>Phone: <%= address.phone %></p>
+                                                    <button class="use-address-btn">
+                                                        Use for Billing
+                                                    </button>
                                                 </div>
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <a href="#payment" class="expand"> UPI / Net Banking</a>
-                                                    </div>
-                                                    <div id="payment" class="card-body collapsed">
-                                                        <p class="mb-0">
-                                                            Quick and easy payments through Google Pay, PhonePe, Paytm,
-                                                            or directly via net banking.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <a href="#delivery" class="expand">Cash on delivery</a>
-                                                    </div>
-                                                    <div id="delivery" class="card-body collapsed">
-                                                        <p class="mb-0">
-                                                            Pay in cash when your order arrives. Available for orders
-                                                            under ₹500 in selected locations.
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                            <% }); %>
                                         </div>
-
-                                        <div class="form-group place-order pt-6">
-                                            <button type="submit" class="btn btn-dark btn-block btn-rounded">Place
-                                                Order</button>
+                                    </div>
+                                    
+                                    <!-- Shipping Address -->
+                                    <div class="mb-4">
+                                        <h3 class="title-sub mb-3">Shipping Address</h3>
+                                        <div class="form-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" class="checkbox-input" id="same-as-billing" checked>
+                                                Same as Billing Address
+                                            </label>
+                                        </div>
+                                        <div class="address-grid hidden" id="shipping-address-container">
+                                            <% addresses.forEach(address => { %>
+                                                <div class="address-card <%= selectedShippingAddress === address._id.toString() ? 'selected' : '' %>" 
+                                                     data-address-id="<%= address._id %>" data-address-type="shipping">
+                                                    <% if (address.isDefault) { %>
+                                                        <span class="address-badge">Default</span>
+                                                    <% } %>
+                                                    <h5><%= address.name %></h5>
+                                                    <p><%= address.addressLine1 %></p>
+                                                    <% if (address.addressLine2) { %>
+                                                        <p><%= address.addressLine2 %></p>
+                                                    <% } %>
+                                                    <p><%= address.city %>, <%= address.state %> - <%= address.pincode %></p>
+                                                    <p>Phone: <%= address.phone %></p>
+                                                    <button class="use-address-btn">
+                                                        Use for Shipping
+                                                    </button>
+                                                </div>
+                                            <% }); %>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center mt-4">
+                                        <button class="btn-link" id="add-new-address">+ Add New Address</button>
+                                    </div>
+                                </section>
+                            <% } else { %>
+                                <!-- Show address form if no addresses exist -->
+                                <section class="address-selection">
+                                    <h2 class="title-sub">Billing Details</h2>
+                                    <!-- Address form would go here -->
+                                    <form id="billing-form">
+                                        <!-- Form fields for billing address -->
+                                    </form>
+                                    
+                                    <div class="form-group mt-4">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" class="checkbox-input" id="different-shipping">
+                                            Ship to a different address?
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="hidden" id="shipping-details-form">
+                                        <h3 class="title-sub mb-3">Shipping Details</h3>
+                                        <!-- Form fields for shipping address -->
+                                    </div>
+                                </section>
+                            <% } %>
+        
+                            <!-- Coupon Section -->
+                            <section class="coupon-toggle mb-3">
+                                Have a coupon? <button class="btn-link" id="show-coupon">Enter your code</button>
+                            </section>
+                            
+                            <section class="coupon-content hidden" id="coupon-section">
+                                <p class="mb-3">If you have a coupon code, please apply it below.</p>
+                                <div class="input-wrapper-inline">
+                                    <input type="text" name="coupon_code" class="form-control" 
+                                        placeholder="Coupon code" id="coupon_code">
+                                    <button type="button" class="btn btn-primary" id="apply_coupon">
+                                        Apply
+                                    </button>
+                                </div>
+                                <div id="coupon_message" class="mt-2"></div>
+                            </section>
+        
+                            <!-- Order Notes -->
+                            <section class="form-group mt-4">
+                                <label for="order-notes" class="form-label">Order notes (optional)</label>
+                                <textarea class="form-control" id="order-notes" name="order-notes" rows="4"
+                                    placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+                            </section>
+                        </div>
+        
+                        <!-- Right Column - Order Summary -->
+                        <div class="checkout-right">
+                            <section class="order-summary">
+                                <h2 class="title-sub">Your Order</h2>
+                                
+                                <table class="order-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (cart.items && cart.items.length > 0) { %>
+                                            <% cart.items.forEach(item => { %>
+                                                <tr>
+                                                    <td class="product-name">
+                                                        <%= item.productName %>
+                                                        <% if (item.selectedColor) { %>
+                                                            <br><small>Color: <%= item.selectedColor %></small>
+                                                        <% } %>
+                                                        <% if (item.selectedSize) { %>
+                                                            <br><small>Size: <%= item.selectedSize %></small>
+                                                        <% } %>
+                                                        <br><small>Qty: <%= item.quantity %></small>
+                                                    </td>
+                                                    <td>₹<%= (item.price * item.quantity).toFixed(2) %></td>
+                                                </tr>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="2">Your cart is empty</td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Subtotal</th>
+                                            <td>₹<%= cart.subtotal.toFixed(2) %></td>
+                                        </tr>
+                                        
+                                        <% if (cart.couponInfo && cart.couponInfo.validated) { %>
+                                            <tr>
+                                                <th>Discount (<%= cart.couponInfo.code %>)</th>
+                                                <td>-₹<%= cart.discountAmount.toFixed(2) %></td>
+                                            </tr>
+                                        <% } %>
+                                        
+                                        <tr>
+                                            <th>Shipping</th>
+                                            <td>Free</td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <th>Total</th>
+                                            <td>₹<%= cart.total.toFixed(2) %></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+        
+                                <!-- Payment Methods -->
+                                <div class="payment-methods">
+                                    <h3 class="title-sub mb-3">Payment Method</h3>
+                                    
+                                    <div class="payment-card">
+                                        <div class="payment-header" data-target="credit-card">
+                                            <span>Credit/Debit Card</span>
+                                            <span>→</span>
+                                        </div>
+                                        <div class="payment-body" id="credit-card">
+                                            <p>Pay securely using Visa, Mastercard, or RuPay cards.</p>
+                                            <!-- Card form would go here -->
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="payment-card">
+                                        <div class="payment-header" data-target="upi">
+                                            <span>UPI/Net Banking</span>
+                                            <span>→</span>
+                                        </div>
+                                        <div class="payment-body" id="upi">
+                                            <p>Quick payments through Google Pay, PhonePe, Paytm, or net banking.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="payment-card">
+                                        <div class="payment-header" data-target="cod">
+                                            <span>Cash on Delivery</span>
+                                            <span>→</span>
+                                        </div>
+                                        <div class="payment-body" id="cod">
+                                            <p>Pay in cash when your order arrives.</p>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+        
+                                <!-- Place Order Button -->
+                                <button class="btn btn-primary btn-block mt-4" id="place-order-btn"
+                                        <%= cart.items && cart.items.length === 0 ? 'disabled' : '' %>>
+                                    Place Order
+                                </button>
+                            </section>
                         </div>
-                    </form>
+                    </div>
+                    
+                    <!-- Hidden fields for selected addresses -->
+                    <input type="hidden" name="billingAddressId" id="billingAddressId" value="<%= defaultAddress ? defaultAddress._id : '' %>">
+                    <input type="hidden" name="shippingAddressId" id="shippingAddressId" value="<%= defaultAddress ? defaultAddress._id : '' %>">
+                </div>
+            </main>
+        
+            <!-- Add Address Modal -->
+            <div class="modal hidden" id="addAddressModal">
+                <div class="modal-overlay"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Add New Address</h3>
+                        <button type="button" class="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="new-address-form">
+                            <!-- Address form fields would go here -->
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="cancel-new-address">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="save-new-address">Save Address</button>
+                    </div>
                 </div>
             </div>
+        
             <script>
-                // In your checkout page JavaScript
-                document.addEventListener('DOMContentLoaded', function () {
-                    // Coupon toggle
-                    const couponToggle = document.querySelector('.show-coupon');
-                    const couponContent = document.querySelector('.coupon-content');
-    
-                    if (couponToggle && couponContent) {
-                        couponToggle.addEventListener('click', function (e) {
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Toggle coupon section
+                    document.getElementById('show-coupon').addEventListener('click', function() {
+                        const couponSection = document.getElementById('coupon-section');
+                        couponSection.classList.toggle('hidden');
+                    });
+        
+                    // Address selection
+                    document.querySelectorAll('.use-address-btn').forEach(button => {
+                        button.addEventListener('click', function(e) {
                             e.preventDefault();
-                            couponContent.style.display = couponContent.style.display === 'none' ? 'block' : 'none';
-                        });
-                    }
-    
-                    // Apply coupon
-                    const applyCouponBtn = document.querySelector('.btn-coupon');
-                    if (applyCouponBtn) {
-                        applyCouponBtn.addEventListener('click', async function () {
-                            const couponCode = document.getElementById('coupon_code').value.trim();
-    
-                            if (!couponCode) {
-                                alert('Please enter a coupon code');
-                                return;
+                            const addressCard = this.closest('.address-card');
+                            const addressId = addressCard.dataset.addressId;
+                            const addressType = addressCard.dataset.addressType;
+                            
+                            // Highlight selected address
+                            document.querySelectorAll(`.address-card[data-address-type="${addressType}"]`).forEach(card => {
+                                card.classList.remove('selected');
+                            });
+                            addressCard.classList.add('selected');
+                            
+                            // Set the selected address ID
+                            document.getElementById(`${addressType}AddressId`).value = addressId;
+                            
+                            // If "same as billing" is checked and we're selecting billing address, update shipping too
+                            if (addressType === 'billing' && document.getElementById('same-as-billing').checked) {
+                                document.getElementById('shippingAddressId').value = addressId;
+                                document.querySelectorAll('.address-card[data-address-type="shipping"]').forEach(card => {
+                                    card.classList.remove('selected');
+                                    if (card.dataset.addressId === addressId) {
+                                        card.classList.add('selected');
+                                    }
+                                });
                             }
-    
+                        });
+                    });
+            
+                    // Same as billing checkbox
+                    document.getElementById('same-as-billing').addEventListener('change', function() {
+                        const shippingContainer = document.getElementById('shipping-address-container');
+                        if (this.checked) {
+                            shippingContainer.classList.add('hidden');
+                            const billingAddressId = document.getElementById('billingAddressId').value;
+                            document.getElementById('shippingAddressId').value = billingAddressId;
+                            
+                            // Highlight the same address for shipping
+                            document.querySelectorAll('.address-card[data-address-type="shipping"]').forEach(card => {
+                                card.classList.remove('selected');
+                                if (card.dataset.addressId === billingAddressId) {
+                                    card.classList.add('selected');
+                                }
+                            });
+                        } else {
+                            shippingContainer.classList.remove('hidden');
+                        }
+                    });
+            
+                    // Different shipping address toggle
+                    document.getElementById('different-shipping').addEventListener('change', function() {
+                        document.getElementById('shipping-details-form').classList.toggle('hidden', !this.checked);
+                    });
+            
+                    // Add new address button
+                    document.getElementById('add-new-address').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        document.getElementById('addAddressModal').classList.remove('hidden');
+                    });
+            
+                    // Close modal
+                    document.querySelector('.modal-close').addEventListener('click', function() {
+                        document.getElementById('addAddressModal').classList.add('hidden');
+                    });
+            
+                    document.getElementById('cancel-new-address').addEventListener('click', function() {
+                        document.getElementById('addAddressModal').classList.add('hidden');
+                    });
+            
+                    // Payment method accordion
+                    document.querySelectorAll('.payment-header').forEach(header => {
+                        header.addEventListener('click', function() {
+                            const targetId = this.dataset.target;
+                            const target = document.getElementById(targetId);
+                            
+                            // Close all first
+                            document.querySelectorAll('.payment-body').forEach(body => {
+                                body.classList.remove('expanded');
+                            });
+                            
+                            // Toggle the clicked one
+                            target.classList.toggle('expanded');
+                            
+                            // Rotate arrow
+                            const arrow = this.querySelector('span:last-child');
+                            arrow.textContent = target.classList.contains('expanded') ? '↓' : '→';
+                        });
+                    });
+            
+                    // Apply coupon
+                    document.getElementById('apply_coupon').addEventListener('click', async function() {
+                        const couponCode = document.getElementById('coupon_code').value.trim();
+                        const couponMessage = document.getElementById('coupon_message');
+                        
+                        if (!couponCode) {
+                            couponMessage.innerHTML = '<div class="alert alert-error">Please enter a coupon code</div>';
+                            return;
+                        }
+            
+                        try {
                             const response = await fetch('/apply-coupon', {
                                 method: 'POST',
                                 headers: {
@@ -452,17 +843,66 @@
                                 },
                                 body: JSON.stringify({ couponCode })
                             });
-    
+            
                             const result = await response.json();
-    
+                            
                             if (result.success) {
-                                // Update the order summary
-                                location.reload(); // Simple refresh to update all values
+                                couponMessage.innerHTML = '<div class="alert alert-success">Coupon applied successfully!</div>';
+                                location.reload();
                             } else {
-                                alert(result.message || 'Failed to apply coupon');
+                                couponMessage.innerHTML = `<div class="alert alert-error">${result.message || 'Failed to apply coupon'}</div>`;
                             }
-                        });
-                    }
+                        } catch (error) {
+                            couponMessage.innerHTML = '<div class="alert alert-error">Failed to apply coupon</div>';
+                        }
+                    });
+            
+                    // Place order button
+                    document.getElementById('place-order-btn').addEventListener('click', async function(e) {
+                        e.preventDefault();
+                        
+                        // Validate address selection
+                        const billingAddressId = document.getElementById('billingAddressId').value;
+                        const shippingAddressId = document.getElementById('shippingAddressId').value;
+                        
+                        if (!billingAddressId || !shippingAddressId) {
+                            alert('Please select both billing and shipping addresses');
+                            return;
+                        }
+            
+                        // Disable button to prevent multiple submissions
+                        const submitBtn = this;
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'Processing...';
+                        
+                        try {
+                            const response = await fetch('/place-order', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    billingAddressId,
+                                    shippingAddressId,
+                                    notes: document.getElementById('order-notes').value
+                                })
+                            });
+                            
+                            const result = await response.json();
+                            
+                            if (result.success) {
+                                window.location.href = `/order-confirmation/${result.orderId}`;
+                            } else {
+                                alert(result.message || 'Failed to place order');
+                                submitBtn.disabled = false;
+                                submitBtn.textContent = 'Place Order';
+                            }
+                        } catch (error) {
+                            alert('An error occurred while placing your order');
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Place Order';
+                        }
+                    });
                 });
             </script>
             <!-- End of PageContent -->
@@ -654,7 +1094,7 @@
                 <p>Account</p>
             </a>
             <% } else { %>
-                <a href="/login" class="sticky-link">
+                <a href="/auth/login" class="sticky-link">
                     <i class="w-icon-account"></i>
                     <p>Login</p>
                 </a>

@@ -499,11 +499,13 @@ html {
   box-sizing: border-box;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
+
 
 body {
   margin: 0;
   overflow-x: hidden;
-  font-family: Poppins, sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.4rem;
   line-height: 1.6;
   color: #666;
@@ -1253,10 +1255,10 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Poppins, sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
   line-height: 1.2;
-  color: #333;
+  color: #011f3f;
   letter-spacing: 0;
 }
 

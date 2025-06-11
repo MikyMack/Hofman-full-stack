@@ -1,24 +1,8 @@
 @charset "UTF-8";
 
-/**
- * 1. Config
- * 2. Mixins
- * 3. Plugins
- * 4. Base
- * 5. Components
- * 6. Header
- * 7. Footer
- * 8. Pages
- */
-/* 1. Config */
-/*----------------------------------------
-    Variables
------------------------------------------*/
-/* 2. Mixins */
-/* 3. Base */
-/*----------------------------------------
-    Base
------------------------------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
+
+
 *,
 ::after,
 ::before {
@@ -43,7 +27,7 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
-  font-family: Poppins, sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.4rem;
   line-height: 1.6;
   color: #666;
@@ -2728,10 +2712,10 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Poppins, sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
   line-height: 1.2;
-  color: #333;
+  color: #011f3f;
   letter-spacing: 0;
 }
 
@@ -6679,38 +6663,48 @@ blockquote {
 
 .category img {
   display: block;
-  width: 200px;
+  width: 150px;
   height: 150px;
   margin-left: auto;
   margin-right: auto;
-  object-fit: cover;
+  object-fit: contain;
+  /* border-radius: 50%;  */
 }
-@media (max-width:400px){
-  .category img{
-   height: 80px!important;
-    width: 80px!important;
-  }  .category-media{
-    height: 80px!important;
-    width: 80px!important;
-  }
-}
-@media (max-width:769px){
-  .category img{
+
+@media (max-width: 769px) {
+  .category img {
     width: 120px;
     height: 120px;
-    object-fit: cover;
     margin-left: 0;
     margin-right: 0;
-  
+    /* border-radius: 50%; */
   }
-  .category-media{
-    height: 120px;
+
+  .category-media {
     width: 120px;
+    height: 120px;
+    /* border-radius: 50%; */
   }
-  .category-content{
-    text-align: start!important;
+
+  .category-content {
+    text-align: center;
   }
 }
+
+@media (max-width: 400px) {
+  .category img {
+    width: 80px;
+    height: 80px;
+    /* border-radius: 50%; */
+  }
+
+  .category-media {
+    width: 80px;
+    height: 80px;
+    /* border-radius: 50%; */
+  }
+}
+
 
 .category .category-name {
   margin-bottom: 0;
@@ -23517,7 +23511,7 @@ aside .sp-sidebar-banner span {
   }
 
   .toolbox select {
-    max-width: 13.6rem;
+    max-width: 17.6rem;
   }
 }
 

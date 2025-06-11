@@ -11131,6 +11131,7 @@ body .product-popup {
   -ms-flex-pack: center;
   justify-content: center;
   flex-wrap: wrap !important;
+  gap: 6px!important;
 }
 
 .product-variations>a {
@@ -12211,11 +12212,38 @@ body .product-popup {
 .product-single .product-color-swatch .color.active::before {
   content: "";
 }
-
+.product-color{
+  display: flex;
+  gap: 0px;
+}
 .product-single .product-size-swatch {
   margin-bottom: 2rem;
 }
+.product-size div{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: center;
+  align-items: center;
+}
+@media(max-width:400px){
+  .size-option{
+    padding: 2px!important;
 
+  }
+}
+.wish-btn{
+  display: flex!important;
+  flex-direction: row-reverse;
+  justify-content: space-between!important;
+  align-items: center;
+  width: 100%!important;
+
+}
+.wish-btn a{
+ width: 30px!important;
+ height: 30px!important;
+}
 .product-single .product-size-swatch .size {
   display: block;
   text-align: center;
@@ -20394,6 +20422,7 @@ body .product-popup {
 .shop-table.cart-table th {
   padding: 1rem 0 1.2rem;
   letter-spacing: -0.025em;
+  text-align: start;
 }
 
 .shop-table.cart-table .product-price {
@@ -23560,8 +23589,14 @@ aside .sp-sidebar-banner span {
   text-transform: capitalize;
   line-height: 1.6;
   letter-spacing: 0;
-}
+  text-align: start!important;
 
+  
+  
+}
+.shop-table thead tr th span{
+  text-align: start!important;
+}
 .shop-table img {
   display: block;
   max-width: 100px;
@@ -23612,6 +23647,7 @@ aside .sp-sidebar-banner span {
 
 .wishlist-table .wishlist-out-stock {
   color: #f93;
+  text-align: start;
 }
 
 .wishlist-table .btn-sm {
@@ -23632,14 +23668,17 @@ aside .sp-sidebar-banner span {
 
 .wishlist-table .product-price {
   width: 15.17%;
+  text-align: start;
 }
 
 .wishlist-table .product-stock-status {
   width: 19.84%;
+  text-align: start!important;
 }
 
 .wishlist-table .wishlist-action {
   width: 24.19%;
+  text-align: start;
 }
 
 @media (max-width: 767px) {
@@ -25008,6 +25047,9 @@ color: var(--theme-color)!important;
 .related-details{
   padding: 10px;
 }
+#color-options a{
+  border: 1px solid gray;
+}
 @media(max-width:1250px){
   .details-btn{
     width: 100%;
@@ -25015,8 +25057,8 @@ color: var(--theme-color)!important;
     justify-content: center;
     align-items: center;
   }
-  .details-qty div input{
-    width: 100%!important;
+  .details-qty{
+   max-width: 100%!important;
   }
 
   .btn-wishlist{
@@ -25031,12 +25073,25 @@ color: var(--theme-color)!important;
     justify-content: center;
     align-items: center;
   }
-  .details-qty div input{
-    width: 100%!important;
+ .details-qty{
+   max-width: 100%!important;
   }
 
   .btn-wishlist{
     width: 100%;
     margin-top: 1rem;
   }
+}
+.hm-pr-btn{
+  display: flex;
+  gap: 10px!important;
+}
+.pr-size{
+  border: 1px solid gainsboro;
+  padding: 4px;
+}
+.product-det{
+  display: flex;
+
+  gap: 10px;
 }

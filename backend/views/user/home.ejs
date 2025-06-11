@@ -58,6 +58,14 @@
             box-shadow: 0 0 0 2px #a5d6a7;
 
         }
+        .size-option{
+            
+           padding: 3px 6px 5px 6px;
+            border: 1px solid #eff3f4!important;
+           
+        }
+        
+        
 
         /* Highlight selected color */
         .color-option.active,
@@ -469,11 +477,11 @@
                     <div class="swiper-container swiper-theme select-product-wrapper shadow-swiper appear-animate pb-2 mb-10"
                         data-swiper-options='{
                 "spaceBetween": 20,
-                "slidesPerView": 2,
+                "slidesPerView": 1,
                 "breakpoints": {
                     "768": { "slidesPerView": 3 },
                     "992": { "slidesPerView": 4 },
-                    "1200": { "slidesPerView": 5 }
+                    "1200": { "slidesPerView": 4 }
                 }
             }'>
                         <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2">
@@ -498,8 +506,11 @@
                                             </figure>
 
                                             <div class="product-details">
+                                                <div class="wish-btn">
+
+                                               
                                                 <% if (user) { %>
-                                                    <a href="#" class="btn-wishlist w-icon-heart"
+                                                    <a href="#" class="btn-wishlist wish-btn w-icon-heart"
                                                         data-product-id="<%= product._id %>" title="Add to wishlist"
                                                         onclick="event.preventDefault(); addTooWishlist('<%= product._id %>', this);">
                                                     </a>
@@ -513,16 +524,17 @@
                                                                     <%= product.name %>
                                                                 </a>
                                                             </h4>
+                                                             </div>
 
-                                                            <div class="product-variations flex flex-wrap mb-2">
+                                                            <div class="product-variations product-det flex flex-wrap mb-2">
                                                                 <% if (product.hasSizeVariants) { %>
                                                                     <div
-                                                                        class="product-size mr-3 d-flex align-items-center">
+                                                                        class="product-size  mr-3 d-flex align-items-center">
                                                                         <span class="font-weight-bold mr-1">Size:</span>
-                                                                        <div>
+                                                                        <div class="prd-size">
                                                                             <% product.sizeVariants.forEach(size=> { %>
                                                                                 <span
-                                                                                    class="size-option badge badge-light border px-2 py-1 mr-1"
+                                                                                    class="size-option pr-size badge badge-light border px-2 py-1 mr-1"
                                                                                     data-size="<%= size.size %>"
                                                                                     data-stock="<%= size.stock %>"
                                                                                     style="cursor:pointer;">
@@ -536,7 +548,7 @@
                                                                         <% if (product.hasColorVariants) { %>
                                                                             <div class="product-color">
                                                                                 <span
-                                                                                    class="font-weight-bold mr-1"></span>
+                                                                                    class="font-weight-bold mr-1"> Color</span>
                                                                                 <% product.colorVariants.forEach(color=>
                                                                                     { %>
                                                                                     <span
@@ -681,7 +693,7 @@
                                                             <div>
                                                                 <% product.sizeVariants.forEach(size=> { %>
                                                                     <span
-                                                                        class="size-option badge badge-light border px-2 py-1 mr-1"
+                                                                        class="size-option badge  badge-light border px-2 py-1 mr-1"
                                                                         data-size="<%= size.size %>"
                                                                         data-stock="<%= size.stock %>"
                                                                         style="cursor:pointer;">
@@ -719,7 +731,7 @@
                                                 <p class="text-default">
                                                     <%= product.description.substring(0, 50) %>...
                                                 </p>
-                                                <div class="product-action">
+                                                <div class="product-action  hm-pr-btn">
                                                     <button
                                                         class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
                                                         data-product-id="<%= product._id %>"
@@ -859,12 +871,12 @@
                             <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
                                 data-swiper-options="{
                           'spaceBetween': 20,
-                          'slidesPerView': 2,
+                          'slidesPerView': 1,
                           'breakpoints': {
                             '576': { 'slidesPerView': 2 },
                             '768': { 'slidesPerView': 3 },
                             '992': { 'slidesPerView': 4 },
-                            '1200': { 'slidesPerView': 5 }
+                            '1200': { 'slidesPerView': 4 }
                           }
                         }">
                                 <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
@@ -879,12 +891,12 @@
                             <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
                                 data-swiper-options="{
                           'spaceBetween': 20,
-                          'slidesPerView': 2,
+                          'slidesPerView': 1,
                           'breakpoints': {
                             '576': { 'slidesPerView': 2 },
                             '768': { 'slidesPerView': 3 },
                             '992': { 'slidesPerView': 4 },
-                            '1200': { 'slidesPerView': 5 }
+                            '1200': { 'slidesPerView': 4 }
                           }
                         }">
                                 <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
@@ -899,12 +911,12 @@
                             <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
                                 data-swiper-options="{
                           'spaceBetween': 20,
-                          'slidesPerView': 2,
+                          'slidesPerView': 1,
                           'breakpoints': {
                             '576': { 'slidesPerView': 2 },
                             '768': { 'slidesPerView': 3 },
                             '992': { 'slidesPerView': 4 },
-                            '1200': { 'slidesPerView': 5 }
+                            '1200': { 'slidesPerView': 4 }
                           }
                         }">
                                 <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
@@ -919,12 +931,12 @@
                             <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
                                 data-swiper-options="{
                           'spaceBetween': 20,
-                          'slidesPerView': 2,
+                          'slidesPerView': 1,
                           'breakpoints': {
                             '576': { 'slidesPerView': 2 },
                             '768': { 'slidesPerView': 3 },
                             '992': { 'slidesPerView': 4 },
-                            '1200': { 'slidesPerView': 5 }
+                            '1200': { 'slidesPerView': 4 }
                           }
                         }">
                                 <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
@@ -939,12 +951,12 @@
                             <div class="swiper-container swiper-theme latest-product-wrapper shadow-swiper appear-animate mb-0"
                                 data-swiper-options="{
                           'spaceBetween': 20,
-                          'slidesPerView': 2,
+                          'slidesPerView': 1,
                           'breakpoints': {
                             '576': { 'slidesPerView': 2 },
                             '768': { 'slidesPerView': 3 },
                             '992': { 'slidesPerView': 4 },
-                            '1200': { 'slidesPerView': 5 }
+                            '1200': { 'slidesPerView': 4 }
                           }
                         }">
                                 <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2"
@@ -1013,12 +1025,12 @@
                                         if (swiperContainer) {
                                             new Swiper(swiperContainer, {
                                                 spaceBetween: 20,
-                                                slidesPerView: 2,
+                                                slidesPerView: 1,
                                                 breakpoints: {
                                                     576: { slidesPerView: 2 },
                                                     768: { slidesPerView: 3 },
                                                     992: { slidesPerView: 4 },
-                                                    1200: { slidesPerView: 5 }
+                                                    1200: { slidesPerView: 4 }
                                                 }
                                             });
                                         }
@@ -1327,10 +1339,12 @@
                                     </figure>
                         
                                     <div class="product-details">
+                                        <div class='wish-btn'>
                                         <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
                                         <h4 class="product-name">
                                             <a href="/product/${product._id}">${product.name}</a>
                                         </h4>
+                                        </div>
                         
                                         <div class="product-variations flex flex-wrap mb-2">
                                             ${product.hasSizeVariants ? `
@@ -1657,7 +1671,7 @@
                 <p>Account</p>
             </a>
             <% } else { %>
-                <a href="/login" class="sticky-link">
+                <a href="/auth/login" class="sticky-link">
                     <i class="w-icon-account"></i>
                     <p>Login</p>
                 </a>

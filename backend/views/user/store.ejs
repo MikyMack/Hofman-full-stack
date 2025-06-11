@@ -48,6 +48,7 @@
     <link rel="stylesheet" type="text/css" href="/vendor/magnific-popup/magnific-popup.min.css">
 
     <!-- Default CSS -->
+
     <link rel="stylesheet" type="text/css" href="/css/style.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
@@ -421,16 +422,16 @@
                                                         <a href="/wishlist/add/<%= product._id %>" class="btn-product-icon btn-wishlist w-icon-heart" title="Wishlist"></a>
                                                     </div>
                                                 </figure>
-                                                <div class="product-details">
+                                                <div style="padding: 5px!important;" class="product-details ">
                                                   
-                                                    <h3 class="product-name">
+                                                    <h3 class="product-name d-flex justify-center">
                                                         <a class="text-uppercase" href="/product/<%= product.slug || product._id %>"><%= product.name %></a>
                                                     </h3>
                                                     
                                                     <!-- Variant Selection -->
-                                                    <div class="selected-variant-info mb-2 text-sm"></div>
+                                                    <div class="selected-variant-info d-flex justify-center mb-2 text-sm"></div>
                                                     
-                                                    <div class="product-variations flex justify-content-between align-items-center gap-3">
+                                                    <div class="product-variations flex justify-content-between align-items-center p-3 gap-3">
                                                         <% if (product.sizeVariants && product.sizeVariants.length > 0) { %>
                                                             <div class="product-size-new flex align-items-center gap-2">
                                                                 <% product.sizeVariants.forEach(function(variant) { %>
@@ -458,7 +459,7 @@
                                                     </div>
                                                     
                                                     
-                                                    <div class="product-pa-wrapper">
+                                                    <div class="product-pa-wrapper d-flex justify-content-start">
                                                         <div class="product-price">
                                                             <% if (product.salePrice && product.salePrice > 0 && product.salePrice < product.basePrice) { %>
                                                                 <ins class="new-price">₹<%= product.salePrice.toFixed(2) %></ins>
@@ -955,7 +956,7 @@
                 <p>Account</p>
             </a>
             <% } else { %>
-                <a href="/login" class="sticky-link">
+                <a href="/auth/login" class="sticky-link">
                     <i class="w-icon-account"></i>
                     <p>Login</p>
                 </a>
@@ -1055,6 +1056,7 @@
 
     <!-- Main JS -->
     <script src="/js/main.min.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 
 

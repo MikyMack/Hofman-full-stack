@@ -400,7 +400,7 @@
                                     </div>
                                 <% } else { %>
                                     <% products.forEach(function(product) { %>
-                                        <div class="product-wrap" 
+                                        <div class="product-wrap" style="border: 2px solid #dfdfdf;padding: 3px; border-radius: 6px;" 
                                             data-product-id="<%= product._id %>"
                                             data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
                                             data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
@@ -430,28 +430,33 @@
                                                     <!-- Variant Selection -->
                                                     <div class="selected-variant-info mb-2 text-sm"></div>
                                                     
-                                                    <div style="gap: 10px!important;" class="product-variations flex flex-wrap flex-column justify-content-center align-items-center">
+                                                    <div class="product-variations flex justify-content-between align-items-center gap-3">
                                                         <% if (product.sizeVariants && product.sizeVariants.length > 0) { %>
-                                                            <div class="product-size-new">
+                                                            <div class="product-size-new flex align-items-center gap-2">
                                                                 <% product.sizeVariants.forEach(function(variant) { %>
                                                                     <span class="size-options-new" 
                                                                         data-size="<%= variant.size %>"
-                                                                        data-stock="<%= variant.stock %>"><%= variant.size %></span>
+                                                                        data-stock="<%= variant.stock %>">
+                                                                        <%= variant.size %>
+                                                                    </span>
                                                                 <% }) %>
                                                             </div>
                                                         <% } %>
+                                                    
                                                         <% if (product.colorVariants && product.colorVariants.length > 0) { %>
-                                                            <div class="product-color">
+                                                            <div class="product-color flex align-items-center gap-2">
                                                                 <% product.colorVariants.forEach(function(variant) { %>
                                                                     <span class="color-options-new" 
                                                                         style="background-color:<%= variant.colorCode || variant.color || '#ccc' %>;" 
                                                                         title="<%= variant.color %>"
                                                                         data-color="<%= variant.color %>"
-                                                                        data-stock="<%= variant.stock %>"></span>
+                                                                        data-stock="<%= variant.stock %>">
+                                                                    </span>
                                                                 <% }) %>
                                                             </div>
                                                         <% } %>
                                                     </div>
+                                                    
                                                     
                                                     <div class="product-pa-wrapper">
                                                         <div class="product-price">

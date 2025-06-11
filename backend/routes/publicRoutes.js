@@ -7,6 +7,7 @@ const MainBanner = require('../models/MainBanner');
 const BannerTwo = require('../models/BannerTwo');
 const BannerThree = require('../models/BannerThree');
 const Cart = require('../models/Cart');
+const Wishlist = require('../models/Wishlist');
 
 
 router.get('/', async (req, res) => {
@@ -289,7 +290,6 @@ router.get('/store', async (req, res) => {
 router.get('/product/:id', async (req, res) => {
     try {
         const productId = req.params.id;
-        // Populate the category field to get the full category document, not just the ID
         const product = await Product.findOne({ _id: productId, isActive: true })
             .populate('category')
             .lean();
@@ -302,6 +302,9 @@ router.get('/product/:id', async (req, res) => {
                 category: null
             });
         }
+        const categories = await Category.find({ isActive: true })
+        .select('name imageUrl isActive subCategories')
+        .lean();
 
         // product.category is now the full category document (or null if not found)
         const category = product.category || null;
@@ -321,7 +324,8 @@ router.get('/product/:id', async (req, res) => {
             user: req.user || null,
             product,
             relatedProducts,
-            category
+            category,
+            categories
         });
     } catch (err) {
         console.error('Error fetching product details:', err);
@@ -329,7 +333,8 @@ router.get('/product/:id', async (req, res) => {
             user: req.user || null,
             product: null,
             relatedProducts: [],
-            category: null
+            category: null,
+            categories:[]
         });
     }
 });
@@ -372,9 +377,46 @@ router.get('/cart', async (req, res) => {
     }
 
 });
-router.get('/wishlist', (req, res) => {
-    res.render('user/wishlist', { user: req.user || null });
-});
+router.get('/wishlist', async (req, res) => {
+    try {
+      const user = req.user;
+  
+      const categories = await Category.find({ isActive: true })
+        .select('name imageUrl isActive subCategories')
+        .lean();
+  
+      let wishlist = [];
+  
+      if (user) {
+        const wishlistDoc = await Wishlist.findOne({ user: user._id })
+        .populate({
+            path: 'items.product',
+            model: 'Product',
+            select: 'name price salePrice images hasColorVariants hasSizeVariants'
+          })
+          
+          .lean();
+  
+        if (wishlistDoc && wishlistDoc.items) {
+          wishlist = wishlistDoc.items.map(item => ({
+            ...item,
+            product: item.product || {},
+            selectedColor: item.selectedColor || null,
+            selectedSize: item.selectedSize || null
+          }));
+        }
+      }
+  
+      res.render('user/wishlist', {
+        user: user || null,
+        categories,
+        wishlist 
+      });
+    } catch (err) {
+      console.error('Error fetching wishlist:', err);
+      res.status(500).send('Server error');
+    }
+  });
 router.get('/checkout', async (req, res) => {
     const categories = await Category.find({ isActive: true })
         .select('name imageUrl isActive subCategories')

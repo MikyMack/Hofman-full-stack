@@ -49,6 +49,8 @@
 
     <!-- Default CSS -->
     <link rel="stylesheet" type="text/css" href="/css/style.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
     
 </head>
 
@@ -63,15 +65,18 @@
                     </div>
                     <div class="header-right">
                         <span class="divider d-lg-show"></span>
-                        <a href="index.html" class="d-lg-show">Home</a>
-                        <a href="shop.html" class="d-lg-show">Store</a>
-                        <a href="about-us.html" class="d-lg-show">About Us</a>
-                        <a href="blogs.html" class="d-lg-show">Blogs</a>
-                        <a href="contact-us.html" class="d-lg-show">Contact Us</a>
-                        <a href="/ajax/login.html" class="d-lg-show login sign-in"><i
-                                class="w-icon-account"></i>Sign In</a>
-                        <span class="delimiter d-lg-show">/</span>
-                        <a href="/ajax/login.html" class="ml-0 d-lg-show login register">Register</a>
+                        <a href="/store" class="d-lg-show">Store</a>
+                        <a href="/about" class="d-lg-show">About Us</a>
+                        <a href="/contact" class="d-lg-show">Contact Us</a>
+                        <% if (user) { %>
+                            <a href="/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <span class="delimiter d-lg-show">/</span>
+                            <a href="/orders" class="ml-0 d-lg-show">My Orders</a>
+                        <% } else { %>
+                            <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
+                            <span class="delimiter d-lg-show">/</span>
+                            <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -80,41 +85,34 @@
                 <div class="container">
                     <div class="header-left mr-md-4">
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
-                        <a href="index.html" class="logo">
+                        <a href="/" class="logo">
                             <img src="/images/logo.png" alt="logo" width="250">
-                        </a>
-                        <form method="get" action="#"
-                            class="input-wrapper header-search  hs-expanded sticky-border hs-round d-none d-md-flex">
-                            <input type="text" class="form-control header-sticky-border bg-white pt-0 pb-0"
-                                name="search" id="search" placeholder="Search in..." required />
-                            <button class="btn btn-search header-sticky-border-btn" type="submit">
-                                <i class="w-icon-search"></i>
-                            </button>
-                        </form>
+                        </a>                      
                     </div>
                     <div class="header-right ml-4">
                         <div class="header-call d-xs-show d-lg-flex align-items-center">
                             <a href="tel:#" class="w-icon-call"></a>
                             <div class="call-info d-lg-show">
                                 <h4 class="chat font-size-md text-normal ls-normal text-white mb-0">
-                                    <a href="" class="text-capitalize text-primary font-weight-normal">Customer care</a>
+                                    <a href=""
+                                        class="text-capitalize text-primary font-weight-normal">Customer care</a>
                                 </h4>
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
                             </div>
                         </div>
-                        <a class="wishlist label-down link d-xs-show" href="wishlist.html">
+                        <a class="wishlist label-down link d-xs-show" href="/wishlist">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
-                        </a>
+                        </a>                     
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
-                            <a href="cart.html" class="cart-toggle1 label-down link">
+                            <a href="/cart" class=" label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count text-white">2</span>
+                                    <span class="cart-count text-white">+</span>
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
-
+                         
                             <!-- End of Dropdown Box -->
                         </div>
                     </div>
@@ -139,7 +137,7 @@
             <nav class="breadcrumb-nav mb-10">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li>Wishlist</li>
                     </ul>
                 </div>
@@ -149,118 +147,109 @@
             <!-- Start of PageContent -->
             <div class="page-content">
                 <div class="container">
-                    <h3 class="wishlist-title">My wishlist</h3>
+                  <h3 class="wishlist-title">My wishlist</h3>
+              
+                  <% if (!user) { %>
+                    <div class="alert alert-warning text-center" style="margin-bottom: 10px;">
+                        <img src="/images/hofmaan/login1.jpg" alt="login" style="width: 200px;" />
+                      Please <a href="/auth/login">sign in</a> to view your wishlist.
+                    </div>
+                  <% } else if (wishlist.length === 0) { %>
+                    <div class="alert alert-info text-center" style="margin-bottom: 10px;">
+                        <img src="/images/hofmaan/wishlist.png" alt="wishlist" style="width: 200px;" /><span>Your wishlist is empty.</span></div>
+                  <% } else { %>
                     <table class="shop-table wishlist-table">
-                        <thead>
-                            <tr>
-                                <th class="product-name"><span>Product</span></th>
-                                <th></th>
-                                <th class="product-price"><span>Price</span></th>
-                                <th class="product-stock-status"><span>Stock Status</span></th>
-                                <th class="wishlist-action">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="product-thumbnail">
-                                    <div class="p-relative">
-                                        <a href="product-Details.html">
-                                            <figure>
-                                                <img src="/images/hofmaan/sample3.jpg" alt="product" width="300"
-                                                    height="338">
-                                            </figure>
-                                        </a>
-                                        <button type="submit" class="btn btn-close"><i
-                                                class="fas fa-times"></i></button>
-                                    </div>
-                                </td>
-                                <td class="product-name">
-                                    <a class="text-uppercase" href="product-Details.html">
-                                        Loffer
-                                    </a>
-                                </td>
-                                <td class="product-price">
-                                    <ins class="new-price">₹85.00</ins>
-                                </td>
-                                <td class="product-stock-status">
-                                    <span class="wishlist-in-stock">In Stock</span>
-                                </td>
-                                <td class="wishlist-action">
-                                    <div class="d-lg-flex">
-
-                                        <a href="index.html"
-                                            class="btn btn-dark btn-rounded btn-sm ml-lg-2 btn-cart">Add to
-                                            cart</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="product-thumbnail">
-                                    <div class="p-relative">
-                                        <a href="product-Details.html">
-                                            <figure>
-                                                <img src="/images/hofmaan/sample3.jpg" alt="product" width="300"
-                                                    height="338">
-                                            </figure>
-                                        </a>
-                                        <button type="submit" class="btn btn-close"><i
-                                                class="fas fa-times"></i></button>
-                                    </div>
-                                </td>
-                                <td class="product-name">
-                                    <a href="product-Details.html">
-                                        Loffer
-                                    </a>
-                                </td>
-                                <td class="product-price"><ins class="new-price">₹5.00</ins></td>
-                                <td class="product-stock-status">
-                                    <span class="wishlist-in-stock">In Stock</span>
-                                </td>
-                                <td class="wishlist-action">
-                                    <div class="d-lg-flex">
-
-                                        <a href="cart.html" class="btn btn-dark btn-rounded btn-sm ml-lg-2 btn-cart">Add
-                                            to
-                                            cart</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="product-thumbnail">
-                                    <div class="p-relative">
-                                        <a href="product-Details.html">
-                                            <figure>
-                                                <img src="/images/hofmaan/sample3.jpg" alt="product" width="300"
-                                                    height="338">
-                                            </figure>
-                                        </a>
-                                        <button type="submit" class="btn btn-close"><i
-                                                class="fas fa-times"></i></button>
-                                    </div>
-                                </td>
-                                <td class="product-name">
-                                    <a href="product-Details.html">
-                                        Loffer
-                                    </a>
-                                </td>
-                                <td class="product-price"><ins class="new-price">₹54.00</ins></td>
-                                <td class="product-stock-status">
-                                    <span class="wishlist-in-stock">In Stock</span>
-                                </td>
-                                <td class="wishlist-action">
-                                    <div class="d-lg-flex">
-
-                                        <a href="index.html"
-                                            class="btn btn-dark btn-rounded btn-sm ml-lg-2 btn-cart">Add to
-                                            cart</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                      <thead>
+                        <tr>
+                          <th class="product-name"><span>Product</span></th>
+                          <th></th>
+                          <th class="product-price"><span>Price</span></th>
+                          <th class="product-stock-status"><span>Stock Status</span></th>
+                          <th class="wishlist-action">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% wishlist.forEach((item, index) => { %>
+                          <tr data-item-id="<%= item.product._id %>">
+                            <td class="product-thumbnail">
+                              <div class="p-relative">
+                                <a href="/product/<%= item.product._id %>">
+                                  <figure>
+                                    <img src="<%= item.product.images[0] %>" alt="product" width="100">
+                                  </figure>
+                                </a>
+                                <button class="btn btn-close remove-wishlist"><i class="fas fa-times"></i></button>
+                              </div>
+                            </td>
+                            <td class="product-name">
+                              <a class="text-uppercase" href="/product/<%= item.product._id %>">
+                                <%= item.product.name %>
+                              </a>
+                            </td>
+                            <td class="product-price">
+                              <ins class="new-price">₹<%= item.product.salePrice %></ins>
+                            </td>
+                            <td class="product-stock-status">
+                              <span class="wishlist-in-stock">In Stock</span>
+                            </td>
+                            <td class="wishlist-action">
+                              <div class="d-lg-flex">
+                                <button class="btn btn-dark btn-rounded btn-sm ml-lg-2 btn-cart">Add to cart</button>
+                              </div>
+                            </td>
+                          </tr>
+                        <% }) %>
+                      </tbody>
                     </table>
-
+                  <% } %>
                 </div>
-            </div>
+              </div>
+              <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                  // Delete Wishlist Item
+                  document.querySelectorAll('.remove-wishlist').forEach(button => {
+                    button.addEventListener('click', async function () {
+                      const row = this.closest('tr');
+                      const itemId = row.dataset.itemId;
+              
+                      const response = await fetch(`/wishlist/${itemId}`, {
+                        method: 'DELETE'
+                      });
+              
+                      if (response.ok) {
+                        row.remove();
+                        Toastify({
+                          text: "Item removed from wishlist",
+                          backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                          duration: 3000
+                        }).showToast();
+                      }
+                    });
+                  });
+              
+                  // Move to Cart
+                  document.querySelectorAll('.btn-cart').forEach(button => {
+                    button.addEventListener('click', async function () {
+                      const row = this.closest('tr');
+                      const itemId = row.dataset.itemId;
+              
+                      const response = await fetch(`/wishlist/${itemId}/move-to-cart`, {
+                        method: 'POST'
+                      });
+              
+                      if (response.ok) {
+                        row.remove();
+                        Toastify({
+                          text: "Item moved to cart",
+                          backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                          duration: 3000
+                        }).showToast();
+                      }
+                    });
+                  });
+                });
+              </script>
+              
             <!-- End of PageContent -->
         </main>
         <!-- End of Main -->
@@ -329,7 +318,7 @@
                             <div class="widget">
                                 <h3 class="widget-title">Company</h3>
                                 <ul class="widget-body">
-                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="/">Home</a></li>
                                     <li><a href="about-us.html">About Us</a></li>
                                     <li><a href="shop.html"> Shop</a></li>
                                     <li><a href="blogs.html">Blogs</a></li>
@@ -435,7 +424,7 @@
 
     <div class="sticky-footer sticky-content fix-bottom">
 
-        <a href="index.html" class="sticky-link ">
+        <a href="/" class="sticky-link ">
             <i class="w-icon-home"></i>
             <p>Home</p>
         </a>
@@ -443,7 +432,7 @@
             <i class="w-icon-products"></i>
             <p>Shop</p>
         </a>
-        <a class="btm-img" href="index.html"> <img src="/images/hofmaan/logo-2.png" alt=""></a>
+        <a class="btm-img" href="/"> <img src="/images/hofmaan/logo-2.png" alt=""></a>
         <a href="my-account.html" class="sticky-link">
             <i class="w-icon-account"></i>
             <p>Account</p>
@@ -504,7 +493,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="main-menu">
                     <ul class="mobile-menu">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li>
                             <a href="shop.html">Shop</a>
 
@@ -670,7 +659,7 @@
     <!-- End of Mobile Menu -->
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <!-- Plugin JS File -->
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>

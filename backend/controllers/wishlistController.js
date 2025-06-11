@@ -85,31 +85,19 @@ exports.addToWishlist = async (req, res) => {
 // Remove item from wishlist
 exports.removeFromWishlist = async (req, res) => {
   try {
-    const { itemId } = req.params;
     const userId = req.user._id;
+    const itemId = req.params.itemId;
 
     const wishlist = await Wishlist.findOne({ user: userId });
+    if (!wishlist) return res.status(404).send('Wishlist not found');
 
-    if (!wishlist) {
-      return res.status(404).json({ error: 'Wishlist not found' });
-    }
-
-    // Find item index
-    const itemIndex = wishlist.items.findIndex(item => item._id.toString() === itemId);
-
-    if (itemIndex === -1) {
-      return res.status(404).json({ error: 'Item not found in wishlist' });
-    }
-
-    // Remove item
-    wishlist.items.splice(itemIndex, 1);
+    wishlist.items = wishlist.items.filter(i => i.product.toString() !== itemId);
     await wishlist.save();
 
-    res.json({ success: true });
-
-  } catch (error) {
-    console.error('Error removing from wishlist:', error);
-    res.status(500).json({ error: 'Failed to remove from wishlist' });
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
   }
 };
 
@@ -174,147 +162,52 @@ exports.getWishlist = async (req, res) => {
     }
   };
 
-// Move item from wishlist to cart
-exports.moveToCart = async (req, res) => {
+
+  exports.moveToCart = async (req, res) => {
     try {
-      const { itemId } = req.params;
       const userId = req.user._id;
+      const itemId = req.params.itemId;
   
-      // Get wishlist with populated product details
-      const wishlist = await Wishlist.findOne({ user: userId })
-        .populate({
-          path: 'items.product',
-          select: 'name images basePrice salePrice hasColorVariants hasSizeVariants colorVariants sizeVariants stock'
-        });
+      const wishlist = await Wishlist.findOne({ user: userId }).populate({
+        path: 'items.product',
+        select: 'salePrice basePrice name images'
+      });
   
-      if (!wishlist) {
-        return res.status(404).json({ error: 'Wishlist not found' });
-      }
+      if (!wishlist) return res.status(404).send('Wishlist not found');
   
-      // Find the wishlist item
-      const wishlistItem = wishlist.items.find(i => i._id.toString() === itemId);
-      if (!wishlistItem) {
-        return res.status(404).json({ error: 'Item not found in wishlist' });
-      }
+      const item = wishlist.items.find(i => i.product && i.product._id.toString() === itemId);
+      if (!item) return res.status(404).send('Item not found');
   
-      const product = wishlistItem.product;
+      const product = item.product;
   
-      // Check stock availability
-      let availableStock = 0;
-      let variantStockCheck = true;
+      const price = product.salePrice || product.basePrice;
   
-      if (product.hasColorVariants) {
-        const colorVariant = product.colorVariants.find(v => v.color === wishlistItem.selectedColor);
-        if (!colorVariant || colorVariant.stock <= 0) {
-          variantStockCheck = false;
-        } else {
-          availableStock = colorVariant.stock;
-        }
-      }
-  
-      if (product.hasSizeVariants && variantStockCheck) {
-        const sizeVariant = product.sizeVariants.find(v => v.size === wishlistItem.selectedSize);
-        if (!sizeVariant || sizeVariant.stock <= 0) {
-          variantStockCheck = false;
-        } else {
-          availableStock = Math.min(availableStock || Infinity, sizeVariant.stock);
-        }
-      }
-  
-      if (!product.hasColorVariants && !product.hasSizeVariants) {
-        availableStock = product.stock;
-        variantStockCheck = product.stock > 0;
-      }
-  
-      if (!variantStockCheck) {
-        return res.status(400).json({ 
-          error: 'Selected variant is out of stock',
-          stockMessage: 'Out of stock'
-        });
-      }
-  
-      // Get or create user's cart
-      let cart = await Cart.findOne({ user: userId });
-      if (!cart) {
-        cart = new Cart({ user: userId, items: [] });
-      }
-  
-      // Check if product already exists in cart with same variants
-      const existingCartItemIndex = cart.items.findIndex(item => 
-        item.product.toString() === product._id.toString() &&
-        item.selectedColor === wishlistItem.selectedColor &&
-        item.selectedSize === wishlistItem.selectedSize
+      await Cart.findOneAndUpdate(
+        { user: userId },
+        {
+          $push: {
+            items: {
+              product: product._id,
+              quantity: 1,
+              selectedColor: item.selectedColor || null,
+              selectedSize: item.selectedSize || null,
+              price: price,
+              productName: product.name,
+              productImage: product.images?.[0] || ''
+            }
+          }
+        },
+        { upsert: true }
       );
   
-      const currentPrice = product.salePrice > 0 ? product.salePrice : product.basePrice;
-      const quantityToAdd = 1; // Default to adding 1 item
+      // Remove item from wishlist
+      wishlist.items = wishlist.items.filter(i => i.product._id.toString() !== itemId);
+      await wishlist.save();
   
-      if (existingCartItemIndex >= 0) {
-        // Check if we can add more to quantity without exceeding stock
-        const existingItem = cart.items[existingCartItemIndex];
-        if (existingItem.quantity + quantityToAdd > availableStock) {
-          return res.status(400).json({ 
-            error: `Only ${availableStock} available in stock`,
-            stockMessage: `Only ${availableStock} left`
-          });
-        }
-        // Update quantity
-        cart.items[existingCartItemIndex].quantity += quantityToAdd;
-      } else {
-        // Add new item to cart
-        cart.items.push({
-          product: product._id,
-          quantity: quantityToAdd,
-          selectedColor: wishlistItem.selectedColor,
-          selectedSize: wishlistItem.selectedSize,
-          price: currentPrice,
-          productName: product.name,
-          productImage: product.images[0] || ''
-        });
-      }
-  
-      // Recalculate cart totals
-      cart.recalculateTotals();
-      cart.lastUpdated = Date.now();
-  
-      // Remove from wishlist
-      wishlist.items = wishlist.items.filter(i => i._id.toString() !== itemId);
-  
-      // Save both cart and wishlist in a transaction
-      const session = await mongoose.startSession();
-      session.startTransaction();
-      try {
-        await cart.save({ session });
-        await wishlist.save({ session });
-        await session.commitTransaction();
-      } catch (error) {
-        await session.abortTransaction();
-        throw error;
-      } finally {
-        session.endSession();
-      }
-  
-      // Populate product details for response
-      await cart.populate({
-        path: 'items.product',
-        select: 'name images'
-      });
-  
-      res.json({ 
-        success: true,
-        message: 'Item moved to cart successfully',
-        cartItem: cart.items.find(item => 
-          item.product._id.toString() === product._id.toString() &&
-          item.selectedColor === wishlistItem.selectedColor &&
-          item.selectedSize === wishlistItem.selectedSize
-        ),
-        cartCount: cart.items.reduce((total, item) => total + item.quantity, 0)
-      });
-  
-    } catch (error) {
-      console.error('Error moving to cart:', error);
-      res.status(500).json({ 
-        error: error.message || 'Failed to move item to cart' 
-      });
+      res.sendStatus(200);
+    } catch (err) {
+      console.error('Error moving item to cart:', err);
+      res.sendStatus(500);
     }
   };
+  

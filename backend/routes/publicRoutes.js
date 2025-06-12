@@ -636,11 +636,17 @@ router.post('/place-order', async (req, res) => {
     }
 });
 
-router.get('/privacy', async(req, res) => {
+router.get('/privacy_policy', async(req, res) => {
     const categories = await Category.find({ isActive: true })
     .select('name imageUrl isActive subCategories')
     .lean();
     res.render('user/privacy', { user: req.user || null,categories });
+});
+router.get('/shipping_policy', async(req, res) => {
+    const categories = await Category.find({ isActive: true })
+    .select('name imageUrl isActive subCategories')
+    .lean();
+    res.render('user/shipping-policy', { user: req.user || null,categories });
 });
 router.get('/Cancellation_Refund',async (req, res) => {
     const categories = await Category.find({ isActive: true ,categories})
@@ -648,7 +654,7 @@ router.get('/Cancellation_Refund',async (req, res) => {
     .lean();
     res.render('user/cancellation-refund', { user: req.user || null });
 });
-router.get('/terms-and-conditions', async(req, res) => {
+router.get('/terms_and_conditions', async(req, res) => {
     const categories = await Category.find({ isActive: true,categories })
     .select('name imageUrl isActive subCategories')
     .lean();

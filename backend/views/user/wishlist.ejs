@@ -86,7 +86,7 @@
                     <div class="header-left mr-md-4">
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
                         <a href="/" class="logo">
-                            <img src="/images/logo.png" alt="logo" width="250">
+                            <img src="/images/logo.png" alt="logo" width="200">
                         </a>                      
                     </div>
                     <div class="header-right ml-4">
@@ -171,10 +171,10 @@
                       <tbody>
                         <% wishlist.forEach((item, index) => { %>
                           <tr data-item-id="<%= item.product._id %>">
-                            <td class="product-thumbnail">
+                            <td  class="product-thumbnail">
                               <div class="p-relative">
                                 <a href="/product/<%= item.product._id %>">
-                                  <figure>
+                                  <figure style="display: flex; justify-content: center;">
                                     <img src="<%= item.product.images[0] %>" alt="product" width="100">
                                   </figure>
                                 </a>
@@ -189,11 +189,11 @@
                             <td class="product-price">
                               <ins class="new-price">₹<%= item.product.salePrice %></ins>
                             </td>
-                            <td class="product-stock-status">
-                              <span class="wishlist-in-stock">In Stock</span>
+                            <td class="product-stock-status wish-status">
+                              <span class="wishlist-in-stock wish-status ">In Stock</span>
                             </td>
                             <td class="wishlist-action">
-                              <div class="d-lg-flex">
+                              <div class="d-lg-flex wish-status">
                                 <button class="btn btn-dark btn-rounded btn-sm ml-lg-2 btn-cart">Add to cart</button>
                               </div>
                             </td>

@@ -14,6 +14,7 @@ const apiRoutes = require('./routes/apiRoutes');
 const cuponRoutes = require('./routes/couponRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
+const addressRoutes = require('./routes/addressRoutes');
 
 const app = express();
 
@@ -28,12 +29,12 @@ app.use(session({
   saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
-    ttl: 60 * 60 * 24 * 7 // ⏳ 7 days in seconds
+    ttl: 60 * 60 * 24 * 7 
   }),
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 🍪 7 days in milliseconds
+    maxAge: 1000 * 60 * 60 * 24 * 7, 
     httpOnly: true,
-    secure: false, // Set to true if using HTTPS
+    secure: false, 
     sameSite: 'lax'
   }
 }));
@@ -64,6 +65,7 @@ app.use('/', apiRoutes);
 app.use('/', cuponRoutes); 
 app.use('/', cartRoutes); 
 app.use('/', wishlistRoutes); 
+app.use('/', addressRoutes); 
 
 
 app.use((req, res, next) => {

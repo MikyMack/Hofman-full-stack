@@ -86,7 +86,7 @@
                     <div class="header-left mr-md-4">
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
                         <a href="/" class="logo">
-                            <img src="/images/logo.png" alt="logo" width="250">
+                            <img src="/images/logo.png" alt="logo" width="200">
                         </a>
                         <form method="get" action="#"
                             class="input-wrapper header-search hs-expanded hs-round d-none d-md-flex">
@@ -115,7 +115,7 @@
                             <div class="cart-overlay"></div>
                             <a href="/cart" class=" label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count text-white">2</span>
+                                    <span class="cart-count text-white">+</span>
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
@@ -167,17 +167,17 @@
                                 '480': { 'slidesPerView': 3 },
                                 '576': { 'slidesPerView': 4 },
                                 '768': { 'slidesPerView': 6 },
-                                '992': { 'slidesPerView': 7 },
-                                '1200': { 'slidesPerView': 8, 'spaceBetween': 30 }
+                                '992': { 'slidesPerView': 6 },
+                                '1200': { 'slidesPerView': 6, 'spaceBetween': 30 }
                             }
                         }">
                             <div class="swiper-wrapper row gutter-lg cols-xl-8 cols-lg-7 cols-md-6 cols-sm-4 cols-xs-3 cols-2">
                                 <% categories.forEach(function(category) { %>
                                     <div class="swiper-slide category-wrap">
                                         <div class="category category-ellipse">
-                                            <figure class="category-media">
+                                            <figure class="category ">
                                                 <a href="/store?<%= 'category=' + encodeURIComponent(category.slug || category.name) %>">
-                                                    <img src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt="<%= category.name %>" width="190" height="190" style="background-color: <%= category.bgColor || '#E4E4E4' %>;" />
+                                                    <img src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt="<%= category.name %>"  />
                                                 </a>
                                             </figure>
                                             <div class="category-content">

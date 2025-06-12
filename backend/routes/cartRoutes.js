@@ -24,8 +24,10 @@ router.get('/cartItems', isUser, async (req, res) => {
 
     res.status(200).json(cart || { items: [] });
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    console.error("Add to cart error:", error);
+    res.status(500).json({ error: 'Server error', details: error.message });
   }
+  
 });
 
 // Add to cart or update quantity if exists

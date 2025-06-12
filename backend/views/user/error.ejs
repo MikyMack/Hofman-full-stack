@@ -187,20 +187,15 @@
                     <div class="row">
                         <div class="col-lg-4 col-sm-6">
                             <div class="widget widget-about mt-0 mb-4">
-                                <a href="demo12.html" class="logo-footer">
-                                    <img src="/images/logo.png" alt="logo-footer" width="200"
-                                        height="45" />
+                                <a href="/" class="logo-footer">
+                                    <img src="/images/logo.png" alt="logo-footer" width="200" height="45" />
                                 </a>
                                 <div class="widget-body">
                                     <p class="widget-about-title">Got Question? Call us 24/7</p>
                                     <a href="tel:18005707777" class="widget-about-call">1-800-570-7777</a>
-                                    <p class="widget-about-desc">Register now to get updates on pronot get up icons
-                                        & coupons ster now toon.
-                                    </p>
-
+                                     <p>Follow Us In :</p>
                                     <div class="social-icons social-icons-colored">
                                         <a href="https://www.facebook.com/profile.php?id=61577157921909#" class="social-icon social-facebook w-icon-facebook"></a>
-                                     
                                         <a href="https://www.instagram.com/hofmaan__/" class="social-icon social-instagram w-icon-instagram"></a>
                                         <a href="https://www.youtube.com/@hofmaanofficial" class="social-icon social-youtube w-icon-youtube"></a>
                                         <a href="https://in.pinterest.com/hofmaanstore/" class="social-icon social-pinterest w-icon-pinterest"></a>
@@ -213,12 +208,10 @@
                                 <h3 class="widget-title">Company</h3>
                                 <ul class="widget-body">
                                         <li><a href="/">Home</a></li>
-                                    <li><a href="about-us.html">About Us</a></li>
-                                    <li><a href="shop.html"> Shop</a></li>
-                                     <li><a href="blogs.html">Blogs</a></li>
-                                    <li><a href="contact-us.html">Contact Us</a></li>
-
-                                    <li><a href="my-account.html">Orders</a></li>
+                                        <li><a href="/store">Store</a></li>
+                                    <li><a href="/about">About Us</a></li>
+                                    <li><a href="/blogs">Blogs</a></li>
+                                    <li><a href="/contact">Contact Us</a></li>                              
                                 </ul>
                             </div>
                         </div>
@@ -228,10 +221,12 @@
                                 <ul class="widget-body">
                                     <li><a href="/orders">Track My Order</a></li>
                                     <li><a href="/cart">View Cart</a></li>
-                                    <li><a href="/account">Sign In</a></li>
-                                    <li><a href="/contact">Help</a></li>
+                                    <% if (user) { %>
+                                        <li><a href="/account">Account</a></li>
+                                        <% } else { %>
+                                            <li><a href="/auth/login">Sign In</a></li>
+                                            <% } %>
                                     <li><a href="/wishlist">My Wishlist</a></li>
-                                    <li><a href="/privacy">Privacy Policy</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -239,18 +234,17 @@
                             <div class="widget">
                                 <h4 class="widget-title">Customer Service</h4>
                                 <ul class="widget-body">
-                                    <li><a href="/terms-and-conditions">Payment Methods</a></li>
-                                    <li><a href="/terms-and-conditions">Money-back guarantee!</a></li>
-                                    <li><a href="/terms-and-conditions">Product Returns</a></li>
-                                    <li><a href="/terms-and-conditions">Support Center</a></li>
-                                    <li><a href="/terms-and-conditions">Shipping</a></li>
-                                    <li><a href="/terms-and-conditions">Term and Conditions</a></li>
+                                    <li><a href="/terms_and_conditions">Terms and Conditions</a></li>
+                                    <li><a href="/Cancellation_Refund">Cancellation Refund</a></li>
+                                    <li><a href="/shipping_policy">Shopping Policy</a></li>
+                                    <li><a href="/privacy_policy">Privacy Policy</a></li>
+                           
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-               
+
                 <div class="footer-bottom">
                     <div class="footer-left">
                         <p class="copyright">Copyright © 2025 Hofmaan. All Rights Reserved.</p>

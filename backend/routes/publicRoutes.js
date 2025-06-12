@@ -649,22 +649,22 @@ router.get('/shipping_policy', async(req, res) => {
     res.render('user/shipping-policy', { user: req.user || null,categories });
 });
 router.get('/Cancellation_Refund',async (req, res) => {
-    const categories = await Category.find({ isActive: true ,categories})
+    const categories = await Category.find({ isActive: true})
     .select('name imageUrl isActive subCategories')
     .lean();
-    res.render('user/cancellation-refund', { user: req.user || null });
+    res.render('user/cancellation-refund', { user: req.user || null,categories });
 });
 router.get('/terms_and_conditions', async(req, res) => {
-    const categories = await Category.find({ isActive: true,categories })
+    const categories = await Category.find({ isActive: true })
     .select('name imageUrl isActive subCategories')
     .lean();
-    res.render('user/terms-conditions', { user: req.user || null });
+    res.render('user/terms-conditions', { user: req.user || null,categories });
 });
 router.get('/blogs',async (req, res) => {
-    const categories = await Category.find({ isActive: true,categories })
+    const categories = await Category.find({ isActive: true, })
     .select('name imageUrl isActive subCategories')
     .lean();
-    res.render('user/blogs', { user: req.user || null });
+    res.render('user/blogs', { user: req.user || null,categories });
 });
 router.get('/blogs/:id', async(req, res) => {
     const categories = await Category.find({ isActive: true })

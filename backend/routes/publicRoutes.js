@@ -639,6 +639,9 @@ router.post('/place-order', async (req, res) => {
 router.get('/privacy', (req, res) => {
     res.render('user/privacy', { user: req.user || null });
 });
+router.get('/Cancellation_Refund', (req, res) => {
+    res.render('user/cancellation-refund', { user: req.user || null });
+});
 router.get('/terms-and-conditions', (req, res) => {
     res.render('user/terms-conditions', { user: req.user || null });
 });

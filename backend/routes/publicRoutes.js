@@ -709,28 +709,28 @@ router.post('/confirm-order', async (req, res) => {
       // Save order to get _id
       await newOrder.save();
   
-      // Generate AWB (waybill) from Delhivery
-      const awbResponse = await generateAWB(newOrder);
-      const waybill = awbResponse?.packages?.[0]?.waybill;
+     
+    //   const awbResponse = await generateAWB(newOrder);
+    //   const waybill = awbResponse?.packages?.[0]?.waybill;
   
-      if (waybill) {
-        newOrder.deliveryInfo.trackingId = waybill;
-        await newOrder.save();
+    //   if (waybill) {
+    //     newOrder.deliveryInfo.trackingId = waybill;
+    //     await newOrder.save();
   
-        // Schedule pickup
-        const pickupResponse = await schedulePickup({
-          pickupName: process.env.DELHIVERY_CLIENT_NAME,
-          pickupAddress: process.env.DELHIVERY_PICKUP_ADDRESS,
-          pickupPincode: process.env.DELHIVERY_PICKUP_PINCODE,
-          pickupPhone: process.env.DELHIVERY_PICKUP_PHONE,
-          pickupDate: new Date().toISOString().slice(0, 10), // today's date YYYY-MM-DD
-          waybills: [waybill]
-        });
+       
+    //     const pickupResponse = await schedulePickup({
+    //       pickupName: process.env.DELHIVERY_CLIENT_NAME,
+    //       pickupAddress: process.env.DELHIVERY_PICKUP_ADDRESS,
+    //       pickupPincode: process.env.DELHIVERY_PICKUP_PINCODE,
+    //       pickupPhone: process.env.DELHIVERY_PICKUP_PHONE,
+    //       pickupDate: new Date().toISOString().slice(0, 10), // today's date YYYY-MM-DD
+    //       waybills: [waybill]
+    //     });
   
-        console.log('Pickup scheduled:', pickupResponse);
-      } else {
-        console.warn('No waybill returned from Delhivery.');
-      }
+    //     console.log('Pickup scheduled:', pickupResponse);
+    //   } else {
+    //     console.warn('No waybill returned from Delhivery.');
+    //   }
   
       // Send invoice email if user email available
       if (userId && req.user.email) {

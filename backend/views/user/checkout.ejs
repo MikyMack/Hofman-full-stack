@@ -46,6 +46,7 @@
 
     <!-- Default CSS -->
     <link rel="stylesheet" type="text/css" href="/css/style.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <style>
         :root {
             --primary-color: #001F3F;
@@ -404,6 +405,103 @@
             display: none;
         }
     </style>
+    <style>
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-text {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+    </style>
 </head>
 
 <body>
@@ -719,7 +817,7 @@
                                 </div>
 
                                 <!-- Place Order Button -->
-                                <button class="btn btn-primary btn-block mt-4" id="place-order-btn" <%=cart.items &&
+                                <button class="btn btn-primary btn-block mt-4" id="placeOrderBtn" <%=cart.items &&
                                     cart.items.length===0 ? 'disabled' : '' %>>
                                     Place Order
                                 </button>
@@ -821,105 +919,6 @@
                     </div>
                 </div>
             </div>
-
-            <style>
-                /* Modal Styles */
-                .modal {
-                    display: none;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    z-index: 10000;
-                    justify-content: center;
-                    align-items: center;
-                }
-
-                .modal.active {
-                    display: flex;
-                }
-
-                .modal-content {
-                    background-color: #fff;
-                    border-radius: 8px;
-                    width: 100%;
-                    max-width: 600px;
-                    max-height: 90vh;
-                    overflow-y: auto;
-                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-                    animation: modalFadeIn 0.3s ease-out;
-                }
-
-                @keyframes modalFadeIn {
-                    from {
-                        opacity: 0;
-                        transform: translateY(-20px);
-                    }
-
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-
-                .modal-header {
-                    padding: 20px;
-                    border-bottom: 1px solid #eee;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-
-                .modal-header h3 {
-                    margin: 0;
-                    font-size: 1.5rem;
-                    color: #333;
-                }
-
-                .modal-close {
-                    background: none;
-                    border: none;
-                    font-size: 1.5rem;
-                    cursor: pointer;
-                    color: #666;
-                }
-
-                .modal-close:hover {
-                    color: #333;
-                }
-
-                .modal-body {
-                    padding: 20px;
-                }
-
-                .modal-footer {
-                    padding: 15px 20px;
-                    border-top: 1px solid #eee;
-                    display: flex;
-                    justify-content: flex-end;
-                    gap: 10px;
-                }
-
-                .form-row {
-                    display: flex;
-                    gap: 15px;
-                    margin-bottom: 15px;
-                }
-
-                .form-row .form-group {
-                    flex: 1;
-                }
-
-                .form-text {
-                    display: block;
-                    margin-top: 5px;
-                    font-size: 0.8rem;
-                    color: #666;
-                }
-            </style>
-
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     // Address Modal Handling
@@ -1152,13 +1151,21 @@
                     if (applyCouponBtn) {
                         applyCouponBtn.addEventListener('click', async function (e) {
                             e.preventDefault();
-                            const couponCode = document.getElementById('coupon_code').value.trim();
+
+                            const couponCodeInput = document.getElementById('coupon_code');
                             const couponMessage = document.getElementById('coupon_message');
+                            const couponCode = couponCodeInput.value.trim();
+
+                            // Clear previous messages
+                            couponMessage.innerHTML = '';
 
                             if (!couponCode) {
                                 couponMessage.innerHTML = '<div class="alert alert-error">Please enter a coupon code</div>';
                                 return;
                             }
+
+                            applyCouponBtn.disabled = true;  // disable button to prevent multiple clicks
+                            applyCouponBtn.textContent = 'Applying...';
 
                             try {
                                 const response = await fetch('/apply-coupon', {
@@ -1166,29 +1173,37 @@
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
-                                    body: JSON.stringify({ couponCode })
+                                    body: JSON.stringify({ couponCode }),
                                 });
 
                                 if (!response.ok) {
-                                    throw new Error('Network response was not ok');
-                                }
-
-                                const result = await response.json();
-
-                                if (result.success) {
-                                    couponMessage.innerHTML = '<div class="alert alert-success">Coupon applied successfully!</div>';
-
-                                    // Update all the displayed values
-                                    updateCartTotals(result.cart);
+                                    // Try to parse error message from backend
+                                    const errorResult = await response.json().catch(() => null);
+                                    const errMsg = errorResult?.message || 'Network error applying coupon';
+                                    couponMessage.innerHTML = `<div class="alert alert-error">${errMsg}</div>`;
                                 } else {
-                                    couponMessage.innerHTML = `<div class="alert alert-error">${result.message || 'Failed to apply coupon'}</div>`;
+                                    const result = await response.json();
+
+                                    if (result.success) {
+                                        couponMessage.innerHTML = '<div class="alert alert-success">Coupon applied successfully!</div>';
+
+                                        // Update all the displayed values (you probably already have this)
+                                        updateCartTotals(result.cart);
+                                    } else {
+                                        // Show backend validation message like "Coupon already applied", "Invalid or expired coupon", etc.
+                                        couponMessage.innerHTML = `<div class="alert alert-error">${result.message || 'Failed to apply coupon'}</div>`;
+                                    }
                                 }
                             } catch (error) {
                                 console.error('Coupon application error:', error);
                                 couponMessage.innerHTML = '<div class="alert alert-error">Failed to apply coupon. Please try again.</div>';
+                            } finally {
+                                applyCouponBtn.disabled = false;
+                                applyCouponBtn.textContent = 'Apply Coupon';
                             }
                         });
                     }
+
                     function updateCartTotals(cart) {
                         // Update subtotal
                         const subtotalElement = document.querySelector('tfoot tr:first-child td');
@@ -1238,6 +1253,7 @@
                                     body: JSON.stringify({
                                         billingAddressId,
                                         shippingAddressId,
+                                        total,
                                         notes: document.getElementById('order-notes').value
                                     })
                                 });
@@ -1262,6 +1278,80 @@
 
                 });
             </script>
+            <script>
+                placeOrderBtn.addEventListener('click', async function (e) {
+                    e.preventDefault();
+
+                    const billingAddressId = document.getElementById('billingAddressId').value;
+                    const shippingAddressId = document.getElementById('shippingAddressId').value;
+
+                    if (!billingAddressId || !shippingAddressId) {
+                        alert('Please select both billing and shipping addresses');
+                        return;
+                    }
+
+                    const totalText = document.getElementById('cart-total').innerText;
+                    const totalAmount = parseFloat(totalText.replace(/[^\d.-]/g, ''));
+
+                    if (isNaN(totalAmount) || totalAmount <= 0) {
+                        alert('Invalid total amount!');
+                        return;
+                    }
+
+                    const response = await fetch('/place-order', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify({
+                            billingAddressId,
+                            shippingAddressId,
+                            totalAmount
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        const options = {
+                            key: data.key,
+                            amount: data.amount,
+                            currency: data.currency,
+                            name: "Hofmaan",
+                            description: "Order Payment",
+                            order_id: data.razorpayOrderId,
+                            handler: async function (response) {
+                                const confirmRes = await fetch('/confirm-order', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        razorpay_payment_id: response.razorpay_payment_id,
+                                        razorpay_order_id: response.razorpay_order_id,
+                                        razorpay_signature: response.razorpay_signature,
+                                        billingAddressId,
+                                        shippingAddressId
+                                    })
+                                });
+
+                                const confirmData = await confirmRes.json();
+                                if (confirmData.success) {
+                                    window.location.href = `/order-confirmation/${confirmData.orderId}`;
+                                } else {
+                                    alert('Payment succeeded but order creation failed!');
+                                }
+                            },
+                            theme: { color: "#001F3F" }
+                        };
+
+                        const rzp = new Razorpay(options);
+                        rzp.open();
+                    } else {
+                        alert('Failed to create Razorpay order!');
+                    }
+                });
+            </script>
+
         </main>
     </div>
 
@@ -1286,8 +1376,7 @@
                         </div>
                     </div>
                     <div class="col-xl-7 col-lg-6 col-md-9 mt-4 mt-lg-0 ">
-                        <form action="#" method="get"
-                            class="input-wrapper input-wrapper-inline input-wrapper-rounded">
+                        <form action="#" method="get" class="input-wrapper input-wrapper-inline input-wrapper-rounded">
                             <input type="email" class="form-control mr-2 bg-white" name="email" id="email"
                                 placeholder="Your E-mail Address" />
                             <button class="btn btn-dark btn-rounded" type="submit">Subscribe<i
@@ -1308,12 +1397,16 @@
                             <div class="widget-body">
                                 <p class="widget-about-title">Got Question? Call us 24/7</p>
                                 <a href="tel:18005707777" class="widget-about-call">1-800-570-7777</a>
-                                 <p>Follow Us In :</p>
+                                <p>Follow Us In :</p>
                                 <div class="social-icons social-icons-colored">
-                                    <a href="https://www.facebook.com/profile.php?id=61577157921909#" class="social-icon social-facebook w-icon-facebook"></a>
-                                    <a href="https://www.instagram.com/hofmaan__/" class="social-icon social-instagram w-icon-instagram"></a>
-                                    <a href="https://www.youtube.com/@hofmaanofficial" class="social-icon social-youtube w-icon-youtube"></a>
-                                    <a href="https://in.pinterest.com/hofmaanstore/" class="social-icon social-pinterest w-icon-pinterest"></a>
+                                    <a href="https://www.facebook.com/profile.php?id=61577157921909#"
+                                        class="social-icon social-facebook w-icon-facebook"></a>
+                                    <a href="https://www.instagram.com/hofmaan__/"
+                                        class="social-icon social-instagram w-icon-instagram"></a>
+                                    <a href="https://www.youtube.com/@hofmaanofficial"
+                                        class="social-icon social-youtube w-icon-youtube"></a>
+                                    <a href="https://in.pinterest.com/hofmaanstore/"
+                                        class="social-icon social-pinterest w-icon-pinterest"></a>
                                 </div>
                             </div>
                         </div>
@@ -1322,11 +1415,11 @@
                         <div class="widget">
                             <h3 class="widget-title">Company</h3>
                             <ul class="widget-body">
-                                    <li><a href="/">Home</a></li>
-                                    <li><a href="/store">Store</a></li>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/store">Store</a></li>
                                 <li><a href="/about">About Us</a></li>
                                 <li><a href="/blogs">Blogs</a></li>
-                                <li><a href="/contact">Contact Us</a></li>                              
+                                <li><a href="/contact">Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1341,7 +1434,7 @@
                                     <% } else { %>
                                         <li><a href="/auth/login">Sign In</a></li>
                                         <% } %>
-                                <li><a href="/wishlist">My Wishlist</a></li>
+                                            <li><a href="/wishlist">My Wishlist</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1353,7 +1446,7 @@
                                 <li><a href="/Cancellation_Refund">Cancellation Refund</a></li>
                                 <li><a href="/shipping_policy">Shipping Policy</a></li>
                                 <li><a href="/privacy_policy">Privacy Policy</a></li>
-                       
+
                             </ul>
                         </div>
                     </div>
@@ -1528,9 +1621,14 @@
             </div>
         </div>
     </div>
+    <script>
+        window.isLoggedIn = <%= user ? 'true' : 'false' %>;
+    </script>
     <!-- End of Mobile Menu -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <!-- Plugin JS File -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/sticky/sticky.js"></script>
     <script src="/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>

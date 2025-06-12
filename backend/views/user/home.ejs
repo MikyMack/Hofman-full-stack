@@ -579,7 +579,7 @@
                                                                 </div>
                                                                 <div class="product-action">
                                                                     <button
-                                                                    class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
+                                                                    class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn1"
                                                                     data-product-id="<%= product._id %>"
                                                                     data-has-color="<%= product.hasColorVariants %>"
                                                                     data-has-size="<%= product.hasSizeVariants %>"
@@ -733,7 +733,7 @@
                                                 </p>
                                                 <div class="product-action  hm-pr-btn">
                                                     <button
-                                                        class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn"
+                                                        class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn1"
                                                         data-product-id="<%= product._id %>"
                                                         data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
                                                         data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
@@ -1835,7 +1835,7 @@
                 });
 
                 // Add to Cart button
-                document.querySelectorAll('.add-to-cart-btn').forEach(function (btn) {
+                document.querySelectorAll('.add-to-cart-btn1').forEach(function (btn) {
                     btn.addEventListener('click', async function (e) {
                         e.preventDefault();
                         const productId = btn.getAttribute('data-product-id');

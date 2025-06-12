@@ -15,6 +15,7 @@ const cuponRoutes = require('./routes/couponRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
 const addressRoutes = require('./routes/addressRoutes');
+const razorpayRoutes = require('./routes/razorpayRoutes');
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.use('/', cuponRoutes);
 app.use('/', cartRoutes); 
 app.use('/', wishlistRoutes); 
 app.use('/', addressRoutes); 
+app.use('/', razorpayRoutes); 
 
 
 app.use((req, res, next) => {

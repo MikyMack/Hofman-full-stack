@@ -23,7 +23,6 @@ const couponSchema = new mongoose.Schema({
     min: 0,
     validate: {
       validator: function(v) {
-        // For percentage coupons, value must be <= 100
         return this.discountType !== 'percentage' || v <= 100;
       },
       message: 'Percentage discount cannot exceed 100%'
@@ -53,6 +52,10 @@ const couponSchema = new mongoose.Schema({
     default: 0,
     min: 0
   },
+  usedBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   isActive: {
     type: Boolean,
     default: true
@@ -67,10 +70,7 @@ const couponSchema = new mongoose.Schema({
   }
 });
 
-// Index for faster lookup
 couponSchema.index({ code: 1, isActive: 1 });
-
-// Pre-save hook to uppercase coupon code
 couponSchema.pre('save', function(next) {
   this.code = this.code.toUpperCase();
   next();

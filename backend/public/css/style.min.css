@@ -25075,6 +25075,23 @@ color: var(--theme-color)!important;
     width: 100%;
     margin-top: 1rem;
   }
+  .wish-status{
+  text-align: center!important;
+  display: flex!important ;
+  justify-content: center!important;
+  align-items: center!important;
+}
+}
+@media(max-width:750px){
+.cart-img{
+    text-align: center!important;
+  display: flex!important ;
+  justify-content: center!important;
+  align-items: center!important;
+}
+.pr-size{
+  padding: 6px!important;
+}
 }
 .hm-pr-btn{
   display: flex;
@@ -25089,3 +25106,4 @@ color: var(--theme-color)!important;
 
   gap: 10px;
 }
+

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const crypto = require('crypto');
 require('dotenv').config();
-const { generateAWB,schedulePickup } = require('../services/delhiveryService');
+const shiprocketService = require('../services/shiprocketService');
 
 
 const Category = require('../models/Category');
@@ -635,133 +635,119 @@ router.post('/place-order', async (req, res) => {
 
 router.post('/confirm-order', async (req, res) => {
     try {
-      const {
-        razorpay_payment_id,
-        razorpay_order_id,
-        razorpay_signature,
-        billingAddressId,
-        shippingAddressId
-      } = req.body;
-  
-      // Validate payment signature
-      const expectedSignature = crypto
-        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-        .update(razorpay_order_id + "|" + razorpay_payment_id)
-        .digest("hex");
-  
-      if (expectedSignature !== razorpay_signature) {
-        return res.status(400).json({ success: false, message: "Invalid payment signature" });
-      }
-  
-      const userId = req.user?._id || null;
-      const sessionId = req.sessionID;
-  
-      // Get user cart (by user or session)
-      const cart = await Cart.findOne(userId ? { user: userId } : { sessionId });
-      if (!cart || cart.items.length === 0) {
-        return res.status(400).json({ success: false, message: "Cart is empty" });
-      }
-  
-      // Get addresses
-      const billingAddress = await Address.findById(billingAddressId).lean();
-      const shippingAddress = await Address.findById(shippingAddressId).lean();
-      if (!billingAddress || !shippingAddress) {
-        return res.status(400).json({ success: false, message: "Invalid addresses" });
-      }
-  
-      // Prepare order items with weight fallback
-      const orderItems = cart.items.map(item => ({
-        product: item.product,
-        name: item.productName,
-        selectedColor: item.selectedColor,
-        selectedSize: item.selectedSize,
-        quantity: item.quantity,
-        price: item.price * item.quantity,
-        weight: item.weight || 0.5  // default weight in kg if missing
-      }));
-  
-      // Calculate discount amount
-      const discountAmount = cart.subtotal - cart.total;
-  
-      // Create order
-      const newOrder = new Order({
-        user: userId,
-        items: orderItems,
-        billingAddress,
-        shippingAddress,
-        couponUsed: cart.couponInfo && cart.couponInfo.validated ? {
-          code: cart.couponInfo.code,
-          discountType: cart.couponInfo.discountType,
-          discountValue: cart.couponInfo.discountValue,
-          discountAmount: cart.couponInfo.discountAmount || discountAmount,
-          couponId: cart.couponInfo.couponId || null
-        } : undefined,
-        totalAmount: cart.total,
-        paymentInfo: {
-          razorpayPaymentId: razorpay_payment_id,
-          razorpayOrderId: razorpay_order_id,
-          status: "Paid"
-        },
-        orderStatus: 'Processing',
-        deliveryInfo: { status: "Pending" }
-      });
-  
-      // Save order to get _id
-      await newOrder.save();
-  
-     
-    //   const awbResponse = await generateAWB(newOrder);
-    //   const waybill = awbResponse?.packages?.[0]?.waybill;
-  
-    //   if (waybill) {
-    //     newOrder.deliveryInfo.trackingId = waybill;
-    //     await newOrder.save();
-  
-       
-    //     const pickupResponse = await schedulePickup({
-    //       pickupName: process.env.DELHIVERY_CLIENT_NAME,
-    //       pickupAddress: process.env.DELHIVERY_PICKUP_ADDRESS,
-    //       pickupPincode: process.env.DELHIVERY_PICKUP_PINCODE,
-    //       pickupPhone: process.env.DELHIVERY_PICKUP_PHONE,
-    //       pickupDate: new Date().toISOString().slice(0, 10), // today's date YYYY-MM-DD
-    //       waybills: [waybill]
-    //     });
-  
-    //     console.log('Pickup scheduled:', pickupResponse);
-    //   } else {
-    //     console.warn('No waybill returned from Delhivery.');
-    //   }
-  
-      // Send invoice email if user email available
-      if (userId && req.user.email) {
-        sendInvoiceEmail(newOrder.toObject(), req.user.email);
-      }
-  
-      // Update coupon usage
-      if (req.user && cart.couponInfo?.validated && cart.couponInfo?.code) {
-        await Coupon.findOneAndUpdate(
-          { code: cart.couponInfo.code },
-          {
-            $inc: { usedCount: 1 },
-            $addToSet: { usedBy: req.user._id }
-          }
-        );
-      }
-  
-      // Clear cart
-      cart.items = [];
-      cart.subtotal = 0;
-      cart.total = 0;
-      cart.couponInfo = {};
-      await cart.save();
-  
-      res.json({ success: true, orderId: newOrder._id, trackingId: waybill });
-  
+        const {
+            razorpay_payment_id,
+            razorpay_order_id,
+            razorpay_signature,
+            billingAddressId,
+            shippingAddressId
+        } = req.body;
+
+        //  Verify signature
+        const expectedSignature = crypto
+            .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+            .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+            .digest('hex');
+
+        if (expectedSignature !== razorpay_signature) {
+            return res.status(400).json({ success: false, message: 'Invalid payment signature' });
+        }
+
+        const userId = req.user?._id || null;
+        const sessionId = req.sessionID;
+
+        const cart = await Cart.findOne(userId ? { user: userId } : { sessionId });
+        if (!cart || cart.items.length === 0) {
+            return res.status(400).json({ success: false, message: 'Cart is empty' });
+        }
+
+        const billingAddress = await Address.findById(billingAddressId).lean();
+        const shippingAddress = await Address.findById(shippingAddressId).lean();
+        if (!billingAddress || !shippingAddress) {
+            return res.status(400).json({ success: false, message: 'Invalid addresses' });
+        }
+
+        const orderItems = cart.items.map(item => ({
+            product: item.product,
+            name: item.productName,
+            selectedColor: item.selectedColor,
+            selectedSize: item.selectedSize,
+            quantity: item.quantity,
+            price: item.price * item.quantity
+        }));
+
+        const newOrder = new Order({
+            user: userId,
+            items: orderItems,
+            billingAddress,
+            shippingAddress,
+            couponUsed: cart.couponInfo && cart.couponInfo.validated ? {
+                code: cart.couponInfo.code,
+                discountType: cart.couponInfo.discountType,
+                discountValue: cart.couponInfo.discountValue,
+                discountAmount: cart.couponInfo.discountAmount,
+                couponId: cart.couponInfo.couponId
+            } : undefined,
+            totalAmount: cart.total,
+            paymentInfo: {
+                razorpayPaymentId: razorpay_payment_id,
+                razorpayOrderId: razorpay_order_id,
+                status: 'Paid'
+            },
+            orderStatus: 'Processing',
+            deliveryInfo: { status: 'Pending' }
+        });
+
+        await newOrder.save();
+
+        //  Create Shiprocket order
+        const srOrder = await shiprocketService.createOrder(newOrder, shippingAddress);
+        const shipmentId = srOrder.shipment_id;
+
+        //  Assign AWB
+        const awbRes = await shiprocketService.assignAWB(shipmentId);
+
+        //  Generate Pickup
+        const pickupRes = await shiprocketService.generatePickup(shipmentId);
+
+        //  (Optional) Generate Label
+        const labelRes = await shiprocketService.generateLabel(shipmentId);
+
+        //  Update your order with shipment info
+        newOrder.deliveryInfo = {
+            courier: awbRes.data.courier_name,
+            shipmentId: shipmentId,
+            trackingId: srOrder.order_id,
+            awbCode: awbRes.data.awb_code,
+            labelUrl: labelRes.label_url,
+            status: 'Pending'
+        };
+        await newOrder.save();
+
+        //  Clear cart
+        cart.items = [];
+        cart.subtotal = 0;
+        cart.total = 0;
+        cart.couponInfo = {};
+        await cart.save();
+
+        res.json({
+            success: true,
+            orderId: newOrder._id,
+            shiprocket: {
+                shipmentId,
+                awbCode: awbRes.data.awb_code,
+                labelUrl: labelRes.label_url
+            }
+        });
+
     } catch (err) {
-      console.error("Error in /confirm-order:", err);
-      res.status(500).json({ success: false, message: "Server error" });
+        console.error('Error in /confirm-order:', err);
+        res.status(500).json({ success: false, message: 'Server error' });
     }
-  });
+});
+
+
 
 router.get('/order-confirmation/:orderId', async (req, res) => {
     try {

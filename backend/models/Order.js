@@ -52,13 +52,16 @@ const orderSchema = new mongoose.Schema({
       status: { type: String, enum: ['Pending', 'Paid'], default: 'Pending' }
     },
   
-    // 🚚 Delivery (Delhivery Integration)
     deliveryInfo: {
-      courier: { type: String, default: 'Delhivery' },
+      courier: { type: String, default: 'Shiprocket' },
+      shipmentId: String,
       trackingId: String,
+      awbCode: String,
+      labelUrl: String,   
       status: { type: String, default: 'Pending' }
     },
-  
+    
+    
     totalAmount: Number,
     orderStatus: { type: String, default: 'Processing' }
   

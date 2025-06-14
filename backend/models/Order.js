@@ -51,17 +51,16 @@ const orderSchema = new mongoose.Schema({
       razorpayOrderId: String,
       status: { type: String, enum: ['Pending', 'Paid'], default: 'Pending' }
     },
-  
     deliveryInfo: {
       courier: { type: String, default: 'Shiprocket' },
       shipmentId: String,
       trackingId: String,
       awbCode: String,
-      labelUrl: String,   
-      status: { type: String, default: 'Pending' }
-    },
-    
-    
+      labelUrl: String,
+      status: { type: String, default: 'Pending' },
+      error: String,
+      updatedAt: Date
+  },
     totalAmount: Number,
     orderStatus: { type: String, default: 'Processing' }
   

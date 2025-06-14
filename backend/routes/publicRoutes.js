@@ -634,16 +634,11 @@ router.post('/place-order', async (req, res) => {
 });
 
 router.post('/confirm-order', async (req, res) => {
+    const BASE_URL = process.env.SHIPROCKET_BASE_URL || 'https://apiv2.shiprocket.in';
     try {
-        const {
-            razorpay_payment_id,
-            razorpay_order_id,
-            razorpay_signature,
-            billingAddressId,
-            shippingAddressId
-        } = req.body;
+        // Validate payment
+        const { razorpay_payment_id, razorpay_order_id, razorpay_signature, billingAddressId, shippingAddressId } = req.body;
 
-        //  Verify signature
         const expectedSignature = crypto
             .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
             .update(`${razorpay_order_id}|${razorpay_payment_id}`)
@@ -653,39 +648,44 @@ router.post('/confirm-order', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Invalid payment signature' });
         }
 
-        const userId = req.user?._id || null;
+        // Get user and cart
+        const userId = req.user?._id;
         const sessionId = req.sessionID;
-
         const cart = await Cart.findOne(userId ? { user: userId } : { sessionId });
+
         if (!cart || cart.items.length === 0) {
             return res.status(400).json({ success: false, message: 'Cart is empty' });
         }
 
-        const billingAddress = await Address.findById(billingAddressId).lean();
-        const shippingAddress = await Address.findById(shippingAddressId).lean();
+        // Get addresses
+        const [billingAddress, shippingAddress] = await Promise.all([
+            Address.findById(billingAddressId).lean(),
+            Address.findById(shippingAddressId).lean()
+        ]);
+
         if (!billingAddress || !shippingAddress) {
             return res.status(400).json({ success: false, message: 'Invalid addresses' });
         }
 
-        const orderItems = cart.items.map(item => ({
-            product: item.product,
-            name: item.productName,
-            selectedColor: item.selectedColor,
-            selectedSize: item.selectedSize,
-            quantity: item.quantity,
-            price: item.price * item.quantity
-        }));
-
+        // Create order document
         const newOrder = new Order({
             user: userId,
-            items: orderItems,
+            items: cart.items.map(item => ({
+                product: item.product,
+                name: item.productName,
+                selectedColor: item.selectedColor,
+                selectedSize: item.selectedSize,
+                quantity: item.quantity,
+                price: item.price * item.quantity,
+                weight: item.weight || 0.5
+            })),
             billingAddress,
             shippingAddress,
-            couponUsed: cart.couponInfo && cart.couponInfo.validated ? {
+            couponUsed: cart.couponInfo?.validated ? {
                 code: cart.couponInfo.code,
                 discountType: cart.couponInfo.discountType,
                 discountValue: cart.couponInfo.discountValue,
-                discountAmount: cart.couponInfo.discountAmount,
+                discountAmount: cart.couponInfo.discountAmount || (cart.subtotal - cart.total),
                 couponId: cart.couponInfo.couponId
             } : undefined,
             totalAmount: cart.total,
@@ -694,37 +694,105 @@ router.post('/confirm-order', async (req, res) => {
                 razorpayOrderId: razorpay_order_id,
                 status: 'Paid'
             },
-            orderStatus: 'Processing',
-            deliveryInfo: { status: 'Pending' }
+            deliveryInfo: {
+                status: 'Processing',
+                updatedAt: new Date()
+            }
         });
 
+        // Save initial order state
         await newOrder.save();
 
-        //  Create Shiprocket order
-        const srOrder = await shiprocketService.createOrder(newOrder, shippingAddress);
-        const shipmentId = srOrder.shipment_id;
-
-        //  Assign AWB
-        const awbRes = await shiprocketService.assignAWB(shipmentId);
-
-        //  Generate Pickup
-        const pickupRes = await shiprocketService.generatePickup(shipmentId);
-
-        //  (Optional) Generate Label
-        const labelRes = await shiprocketService.generateLabel(shipmentId);
-
-        //  Update your order with shipment info
-        newOrder.deliveryInfo = {
-            courier: awbRes.data.courier_name,
-            shipmentId: shipmentId,
-            trackingId: srOrder.order_id,
-            awbCode: awbRes.data.awb_code,
-            labelUrl: labelRes.label_url,
-            status: 'Pending'
-        };
+        // Shiprocket integration
+        let shipmentResponse = {};
+        try {
+            // 1. Create Shiprocket order
+            const srOrder = await shiprocketService.createOrder(newOrder, shippingAddress);
+            newOrder.deliveryInfo.shipmentId = srOrder.shipment_id;
+            newOrder.deliveryInfo.trackingId = srOrder.order_id;
+            await newOrder.save();
+        
+            // 2. Assign AWB
+            const safeShippingAddress = newOrder.shippingAddress || newOrder.billingAddress;
+            const awbRes = await shiprocketService.assignAWB(
+                srOrder.shipment_id, 
+                safeShippingAddress, 
+                newOrder.items
+            );
+            
+            newOrder.deliveryInfo.awbCode = awbRes.awb_code;
+            newOrder.deliveryInfo.courier = awbRes.courier_name || 'Shiprocket';
+            await newOrder.save();
+        
+            // 3. Generate Pickup
+            await shiprocketService.generatePickup(srOrder.shipment_id);
+            
+            // Add delay before label generation
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            
+            // 4. Get label with retries
+            try {
+                const labelRes = await shiprocketService.generateLabel(srOrder.shipment_id);
+                newOrder.deliveryInfo.labelUrl = labelRes.label_url;
+                newOrder.deliveryInfo.status = 'Ready for Shipment';
+            } catch (labelError) {
+                console.error('Automatic label generation failed, using fallback method');
+                
+                // Fallback: Construct manual label URL
+                newOrder.deliveryInfo.labelUrl = 
+                    `${BASE_URL}/v1/external/courier/shipments/${srOrder.shipment_id}/label`;
+                newOrder.deliveryInfo.status = 'Ready for Shipment (Manual Label)';
+                newOrder.deliveryInfo.error = 'Automatic label generation failed: ' + labelError.message;
+            }
+        
+            await newOrder.save();
+        
+            shipmentResponse = {
+                shipmentId: newOrder.deliveryInfo.shipmentId,
+                awbCode: newOrder.deliveryInfo.awbCode,
+                labelUrl: newOrder.deliveryInfo.labelUrl,
+                trackingId: newOrder.deliveryInfo.trackingId,
+                status: newOrder.deliveryInfo.status
+            };
+        
+        } catch (shipmentError) {
+            newOrder.deliveryInfo = {
+                ...newOrder.deliveryInfo,
+                status: 'Shipment Processing Failed',
+                error: shipmentError.message,
+                updatedAt: new Date()
+            };
+            console.error('Shipment processing failed:', {
+                orderId: newOrder._id,
+                error: shipmentError.message,
+                stack: shipmentError.stack
+            });
+        }
+        
         await newOrder.save();
 
-        //  Clear cart
+        // Send invoice email
+        if (userId && req.user?.email) {
+            try {
+                await sendInvoiceEmail(newOrder.toObject(), req.user.email);
+            } catch (emailError) {
+                console.error('Failed to send invoice:', emailError.message);
+            }
+        }
+
+        // Update coupon usage
+        if (userId && cart.couponInfo?.validated && cart.couponInfo?.code) {
+            try {
+                await Coupon.findOneAndUpdate(
+                    { code: cart.couponInfo.code },
+                    { $inc: { usedCount: 1 }, $addToSet: { usedBy: userId } }
+                );
+            } catch (couponError) {
+                console.error('Coupon update failed:', couponError.message);
+            }
+        }
+
+        // Clear cart
         cart.items = [];
         cart.subtotal = 0;
         cart.total = 0;
@@ -734,20 +802,22 @@ router.post('/confirm-order', async (req, res) => {
         res.json({
             success: true,
             orderId: newOrder._id,
-            shiprocket: {
-                shipmentId,
-                awbCode: awbRes.data.awb_code,
-                labelUrl: labelRes.label_url
-            }
+            ...(Object.keys(shipmentResponse).length > 0 && { shiprocket: shipmentResponse })
         });
 
-    } catch (err) {
-        console.error('Error in /confirm-order:', err);
-        res.status(500).json({ success: false, message: 'Server error' });
+    } catch (error) {
+        console.error('Order confirmation failed:', {
+            message: error.message,
+            stack: error.stack,
+            userId: req.user?._id
+        });
+        res.status(500).json({
+            success: false,
+            message: 'Order processing failed',
+            error: error.message
+        });
     }
 });
-
-
 
 router.get('/order-confirmation/:orderId', async (req, res) => {
     try {

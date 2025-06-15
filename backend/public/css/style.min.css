@@ -16693,7 +16693,7 @@ body .product-popup {
 }
 
 @media (max-width: 768px) {
-  .header-left {
+  .header-top-left {
     max-width: 100%;
   }
 }

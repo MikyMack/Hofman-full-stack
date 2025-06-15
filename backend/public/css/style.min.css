@@ -16655,7 +16655,7 @@ body .product-popup {
   margin-top: 2rem;
 }
 
-.header-left {
+.header-top-left {
   max-width: calc(100% - 400px);
   overflow: hidden;
   vertical-align: middle;

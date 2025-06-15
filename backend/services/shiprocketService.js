@@ -199,8 +199,8 @@ async function verifyShipment(shipmentId, authToken) {
 }
 
 async function generateLabel(shipmentId) {
-    const MAX_RETRIES = 3;
-    const INITIAL_DELAY = 2000; // 2 seconds
+    const MAX_RETRIES = 5; // Increased from 3
+    const INITIAL_DELAY = 5000; // Increased from 2000ms
     
     try {
         const authToken = await getToken();
@@ -208,67 +208,50 @@ async function generateLabel(shipmentId) {
 
         for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
             try {
-                // Verify shipment exists using multiple endpoints
-                await verifyShipment(shipmentId, authToken);
-
-                // Add delay between attempts
-                if (attempt > 0) {
-                    const delay = INITIAL_DELAY * Math.pow(2, attempt - 1);
+                // Progressive delay with exponential backoff
+                const delay = attempt === 0 ? 0 : INITIAL_DELAY * Math.pow(2, attempt - 1);
+                if (delay > 0) {
+                    console.log(`Waiting ${delay}ms before label generation attempt ${attempt + 1}`);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
 
-                // Try both POST and GET methods for label generation
-                try {
-                    // POST method
-                    const postResponse = await axios.post(
-                        `${BASE_URL}/v1/external/courier/generate/label`,
-                        { shipment_id: shipmentId }, // Single ID format
-                        {
-                            headers: { 
-                                'Authorization': `Bearer ${authToken}`,
-                                'Content-Type': 'application/json'
-                            }
-                        }
-                    );
-
-                    if (postResponse.data?.label_url) {
-                        return postResponse.data;
+                // Use ONLY the documented endpoint
+                const response = await axios.post(
+                    `${BASE_URL}/v1/external/courier/generate/label`,
+                    { shipment_id: [shipmentId] }, // Note: Array format is required
+                    {
+                        headers: { 
+                            'Authorization': `Bearer ${authToken}`,
+                            'Content-Type': 'application/json'
+                        },
+                        timeout: 15000
                     }
-                } catch (postError) {
-                    console.warn('POST label generation failed, trying GET method');
-                }
-
-                // GET method fallback
-                const getResponse = await axios.get(
-                    `${BASE_URL}/v1/external/courier/generate/awb-pdf?shipment_id=${shipmentId}`,
-                    { headers: { Authorization: `Bearer ${authToken}` } }
                 );
 
-                if (getResponse.data?.label_url) {
-                    return getResponse.data;
+                if (response.data?.label_url) {
+                    return {
+                        ...response.data,
+                        status: 'generated'
+                    };
                 }
 
                 throw new Error('Label URL missing in response');
 
             } catch (error) {
                 lastError = error;
-                if (attempt < MAX_RETRIES - 1) {
-                    console.warn(`Label generation attempt ${attempt + 1} failed, retrying...`);
-                    continue;
-                }
+                console.warn(`Label generation attempt ${attempt + 1} failed:`, error.message);
+                if (attempt < MAX_RETRIES - 1) continue;
+                
+                throw new Error(`Label generation failed after ${MAX_RETRIES} attempts: ${error.message}`);
             }
         }
-
-        throw lastError || new Error('Label generation failed after multiple attempts');
 
     } catch (error) {
         console.error('Label generation failed:', {
             status: error.response?.status,
             data: error.response?.data,
-            config: error.config,
             shipmentId,
-            timestamp: new Date(),
-            stack: error.stack
+            timestamp: new Date()
         });
         throw error;
     }

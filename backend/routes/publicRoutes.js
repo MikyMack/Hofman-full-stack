@@ -40,7 +40,12 @@ router.get('/', async (req, res) => {
         const bestSeller = await Product.find({ isActive: true, bestSeller: true }).sort({ createdAt: -1 }).limit(10).lean();
         const topRated = await Product.find({ isActive: true, topRated: true }).sort({ createdAt: -1 }).limit(10).lean();
 
-        // Fetch cart items for the logged-in user
+
+        const activeCoupons = await Coupon.find({
+            isActive: true,
+            validUntil: { $gte: new Date() }
+        }).select('code description').lean();
+
         let cart = null;
         if (req.user) {
             cart = await Cart.findOne({ user: req.user._id }).lean();
@@ -59,7 +64,9 @@ router.get('/', async (req, res) => {
             bestSeller,
             topRated,
             cartItems: cart?.items || [],
-            cartSubtotal: cart?.subtotal || 0
+            cartSubtotal: cart?.subtotal || 0,
+            activeCoupons
+
         });
 
     } catch (err) {
@@ -76,7 +83,8 @@ router.get('/', async (req, res) => {
             newArrivals: [],
             bestSeller: [],
             topRated: [],
-            cartItems: []
+            cartItems: [],
+            activeCoupons: []
         });
     }
 });
@@ -634,7 +642,7 @@ router.post('/place-order', async (req, res) => {
 });
 
 router.post('/confirm-order', async (req, res) => {
-    const BASE_URL = process.env.SHIPROCKET_BASE_URL || 'https://apiv2.shiprocket.in';
+
     try {
         // Validate payment
         const { razorpay_payment_id, razorpay_order_id, razorpay_signature, billingAddressId, shippingAddressId } = req.body;
@@ -711,42 +719,38 @@ router.post('/confirm-order', async (req, res) => {
             newOrder.deliveryInfo.shipmentId = srOrder.shipment_id;
             newOrder.deliveryInfo.trackingId = srOrder.order_id;
             await newOrder.save();
-        
+
             // 2. Assign AWB
             const safeShippingAddress = newOrder.shippingAddress || newOrder.billingAddress;
             const awbRes = await shiprocketService.assignAWB(
-                srOrder.shipment_id, 
-                safeShippingAddress, 
+                srOrder.shipment_id,
+                safeShippingAddress,
                 newOrder.items
             );
-            
+
             newOrder.deliveryInfo.awbCode = awbRes.awb_code;
             newOrder.deliveryInfo.courier = awbRes.courier_name || 'Shiprocket';
             await newOrder.save();
-        
+
             // 3. Generate Pickup
             await shiprocketService.generatePickup(srOrder.shipment_id);
-            
-            // Add delay before label generation
-            await new Promise(resolve => setTimeout(resolve, 5000));
-            
-            // 4. Get label with retries
+
+            // 4. Get label with retries - using only documented endpoint
             try {
                 const labelRes = await shiprocketService.generateLabel(srOrder.shipment_id);
                 newOrder.deliveryInfo.labelUrl = labelRes.label_url;
                 newOrder.deliveryInfo.status = 'Ready for Shipment';
             } catch (labelError) {
-                console.error('Automatic label generation failed, using fallback method');
-                
-                // Fallback: Construct manual label URL
-                newOrder.deliveryInfo.labelUrl = 
-                    `${BASE_URL}/v1/external/courier/shipments/${srOrder.shipment_id}/label`;
-                newOrder.deliveryInfo.status = 'Ready for Shipment (Manual Label)';
-                newOrder.deliveryInfo.error = 'Automatic label generation failed: ' + labelError.message;
+                console.error('Automatic label generation failed:', labelError.message);
+                newOrder.deliveryInfo.status = 'Label Generation Pending';
+                newOrder.deliveryInfo.error = labelError.message;
+
+                // Queue for background processing
+                await queueBackgroundLabelGeneration(srOrder.shipment_id);
             }
-        
+
             await newOrder.save();
-        
+
             shipmentResponse = {
                 shipmentId: newOrder.deliveryInfo.shipmentId,
                 awbCode: newOrder.deliveryInfo.awbCode,
@@ -754,7 +758,7 @@ router.post('/confirm-order', async (req, res) => {
                 trackingId: newOrder.deliveryInfo.trackingId,
                 status: newOrder.deliveryInfo.status
             };
-        
+
         } catch (shipmentError) {
             newOrder.deliveryInfo = {
                 ...newOrder.deliveryInfo,
@@ -768,7 +772,7 @@ router.post('/confirm-order', async (req, res) => {
                 stack: shipmentError.stack
             });
         }
-        
+
         await newOrder.save();
 
         // Send invoice email

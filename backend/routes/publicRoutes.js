@@ -4,6 +4,9 @@ const router = express.Router();
 const crypto = require('crypto');
 require('dotenv').config();
 const shiprocketService = require('../services/shiprocketService');
+const { getOrdersWithTracking } = require('../services/orderService');
+const formatStatus = require('../utils/formatStatus');
+
 
 
 const Category = require('../models/Category');
@@ -20,7 +23,6 @@ const { createEmptyCart, validateCartCoupon } = require('../utils/cartUtils');
 const isUser = require('../middleware/isUser');
 const razorpayInstance = require('../utils/razorpay');
 const sendInvoiceEmail = require("../utils/sendInvoice");
-
 
 router.get('/', async (req, res) => {
     try {
@@ -361,11 +363,82 @@ router.get('/account', async (req, res) => {
         .lean();
     res.render('user/account', { user: req.user || null, categories });
 });
-router.get('/orders', async (req, res) => {
-    const categories = await Category.find({ isActive: true })
-        .select('name imageUrl isActive subCategories')
-        .lean();
-    res.render('user/orders', { user: req.user || null, categories });
+router.get('/orders', isUser, async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        const orders = await Order.find({ user: req.user._id })
+            .populate('items.product')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+
+            const categories = await Category.find({ isActive: true })
+            .select('name imageUrl isActive subCategories')
+            .lean();
+
+        const totalOrders = await Order.countDocuments({ user: req.user._id });
+        const totalPages = Math.ceil(totalOrders / limit);
+
+        const formattedOrders = orders.map(order => ({
+            ...order,
+            orderDate: new Date(order.createdAt).toLocaleDateString('en-IN', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            }),
+            canCancel: ['Pending', 'Confirmed', 'Processing'].includes(order.orderStatus),
+            canReturn: order.orderStatus === 'Delivered' && 
+                     new Date() < new Date(order.createdAt.getTime() + (30 * 24 * 60 * 60 * 1000))
+        }));
+
+        res.render('user/orders', {
+            user: req.user,
+            orders: formattedOrders,
+            currentPage: page,
+            totalPages,
+            hasNextPage: page < totalPages,
+            hasPrevPage: page > 1,
+            categories
+        });
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        res.status(500).render('error', { message: 'Failed to load orders' });
+    }
+});
+
+// Get single order details
+router.get('/orders/:id', isUser, async (req, res) => {
+    try {
+        const order = await Order.findById(req.params.id)
+            .populate('items.product')
+            .lean();
+
+        if (!order || order.user.toString() !== req.user._id.toString()) {
+            return res.status(404).json({ error: 'Order not found' });
+        }
+
+        // Format dates and tracking history
+        const formattedOrder = {
+            ...order,
+            orderDate: new Date(order.createdAt).toLocaleString('en-IN'),
+            deliveryDate: order.deliveryInfo?.estimatedDelivery 
+                ? new Date(order.deliveryInfo.estimatedDelivery).toLocaleDateString('en-IN')
+                : 'Not available',
+            trackingHistory: order.deliveryInfo?.trackingHistory?.map(item => ({
+                ...item,
+                date: new Date(item.date).toLocaleString('en-IN')
+            })) || []
+        };
+
+        res.json(formattedOrder);
+    } catch (error) {
+        console.error('Error fetching order details:', error);
+        res.status(500).json({ error: 'Failed to load order details' });
+    }
 });
 router.get('/cart', async (req, res) => {
     try {
@@ -705,7 +778,8 @@ router.post('/confirm-order', async (req, res) => {
             deliveryInfo: {
                 status: 'Processing',
                 updatedAt: new Date()
-            }
+            },
+            orderStatus: 'Confirmed' 
         });
 
         // Save initial order state
@@ -739,13 +813,13 @@ router.post('/confirm-order', async (req, res) => {
             try {
                 const labelRes = await shiprocketService.generateLabel(srOrder.shipment_id);
                 newOrder.deliveryInfo.labelUrl = labelRes.label_url;
-                newOrder.deliveryInfo.status = 'Ready for Shipment';
+                newOrder.deliveryInfo.status = 'Processing';
+                newOrder.orderStatus = 'Processing';  
             } catch (labelError) {
                 console.error('Automatic label generation failed:', labelError.message);
-                newOrder.deliveryInfo.status = 'Label Generation Pending';
+                newOrder.deliveryInfo.status = 'Processing';
                 newOrder.deliveryInfo.error = labelError.message;
-
-                // Queue for background processing
+                newOrder.orderStatus = 'Processing'; 
                 await queueBackgroundLabelGeneration(srOrder.shipment_id);
             }
 
@@ -762,10 +836,11 @@ router.post('/confirm-order', async (req, res) => {
         } catch (shipmentError) {
             newOrder.deliveryInfo = {
                 ...newOrder.deliveryInfo,
-                status: 'Shipment Processing Failed',
+                status: 'Failed',
                 error: shipmentError.message,
                 updatedAt: new Date()
             };
+            newOrder.orderStatus = 'Processing';
             console.error('Shipment processing failed:', {
                 orderId: newOrder._id,
                 error: shipmentError.message,

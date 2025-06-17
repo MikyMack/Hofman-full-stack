@@ -57,12 +57,45 @@ const orderSchema = new mongoose.Schema({
       trackingId: String,
       awbCode: String,
       labelUrl: String,
-      status: { type: String, default: 'Pending' },
+      status: { 
+        type: String, 
+        enum: [
+            'Pending',
+            'Processing',
+            'Shipped',
+            'In Transit',
+            'Out for Delivery',
+            'Delivered',
+            'Returned',
+            'Cancelled',
+            'Failed'
+        ], 
+        default: 'Pending' 
+    },
+    trackingHistory: [{
+      status: String,
+      location: String,
+      date: Date,
+      remark: String
+  }],
+    estimatedDelivery: Date,
       error: String,
       updatedAt: Date
   },
     totalAmount: Number,
-    orderStatus: { type: String, default: 'Processing' }
+    orderStatus: { 
+      type: String, 
+      enum: [
+          'Pending',
+          'Confirmed',
+          'Processing',
+          'Shipped',
+          'Delivered',
+          'Cancelled',
+          'Returned'
+      ],
+      default: 'Pending' 
+  }
   
   }, { timestamps: true });
   

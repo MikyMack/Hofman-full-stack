@@ -47,6 +47,354 @@
 
     <!-- Default CSS -->
     <link rel="stylesheet" type="text/css" href="/css/style.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --gray: #6b7280;
+            --light-gray: #f3f4f6;
+        }
+        
+     
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #111827;
+        }
+        
+        .order-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .order-header {
+            padding: 16px 20px;
+            background: #111827;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .order-meta {
+            font-size: 14px;
+        }
+        
+        .order-meta small {
+            color: white;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .order-meta p {
+            color: rgb(187, 187, 187);
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .order-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-pending { background-color: #fef3c7; color: #92400e; }
+        .status-confirmed { background-color: #dbeafe; color: #1e40af; }
+        .status-processing { background-color: #e0f2fe; color: #0369a1; }
+        .status-shipped { background-color: #ede9fe; color: #5b21b6; }
+        .status-delivered { background-color: #dcfce7; color: #166534; }
+        .status-cancelled { background-color: #fee2e2; color: #991b1b; }
+        .status-returned { background-color: #f5f5f4; color: #57534e; }
+        
+        .order-body {
+            padding: 20px;
+        }
+        
+        .order-item {
+            display: flex;
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e7eb;
+            gap: 20px;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .item-details {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .item-meta {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 6px;
+        }
+        
+        .item-price {
+            font-weight: 600;
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .btn-outline {
+            background: white;
+            border-color: #d1d5db;
+            color: #374151;
+        }
+        
+        .btn-outline:hover {
+            background: #f3f4f6;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: #b45309;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 40px auto;
+            max-width: 800px;
+            width: 90%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: modalFadeIn 0.3s;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-section {
+            margin-bottom: 20px;
+        }
+        
+        .modal-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+        
+        .tracking-progress {
+            margin-top: 20px;
+        }
+        
+        .progress-bar-container {
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .tracking-steps {
+            position: relative;
+            padding-left: 30px;
+            list-style: none;
+        }
+        
+        .tracking-steps:before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e5e7eb;
+        }
+        
+        .tracking-step {
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .tracking-step:last-child {
+            padding-bottom: 0;
+        }
+        
+        .tracking-step:before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            border: 4px solid white;
+        }
+        
+        .tracking-step.active:before {
+            background: var(--primary);
+        }
+        
+        .tracking-step.completed:before {
+            background: var(--success);
+        }
+        
+        .tracking-step .step-title {
+            font-weight: 500;
+        }
+        
+        .tracking-step .step-date {
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        .tracking-step .step-remark {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 8px;
+        }
+        
+        .page-item {
+            list-style: none;
+        }
+        
+        .page-link {
+            display: block;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .page-link:hover {
+            background: #f3f4f6;
+        }
+        
+        .page-item.active .page-link {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .page-item.disabled .page-link {
+            color: #9ca3af;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -126,129 +474,317 @@
 
 
         <!-- Start of Main -->
-        <main class="main wishlist-page">
-       
-
-            <!-- Start of Breadcrumb -->
-            <nav class="breadcrumb-nav mb-10">
-                <div class="container">
-                    <ul class="breadcrumb">
-                        <li><a href="index.html">Home</a></li>
-                        <li>Order History</li>
-                    </ul>
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title" style="color: white;">My Orders</h1>
+            </div>
+    
+            <% if (orders.length === 0) { %>
+                <div class="empty-state">
+                    <img src="/images/empty-orders.svg" alt="No orders" style="max-width: 300px; margin: 0 auto 20px; display: block;">
+                    <h2 style="text-align: center; margin-bottom: 10px;">You haven't placed any orders yet</h2>
+                    <p style="text-align: center; color: #6b7280; margin-bottom: 20px;">When you do, their status will appear here.</p>
+                    <div style="text-align: center;">
+                        <a href="/products" class="btn btn-primary">Continue Shopping</a>
+                    </div>
                 </div>
-            </nav>
-            <!-- End of Breadcrumb -->
-
-            <!-- Start of PageContent -->
-            <div class="page-content">
-                <div class="container">
-                    <h3 class="wishlist-title">Order History</h3>
-                    <table class="shop-table wishlist-table">
-                        <thead>
-                            <tr>
-                                <th class="product-name"><span>Product</span></th>
-                                <th></th>
-                                <th class="product-price"><span>Price</span></th>
-                                <th class="product-stock-status"><span> Status</span></th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="product-thumbnail">
-                                    <div class="p-relative">
-                                        <a href="product-Details.html">
-                                            <figure>
-                                                <img src="/images/hofmaan/sample3.jpg" alt="product" width="300"
-                                                    height="338">
-                                            </figure>
-                                        </a>
-                                        <button type="submit" class="btn btn-close"><i
-                                                class="fas fa-times"></i></button>
+            <% } else { %>
+                <div class="orders-list">
+                    <% orders.forEach(order => { %>
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-meta">
+                                <small>ORDER PLACED</small>
+                                <p><%= order.orderDate %></p>
+                            </div>
+                            <div class="order-meta">
+                                <small>TOTAL</small>
+                                <p>₹<%= order.totalAmount.toLocaleString('en-IN') %></p>
+                            </div>
+                            <div class="order-meta">
+                                <small>ORDER #<%= order.orderId || order._id.toString().slice(-6).toUpperCase() %></small>
+                                <p>
+                                    <span class="order-status status-<%= order.orderStatus.toLowerCase() %>">
+                                        <%= order.orderStatus %>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="order-body">
+                            <% order.items.forEach(item => { %>
+                            <div class="order-item">
+                                <img src="<%= item.product?.images?.[0] || '/images/placeholder-product.jpg' %>" 
+                                     alt="<%= item.name %>" class="item-image">
+                                <div class="item-details">
+                                    <h3 class="item-name"><%= item.name %></h3>
+                                    <div class="item-meta">
+                                        <% if (item.selectedColor) { %>Color: <%= item.selectedColor %><% } %>
+                                        <% if (item.selectedSize) { %> | Size: <%= item.selectedSize %><% } %>
+                                        | Qty: <%= item.quantity %>
                                     </div>
-                                </td>
-                                <td class="product-name">
-                                    <a class="text-uppercase" href="product-Details.html">
-                                        Loffer
-                                    </a>
-                                </td>
-                                <td class="product-price">
-                                    <ins class="new-price">₹85.00</ins>
-                                </td>
-                                <td class="product-stock-status">
-
-                                  <ul class="wishlist-in-stock">
-  <li class="status-delivered">Delivered on Jul 18, 2024</li>
-</ul>
-                                </td>
-                             
-                            </tr>
-                        <tr>
-                                <td class="product-thumbnail">
-                                    <div class="p-relative">
-                                        <a href="product-Details.html">
-                                            <figure>
-                                                <img src="/images/hofmaan/sample3.jpg" alt="product" width="300"
-                                                    height="338">
-                                            </figure>
-                                        </a>
-                                        <button type="submit" class="btn btn-close"><i
-                                                class="fas fa-times"></i></button>
+                                    <div class="item-price">₹<%= item.price.toLocaleString('en-IN') %></div>
+                                </div>
+                                <button class="btn view-details" style="padding: 2px 5px; cursor: pointer;" data-order-id="<%= order._id %>">
+                                    View Details
+                                </button>
+                            </div>
+                            <% }); %>
+                            
+                            <div class="order-actions">
+                                <% if (order.canCancel) { %>
+                                    <button class="btn btn-danger cancel-order" data-order-id="<%= order._id %>">
+                                        Cancel Order
+                                    </button>
+                                <% } %>
+                                <% if (order.canReturn) { %>
+                                    <button class="btn btn-warning return-order" data-order-id="<%= order._id %>">
+                                        Return Item
+                                    </button>
+                                <% } %>
+                                <button class="btn btn-primary buy-again">
+                                    Buy Again
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+    
+                <!-- Pagination -->
+                <% if (totalPages > 1) { %>
+                <ul class="pagination">
+                    <% if (hasPrevPage) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="/orders?page=<%= currentPage - 1 %>">Previous</a>
+                        </li>
+                    <% } else { %>
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                    <% } %>
+                    
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                            <a class="page-link" href="/orders?page=<%= i %>"><%= i %></a>
+                        </li>
+                    <% } %>
+                    
+                    <% if (hasNextPage) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="/orders?page=<%= currentPage + 1 %>">Next</a>
+                        </li>
+                    <% } else { %>
+                        <li class="page-item disabled">
+                            <span class="page-link">Next</span>
+                        </li>
+                    <% } %>
+                </ul>
+                <% } %>
+            <% } %>
+        </div>
+    
+        <!-- Order Details Modal -->
+        <div id="orderDetailsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Order Details #<span id="modalOrderId"></span></h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="modal-section">
+                                <h3>Shipping Address</h3>
+                                <div id="shippingAddress"></div>
+                            </div>
+                            
+                            <div class="modal-section">
+                                <h3>Payment Method</h3>
+                                <p id="paymentMethod"></p>
+                            </div>
+                            
+                            <div class="modal-section">
+                                <h3>Order Summary</h3>
+                                <div id="orderSummary"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="modal-section">
+                                <h3>Tracking Information</h3>
+                                <div id="trackingInfo">
+                                    <div class="tracking-progress">
+                                        <div class="progress-bar-container">
+                                            <div id="trackingProgress" class="progress-bar"></div>
+                                        </div>
+                                        <ul id="trackingSteps" class="tracking-steps"></ul>
                                     </div>
-                                </td>
-                                <td class="product-name">
-                                    <a class="text-uppercase" href="product-Details.html">
-                                        Loffer
-                                    </a>
-                                </td>
-                                <td class="product-price">
-                                    <ins class="new-price">₹85.00</ins>
-                                </td>
-                                <td class="product-stock-status">
-
-                                  <ul class="wishlist-in-stock">
-  <li class="status-delivered">Delivered on Jul 18, 2024</li>
-</ul>
-                                </td>
-                             
-                            </tr>
-                          <tr>
-                                <td class="product-thumbnail">
-                                    <div class="p-relative">
-                                        <a href="product-Details.html">
-                                            <figure>
-                                                <img src="/images/hofmaan/sample3.jpg" alt="product" width="300"
-                                                    height="338">
-                                            </figure>
-                                        </a>
-                                        <button type="submit" class="btn btn-close"><i
-                                                class="fas fa-times"></i></button>
-                                    </div>
-                                </td>
-                                <td class="product-name">
-                                    <a class="text-uppercase" href="product-Details.html">
-                                        Loffer
-                                    </a>
-                                </td>
-                                <td class="product-price">
-                                    <ins class="new-price">₹85.00</ins>
-                                </td>
-                                <td class="product-stock-status">
-
-                                  <ul class="wishlist-in-stock">
-  <li class="status-canceled">Cencelled on jan 12 2024</li>
-</ul>
-                                </td>
-                             
-                            </tr>
-                        </tbody>
-                    </table>
-
+                                </div>
+                            </div>
+                            
+                            <div class="modal-section">
+                                <h3>Coupon Applied</h3>
+                                <p id="couponInfo">No coupon applied</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- End of PageContent -->
-        </main>
+        </div>
+    
+        <script>
+            // Modal functionality
+            const modal = document.getElementById('orderDetailsModal');
+            const modalClose = modal.querySelector('.modal-close');
+            
+            // Close modal when clicking X or outside
+            modalClose.addEventListener('click', () => modal.style.display = 'none');
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+            });
+            
+            // View order details
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', async function() {
+                    const orderId = this.getAttribute('data-order-id');
+                    
+                    try {
+                        const response = await fetch(`/orders/${orderId}`);
+                        if (!response.ok) throw new Error('Failed to fetch order details');
+                        
+                        const order = await response.json();
+                        displayOrderDetails(order);
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Failed to load order details');
+                    }
+                });
+            });
+            
+            // Display order details in modal
+            function displayOrderDetails(order) {
+                document.getElementById('modalOrderId').textContent = order.orderId || order._id.slice(-6).toUpperCase();
+                
+                // Shipping Address
+                const shippingAddress = `
+                    <p><strong>${order.shippingAddress.name}</strong></p>
+                    <p>${order.shippingAddress.addressLine1}</p>
+                    ${order.shippingAddress.addressLine2 ? `<p>${order.shippingAddress.addressLine2}</p>` : ''}
+                    <p>${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.pincode}</p>
+                    <p>Phone: ${order.shippingAddress.phone}</p>
+                `;
+                document.getElementById('shippingAddress').innerHTML = shippingAddress;
+                
+                // Payment Method
+                document.getElementById('paymentMethod').textContent = 
+                    `${order.paymentInfo.status} (${order.paymentInfo.razorpayPaymentId ? 'Razorpay' : 'Unknown'})`;
+                
+                // Order Summary
+                let orderSummaryHTML = '';
+                order.items.forEach(item => {
+                    orderSummaryHTML += `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>${item.name} (x${item.quantity})</span>
+                            <span>₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
+                        </div>
+                    `;
+                });
+                
+                if (order.couponUsed) {
+                    orderSummaryHTML += `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: var(--success);">
+                            <span>Coupon Discount (${order.couponUsed.code})</span>
+                            <span>-₹${order.couponUsed.discountAmount.toLocaleString('en-IN')}</span>
+                        </div>
+                    `;
+                }
+                
+                orderSummaryHTML += `
+                    <hr style="margin: 12px 0;">
+                    <div style="display: flex; justify-content: space-between; font-weight: 600;">
+                        <span>Total Amount</span>
+                        <span>₹${order.totalAmount.toLocaleString('en-IN')}</span>
+                    </div>
+                `;
+                
+                document.getElementById('orderSummary').innerHTML = orderSummaryHTML;
+                
+                // Tracking Info
+                const trackingSteps = document.getElementById('trackingSteps');
+                trackingSteps.innerHTML = '';
+                
+                const statusOrder = ['Pending', 'Processing', 'Shipped', 'Out for Delivery', 'Delivered'];
+                let currentStep = statusOrder.indexOf(order.orderStatus);
+                if (currentStep === -1) currentStep = 0;
+                
+                // Use deliveryInfo.trackingHistory if available, otherwise create basic steps
+                const trackingHistory = order.deliveryInfo?.trackingHistory || 
+                    statusOrder.slice(0, currentStep + 1).map(status => ({
+                        status,
+                        date: new Date(),
+                        remark: ''
+                    }));
+                
+                trackingHistory.forEach((step, index) => {
+                    const stepEl = document.createElement('li');
+                    stepEl.className = 'tracking-step';
+                    
+                    if (index < currentStep) stepEl.classList.add('completed');
+                    else if (index === currentStep) stepEl.classList.add('active');
+                    
+                    stepEl.innerHTML = `
+                        <div class="step-title">${step.status}</div>
+                        <div class="step-date">${new Date(step.date).toLocaleString('en-IN')}</div>
+                        ${step.remark ? `<div class="step-remark">${step.remark}</div>` : ''}
+                    `;
+                    
+                    trackingSteps.appendChild(stepEl);
+                });
+                
+                // Update progress bar
+                const progress = (currentStep / (statusOrder.length - 1)) * 100;
+                document.getElementById('trackingProgress').style.width = `${progress}%`;
+                
+                // Coupon info
+                if (order.couponUsed) {
+                    document.getElementById('couponInfo').textContent = 
+                        `${order.couponUsed.code} (₹${order.couponUsed.discountAmount.toLocaleString('en-IN')} off)`;
+                }
+                
+                // Show modal
+                modal.style.display = 'block';
+            }
+            
+            // Cancel order functionality
+            document.querySelectorAll('.cancel-order').forEach(button => {
+                button.addEventListener('click', async function() {
+                    const orderId = this.getAttribute('data-order-id');
+                    if (confirm('Are you sure you want to cancel this order?')) {
+                        try {
+                            const response = await fetch(`/orders/${orderId}/cancel`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            
+                            if (!response.ok) throw new Error('Failed to cancel order');
+                            
+                            const result = await response.json();
+                            if (result.success) {
+                                alert('Order cancelled successfully');
+                                location.reload();
+                            } else {
+                                alert(result.message || 'Failed to cancel order');
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            alert('An error occurred while cancelling the order');
+                        }
+                    }
+                });
+            });
+        </script>
         <!-- End of Main -->
 
         <!-- Start of Footer -->

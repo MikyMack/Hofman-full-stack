@@ -267,10 +267,44 @@ async function getShipmentStatus(shipmentId) {
     return response.data;
 }
 
+async function trackShipment(awbCode) {
+    try {
+        const authToken = await getToken();
+        
+        const response = await axios.get(
+            `${BASE_URL}/v1/external/courier/track/awb/${awbCode}`,
+            {
+                headers: { Authorization: `Bearer ${authToken}` },
+                timeout: 10000
+            }
+        );
+
+        const trackingData = response.data?.tracking_data || {};
+        return {
+            status: trackingData.shipment_status || 'Unknown',
+            trackingHistory: (trackingData.shipment_track || []).map(item => ({
+                status: item.status,
+                location: item.location,
+                date: new Date(item.updated_date),
+                remark: item.remark || ''
+            })),
+            estimatedDelivery: trackingData.etd ? new Date(trackingData.etd) : null
+        };
+    } catch (error) {
+        console.error('Shipment tracking failed:', error.message);
+        return {
+            status: 'Tracking Unavailable',
+            trackingHistory: [],
+            error: error.message
+        };
+    }
+}
+
 module.exports = {
     createOrder,
     assignAWB,
     generatePickup,
     generateLabel,
-    getShipmentStatus
+    getShipmentStatus,
+    trackShipment
 };

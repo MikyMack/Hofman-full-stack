@@ -108,3 +108,67 @@ if (stickyLinks && stickyLinks.length > 0) {
         });
     });
 }
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const colorSwatches = document.querySelectorAll('.color-swatch');
+  const sizeSwatches = document.querySelectorAll('.size-swatch');
+  
+  // COLOR SWATCH FUNCTIONALITY
+  colorSwatches.forEach(function(swatch) {
+    swatch.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Remove selected class from all color swatches
+      colorSwatches.forEach(function(s) {
+        s.classList.remove('color-swatch--selected');
+        s.classList.remove('light-color');
+      });
+      
+      // Add selected class to clicked swatch
+      this.classList.add('color-swatch--selected');
+      
+      // Check if color is light to adjust checkmark color
+      const bgColor = this.getAttribute('data-color');
+      if (isLightColor(bgColor)) {
+        this.classList.add('light-color');
+      }
+      
+      // Get variant data
+      const variantId = this.getAttribute('data-variant-id');
+      const image = this.getAttribute('data-image');
+      const color = this.getAttribute('data-color');
+      
+      // Handle your selection logic here
+      console.log('Selected color variant:', { variantId, image, color });
+      
+      // Example: Update product image if needed
+      if (image) {
+        updateProductImage(image);
+      }
+    });
+  });
+  
+  // SIZE SWATCH FUNCTIONALITY
+  sizeSwatches.forEach(function(swatch) {
+    swatch.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Remove selected class from all size swatches
+      sizeSwatches.forEach(function(s) {
+        s.classList.remove('size-swatch--selected');
+      });
+      
+      // Add selected class to clicked swatch
+      this.classList.add('size-swatch--selected');
+      
+      // Get variant data
+      const variantId = this.getAttribute('data-variant-id');
+      const size = this.getAttribute('data-size');
+      
+
+    
+    });
+  });
+});

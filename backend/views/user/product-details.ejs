@@ -294,17 +294,17 @@
                                                     <a href="#" class="product-variation-clean" id="reset-color"
                                                         style="display: none;">Reset</a>
                                                 </div>
-                                                <div class="d-flex align-items-center product-variations"
-                                                    id="color-options">
-                                                    <% product.colorVariants.forEach(function(variant) { %>
-                                                        <a href="#" class="color"
-                                                            style="background-color: <%= variant.color || '#ccc' %>"
-                                                            data-color="<%= variant.color %>"
-                                                            data-image="<%= variant.image || '' %>"
-                                                            data-variant-id="<%= variant._id %>">
-                                                        </a>
-                                                        <% }) %>
-                                                </div>
+                                           <div class="d-flex align-items-center product-variations" id="color-options">
+  <% product.colorVariants.forEach(function(variant, index) { %>
+    <a href="#" 
+       class="color color-swatch <%= index === 0 ? 'color-swatch--selected' : '' %>" 
+       style="background-color: <%= variant.color || '#ccc' %>" 
+       data-color="<%= variant.color %>" 
+       data-image="<%= variant.image || '' %>" 
+       data-variant-id="<%= variant._id %>">
+    </a>
+  <% }) %>
+</div>
                                             </div>
                                             <% } %>
 
@@ -317,14 +317,16 @@
                                                             <a href="#" class="product-variation-clean" id="reset-size"
                                                                 style="display: none;">Clear</a>
                                                         </div>
-                                                        <div class="flex-wrap d-flex align-items-center product-variations"
-                                                            id="size-options">
-                                                            <% product.sizeVariants.forEach(function(variant) { %>
-                                                                <a href="#" class="size">
-                                                                    <%= variant.size %>
-                                                                </a>
-                                                                <% }) %>
-                                                        </div>
+                                                     <div class="flex-wrap d-flex align-items-center product-variations" id="size-options">
+  <% product.sizeVariants.forEach(function(variant, index) { %>
+    <a href="#" 
+       class="size size-swatch <%= index === 0 ? 'size-swatch--selected' : '' %>"
+       data-size="<%= variant.size %>" 
+       data-variant-id="<%= variant._id %>">
+      <%= variant.size %>
+    </a>
+  <% }) %>
+</div>
                                                     </div>
                                                     <% } %>
 

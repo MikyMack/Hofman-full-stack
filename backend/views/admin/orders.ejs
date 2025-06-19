@@ -11,7 +11,7 @@
     <meta name="author" content="trivlogic.com">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maxim/um-scale=1">
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Theme Style -->
     <link rel="stylesheet" type="text/css" href="/admin-css/animate.min.css">
     <link rel="stylesheet" type="text/css" href="/admin-css/animation.css">
@@ -30,8 +30,10 @@
     <link rel="shortcut icon" href="/images/logo.png">
     <link rel="apple-touch-icon-precomposed" href="/images/logo.png">
     <style>
-        table, th, td {
-            border: none!important;
+        table,
+        th,
+        td {
+            border: none !important;
         }
     </style>
 
@@ -46,11 +48,7 @@
             <!-- layout-wrap -->
             <div class="layout-wrap">
                 <!-- preload -->
-                <div id="preload" class="preload-container">
-                    <div class="preloading">
-                        <span></span>
-                    </div>
-                </div>
+              
                 <!-- /preload -->
                 <!-- section-menu-left -->
                 <div class="section-menu-left">
@@ -91,14 +89,14 @@
                                             <div class="icon"><i class="icon-layers"></i></div>
                                             <div class="text">Category Management</div>
                                         </a>
-                                      
+
                                     </li>
                                     <li class="menu-item">
                                         <a href="/admin/coupons" class="menu-item-button">
                                             <div class="icon"><i class="icon-layers"></i></div>
                                             <div class="text">Coupons Management</div>
                                         </a>
-                                      
+
                                     </li>
                                     <li class="menu-item  active">
                                         <a href="/admin/orders" class="menu-item-button">
@@ -124,22 +122,22 @@
                                             </div>
                                             <div class="text">Banner Management</div>
                                         </a>
-                                   
+
                                     </li>
-                                  
+
                                     <li class="menu-item">
                                         <a href="/admin-blogs" class="menu-item-button">
                                             <div class="icon"><i class="fa fa-users"></i></div>
                                             <div class="text">Blogs Management</div>
                                         </a>
-                                      
+
                                     </li>
                                     <li class="menu-item ">
                                         <a href="/admin-testimonials" class="menu-item-button">
                                             <div class="icon"><i class="fa fa-star-o"></i></div>
                                             <div class="text">Testimonials Management</div>
                                         </a>
-                                       
+
                                     </li>
                                     <li class="menu-item">
                                         <a href="/auth/admin-logout" class="">
@@ -167,20 +165,20 @@
                         <div class="wrap">
                             <div class="header-left">
                                 <a href="/dashboard">
-                                    <img style="width: 50px;" id="logo_header_mobile" alt="Hofmaan" src="/images/logo.png"
-                                        data-light="img/logo.png" data-dark="img/logo.png">
+                                    <img style="width: 50px;" id="logo_header_mobile" alt="Hofmaan"
+                                        src="/images/logo.png" data-light="img/logo.png" data-dark="img/logo.png">
                                 </a>
                                 <div class="button-show-hide">
                                     <i class="icon-chevron-left"></i>
                                 </div>
-                               
+
                             </div>
                             <div class="header-grid">
                                 <div class="header-item button-dark-light">
                                     <i class="icon-moon"></i>
                                 </div>
-                               
-                                
+
+
 
                                 <div class="header-item button-zoom-maximize">
                                     <div class="">
@@ -229,217 +227,466 @@
                     <!-- /header-dashboard -->
                     <!-- main-content -->
                     <div class="main-content">
-                        <!-- main-content-wrap -->
-                        <div class="main-content-inner">
-                            <!-- main-content-wrap -->
-                  <div class="order-management-container">
-        <div class="order-list-header">
-            <h1 class="order-header-title">Order Management System</h1>
-            <p class="order-header-subtitle">Manage and track all customer orders efficiently</p>
-        </div>
+                        <div class="order-management-container">
+                            <div class="flex items-center flex-wrap justify-between gap20 mb-30">
+                                <h3>All Orders</h3>
+                                <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
+                                    <li>
+                                        <a href="/admin/dashboard">
+                                            <div class="text-tiny">Dashboard</div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <i class="icon-chevron-right"></i>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/orders">
+                                            <div class="text-tiny">Orders</div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <i class="icon-chevron-right"></i>
+                                    </li>
+                                    <li>
+                                        <div class="text-tiny">All orders</div>
+                                    </li>
+                                </ul>
+                            </div>
 
-        <div class="order-table-container">
-            <table class="order-main-table">
-                <thead class="order-table-header">
-                    <tr>
-                        <th class="order-header-cell">Order ID</th>
-                        <th class="order-header-cell">User</th>
-                        <th class="order-header-cell">Total Amount</th>
-                        <th class="order-header-cell">Status</th>
-                        <th class="order-header-cell">Delivery Date</th>
-                        <th class="order-header-cell">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="order-table-body">
-                    <!-- Dynamic content will be populated here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
+                            <!-- Search and Filter Section -->
+                            <div class="order-filter-container">
+                                <div class="order-search-box">
+                                    <input type="text" id="orderSearch" placeholder="Search orders...">
+                                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                                </div>
+                                <div class="order-status-filter">
+                                    <select id="statusFilter">
+                                        <option value="">All Statuses</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Processing">Processing</option>
+                                        <option value="Shipped">Shipped</option>
+                                        <option value="Delivered">Delivered</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
 
-    <!-- Order Details Modal -->
-    <div id="orderDetailsModal" class="order-modal-overlay">
-        <div class="order-modal-container">
-            <div class="order-modal-header">
-                <h2 class="order-modal-title">Order Details</h2>
-                <button class="order-modal-close" onclick="closeOrderDetailsModal()">&times;</button>
-            </div>
-            <div class="order-modal-content">
-                <div class="order-details-grid">
-                    <div class="order-details-section">
-                        <h3 class="order-section-title">
-                            <i class="fas fa-shopping-cart"></i>
-                            Order Information
-                        </h3>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Order ID:</span>
-                            <span class="order-detail-value" id="detailOrderId">-</span>
+                            <div class="order-table-container">
+                                <table class="order-main-table">
+                                    <thead class="order-table-header">
+                                        <tr>
+                                            <th class="order-header-cell">Order ID</th>
+                                            <th class="order-header-cell">Customer</th>
+                                            <th class="order-header-cell">Amount</th>
+                                            <th class="order-header-cell">Status</th>
+                                            <th class="order-header-cell">Date</th>
+                                            <th class="order-header-cell">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="order-table-body">
+                                        <% orders.forEach(order=> { %>
+                                            <tr class="order-data-row">
+                                                <td class="order-data-cell order-id-cell">
+                                                    <%= order._id.toString().slice(-6).toUpperCase() %>
+                                                </td>
+                                                <td class="order-data-cell">
+                                                    <% if (order.user) { %>
+                                                        <%= order.user.name %>
+                                                            <% } else { %>
+                                                                Guest
+                                                                <% } %>
+                                                </td>
+                                                <td class="order-data-cell order-amount-cell">
+                                                    ₹<%= order.totalAmount.toFixed(2) %>
+                                                </td>
+                                                <td class="order-data-cell">
+                                                    <span
+                                                        class="order-status-badge status-<%= order.orderStatus.toLowerCase() %>">
+                                                        <%= order.orderStatus %>
+                                                    </span>
+                                                </td>
+                                                <td class="order-data-cell">
+                                                    <%= new Date(order.createdAt).toLocaleDateString() %>
+                                                </td>
+                                                <td class="order-data-cell">
+                                                    <div class="order-action-buttons">
+                                                        <button class="order-action-btn order-edit-btn"
+                                                            onclick="openOrderEditModal('<%= order._id %>')">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button class="order-action-btn order-details-btn"
+                                                            onclick="openOrderDetailsModal('<%= order._id %>')">
+                                                            <i class="fas fa-eye"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Pagination -->
+                            <div class="order-pagination">
+                                <% if (currentPage> 1) { %>
+                                    <a href="/admin/orders?page=<%= currentPage - 1 %>&limit=<%= limit %>"
+                                        class="pagination-btn">
+                                        <i class="fas fa-chevron-left"></i> Previous
+                                    </a>
+                                    <% } %>
+
+                                        <% for (let i=1; i <=totalPages; i++) { %>
+                                            <a href="/admin/orders?page=<%= i %>&limit=<%= limit %>"
+                                                class="pagination-btn <%= currentPage === i ? 'active' : '' %>">
+                                                <%= i %>
+                                            </a>
+                                            <% } %>
+
+                                                <% if (currentPage < totalPages) { %>
+                                                    <a href="/admin/orders?page=<%= currentPage + 1 %>&limit=<%= limit %>"
+                                                        class="pagination-btn">
+                                                        Next <i class="fas fa-chevron-right"></i>
+                                                    </a>
+                                                    <% } %>
+                            </div>
                         </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Customer:</span>
-                            <span class="order-detail-value" id="detailUser">-</span>
+
+                        <!-- Order Details Modal -->
+                        <div id="orderDetailsModal" class="order-modal-overlay">
+                            <div class="order-modal-container">
+                                <div class="order-modal-header">
+                                    <h2 class="order-modal-title">Order Details</h2>
+                                    <button class="order-modal-close"
+                                        onclick="closeOrderDetailsModal()">&times;</button>
+                                </div>
+                                <div class="order-modal-content">
+                                    <div class="order-details-grid">
+                                        <!-- Content will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Order Status:</span>
-                            <span class="order-detail-value" id="detailOrderStatus">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Total Amount:</span>
-                            <span class="order-detail-value" id="detailTotalAmount">-</span>
+
+                        <!-- Order Edit Modal -->
+                        <div id="orderEditModal" class="order-modal-overlay">
+                            <div class="order-modal-container">
+                                <div class="order-modal-header">
+                                    <h2 class="order-modal-title">Edit Order</h2>
+                                    <button class="order-modal-close" onclick="closeOrderEditModal()">&times;</button>
+                                </div>
+                                <div class="order-modal-content">
+                                    <form class="order-edit-form" id="orderEditForm">
+                                        <input type="hidden" id="editOrderId">
+                                        <div class="order-form-group">
+                                            <label class="order-form-label">Order Status:</label>
+                                            <select class="order-form-select" id="editOrderStatus">
+                                                <option value="Pending">Pending</option>
+                                                <option value="Processing">Processing</option>
+                                                <option value="Shipped">Shipped</option>
+                                                <option value="Delivered">Delivered</option>
+                                                <option value="Cancelled">Cancelled</option>
+                                            </select>
+                                        </div>
+                                        <div class="order-form-group">
+                                            <label class="order-form-label">Delivery Status:</label>
+                                            <select class="order-form-select" id="editDeliveryStatus">
+                                                <option value="Pending">Pending</option>
+                                                <option value="Processing">Processing</option>
+                                                <option value="Shipped">Shipped</option>
+                                                <option value="In Transit">In Transit</option>
+                                                <option value="Out for Delivery">Out for Delivery</option>
+                                                <option value="Delivered">Delivered</option>
+                                                <option value="Cancelled">Cancelled</option>
+                                                <option value="Failed">Failed</option>
+                                            </select>
+                                        </div>
+                                        <div class="order-form-actions">
+                                            <button type="button" class="order-form-btn order-cancel-btn"
+                                                onclick="closeOrderEditModal()">Cancel</button>
+                                            <button type="submit" class="order-form-btn order-save-btn">Save
+                                                Changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="order-details-section">
-                        <h3 class="order-section-title">
-                            <i class="fas fa-credit-card"></i>
-                            Payment Information
-                        </h3>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Payment Method:</span>
-                            <span class="order-detail-value" id="detailPaymentMethod">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Payment Status:</span>
-                            <span class="order-detail-value" id="detailIsPaid">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Paid At:</span>
-                            <span class="order-detail-value" id="detailPaidAt">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Shipping Charges:</span>
-                            <span class="order-detail-value" id="detailShippingCharges">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Tax:</span>
-                            <span class="order-detail-value" id="detailTax">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Discount:</span>
-                            <span class="order-detail-value" id="detailDiscount">-</span>
-                        </div>
-                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const orderSearch = document.getElementById('orderSearch');
+                            const statusFilter = document.getElementById('statusFilter');
+                            const searchBtn = document.querySelector('.search-btn');
 
-                    <div class="order-details-section">
-                        <h3 class="order-section-title">
-                            <i class="fas fa-truck"></i>
-                            Delivery Information
-                        </h3>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Delivery Status:</span>
-                            <span class="order-detail-value" id="detailDeliveryStatus">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Courier Partner:</span>
-                            <span class="order-detail-value" id="detailCourierPartner">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Expected Delivery:</span>
-                            <span class="order-detail-value" id="detailExpectedDelivery">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Tracking URL:</span>
-                            <span class="order-detail-value" id="detailTrackingUrl">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Is Delivered:</span>
-                            <span class="order-detail-value" id="detailIsDelivered">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Delivered At:</span>
-                            <span class="order-detail-value" id="detailDeliveredAt">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Is Cancelled:</span>
-                            <span class="order-detail-value" id="detailIsCancelled">-</span>
-                        </div>
-                        <div class="order-detail-item">
-                            <span class="order-detail-label">Cancelled At:</span>
-                            <span class="order-detail-value" id="detailCancelledAt">-</span>
-                        </div>
-                    </div>
+                            // Function to apply filters
+                            function applyFilters() {
+                                const searchTerm = orderSearch.value.trim();
+                                const status = statusFilter.value;
 
-                    <div class="order-details-section">
-                        <h3 class="order-section-title">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Shipping Address
-                        </h3>
-                        <div class="order-detail-item">
-                            <span class="order-detail-value" id="detailShippingAddress">-</span>
-                        </div>
-                    </div>
-                </div>
+                                // Get current URL parameters
+                                const url = new URL(window.location.href);
+                                const searchParams = new URLSearchParams(url.search);
 
-                <div class="order-details-section">
-                    <h3 class="order-section-title">
-                        <i class="fas fa-box"></i>
-                        Products
-                    </h3>
-                    <div class="order-product-list" id="detailProductList">
-                        <!-- Products will be populated here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                                // Update parameters
+                                if (searchTerm) {
+                                    searchParams.set('search', searchTerm);
+                                } else {
+                                    searchParams.delete('search');
+                                }
 
-    <!-- Order Edit Modal -->
-    <div id="orderEditModal" class="order-modal-overlay">
-        <div class="order-modal-container">
-            <div class="order-modal-header">
-                <h2 class="order-modal-title">Edit Order</h2>
-                <button class="order-modal-close" onclick="closeOrderEditModal()">&times;</button>
-            </div>
-            <div class="order-modal-content">
-                <form class="order-edit-form" id="orderEditForm">
-                    <div class="order-form-group">
-                        <label class="order-form-label">Order ID:</label>
-                        <input type="text" class="order-form-input" id="editOrderId" readonly>
-                    </div>
-                    <div class="order-form-group">
-                        <label class="order-form-label">Customer:</label>
-                        <input type="text" class="order-form-input" id="editCustomer" readonly>
-                    </div>
-                    <div class="order-form-group">
-                        <label class="order-form-label">Order Date:</label>
-                        <input type="date" class="order-form-input" id="editOrderDate" readonly>
-                    </div>
-                    <div class="order-form-group">
-                        <label class="order-form-label">Total Amount:</label>
-                        <input type="number" class="order-form-input" id="editTotalAmount" step="0.01" readonly>
-                    </div>
-                    <div class="order-form-group">
-                        <label class="order-form-label">Order Status:</label>
-                        <select class="order-form-select" id="editOrderStatus">
-                            <option value="pending">Pending</option>
-                            <option value="processing">Processing</option>
-                            <option value="shipped">Shipped</option>
-                            <option value="delivered">Delivered</option>
-                            <option value="cancelled">Cancelled</option>
-                        </select>
-                    </div>
-                    <div class="order-form-group">
-                        <label class="order-form-label">Delivery Date:</label>
-                        <input type="date" class="order-form-input" id="editDeliveryDate">
-                    </div>
-                    <div class="order-form-actions">
-                        <button type="button" class="order-form-btn order-cancel-btn" onclick="closeOrderEditModal()">Cancel</button>
-                        <button type="submit" class="order-form-btn order-save-btn">Save Changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-                            <!-- /main-content-wrap -->
-                        </div>
-                        <!-- /main-content-wrap -->
-                        <!-- bottom-page -->
-                        <div class="bottom-page">
-                            <div class="body-text">Copyright © 2025 <a href="">Hofmaan</a>.
-                                Developed by Trivlogic Private Limited All rights reserved</div>
-                        </div>
-                        <!-- /bottom-page -->
-                    </div>
+                                if (status) {
+                                    searchParams.set('status', status);
+                                } else {
+                                    searchParams.delete('status');
+                                }
+
+                                // Reset pagination to first page when filtering
+                                searchParams.set('page', '1');
+
+                                // Reload page with new filters
+                                window.location.href = `${url.pathname}?${searchParams.toString()}`;
+                            }
+
+                            // Event listeners
+                            searchBtn.addEventListener('click', applyFilters);
+                            orderSearch.addEventListener('keypress', function (e) {
+                                if (e.key === 'Enter') applyFilters();
+                            });
+                            statusFilter.addEventListener('change', applyFilters);
+                        });
+                        // Global variable to store current order
+                        let currentOrder = null;
+
+                        // Function to open order details modal
+                        async function openOrderDetailsModal(orderId) {
+                            try {
+                                const response = await fetch(`/admin/orders/${orderId}`);
+                                if (!response.ok) throw new Error('Failed to fetch order details');
+
+                                const order = await response.json();
+                                currentOrder = order;
+
+                                // Format dates
+                                const formatDate = (dateStr) => {
+                                    if (!dateStr) return '-';
+                                    const date = new Date(dateStr);
+                                    return date.toLocaleString();
+                                };
+
+                                // Format address
+                                const formatAddress = (address) => {
+                                    if (!address) return '-';
+                                    return `
+                                        ${address.name}<br>
+                                        ${address.addressLine1}<br>
+                                        ${address.addressLine2 ? address.addressLine2 + '<br>' : ''}
+                                        ${address.city}, ${address.state} - ${address.pincode}<br>
+                                        ${address.phone}
+                                    `;
+                                };
+
+                                // Populate modal content
+                                const modalContent = `
+                                    <div class="order-details-section">
+                                        <h3 class="order-section-title">
+                                            <i class="fas fa-shopping-cart"></i>
+                                            Order Information
+                                        </h3>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Order ID:</span>
+                                            <span class="order-detail-value">${order._id.toString().slice(-6).toUpperCase()}</span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Customer:</span>
+                                            <span class="order-detail-value">
+                                                ${order.user?.name || 'Guest'} (${order.user?.email || 'No email'})
+                                            </span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Order Status:</span>
+                                            <span class="order-detail-value">${order.orderStatus}</span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Order Date:</span>
+                                            <span class="order-detail-value">${formatDate(order.createdAt)}</span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Total Amount:</span>
+                                            <span class="order-detail-value">₹${order.totalAmount.toFixed(2)}</span>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="order-details-section">
+                                        <h3 class="order-section-title">
+                                            <i class="fas fa-credit-card"></i>
+                                            Payment Information
+                                        </h3>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Payment Status:</span>
+                                            <span class="order-detail-value">${order.paymentInfo.status}</span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Payment ID:</span>
+                                            <span class="order-detail-value">${order.paymentInfo.razorpayPaymentId || '-'}</span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Coupon Used:</span>
+                                            <span class="order-detail-value">${order.couponUsed?.code || 'None'}</span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Discount:</span>
+                                            <span class="order-detail-value">₹${order.couponUsed?.discountAmount || '0.00'}</span>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="order-details-section">
+                                        <h3 class="order-section-title">
+                                            <i class="fas fa-truck"></i>
+                                            Delivery Information
+                                        </h3>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Delivery Status:</span>
+                                            <span class="order-detail-value">${order.deliveryInfo.status}</span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Courier:</span>
+                                            <span class="order-detail-value">${order.deliveryInfo.courier}</span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">AWB Code:</span>
+                                            <span class="order-detail-value">${order.deliveryInfo.awbCode || '-'}</span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Tracking URL:</span>
+                                            <span class="order-detail-value">
+                                                ${order.deliveryInfo.labelUrl ?
+                                        `<a href="${order.deliveryInfo.labelUrl}" target="_blank">View Label</a>` : '-'}
+                                            </span>
+                                        </div>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-label">Estimated Delivery:</span>
+                                            <span class="order-detail-value">
+                                                ${order.deliveryInfo.estimatedDelivery ?
+                                        formatDate(order.deliveryInfo.estimatedDelivery) : '-'}
+                                            </span>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="order-details-section">
+                                        <h3 class="order-section-title">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            Shipping Address
+                                        </h3>
+                                        <div class="order-detail-item">
+                                            <span class="order-detail-value">
+                                                ${formatAddress(order.shippingAddress)}
+                                            </span>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="order-details-section">
+                                        <h3 class="order-section-title">
+                                            <i class="fas fa-box"></i>
+                                            Products (${order.items.length})
+                                        </h3>
+                                        <div class="order-product-list">
+                                            ${order.items.map(item => `
+                                                <div class="order-product-item">
+                                                    <div class="product-image">
+                                                        ${item.product?.images?.[0] ?
+                                                `<img src="${item.product.images[0]}" alt="${item.name}">` :
+                                                '<div class="no-image">No Image</div>'}
+                                                    </div>
+                                                    <div class="product-details">
+                                                        <h4>${item.name}</h4>
+                                                        <p>Quantity: ${item.quantity}</p>
+                                                        <p>Price: ₹${item.price.toFixed(2)}</p>
+                                                        ${item.selectedColor ? `<p>Color: ${item.selectedColor}</p>` : ''}
+                                                        ${item.selectedSize ? `<p>Size: ${item.selectedSize}</p>` : ''}
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                `;
+
+                                document.querySelector('.order-details-grid').innerHTML = modalContent;
+                                document.getElementById('orderDetailsModal').style.display = 'block';
+                            } catch (error) {
+                                console.error('Error loading order details:', error);
+                                alert('Failed to load order details');
+                            }
+                        }
+
+                        // Function to open order edit modal
+                        async function openOrderEditModal(orderId) {
+                            try {
+                                const response = await fetch(`/admin/orders/${orderId}`);
+                                if (!response.ok) throw new Error('Failed to fetch order details');
+
+                                const order = await response.json();
+                                currentOrder = order;
+
+                                document.getElementById('editOrderId').value = order._id;
+                                document.getElementById('editOrderStatus').value = order.orderStatus;
+                                document.getElementById('editDeliveryStatus').value = order.deliveryInfo.status;
+
+                                document.getElementById('orderEditModal').style.display = 'block';
+                            } catch (error) {
+                                console.error('Error loading order for edit:', error);
+                                alert('Failed to load order for editing');
+                            }
+                        }
+
+                        // Handle form submission for order edit
+                        document.getElementById('orderEditForm').addEventListener('submit', async function (e) {
+                            e.preventDefault();
+
+                            const orderId = document.getElementById('editOrderId').value;
+                            const orderStatus = document.getElementById('editOrderStatus').value;
+                            const deliveryStatus = document.getElementById('editDeliveryStatus').value;
+
+                            try {
+                                const response = await fetch(`/admin/orders/${orderId}`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        orderStatus,
+                                        deliveryStatus
+                                    })
+                                });
+
+                                if (!response.ok) throw new Error('Failed to update order');
+
+                                const updatedOrder = await response.json();
+                                alert('Order updated successfully');
+                                closeOrderEditModal();
+                                window.location.reload(); // Refresh to show changes
+                            } catch (error) {
+                                console.error('Error updating order:', error);
+                                alert('Failed to update order');
+                            }
+                        });
+
+                        // Close modals
+                        function closeOrderDetailsModal() {
+                            document.getElementById('orderDetailsModal').style.display = 'none';
+                        }
+
+                        function closeOrderEditModal() {
+                            document.getElementById('orderEditModal').style.display = 'none';
+                        }
+
+                        // Close modals when clicking outside
+                        window.addEventListener('click', function (e) {
+                            if (e.target.classList.contains('order-modal-overlay')) {
+                                closeOrderDetailsModal();
+                                closeOrderEditModal();
+                            }
+                        });
+                    </script>
                     <!-- /main-content -->
                 </div>
                 <!-- /section-content-right -->
@@ -449,249 +696,9 @@
         <!-- /#page -->
     </div>
     <!-- /#wrapper -->
-    <script>
-        // Fetch Notifications
-        function fetchNotifications() {
-    fetch('/notifications')
-        .then(response => response.json())
-        .then(notifications => {
-            const notificationItems = document.getElementById('notification-items');
-            notificationItems.innerHTML = ''; // Clear existing notifications
 
-            // Filter out only unread notifications
-            const unreadNotifications = notifications.filter(notification => !notification.isRead);
 
-            // If there are no unread notifications, display a message
-            if (unreadNotifications.length === 0) {
-                notificationItems.innerHTML = '<div class="no-notifications">No unread notifications</div>';
-            }
 
-            // Render unread notifications
-            unreadNotifications.forEach(notification => {
-                const notificationItem = `
-                    <div class="noti-item w-full unread">
-                        <div class="flex-grow">
-                            <div class="flex items-center justify-between">
-                                <div class="body-title">${notification.title}</div>
-                                <div class="time">${new Date(notification.createdAt).toLocaleTimeString()}</div>
-                            </div>
-                            <div class="text-tiny">${notification.message}</div>
-                        </div>
-                        <button onclick="markAsRead('${notification._id}')">Mark as Read</button>
-                    </div>
-                `;
-                notificationItems.innerHTML += notificationItem;
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching notifications:', error);
-        });
-}
-
-// Call fetchNotifications on page load
-document.addEventListener('DOMContentLoaded', fetchNotifications);
-
-        // Mark a single notification as read
-        function markAsRead(notificationId) {
-    fetch(`/notifications/read/${notificationId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Notification ${notificationId} marked as read`);
-                fetchNotifications(); // Refresh the list after marking as read
-            } else {
-                throw new Error('Failed to mark notification as read');
-            }
-        })
-        .catch(error => {
-            console.error('Error marking notification as read:', error);
-        });
-}
-
-    </script>
-      <script>
-        // Sample data structure - replace with your dynamic data
-        const sampleOrders = [
-            {
-                orderId: "ORD001",
-                user: "John Doe",
-                totalAmount: "₹1,250.00",
-                status: "delivered",
-                deliveryDate: "2024-06-15",
-                // Additional details for modal
-                products: [
-                    {
-                        name: "Product 1",
-                        quantity: 2,
-                        price: "₹500.00",
-                        colorOption: "Red",
-                        sizeOption: "Large"
-                    }
-                ],
-                shippingAddress: "123 Main St, City, State 12345",
-                paymentMethod: "Credit Card",
-                orderStatus: "Delivered",
-                deliveryInfo: "Standard Delivery",
-                courierPartner: "DHL Express",
-                deliveryStatus: "Delivered",
-                expectedDeliveryDate: "2024-06-15",
-                trackingUrl: "https://tracking.dhl.com/track123",
-                shippingCharges: "₹50.00",
-                tax: "₹125.00",
-                discount: "₹75.00",
-                isPaid: "Yes",
-                paidAt: "2024-06-10 14:30",
-                isDelivered: "Yes",
-                deliveredAt: "2024-06-15 16:45",
-                isCancelled: "No",
-                cancelledAt: "-"
-            }
-        ];
-
-        // Function to populate table with orders
-        function populateOrderTable() {
-            const tbody = document.querySelector('.order-table-body');
-            tbody.innerHTML = '';
-            
-            sampleOrders.forEach(order => {
-                const row = document.createElement('tr');
-                row.className = 'order-data-row';
-                
-                row.innerHTML = `
-                    <td class="order-data-cell order-id-cell">${order.orderId}</td>
-                    <td class="order-data-cell">${order.user}</td>
-                    <td class="order-data-cell order-amount-cell">${order.totalAmount}</td>
-                    <td class="order-data-cell">
-                        <span class="order-status-badge status-${order.status}">${order.status}</span>
-                    </td>
-                    <td class="order-data-cell">${order.deliveryDate}</td>
-                    <td class="order-data-cell">
-                        <div class="order-action-buttons">
-                            <button class="order-action-btn order-edit-btn" onclick="openOrderEditModal('${order.orderId}')">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="order-action-btn order-details-btn" onclick="openOrderDetailsModal('${order.orderId}')">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                tbody.appendChild(row);
-            });
-        }
-
-        // Function to open order details modal
-        function openOrderDetailsModal(orderId) {
-            const order = sampleOrders.find(o => o.orderId === orderId);
-            if (!order) return;
-
-            // Populate order details
-            document.getElementById('detailOrderId').textContent = order.orderId;
-            document.getElementById('detailUser').textContent = order.user;
-            document.getElementById('detailOrderStatus').textContent = order.orderStatus;
-            document.getElementById('detailTotalAmount').textContent = order.totalAmount;
-            document.getElementById('detailPaymentMethod').textContent = order.paymentMethod;
-            document.getElementById('detailIsPaid').textContent = order.isPaid;
-            document.getElementById('detailPaidAt').textContent = order.paidAt;
-            document.getElementById('detailShippingCharges').textContent = order.shippingCharges;
-            document.getElementById('detailTax').textContent = order.tax;
-            document.getElementById('detailDiscount').textContent = order.discount;
-            document.getElementById('detailDeliveryStatus').textContent = order.deliveryStatus;
-            document.getElementById('detailCourierPartner').textContent = order.courierPartner;
-            document.getElementById('detailExpectedDelivery').textContent = order.expectedDeliveryDate;
-            document.getElementById('detailTrackingUrl').textContent = order.trackingUrl;
-            document.getElementById('detailIsDelivered').textContent = order.isDelivered;
-            document.getElementById('detailDeliveredAt').textContent = order.deliveredAt;
-            document.getElementById('detailIsCancelled').textContent = order.isCancelled;
-            document.getElementById('detailCancelledAt').textContent = order.cancelledAt;
-            document.getElementById('detailShippingAddress').textContent = order.shippingAddress;
-
-            // Populate products
-            const productList = document.getElementById('detailProductList');
-            productList.innerHTML = '';
-            order.products.forEach(product => {
-                const productDiv = document.createElement('div');
-                productDiv.className = 'order-product-item';
-                productDiv.innerHTML = `
-                    <div><strong>${product.name}</strong></div>
-                    <div>Qty: ${product.quantity}</div>
-                    <div>Price: ${product.price}</div>
-                    <div>Color: ${product.colorOption}, Size: ${product.sizeOption}</div>
-                `;
-                productList.appendChild(productDiv);
-            });
-
-            document.getElementById('orderDetailsModal').style.display = 'block';
-        }
-
-        // Function to close order details modal
-        function closeOrderDetailsModal() {
-            document.getElementById('orderDetailsModal').style.display = 'none';
-        }
-
-        // Function to open order edit modal
-        function openOrderEditModal(orderId) {
-            const order = sampleOrders.find(o => o.orderId === orderId);
-            if (!order) return;
-
-            // Populate edit form
-            document.getElementById('editOrderId').value = order.orderId;
-            document.getElementById('editCustomer').value = order.user;
-            document.getElementById('editOrderDate').value = '2024-06-10'; // Static date
-            document.getElementById('editTotalAmount').value = order.totalAmount.replace('₹', '').replace(',', '');
-            document.getElementById('editOrderStatus').value = order.status;
-            document.getElementById('editDeliveryDate').value = order.deliveryDate;
-
-            document.getElementById('orderEditModal').style.display = 'block';
-        }
-
-        // Function to close order edit modal
-        function closeOrderEditModal() {
-            document.getElementById('orderEditModal').style.display = 'none';
-        }
-
-        // Handle form submission
-        document.getElementById('orderEditForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Here you would typically send the updated data to your backend
-            console.log('Order updated');
-            closeOrderEditModal();
-        });
-
-        // Close modals when clicking outside
-        window.addEventListener('click', function(e) {
-            if (e.target.classList.contains('order-modal-overlay')) {
-                closeOrderDetailsModal();
-                closeOrderEditModal();
-            }
-        });
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            populateOrderTable();
-        });
-    </script>
-    <script>
-        function markAllAsRead() {
-    fetch('/notifications/read-all', {
-        method: 'PUT',
-    })
-    .then(response => {
-        if (response.ok) {
-            fetchNotifications(); // Refresh the list to show "No unread notifications"
-        } else {
-            console.error('Failed to mark all notifications as read');
-        }
-    })
-    .catch(error => console.error('Error marking all notifications as read:', error));
-}
-/
-    </script>
     <!-- Javascript -->
     <script src="/admin-js/jquery.min.js"></script>
     <script src="/admin-js/bootstrap.min.js"></script>

@@ -257,7 +257,7 @@
                                                             <div class="body-title number">1.56%</div>
                                                         </div>
                                                     </div>
-                                                    <h4>₹334,945</h4>
+                                                    <h4>₹<%= dashboardData.totalEarnings.toLocaleString() %></h4>
                                                 </div>
                                             </div>
                                             <div class="dropdown default">
@@ -310,7 +310,7 @@
                                                             <div class="body-title number">1.56%</div>
                                                         </div>
                                                     </div>
-                                                    <h4>2,802</h4>
+                                                    <h4><%= dashboardData.totalOrders.toLocaleString() %></h4>
                                                 </div>
                                             </div>
                                             <div class="dropdown default">
@@ -366,7 +366,7 @@
                                                             <div class="body-title number">1.56%</div>
                                                         </div>
                                                     </div>
-                                                    <h4>4,945</h4>
+                                                    <h4><%= dashboardData.totalCustomers.toLocaleString() %></h4>
                                                 </div>
                                             </div>
                                             <div class="dropdown default">
@@ -526,91 +526,22 @@
                                                 </div>
                                             </div>
                                             <ul class="flex flex-column h-full has-divider-line">
-                                                <li class="wg-product">
-                                                    <div class="name flex-grow">
-                                                        <div class="image">
-                                                            <img src="img/productspage/product-3.jpeg" alt="">
-                                                        </div>
-                                                        <div>
-                                                            <div class="title">
-                                                                <a href="#" class="body-text">Neptune Longsleeve</a>
+                                                <% dashboardData.topProducts.forEach(product => { %>
+                                                    <li class="wg-product">
+                                                        <div class="name flex-grow">
+                                                            <div class="image">
+                                                                <img src="/img/placeholder-product.jpg" alt="<%= product.name %>">
                                                             </div>
-                                                            <div class="price text-tiny">₹138</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="sale body-text">952 Sales</div>
-                                                </li>
-                                                <li class="wg-product">
-                                                    <div class="name flex-grow">
-                                                        <div class="image">
-                                                            <img src="img/productspage/product-3.jpeg" alt="">
-                                                        </div>
-                                                        <div>
-                                                            <div class="title">
-                                                                <a href="#" class="body-text">Ribbed Tank Top</a>
+                                                            <div>
+                                                                <div class="title">
+                                                                    <a href="#" class="body-text"><%= product.name %></a>
+                                                                </div>
+                                                                <div class="price text-tiny">₹<%= (product.totalRevenue / product.totalSales).toFixed(2) %></div>
                                                             </div>
-                                                            <div class="price text-tiny">₹108</div>
                                                         </div>
-                                                    </div>
-                                                    <div class="sale body-text">952 Sales</div>
-                                                </li>
-                                                <li class="wg-product">
-                                                    <div class="name flex-grow">
-                                                        <div class="image">
-                                                            <img src="img/productspage/product-3.jpeg" alt="">
-                                                        </div>
-                                                        <div>
-                                                            <div class="title">
-                                                                <a href="#" class="body-text">Ribbed modal T-shirt</a>
-                                                            </div>
-                                                            <div class="price text-tiny">₹125</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="sale body-text">902 Sales</div>
-                                                </li>
-                                                <li class="wg-product">
-                                                    <div class="name flex-grow">
-                                                        <div class="image">
-                                                            <img src="img/productspage/product-3.jpeg" alt="">
-                                                        </div>
-                                                        <div>
-                                                            <div class="title">
-                                                                <a href="#" class="body-text">Oversized Motif
-                                                                    T-shirt</a>
-                                                            </div>
-                                                            <div class="price text-tiny">₹98</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="sale body-text">882 Sales</div>
-                                                </li>
-                                                <li class="wg-product">
-                                                    <div class="name flex-grow">
-                                                        <div class="image">
-                                                            <img src="img/productspage/product-3.jpeg" alt="">
-                                                        </div>
-                                                        <div>
-                                                            <div class="title">
-                                                                <a href="#" class="body-text">V-neck linen T-shirt</a>
-                                                            </div>
-                                                            <div class="price text-tiny">₹158</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="sale body-text">869 Sales</div>
-                                                </li>
-                                                <li class="wg-product">
-                                                    <div class="name flex-grow">
-                                                        <div class="image">
-                                                            <img src="img/productspage/product-3.jpeg" alt="">
-                                                        </div>
-                                                        <div>
-                                                            <div class="title">
-                                                                <a href="#" class="body-text">Jersey thong body</a>
-                                                            </div>
-                                                            <div class="price text-tiny">₹78</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="sale body-text">833 Sales</div>
-                                                </li>
+                                                        <div class="sale body-text"><%= product.totalSales %> Sales</div>
+                                                    </li>
+                                                <% }); %>
                                             </ul>
                                         </div>
                                         <!-- /top-countries -->
@@ -622,135 +553,38 @@
                                             <h5>Recent orders</h5>
                                         </div>
                                         <div class="wg-table table-recent-orders">
-                                            <ul class="table-title flex gap20 mb-14">
-                                                <li>
-                                                    <div class="body-title text-main-dark">Product</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title text-main-dark">Customer</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title text-main-dark">Product ID</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title text-main-dark">Quantity</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title text-main-dark">Price</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title text-main-dark">Status</div>
-                                                </li>
-                                            </ul>
+                                            <!-- Table headers remain the same -->
                                             <div class="divider mb-14"></div>
-                                            <ul class="flex flex-column has-divider-line has-line-bot">
-                                                <li class="item wg-product gap20">
-                                                    <div class="name">
-                                                        <div class="image">
-                                                            <img src="img/productspage/product-3.jpeg" alt="Hofmaan">
+                                            <ul class="flex flex-column h-full has-divider-line">
+                                                <% dashboardData.topProducts.forEach(product => { %>
+                                                    <li class="wg-product">
+                                                        <div class="name flex-grow">
+                                                            <div class="image">
+                                                                <% if (product.image) { %>
+                                                                    <img src="<%= product.image %>" alt="<%= product.name %>">
+                                                                <% } else { %>
+                                                                    <img src="/img/placeholder-product.jpg" alt="<%= product.name %>">
+                                                                <% } %>
+                                                            </div>
+                                                            <div>
+                                                                <div class="title">
+                                                                    <a href="#" class="body-text"><%= product.name || 'Product' %></a>
+                                                                </div>
+                                                                <div class="price text-tiny">
+                                                                    ₹<%= product.totalRevenue && product.totalSales ? 
+                                                                        (product.totalRevenue / product.totalSales).toFixed(2) : 
+                                                                        '0.00' %>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="title mb-0">
-                                                            <a href="#" class="body-text">Oversized Motif T-shirt</a>
+                                                        <div class="sale body-text">
+                                                            <%= product.totalSales || '0' %> Sales
                                                         </div>
-                                                    </div>
-                                                    <div class="body-text text-main-dark mt-4">Leslie Alexander</div>
-                                                    <div class="body-text text-main-dark mt-4">1452</div>
-                                                    <div class="body-text text-main-dark mt-4">X1</div>
-                                                    <div class="body-text text-main-dark mt-4">₹138</div>
-                                                    <div>
-                                                        <div class="block-available fw-7">Paid</div>
-                                                    </div>
-                                                </li>
-                                                <li class="item wg-product gap20">
-                                                    <div class="name">
-                                                        <div class="image">
-                                                            <img src="img/productspage/product-3.jpeg" alt="">
-                                                        </div>
-                                                        <div class="title mb-0">
-                                                            <a href="#" class="body-text">PERCALE</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="body-text text-main-dark mt-4">Leslie Alexander</div>
-                                                    <div class="body-text text-main-dark mt-4">1452</div>
-                                                    <div class="body-text text-main-dark mt-4">X1</div>
-                                                    <div class="body-text text-main-dark mt-4">₹138</div>
-                                                    <div>
-                                                        <div class="block-pending fw-7">Pending</div>
-                                                    </div>
-                                                </li>
-                                                <li class="item wg-product gap20">
-                                                    <div class="name">
-                                                        <div class="image">
-                                                            <img src="img/productspage/product-3.jpeg" alt="">
-                                                        </div>
-                                                        <div class="title mb-0">
-                                                            <a href="#" class="body-text">PERCALE</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="body-text text-main-dark mt-4">Leslie Alexander</div>
-                                                    <div class="body-text text-main-dark mt-4">1452</div>
-                                                    <div class="body-text text-main-dark mt-4">X1</div>
-                                                    <div class="body-text text-main-dark mt-4">₹138</div>
-                                                    <div>
-                                                        <div class="block-available fw-7">Cancel</div>
-                                                    </div>
-                                                </li>
-                                                <li class="item wg-product gap20">
-                                                    <div class="name">
-                                                        <div class="image">
-                                                            <img src="img/productspage/product-3.jpeg" alt="">
-                                                        </div>
-                                                        <div class="title mb-0">
-                                                            <a href="#" class="body-text">PERCALE</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="body-text text-main-dark mt-4">Leslie Alexander</div>
-                                                    <div class="body-text text-main-dark mt-4">1452</div>
-                                                    <div class="body-text text-main-dark mt-4">X1</div>
-                                                    <div class="body-text text-main-dark mt-4">₹138</div>
-                                                    <div>
-                                                        <div class="block-published fw-7">Processing</div>
-                                                    </div>
-                                                </li>
-                                                <li class="item wg-product gap20">
-                                                    <div class="name">
-                                                        <div class="image">
-                                                            <img src="img/productspage/product-3.jpeg" alt="">
-                                                        </div>
-                                                        <div class="title mb-0">
-                                                            <a href="#" class="body-text">PERCALE</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="body-text text-main-dark mt-4">Leslie Alexander</div>
-                                                    <div class="body-text text-main-dark mt-4">1452</div>
-                                                    <div class="body-text text-main-dark mt-4">X1</div>
-                                                    <div class="body-text text-main-dark mt-4">₹138</div>
-                                                    <div>
-                                                        <div class="block-published fw-7">Processing</div>
-                                                    </div>
-                                                </li>
+                                                    </li>
+                                                <% }); %>
                                             </ul>
                                         </div>
-                                        <div class="flex items-center justify-between flex-wrap gap10">
-                                            <div class="text-tiny">Showing 1-5 of 15</div>
-                                            <ul class="wg-pagination">
-                                                <li>
-                                                    <a href="#"><i class="icon-chevron-left"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">1</a>
-                                                </li>
-                                                <li class="active">
-                                                    <a href="#">2</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">3</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="icon-chevron-right"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -773,86 +607,7 @@
         <!-- /#page -->
     </div>
     <!-- /#wrapper -->
-    <script>
-        // Fetch Notifications
-        function fetchNotifications() {
-    fetch('/notifications')
-        .then(response => response.json())
-        .then(notifications => {
-            const notificationItems = document.getElementById('notification-items');
-            notificationItems.innerHTML = ''; // Clear existing notifications
-
-            // Filter out only unread notifications
-            const unreadNotifications = notifications.filter(notification => !notification.isRead);
-
-            // If there are no unread notifications, display a message
-            if (unreadNotifications.length === 0) {
-                notificationItems.innerHTML = '<div class="no-notifications">No unread notifications</div>';
-            }
-
-            // Render unread notifications
-            unreadNotifications.forEach(notification => {
-                const notificationItem = `
-                    <div class="noti-item w-full unread">
-                        <div class="flex-grow">
-                            <div class="flex items-center justify-between">
-                                <div class="body-title">${notification.title}</div>
-                                <div class="time">${new Date(notification.createdAt).toLocaleTimeString()}</div>
-                            </div>
-                            <div class="text-tiny">${notification.message}</div>
-                        </div>
-                        <button onclick="markAsRead('${notification._id}')">Mark as Read</button>
-                    </div>
-                `;
-                notificationItems.innerHTML += notificationItem;
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching notifications:', error);
-        });
-}
-
-// Call fetchNotifications on page load
-document.addEventListener('DOMContentLoaded', fetchNotifications);
-
-        // Mark a single notification as read
-        function markAsRead(notificationId) {
-    fetch(`/notifications/read/${notificationId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Notification ${notificationId} marked as read`);
-                fetchNotifications(); // Refresh the list after marking as read
-            } else {
-                throw new Error('Failed to mark notification as read');
-            }
-        })
-        .catch(error => {
-            console.error('Error marking notification as read:', error);
-        });
-}
-
-    </script>
-    <script>
-        function markAllAsRead() {
-    fetch('/notifications/read-all', {
-        method: 'PUT',
-    })
-    .then(response => {
-        if (response.ok) {
-            fetchNotifications(); // Refresh the list to show "No unread notifications"
-        } else {
-            console.error('Failed to mark all notifications as read');
-        }
-    })
-    .catch(error => console.error('Error marking all notifications as read:', error));
-}
-/
-    </script>
+  
     <!-- Javascript -->
     <script src="/admin-js/jquery.min.js"></script>
     <script src="/admin-js/bootstrap.min.js"></script>

@@ -27,7 +27,7 @@ function calculateOrderWeight(items) {
 async function createOrder(order, shippingAddress) {
     try {
         const authToken = await getToken();
-        
+
         if (!order || !shippingAddress) {
             throw new Error('Order or shipping address data missing');
         }
@@ -39,7 +39,7 @@ async function createOrder(order, shippingAddress) {
         const payload = {
             order_id: order._id.toString(),
             order_date: new Date(order.createdAt).toISOString().split('T')[0],
-            pickup_location: 'warehouse',
+            pickup_location: 'warehouse-1',
             billing_customer_name: firstName,
             billing_last_name: lastName,
             billing_address: shippingAddress.addressLine1 || '',
@@ -149,7 +149,7 @@ async function assignAWB(shipmentId, shippingAddress, orderItems) {
     if (response.data?.awb_assign_status !== 1) {
         throw new Error('AWB assignment failed: ' + JSON.stringify(response.data));
     }
-    
+
     return response.data.response.data;
 }
 
@@ -160,7 +160,7 @@ async function generatePickup(shipmentId) {
             `${BASE_URL}/v1/external/courier/generate/pickup`,
             { shipment_id: [shipmentId] },
             {
-                headers: { 
+                headers: {
                     'Authorization': `Bearer ${authToken}`,
                     'Content-Type': 'application/json'
                 }
@@ -168,59 +168,37 @@ async function generatePickup(shipmentId) {
         );
         return response.data;
     } catch (error) {
+        const message = error.response?.data?.message || error.message;
+        if (message === 'Already in Pickup Queue.') {
+            console.warn(`[INFO] Shipment ${shipmentId} is already in Pickup Queue. Skipping.`);
+            return { message: 'Already in Pickup Queue.', status_code: 400 };
+        }
         console.error('Pickup generation error:', error.response?.data || error.message);
         throw error;
     }
 }
 
-async function verifyShipment(shipmentId, authToken) {
-    const endpoints = [
-        `/v1/external/shipments/${shipmentId}`,
-        `/v1/external/courier/awb/${shipmentId}`,
-        `/v1/external/orders/show/${shipmentId}`
-    ];
-
-    let lastError = null;
-
-    for (const endpoint of endpoints) {
-        try {
-            const response = await axios.get(`${BASE_URL}${endpoint}`, {
-                headers: { Authorization: `Bearer ${authToken}` },
-                timeout: 5000
-            });
-            return response.data;
-        } catch (error) {
-            lastError = error;
-            continue;
-        }
-    }
-
-    throw lastError || new Error('All verification endpoints failed');
-}
-
 async function generateLabel(shipmentId) {
-    const MAX_RETRIES = 5; // Increased from 3
-    const INITIAL_DELAY = 5000; // Increased from 2000ms
-    
+    const MAX_RETRIES = 5;
+    const INITIAL_DELAY = 5000;
+
     try {
         const authToken = await getToken();
         let lastError = null;
 
         for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
             try {
-                // Progressive delay with exponential backoff
                 const delay = attempt === 0 ? 0 : INITIAL_DELAY * Math.pow(2, attempt - 1);
                 if (delay > 0) {
                     console.log(`Waiting ${delay}ms before label generation attempt ${attempt + 1}`);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
 
-                // Use ONLY the documented endpoint
                 const response = await axios.post(
                     `${BASE_URL}/v1/external/courier/generate/label`,
-                    { shipment_id: [shipmentId] }, // Note: Array format is required
+                    { shipment_id: [shipmentId] },
                     {
-                        headers: { 
+                        headers: {
                             'Authorization': `Bearer ${authToken}`,
                             'Content-Type': 'application/json'
                         },
@@ -241,7 +219,7 @@ async function generateLabel(shipmentId) {
                 lastError = error;
                 console.warn(`Label generation attempt ${attempt + 1} failed:`, error.message);
                 if (attempt < MAX_RETRIES - 1) continue;
-                
+
                 throw new Error(`Label generation failed after ${MAX_RETRIES} attempts: ${error.message}`);
             }
         }
@@ -270,7 +248,6 @@ async function getShipmentStatus(shipmentId) {
 async function trackShipment(awbCode) {
     try {
         const authToken = await getToken();
-        
         const response = await axios.get(
             `${BASE_URL}/v1/external/courier/track/awb/${awbCode}`,
             {

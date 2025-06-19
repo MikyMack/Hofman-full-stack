@@ -376,7 +376,7 @@ router.get('/orders', isUser, async (req, res) => {
             .limit(limit)
             .lean();
 
-            const categories = await Category.find({ isActive: true })
+        const categories = await Category.find({ isActive: true })
             .select('name imageUrl isActive subCategories')
             .lean();
 
@@ -391,8 +391,8 @@ router.get('/orders', isUser, async (req, res) => {
                 year: 'numeric'
             }),
             canCancel: ['Pending', 'Confirmed', 'Processing'].includes(order.orderStatus),
-            canReturn: order.orderStatus === 'Delivered' && 
-                     new Date() < new Date(order.createdAt.getTime() + (30 * 24 * 60 * 60 * 1000))
+            canReturn: order.orderStatus === 'Delivered' &&
+                new Date() < new Date(order.createdAt.getTime() + (30 * 24 * 60 * 60 * 1000))
         }));
 
         res.render('user/orders', {
@@ -425,7 +425,7 @@ router.get('/orders/:id', isUser, async (req, res) => {
         const formattedOrder = {
             ...order,
             orderDate: new Date(order.createdAt).toLocaleString('en-IN'),
-            deliveryDate: order.deliveryInfo?.estimatedDelivery 
+            deliveryDate: order.deliveryInfo?.estimatedDelivery
                 ? new Date(order.deliveryInfo.estimatedDelivery).toLocaleDateString('en-IN')
                 : 'Not available',
             trackingHistory: order.deliveryInfo?.trackingHistory?.map(item => ({
@@ -779,7 +779,7 @@ router.post('/confirm-order', async (req, res) => {
                 status: 'Processing',
                 updatedAt: new Date()
             },
-            orderStatus: 'Confirmed' 
+            orderStatus: 'Confirmed'
         });
 
         // Save initial order state
@@ -807,20 +807,20 @@ router.post('/confirm-order', async (req, res) => {
             await newOrder.save();
 
             // 3. Generate Pickup
-            await shiprocketService.generatePickup(srOrder.shipment_id);
+            const pickupResult = await shiprocketService.generatePickup(srOrder.shipment_id);
+            newOrder.deliveryInfo.pickupStatus = pickupResult.message || 'Pickup generated';
 
             // 4. Get label with retries - using only documented endpoint
             try {
                 const labelRes = await shiprocketService.generateLabel(srOrder.shipment_id);
                 newOrder.deliveryInfo.labelUrl = labelRes.label_url;
                 newOrder.deliveryInfo.status = 'Processing';
-                newOrder.orderStatus = 'Processing';  
+                newOrder.orderStatus = 'Processing';
             } catch (labelError) {
                 console.error('Automatic label generation failed:', labelError.message);
                 newOrder.deliveryInfo.status = 'Processing';
                 newOrder.deliveryInfo.error = labelError.message;
-                newOrder.orderStatus = 'Processing'; 
-                await queueBackgroundLabelGeneration(srOrder.shipment_id);
+                newOrder.orderStatus = 'Processing';
             }
 
             await newOrder.save();

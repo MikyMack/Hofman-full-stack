@@ -25,6 +25,7 @@
     "express-session": "^1.18.1",
     "fs": "^0.0.1-security",
     "html-pdf": "^3.0.1",
+    "moment": "^2.30.1",
     "mongoose": "^8.15.1",
     "multer": "^2.0.0",
     "multer-storage-cloudinary": "^4.0.0",

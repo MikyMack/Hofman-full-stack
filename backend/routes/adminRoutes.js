@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const moment = require('moment')
 const isAdmin = require('../middleware/isAdmin');
 const productController = require('../controllers/productController');
 const { upload } = require('../utils/cloudinary');
@@ -20,15 +21,75 @@ router.get('/admin/login', (req, res) => {
 
 router.get('/admin/dashboard', isAdmin, async (req, res) => {
     try {
-        // Get counts for dashboard cards
-        const totalEarnings = await Order.aggregate([
-            { $match: { 'paymentInfo.status': 'Paid' } },
-            { $group: { _id: null, total: { $sum: '$totalAmount' } } }
+        // Get time period from query params (default to weekly)
+        const timePeriod = req.query.period || 'weekly';
+        
+        // Calculate date ranges based on time period
+        let startDate = new Date();
+        switch(timePeriod) {
+            case 'monthly':
+                startDate.setMonth(startDate.getMonth() - 1);
+                break;
+            case 'yearly':
+                startDate.setFullYear(startDate.getFullYear() - 1);
+                break;
+            default: // weekly
+                startDate.setDate(startDate.getDate() - 7);
+        }
+
+        // Get counts for dashboard cards with growth percentages
+        const [currentPeriodData, previousPeriodData] = await Promise.all([
+            // Current period data
+            Promise.all([
+                Order.aggregate([
+                    { $match: { 
+                        'paymentInfo.status': 'Paid',
+                        createdAt: { $gte: startDate }
+                    } },
+                    { $group: { _id: null, total: { $sum: '$totalAmount' }, count: { $sum: 1 } } }
+                ]),
+                Order.countDocuments({ createdAt: { $gte: startDate } }),
+                User.countDocuments({ 
+                    role: 'user',
+                    createdAt: { $gte: startDate }
+                })
+            ]),
+            // Previous period data (for comparison)
+            Promise.all([
+                Order.aggregate([
+                    { $match: { 
+                        'paymentInfo.status': 'Paid',
+                        createdAt: { $lt: startDate }
+                    } },
+                    { $group: { _id: null, total: { $sum: '$totalAmount' }, count: { $sum: 1 } } }
+                ]),
+                Order.countDocuments({ createdAt: { $lt: startDate } }),
+                User.countDocuments({ 
+                    role: 'user',
+                    createdAt: { $lt: startDate }
+                })
+            ])
         ]);
-        
-        const totalOrders = await Order.countDocuments();
-        const totalCustomers = await User.countDocuments({ role: 'user' });
-        
+
+        // Calculate growth percentages
+        const calculateGrowth = (current, previous) => {
+            if (!previous || previous === 0) return 100;
+            return ((current - previous) / previous * 100).toFixed(2);
+        };
+
+        const earningsGrowth = calculateGrowth(
+            currentPeriodData[0][0]?.total || 0,
+            previousPeriodData[0][0]?.total || 0
+        );
+        const ordersGrowth = calculateGrowth(
+            currentPeriodData[1],
+            previousPeriodData[1]
+        );
+        const customersGrowth = calculateGrowth(
+            currentPeriodData[2],
+            previousPeriodData[2]
+        );
+
         // Get recent orders (last 5)
         const recentOrders = await Order.find()
             .sort({ createdAt: -1 })
@@ -40,9 +101,19 @@ router.get('/admin/dashboard', isAdmin, async (req, res) => {
         const topProducts = await Order.aggregate([
             { $unwind: '$items' },
             { 
+                $lookup: {
+                    from: 'products',
+                    localField: 'items.product',
+                    foreignField: '_id',
+                    as: 'productDetails'
+                }
+            },
+            { $unwind: '$productDetails' },
+            { 
                 $group: { 
                     _id: '$items.product',
                     name: { $first: '$items.name' },
+                    images: { $first: '$productDetails.images' },
                     totalSales: { $sum: '$items.quantity' },
                     totalRevenue: { $sum: { $multiply: ['$items.quantity', '$items.price'] } }
                 } 
@@ -61,14 +132,26 @@ router.get('/admin/dashboard', isAdmin, async (req, res) => {
             }
         ]);
         
-        // Get revenue data for charts (last 7 days)
-        const sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-        
+        // Get revenue data for charts
+        let groupByFormat, dateFormat;
+        switch(timePeriod) {
+            case 'yearly':
+                groupByFormat = '%Y-%m'; // Group by month for yearly view
+                dateFormat = 'MMM YYYY';
+                break;
+            case 'monthly':
+                groupByFormat = '%Y-%m-%d'; // Group by day for monthly view
+                dateFormat = 'DD MMM';
+                break;
+            default: // weekly
+                groupByFormat = '%Y-%m-%d'; // Group by day for weekly view
+                dateFormat = 'ddd';
+        }
+
         const revenueData = await Order.aggregate([
             { 
                 $match: { 
-                    createdAt: { $gte: sevenDaysAgo },
+                    createdAt: { $gte: startDate },
                     'paymentInfo.status': 'Paid'
                 } 
             },
@@ -76,7 +159,7 @@ router.get('/admin/dashboard', isAdmin, async (req, res) => {
                 $group: { 
                     _id: { 
                         $dateToString: { 
-                            format: "%Y-%m-%d", 
+                            format: groupByFormat, 
                             date: "$createdAt" 
                         } 
                     },
@@ -86,18 +169,33 @@ router.get('/admin/dashboard', isAdmin, async (req, res) => {
             },
             { $sort: { _id: 1 } }
         ]);
-        
+
+        // Format dates for charts
+        const formattedRevenueData = revenueData.map(item => ({
+            ...item,
+            formattedDate: moment(item._id, groupByFormat === '%Y-%m' ? 'YYYY-MM' : 'YYYY-MM-DD')
+                .format(dateFormat)
+        }));
+
         res.render('admin/dashboard', {
             title: 'Admin Dashboard',
             user: req.session.user || null,
+            timePeriod,
             dashboardData: {
-                totalEarnings: totalEarnings[0]?.total || 0,
-                totalOrders,
-                totalCustomers,
+                totalEarnings: currentPeriodData[0][0]?.total || 0,
+                earningsGrowth,
+                totalOrders: currentPeriodData[1],
+                ordersGrowth,
+                totalCustomers: currentPeriodData[2],
+                customersGrowth,
                 recentOrders,
                 topProducts,
                 orderStatusStats,
-                revenueData
+                revenueData: formattedRevenueData,
+                orderStatusDistribution: orderStatusStats.reduce((acc, stat) => {
+                    acc[stat._id] = stat.count;
+                    return acc;
+                }, {})
             }
         });
     } catch (error) {

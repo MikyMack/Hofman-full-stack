@@ -7,8 +7,6 @@ const shiprocketService = require('../services/shiprocketService');
 const { getOrdersWithTracking } = require('../services/orderService');
 const formatStatus = require('../utils/formatStatus');
 
-
-
 const Category = require('../models/Category');
 const Product = require('../models/Product');
 const MainBanner = require('../models/MainBanner');
@@ -363,37 +361,70 @@ router.get('/account', async (req, res) => {
         .lean();
     res.render('user/account', { user: req.user || null, categories });
 });
+// Orders page with filter by tab (current/delivered/cancelled)
 router.get('/orders', isUser, async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
         const skip = (page - 1) * limit;
 
-        const orders = await Order.find({ user: req.user._id })
-            .populate('items.product')
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limit)
-            .lean();
+        // --- FILTER LOGIC ---
+        // tab can be: 'current', 'delivered', 'cancelled'
+        const tab = req.query.tab || 'current';
+        let statusFilter = {};
 
-        const categories = await Category.find({ isActive: true })
-            .select('name imageUrl isActive subCategories')
-            .lean();
+        if (tab === 'current') {
+            // Show all except delivered/cancelled/returned
+            statusFilter = {
+                orderStatus: { $in: ['Pending', 'Confirmed', 'Processing', 'Shipped', 'Out for Delivery'] }
+            };
+        } else if (tab === 'delivered') {
+            statusFilter = { orderStatus: 'Delivered' };
+        } else if (tab === 'cancelled') {
+            statusFilter = { orderStatus: { $in: ['Cancelled', 'Returned'] } };
+        }
 
-        const totalOrders = await Order.countDocuments({ user: req.user._id });
+        const { orders: allOrders, needsRefresh } = await getOrdersWithTracking(
+            req.user._id, 
+            { skip: 0, limit: 1000 } 
+        );
+
+        const filteredOrders = allOrders.filter(order => {
+            if (tab === 'current') {
+                return ['Pending', 'Confirmed', 'Processing', 'Shipped', 'Out for Delivery'].includes(order.orderStatus);
+            } else if (tab === 'delivered') {
+                return order.orderStatus === 'Delivered';
+            } else if (tab === 'cancelled') {
+                return ['Cancelled', 'Returned'].includes(order.orderStatus);
+            }
+            return true;
+        });
+
+        const paginatedOrders = filteredOrders.slice(skip, skip + limit);
+
+        const categories = await Category.find({ isActive: true }).lean();
+
+        const formattedOrders = paginatedOrders.map(order => {
+            const deliveryInfo = order.deliveryInfo || {};
+            const trackingHistory = deliveryInfo.trackingHistory || [];
+            
+            return {
+                ...order,
+                orderDate: formatDate(order.createdAt),
+                deliveryDate: deliveryInfo.estimatedDelivery 
+                    ? formatDate(deliveryInfo.estimatedDelivery)
+                    : 'Calculating...',
+                latestTracking: trackingHistory.length 
+                    ? trackingHistory[trackingHistory.length - 1]
+                    : null,
+                canCancel: ['Pending', 'Confirmed', 'Processing'].includes(order.orderStatus),
+                canReturn: order.orderStatus === 'Delivered' && 
+                    isWithinReturnPeriod(order.createdAt)
+            };
+        });
+
+        const totalOrders = filteredOrders.length;
         const totalPages = Math.ceil(totalOrders / limit);
-
-        const formattedOrders = orders.map(order => ({
-            ...order,
-            orderDate: new Date(order.createdAt).toLocaleDateString('en-IN', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric'
-            }),
-            canCancel: ['Pending', 'Confirmed', 'Processing'].includes(order.orderStatus),
-            canReturn: order.orderStatus === 'Delivered' &&
-                new Date() < new Date(order.createdAt.getTime() + (30 * 24 * 60 * 60 * 1000))
-        }));
 
         res.render('user/orders', {
             user: req.user,
@@ -402,13 +433,35 @@ router.get('/orders', isUser, async (req, res) => {
             totalPages,
             hasNextPage: page < totalPages,
             hasPrevPage: page > 1,
-            categories
+            categories,
+            needsRefresh, 
+            selectedTab: tab
         });
+
     } catch (error) {
-        console.error('Error fetching orders:', error);
-        res.status(500).render('error', { message: 'Failed to load orders' });
+        console.error('Order fetch error:', error);
+        res.status(500).render('error', { 
+            message: 'Failed to load orders',
+            error: req.app.get('env') === 'development' ? error : null
+        });
     }
 });
+
+// Helper functions
+function formatDate(date) {
+    return new Date(date).toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+    });
+}
+
+function isWithinReturnPeriod(orderDate) {
+    const returnPeriodDays = 30;
+    const returnDeadline = new Date(orderDate);
+    returnDeadline.setDate(returnDeadline.getDate() + returnPeriodDays);
+    return new Date() < returnDeadline;
+}
 
 // Get single order details
 router.get('/orders/:id', isUser, async (req, res) => {
@@ -416,22 +469,26 @@ router.get('/orders/:id', isUser, async (req, res) => {
         const order = await Order.findById(req.params.id)
             .populate('items.product')
             .lean();
-
-        if (!order || order.user.toString() !== req.user._id.toString()) {
+            
+        if (!order || !order.user || order.user.toString() !== req.user._id.toString()) {
             return res.status(404).json({ error: 'Order not found' });
         }
-
-        // Format dates and tracking history
         const formattedOrder = {
             ...order,
-            orderDate: new Date(order.createdAt).toLocaleString('en-IN'),
+            orderDate: order.createdAt
+                ? new Date(order.createdAt).toLocaleString('en-IN')
+                : 'Not available',
             deliveryDate: order.deliveryInfo?.estimatedDelivery
                 ? new Date(order.deliveryInfo.estimatedDelivery).toLocaleDateString('en-IN')
                 : 'Not available',
-            trackingHistory: order.deliveryInfo?.trackingHistory?.map(item => ({
-                ...item,
-                date: new Date(item.date).toLocaleString('en-IN')
-            })) || []
+            trackingHistory: Array.isArray(order.deliveryInfo?.trackingHistory)
+                ? order.deliveryInfo.trackingHistory.map(item => ({
+                    ...item,
+                    date: item.date
+                        ? new Date(item.date).toLocaleString('en-IN')
+                        : 'Not available'
+                }))
+                : []
         };
 
         res.json(formattedOrder);

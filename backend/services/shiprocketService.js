@@ -257,15 +257,27 @@ async function trackShipment(awbCode) {
         );
 
         const trackingData = response.data?.tracking_data || {};
+        
+        // Get the most recent activity with a status
+        const latestActivity = trackingData.shipment_track?.reduce((latest, current) => {
+            const currentDate = parseShiprocketDate(current.updated_date);
+            if (!currentDate) return latest;
+            
+            if (!latest || currentDate > latest.date) {
+                return {
+                    status: current.status,
+                    date: currentDate,
+                    location: current.location,
+                    remark: current.remark
+                };
+            }
+            return latest;
+        }, null);
+
         return {
-            status: trackingData.shipment_status || 'Unknown',
-            trackingHistory: (trackingData.shipment_track || []).map(item => ({
-                status: item.status,
-                location: item.location,
-                date: new Date(item.updated_date),
-                remark: item.remark || ''
-            })),
-            estimatedDelivery: trackingData.etd ? new Date(trackingData.etd) : null
+            status: latestActivity?.status || trackingData.shipment_status || 'Unknown',
+            trackingHistory: trackingData.shipment_track || [],
+            estimatedDelivery: trackingData.etd
         };
     } catch (error) {
         console.error('Shipment tracking failed:', error.message);
@@ -276,6 +288,30 @@ async function trackShipment(awbCode) {
         };
     }
 }
+function parseShiprocketDate(dateString) {
+    if (!dateString) return null;
+    
+    // Try direct Date parsing first
+    const date = new Date(dateString);
+    if (!isNaN(date.getTime())) return date;
+  
+    const formats = [
+        'DD-MM-YYYY HH:mm:ss',  
+        'YYYY-MM-DD HH:mm:ss',  
+        'DD/MM/YYYY HH:mm:ss', 
+        'MM/DD/YYYY HH:mm:ss',  
+        'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ' // Sat Jun 24 2023 14:30:45 GMT+0530
+    ];
+    
+    for (const format of formats) {
+        const momentDate = require('moment')(dateString, format);
+        if (momentDate.isValid()) {
+            return momentDate.toDate();
+        }
+    }
+    
+    return null;
+  }
 
 module.exports = {
     createOrder,
@@ -283,5 +319,6 @@ module.exports = {
     generatePickup,
     generateLabel,
     getShipmentStatus,
-    trackShipment
+    trackShipment,
+    parseShiprocketDate
 };

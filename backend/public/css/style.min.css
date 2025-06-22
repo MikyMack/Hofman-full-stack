@@ -25218,3 +25218,18 @@ color: var(--theme-color)!important;
   background-color: #0056b3;
   border-color: #0056b3;
 }
+
+.order-tab-btn, .order-tab-btn-active {
+  color: #111827 !important;
+  border-color: #111827 !important;
+  background-color: transparent !important;
+}
+.order-tab-btn-active {
+  background-color: #111827 !important;
+  color: #fff !important;
+}
+.order-tab-btn:hover, .order-tab-btn:focus {
+  background-color: #111827 !important;
+  color: #fff !important;
+  border-color: #111827 !important;
+}

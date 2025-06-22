@@ -1,33 +1,60 @@
-// services/orderService.js
 const Order = require('../models/Order');
-const { trackShipment } = require('./shiprocketService');
+const { trackShipment, parseShiprocketDate } = require('./shiprocketService');
 const mapShiprocketStatus = require('../utils/shiprocketStatusMapper');
 
-async function getOrdersWithTracking(userId) {
+async function getOrdersWithTracking(userId, { skip = 0, limit = 10 } = {}) {
   const orders = await Order.find({ user: userId })
     .populate('items.product')
-    .lean(false); 
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
 
   const updatedOrders = await Promise.all(
     orders.map(async (order) => {
-      if (order.deliveryInfo && order.deliveryInfo.awbCode) {
-        const liveTracking = await trackShipment(order.deliveryInfo.awbCode);
-
-        order.deliveryInfo.status = mapShiprocketStatus(liveTracking.status);
-        order.deliveryInfo.trackingHistory = liveTracking.trackingHistory.map(t => ({
-            ...t,
-            date: isNaN(new Date(t.date).getTime()) ? new Date() : new Date(t.date)
-          }));
-        order.deliveryInfo.estimatedDelivery = liveTracking.estimatedDelivery;
-        order.deliveryInfo.updatedAt = new Date();
-
-        await order.save();
+      if (!order.deliveryInfo?.awbCode) {
+        return order.toObject();
       }
-      return order.toObject(); 
+
+      try {
+        const liveTracking = await trackShipment(order.deliveryInfo.awbCode);
+        
+        if (liveTracking?.status && liveTracking.trackingHistory?.length) {
+    
+          const validTrackingHistory = liveTracking.trackingHistory.map(event => ({
+            status: event.current_status || 'Unknown',
+            original_status: event.current_status,
+            location: event.destination || event.origin || 'Unknown',
+            remark: event.pod_status || 'No remarks',
+            awb: event.awb_code || order.deliveryInfo.awbCode,
+            updated_date: event.updated_time_stamp || event.pickup_date,
+            date: parseShiprocketDate(event.updated_time_stamp || event.pickup_date) || new Date(),
+            courier_name: event.courier_name,
+            pod_status: event.pod_status,
+            edd: event.edd
+          })).filter(event => event.date instanceof Date);
+
+          const latestEvent = validTrackingHistory.reduce((latest, current) => 
+            new Date(current.date) > new Date(latest.date) ? current : latest
+          );
+ 
+          order.deliveryInfo.status = latestEvent.status; 
+          order.deliveryInfo.trackingHistory = validTrackingHistory;
+          order.deliveryInfo.updatedAt = new Date();
+
+          if (latestEvent.status === 'Shipped' && order.orderStatus !== 'Delivered') {
+            order.orderStatus = 'Shipped';
+          }
+          await order.save();
+        }
+      } catch (error) {
+        console.error(`Tracking update failed for order ${order._id}:`, error.message);
+      }
+
+      return order.toObject();
     })
   );
 
-  return updatedOrders;
+  return { orders: updatedOrders, needsRefresh: true };
 }
 
 module.exports = { getOrdersWithTracking };

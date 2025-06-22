@@ -225,7 +225,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
-            z-index: 1000;
+            z-index: 10000;
             overflow-y: auto;
         }
         
@@ -471,21 +471,44 @@
             <!-- End of Header Middle -->
         </header>
         <!-- End of Header -->
-
-
         <!-- Start of Main -->
         <div class="container">
             <div class="page-header">
                 <h1 class="page-title" style="color: white;">My Orders</h1>
             </div>
-    
+
+            <!-- Order Status Tabs -->
+            <div class="order-tabs" style="margin-bottom: 24px; display: flex; gap: 12px;">
+                <% 
+                    const tab = typeof selectedTab !== 'undefined' ? selectedTab : (typeof queryTab !== 'undefined' ? queryTab : 'current');
+                    function tabClass(name) { 
+                        return tab === name 
+                            ? 'btn btn-primary order-tab-btn-active' 
+                            : 'btn btn-outline-primary order-tab-btn'; 
+                    }
+                %>
+                <a href="/orders?tab=current" class="<%= tabClass('current') %>">Current Orders</a>
+                <a href="/orders?tab=delivered" class="<%= tabClass('delivered') %>">Delivered Orders</a>
+                <a href="/orders?tab=cancelled" class="<%= tabClass('cancelled') %>">Cancelled Orders</a>
+            </div>
+
             <% if (orders.length === 0) { %>
                 <div class="empty-state">
-                    <img src="/images/empty-orders.svg" alt="No orders" style="max-width: 300px; margin: 0 auto 20px; display: block;">
-                    <h2 style="text-align: center; margin-bottom: 10px;">You haven't placed any orders yet</h2>
-                    <p style="text-align: center; color: #6b7280; margin-bottom: 20px;">When you do, their status will appear here.</p>
-                    <div style="text-align: center;">
-                        <a href="/products" class="btn btn-primary">Continue Shopping</a>
+                    <div style="display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; max-width: 320px;">           
+                        <dotlottie-player src="https://lottie.host/7935dd8b-1312-462b-bf34-e2780ce03ff0/fZc43ONcnq.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
+                    </div>
+                    <% if (tab === 'current') { %>
+                        <h2 style="text-align: center; margin-bottom: 10px;">You have no current orders</h2>
+                        <p style="text-align: center; color: #6b7280; margin-bottom: 20px;">When you place an order, it will appear here.</p>
+                    <% } else if (tab === 'delivered') { %>
+                        <h2 style="text-align: center; margin-bottom: 10px;">No delivered orders yet</h2>
+                        <p style="text-align: center; color: #6b7280; margin-bottom: 20px;">Delivered orders will show up here.</p>
+                    <% } else if (tab === 'cancelled') { %>
+                        <h2 style="text-align: center; margin-bottom: 10px;">No cancelled orders</h2>
+                        <p style="text-align: center; color: #6b7280; margin-bottom: 20px;">Cancelled orders will show up here.</p>
+                    <% } %>
+                    <div style="text-align: center;padding-bottom: 40px;">
+                        <a href="/products" class="btn" style="background-color: #111827;color: white;">Continue Shopping</a>
                     </div>
                 </div>
             <% } else { %>
@@ -532,31 +555,31 @@
                             <% }); %>
                             
                             <div class="order-actions">
-                                <% if (order.canCancel) { %>
+                                <% if (tab === 'current' && order.canCancel) { %>
                                     <button class="btn btn-danger cancel-order" data-order-id="<%= order._id %>">
                                         Cancel Order
                                     </button>
                                 <% } %>
-                                <% if (order.canReturn) { %>
+                                <% if (tab === 'delivered' && order.canReturn) { %>
                                     <button class="btn btn-warning return-order" data-order-id="<%= order._id %>">
                                         Return Item
                                     </button>
                                 <% } %>
-                                <button class="btn btn-primary buy-again">
+                                <a href="/store" class="btn" style="background-color: #111827;color: white;">
                                     Buy Again
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
                     <% }); %>
                 </div>
-    
+
                 <!-- Pagination -->
                 <% if (totalPages > 1) { %>
                 <ul class="pagination">
                     <% if (hasPrevPage) { %>
                         <li class="page-item">
-                            <a class="page-link" href="/orders?page=<%= currentPage - 1 %>">Previous</a>
+                            <a class="page-link" href="/orders?page=<%= currentPage - 1 %>&tab=<%= tab %>">Previous</a>
                         </li>
                     <% } else { %>
                         <li class="page-item disabled">
@@ -566,13 +589,13 @@
                     
                     <% for (let i = 1; i <= totalPages; i++) { %>
                         <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                            <a class="page-link" href="/orders?page=<%= i %>"><%= i %></a>
+                            <a class="page-link" href="/orders?page=<%= i %>&tab=<%= tab %>"><%= i %></a>
                         </li>
                     <% } %>
                     
                     <% if (hasNextPage) { %>
                         <li class="page-item">
-                            <a class="page-link" href="/orders?page=<%= currentPage + 1 %>">Next</a>
+                            <a class="page-link" href="/orders?page=<%= currentPage + 1 %>&tab=<%= tab %>">Next</a>
                         </li>
                     <% } else { %>
                         <li class="page-item disabled">
@@ -1045,7 +1068,7 @@
     <!-- End of Mobile Menu -->
 
 
-
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
     <!-- Plugin JS File -->
    <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>

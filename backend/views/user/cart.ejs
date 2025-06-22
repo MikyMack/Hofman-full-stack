@@ -165,7 +165,9 @@
                                     <% } else if (!user) { %>
                                       <!-- Guest cart will be rendered by JS -->
                                     <% } else { %>
-                                      <div class="text-center py-5 mt-4 ">
+                                      <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+                                      <div class="text-center py-5 mt-4">
+                                        <dotlottie-player src="https://lottie.host/c097ea34-ef42-4648-b414-ea2e2c41fadb/niX10ZFY4C.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
                                         <span class="mt-5">Your cart is empty.</span>
                                       </div>
                                     <% } %>
@@ -313,6 +315,7 @@
                 </div>
             </div>
 
+            <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
             <script>
                 // Helper: Format price
                 function formatPrice(amount) {
@@ -370,7 +373,16 @@
                     const tbody = document.getElementById('cart-items-body');
                     tbody.innerHTML = '';
                     if (!cart.items || cart.items.length === 0) {
-                        tbody.innerHTML = `<tr><td colspan="5" class="text-center">Your cart is empty.</td></tr>`;
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="5">
+                                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                        <dotlottie-player src="https://lottie.host/c097ea34-ef42-4648-b414-ea2e2c41fadb/niX10ZFY4C.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
+                                        <span style="font-size: 1.2rem;">Your cart is empty.</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
                     } else {
                         cart.items.forEach((item, idx) => {
                             const price = (item.price !== undefined && item.price !== null) ? Number(item.price) : 0;

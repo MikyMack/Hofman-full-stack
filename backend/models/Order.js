@@ -74,10 +74,16 @@ const orderSchema = new mongoose.Schema({
     },
     trackingHistory: [{
       status: String,
+      original_status: String,
       location: String,
+      remark: String,
+      awb: String,
+      updated_date: String,
       date: Date,
-      remark: String
-  }],
+      courier_name: String,
+      pod_status: String,
+      edd: String
+    }],
     estimatedDelivery: Date,
       error: String,
       updatedAt: Date

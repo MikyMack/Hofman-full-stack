@@ -91,11 +91,11 @@
                                 <% if (activeCoupons && activeCoupons.length) { %>
                                     <% activeCoupons.forEach(function(coupon) { %>
                                         <%= coupon.description %> &nbsp;&nbsp;&nbsp; •
-                                                &nbsp;&nbsp;&nbsp;
-                                                <% }); %>
-                                                    <% } else { %>
-                                                        Welcome to Hofmaan Store! Offers Available
-                                                        <% } %>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <% }); %>
+                                                <% } else { %>
+                                                    Welcome to Hofmaan Store! Offers Available
+                                                    <% } %>
                             </span>
                         </p>
                     </div>
@@ -185,36 +185,37 @@
                                     <a href="#" class="btn-close">Close<i class="w-icon-long-arrow-right"></i></a>
                                 </div>
                                 <div class="products" id="cart-products-list">
-                                    <% if (user && cartItems && cartItems.length > 0) { %>
-                                      <% cartItems.slice(0, 6).forEach(function(item) { %>
-                                        <div class="product product-cart">
-                                          <div class="product-detail">
-                                            <a href="/product/<%= item.product %>" class="product-name">
-                                              <%= item.productName %>
-                                            </a>
-                                            <div class="price-box">
-                                              <span class="product-quantity">
-                                                <%= item.quantity %>
-                                              </span>
-                                              <span class="product-price ml-2">
-                                                ₹<%= item.price ? item.price.toFixed(2) : '0.00' %>
-                                              </span>
+                                    <% if (user && cartItems && cartItems.length> 0) { %>
+                                        <% cartItems.slice(0, 6).forEach(function(item) { %>
+                                            <div class="product product-cart">
+                                                <div class="product-detail">
+                                                    <a href="/product/<%= item.product %>" class="product-name">
+                                                        <%= item.productName %>
+                                                    </a>
+                                                    <div class="price-box">
+                                                        <span class="product-quantity">
+                                                            <%= item.quantity %>
+                                                        </span>
+                                                        <span class="product-price ml-2">
+                                                            ₹<%= item.price ? item.price.toFixed(2) : '0.00' %>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <figure class="product-media">
+                                                    <img src="<%= item.productImage %>" alt="product" height="84"
+                                                        width="94">
+                                                </figure>
                                             </div>
-                                          </div>
-                                          <figure class="product-media">
-                                            <img src="<%= item.productImage %>" alt="product" height="84" width="94">
-                                          </figure>
-                                        </div>
-                                      <% }); %>
-                                    <% } else if (!user) { %>
-                                      <!-- Guest cart will be rendered by JS -->
-                                    <% } else { %>
-                                      <div class="text-center py-5 mt-4 ">
-                                        <span class="mt-5">Your cart is empty.</span>
-                                      </div>
-                                    <% } %>
-                                  </div>
-                                  
+                                            <% }); %>
+                                                <% } else if (!user) { %>
+                                                    <!-- Guest cart will be rendered by JS -->
+                                                    <% } else { %>
+                                                        <div class="text-center py-5 mt-4 ">
+                                                            <span class="mt-5">Your cart is empty.</span>
+                                                        </div>
+                                                        <% } %>
+                                </div>
+
                                 <div class="cart-total" id="cart-subtotal-section">
                                     <label>Subtotal:</label>
                                     <span class="price" id="cart-subtotal-amount">
@@ -478,7 +479,7 @@
                         'slidesPerView': 4
                     }
                 }}">
-                   
+
                     <!-- End of Iocn Box Wrapper -->
 
                     <div class="title-link-wrapper title-select after-none appear-animate">

@@ -80,7 +80,6 @@ exports.deleteBlog = async (req, res) => {
     try {
         const blog = await Blog.findById(req.params.id);
         if (!blog) {
-            console.error(`Blog with id ${req.params.id} not found`);
             return res.status(404).json({ message: "Blog not found" });
         }
         if (blog.cloudinary_id) {
@@ -95,7 +94,6 @@ exports.deleteBlog = async (req, res) => {
         await Blog.deleteOne({ _id: blog._id });
         res.status(200).json({ message: "Blog deleted successfully" });
     } catch (error) {
-        console.error(`Error deleting blog with id ${req.params.id}:`, error);
         res.status(500).json({ message: "Error deleting blog", error: error.message });
     }
 };

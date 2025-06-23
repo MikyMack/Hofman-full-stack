@@ -8,6 +8,8 @@ const testimonialController = require('../controllers/testimonialController');
 const mainBannerCtrl = require('../controllers/mainBannerController');
 const bannerTwoCtrl = require('../controllers/bannerTwoController');
 const bannerThreeCtrl = require('../controllers/bannerThreeController');
+const Product = require("../models/Product")
+const Category = require("../models/Category")
 
 
 router.get('/categories', categoryController.getAllCategories);
@@ -64,5 +66,83 @@ router.put('/three/:id', upload.single('image'), bannerThreeCtrl.update);
 router.delete('/three/:id', bannerThreeCtrl.delete);
 router.patch('/three/:id/toggle', bannerThreeCtrl.toggleStatus);
 
+router.get('/search/suggestions', async (req, res) => {
+    try {
+      const query = req.query.q;
+
+      const categories = await Category.find({
+        name: { $regex: query, $options: 'i' }
+      }).select('_id subCategories');
+  
+      const categoryIds = categories.map(cat => cat._id);
+
+      let subcategoryIds = [];
+      categories.forEach(cat => {
+        cat.subCategories.forEach(sub => {
+          if (sub.name.toLowerCase().includes(query.toLowerCase())) {
+            subcategoryIds.push(sub._id);
+          }
+        });
+      });
+
+      const suggestions = await Product.find({
+        $or: [
+          { name: { $regex: query, $options: 'i' } },
+          { category: { $in: categoryIds } },
+          { subcategory: { $in: subcategoryIds } }
+        ],
+        isActive: true
+      })
+        .select('name basePrice images')
+        .limit(8);
+  
+      res.json(suggestions);
+  
+    } catch (error) {
+      console.error('Error in /search/suggestions:', error);
+      res.status(500).json({ error: 'Failed to get suggestions' });
+    }
+  });
+
+// Full search endpoint
+router.get('/search', async (req, res) => {
+    try {
+      const query = req.query.q;
+  
+      const categories = await Category.find({
+        name: { $regex: query, $options: 'i' }
+      }).select('_id subCategories');
+  
+      const categoryIds = categories.map(cat => cat._id);
+  
+      let subcategoryIds = [];
+      categories.forEach(cat => {
+        cat.subCategories.forEach(sub => {
+          if (sub.name.toLowerCase().includes(query.toLowerCase())) {
+            subcategoryIds.push(sub._id);
+          }
+        });
+      });
+  
+      const products = await Product.find({
+        $or: [
+          { name: { $regex: query, $options: 'i' } },
+          { description: { $regex: query, $options: 'i' } },
+          { category: { $in: categoryIds } },
+          { subcategory: { $in: subcategoryIds } },
+          { tags: { $regex: query, $options: 'i' } }
+        ],
+        isActive: true
+      })
+        .limit(30);
+  
+      res.json(products);
+  
+    } catch (error) {
+      console.error('Error in /search:', error);
+      res.status(500).json({ error: 'Search failed' });
+    }
+  });
+  
 
 module.exports = router;

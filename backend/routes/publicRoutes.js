@@ -129,10 +129,10 @@ router.get('/store', async (req, res) => {
             maxPrice,
             size,
             color,
-            sort
+            sort,
+            q 
         } = req.query;
 
-        // Parse size and color as arrays (for multi-select)
         if (size) {
             if (Array.isArray(size)) {
                 size = size.flatMap(s => typeof s === 'string' ? s.split(',') : []);
@@ -166,12 +166,31 @@ router.get('/store', async (req, res) => {
             if (foundCategory) {
                 filter.category = foundCategory._id;
             } else if (mongoose.Types.ObjectId.isValid(category)) {
-                // fallback: treat as ObjectId
                 filter.category = category;
             } else {
                 filter.$or = [
                     { 'categoryName': { $regex: new RegExp(decodedCategory, 'i') } },
                     { 'category.slug': { $regex: new RegExp(decodedCategory, 'i') } }
+                ];
+            }
+        }
+
+        if (q && typeof q === 'string' && q.trim().length > 0) {
+            const searchRegex = new RegExp(q.trim(), 'i');
+            if (filter.$or) {
+                filter.$and = filter.$and || [];
+                filter.$and.push({
+                    $or: [
+                        { name: searchRegex },
+                        { description: searchRegex },
+                        { categoryName: searchRegex }
+                    ]
+                });
+            } else {
+                filter.$or = [
+                    { name: searchRegex },
+                    { description: searchRegex },
+                    { categoryName: searchRegex }
                 ];
             }
         }
@@ -301,7 +320,8 @@ router.get('/store', async (req, res) => {
                 size: Array.isArray(size) ? size.join(',') : size,
                 color: Array.isArray(color) ? color.join(',') : color,
                 sort,
-                limit: Number(limit)
+                limit: Number(limit),
+                q: q || ''
             },
             cartItems: cart?.items || []
         });

@@ -82,14 +82,7 @@
                         <a href="/" class="logo">
                             <img src="/images/logo.png" alt="logo" width="200">
                         </a>
-                        <form method="get" action="#"
-                            class="input-wrapper header-search hs-expanded hs-round d-none d-md-flex">
-                            <input type="text" class="form-control bg-white pt-0 pb-0" name="search" id="search"
-                                placeholder="Search in..." required />
-                            <button class="btn btn-search" type="submit">
-                                <i class="w-icon-search"></i>
-                            </button>
-                        </form>
+                       
                     </div>
                     <div class="header-right ml-4">
                         <div class="header-call d-xs-show d-lg-flex align-items-center">
@@ -422,18 +415,43 @@
 
     <!-- Start of Sticky Footer -->
    <div class="btm-main">
+    <a href="#" id="mobileSearchRedirect" class="search-bar-link">
         <div class="search-bar" id="searchBar">
             <div class="search-container">
                 <div class="search-input-wrapper">
                     <i class="fas fa-search search-input-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search products..." id="searchInput">
+                    <input type="text" class="search-input" placeholder="Search products..." id="mobileSearchInput">
                 </div>
-                <button class="search-btn" id="searchButton">
+                <button class="search-btn" id="mobileSearchButton">
                     <i class="fas fa-search"></i>
                 </button>
-
             </div>
         </div>
+    </a>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('mobileSearchInput');
+            const btn = document.getElementById('mobileSearchButton');
+            const link = document.getElementById('mobileSearchRedirect');
+            function doSearch(e) {
+                e.preventDefault();
+                const q = input.value.trim();
+                if (q.length > 0) {
+                    window.location.href = '/store?q=' + encodeURIComponent(q);
+                }
+            }
+            btn.addEventListener('click', doSearch);
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    doSearch(e);
+                }
+            });
+            link.addEventListener('click', function(e) {
+                // Prevent default link if not searching
+                if (input.value.trim().length === 0) e.preventDefault();
+            });
+        });
+    </script>
 
         <nav class="mobile-bottom-nav">
 
@@ -491,7 +509,7 @@
                 <% } %>
 
 
-                    <a href="contact-us.html" class="sticky-link active-mob">
+                    <a href="/contact" class="sticky-link active-mob">
                         <i class="w-icon-call2"></i>
                         <p>Contact </p>
                     </a>

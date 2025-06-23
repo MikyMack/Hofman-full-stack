@@ -25233,3 +25233,25 @@ color: var(--theme-color)!important;
   color: #fff !important;
   border-color: #111827 !important;
 }
+
+@media (max-width: 768px) {
+  .order-tabs {
+      flex-direction: column !important;
+      gap: 8px !important;
+      align-items: stretch !important;
+  }
+  .order-tabs a {
+      width: 100%;
+      text-align: center;
+  }
+}
+@media (max-width: 480px) {
+  .order-tabs {
+      gap: 6px !important;
+      margin-bottom: 16px !important;
+  }
+  .order-tabs a {
+      font-size: 15px !important;
+      padding: 8px 0 !important;
+  }
+}

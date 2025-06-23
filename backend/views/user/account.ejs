@@ -419,64 +419,45 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td class="order-id">#2321</td>
-                                                    <td class="order-date">August 20, 2021</td>
-                                                    <td class="order-status">Processing</td>
-                                                    <td class="order-total">
-                                                        <span class="order-price">₹121.00</span> for
-                                                        <span class="order-quantity"> 1</span> item
-                                                    </td>
-                                                    <td class="order-action">
-                                                        <a href="#"
-                                                            class="btn btn-outline btn-default ordr-btn btn-block btn-sm btn-rounded">View</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="order-id">#2321</td>
-                                                    <td class="order-date">August 20, 2021</td>
-                                                    <td class="order-status">Processing</td>
-                                                    <td class="order-total">
-                                                        <span class="order-price">₹150.00</span> for
-                                                        <span class="order-quantity"> 1</span> item
-                                                    </td>
-                                                    <td class="order-action">
-                                                        <a href="#"
-                                                            class="btn btn-outline btn-default ordr-btn btn-block btn-sm btn-rounded">View</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="order-id">#2319</td>
-                                                    <td class="order-date">August 20, 2021</td>
-                                                    <td class="order-status">Processing</td>
-                                                    <td class="order-total">
-                                                        <span class="order-price">₹201.00</span> for
-                                                        <span class="order-quantity"> 1</span> item
-                                                    </td>
-                                                    <td class="order-action">
-                                                        <a href="#"
-                                                            class="btn btn-outline btn-default ordr-btn btn-block btn-sm btn-rounded">View</a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="order-id">#2318</td>
-                                                    <td class="order-date">August 20, 2021</td>
-                                                    <td class="order-status">Processing</td>
-                                                    <td class="order-total">
-                                                        <span class="order-price">₹321.00</span> for
-                                                        <span class="order-quantity"> 1</span> item
-                                                    </td>
-                                                    <td class="order-action">
-                                                        <a href="#"
-                                                            class="btn btn-outline ordr-btn btn-default btn-block btn-sm btn-rounded">View</a>
-                                                    </td>
-                                                </tr>
+                                                <% if (orders && orders.length > 0) { %>
+                                                    <% orders.forEach(function(order) { %>
+                                                        <tr>
+                                                            <td class="order-id">
+                                                                #<%= order.orderId || order._id.toString().slice(-6).toUpperCase() %>
+                                                            </td>
+                                                            <td class="order-date">
+                                                                <%= order.orderDate || (order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '') %>
+                                                            </td>
+                                                            <td class="order-status">
+                                                                <%= order.orderStatus %>
+                                                            </td>
+                                                            <td class="order-total">
+                                                                <span class="order-price">₹<%= order.totalAmount ? order.totalAmount.toLocaleString('en-IN') : '0' %></span>
+                                                                for
+                                                                <span class="order-quantity">
+                                                                    <%= order.items && order.items.length ? order.items.length : 0 %>
+                                                                </span>
+                                                                item<%= (order.items && order.items.length === 1) ? '' : 's' %>
+                                                            </td>
+                                                            <td class="order-action">
+                                                                <a href="/orders"
+                                                                    class="btn btn-outline btn-default ordr-btn btn-block btn-sm btn-rounded">View</a>
+                                                            </td>
+                                                        </tr>
+                                                    <% }); %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="5" style="text-align:center; color:#888;">
+                                                            No orders found.
+                                                        </td>
+                                                    </tr>
+                                                <% } %>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
 
-                                <a href="shop-banner-sidebar.html" class="btn btn-dark btn-rounded btn-icon-right">Go
+                                <a href="/store" class="btn btn-dark btn-rounded btn-icon-right">Go
                                     Shop<i class="w-icon-long-arrow-right"></i></a>
                             </div>
 

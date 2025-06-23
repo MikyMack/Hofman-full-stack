@@ -51,7 +51,7 @@
 <body>
     <div class="page-wrapper">
         <!-- Start of Header -->
-    <header class="header">
+        <header class="header">
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
@@ -59,15 +59,18 @@
                     </div>
                     <div class="header-right">
                         <span class="divider d-lg-show"></span>
-                          <a href="index.html" class="d-lg-show">Home</a>
-                        <a href="shop.html" class="d-lg-show">Store</a>
-                        <a href="about-us.html" class="d-lg-show">About Us</a>
-                                             <a href="blogs.html" class="d-lg-show">Blogs</a>
-                        <a href="contact-us.html" class="d-lg-show">Contact Us</a>
-                        <a href="/ajax/login.html" class="d-lg-show login sign-in"><i
-                                class="w-icon-account"></i>Sign In</a>
-                        <span class="delimiter d-lg-show">/</span>
-                        <a href="/ajax/login.html" class="ml-0 d-lg-show login register">Register</a>
+                        <a href="/store" class="d-lg-show">Store</a>
+                        <a href="/about" class="d-lg-show">About Us</a>
+                        <a href="/contact" class="d-lg-show">Contact Us</a>
+                        <% if (user) { %>
+                            <a href="/account" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <span class="delimiter d-lg-show">/</span>
+                            <a href="/orders" class="ml-0 d-lg-show">My Orders</a>
+                            <% } else { %>
+                                <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
+                                <span class="delimiter d-lg-show">/</span>
+                                <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
+                                <% } %>
                     </div>
                 </div>
             </div>
@@ -76,42 +79,33 @@
                 <div class="container">
                     <div class="header-left mr-md-4">
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
-                        <a href="index.html" class="logo">
+                        <a href="/" class="logo">
                             <img src="/images/logo.png" alt="logo" width="200">
                         </a>
-                        <form method="get" action="#"
-                            class="input-wrapper header-search  hs-expanded sticky-border hs-round d-none d-md-flex">                            
-                            <input type="text" class="form-control header-sticky-border bg-white pt-0 pb-0" name="search" id="search"
-                                placeholder="Search in..." required />
-                            <button class="btn btn-search header-sticky-border-btn" type="submit">
-                                <i class="w-icon-search"></i>
-                            </button>
-                        </form>
                     </div>
                     <div class="header-right ml-4">
                         <div class="header-call d-xs-show d-lg-flex align-items-center">
                             <a href="tel:#" class="w-icon-call"></a>
                             <div class="call-info d-lg-show">
                                 <h4 class="chat font-size-md text-normal ls-normal text-white mb-0">
-                                    <a href=""
-                                        class="text-capitalize text-primary font-weight-normal">Customer care</a>
+                                    <a href="" class="text-capitalize text-primary font-weight-normal">Customer care</a>
                                 </h4>
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
                             </div>
                         </div>
-                        <a class="wishlist label-down link d-xs-show" href="wishlist.html">
+                        <a class="wishlist label-down link d-xs-show" href="/wishlist">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
-                        </a>                     
+                        </a>
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
-                            <a href="cart.html" class="cart-toggle1 label-down link">
+                            <a href="/cart" class=" label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count text-white">2</span>
+                                    <span class="cart-count text-white">+</span>
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
-                     
+
                             <!-- End of Dropdown Box -->
                         </div>
                     </div>
@@ -136,8 +130,8 @@
             <nav class="breadcrumb-nav">
                 <div class="container">
                     <ul class="breadcrumb bb-no">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="blogs.html">Blog</a></li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/blogs">Blog</a></li>
                         <li>Blog Details</li>
                     </ul>
                 </div>
@@ -151,53 +145,29 @@
                         <div class="main-content post-single-content">
                             <div class="post post-grid post-single">
                                 <figure class="post-media br-sm">
-                                    <img style="height: 500px!important;" src="/images/blog/single/1.jpg" alt="Blog" width="930" height="500" />
+                                    <img style="height: 500px !important; object-fit: contain;" src="<%= blog.imageUrl %>" alt="Blog" width="930" height="500" />
                                 </figure>
                                 <div class="post-details">
                                     <div class="post-meta">
-                                        by <a href="#" class="post-author">John Doe</a>
-                                        - <a href="#" class="post-date">03.01.2021</a>
-                                      
+                                        by <span class="post-author"><%= blog.author %></span>
+                                        - <span class="post-date"><%= blog.createdAt ? blog.createdAt.toLocaleDateString('en-GB') : '' %></span>
                                     </div>
-                                    <h2 class="post-title"><a href="#">Fashion tells about who you are from external point</a></h2>
+                                    <h2 class="post-title"><%= blog.title %></h2>
                                     <div class="post-content">
-                                        <p>Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Suspendisse potenti. 
-                                                Sed egstas, ant at vulputate volutpat, uctus metus libero eu augue, vitae luctus metus libero eu augue. </p>
-                                        <p>Morbi purus libero, faucibus adi piscing, com modo quis, gravida iest. 
-                                            Sed lectus. Praesent elementum hendrerit tortor. 
-                                            Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, 
-                                            mi neque euismod dui, eu pulvinar nunc sapien ornare nisl.  pede arcu, 
-                                            dapibus eu, fermen tum et, dapibus sed, urna. <a href="#">Morbi interdum mollis sapien.</a>
-                                            Sed ac risus. Pha sellus lacinia, magna a  laoreet, lect us arcu pulvinar risus, 
-                                            vitae fac ilisis libero dolor a purus. 
-                                        </p>
+                                        <%- blog.content %>
                                     </div>
                                 </div>
                             </div>
                             <!-- End Post -->
 
-                            <!-- End Blockquote -->
-                            <p class="mb-10">Morbi interdum mollis sapien. Sed ac risus. Pha sellus lacinia, magna a  laoreet, lect us arcu pulvinar risus, vitae fac ilisis libeo dolor. 
-                                Sed vel lacus. Mauris nibh felis, adipiscing varius, adipiscing in, lacinia vel, tellus. Suspendisse ac urna.</p>
-                            <h4 class="title title-md font-weight-bold">Defaulting to Mindfulness: The Third Person Effect</h4>
-                            <p class="mb-2">Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, 
-                                da pibus id, mattis vel, nisi. Sed pretium, ligula soll itudin laoreet viverra. Sed lectus. 
-                                Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, 
-                                lacus a ultric sagittis, mi neque euismod duin.</p>
-                            <ul class="list-style-none list-type-check">
-                                <li>Nunc nec porttitor turpis. In eu risus enim  neque, aliquet ve In vitae mollis elit.</li>
-                                <li>Vivamus finibus vel mauris  eu risus enut vehicula.</li>
-                                <li>Nullam a magna porttitor, dictum risus nec, fauci eu risus enbus sapien.</li>
-                                <li>Ultrices eros in  eu risus encursus turpis massa tincidunt ante.</li>
-                            </ul>
-                            <p>Nibh ipsum consequat nisl vel. Non arcu risus quis varius quam quisque id diam vel. Eu turpis egestas pharetra.</p>
+                            <% if (blog.metaKeywords && blog.metaKeywords.length) { %>
                             <div class="tags">
                                 <label class="text-dark mr-2">Tags:</label>
-                                <a href="#" class="tag">Fashion</a>
-                                <a href="#" class="tag">Style</a>
-                                <a href="#" class="tag">Travel</a>
-                                <a href="#" class="tag">Women</a>
+                                <% blog.metaKeywords.forEach(function(tag) { %>
+                                    <a href="/blogs?tag=<%= encodeURIComponent(tag) %>" class="tag"><%= tag %></a>
+                                <% }); %>
                             </div>
+                            <% } %>
                             <!-- End Tag -->
                         
                             <div class="post-author-detail">
@@ -206,30 +176,27 @@
                                 </figure>
                                 <div class="author-details">
                                     <div class="author-name-wrapper flex-wrap mb-2">
-                                        <h4 class="author-name font-weight-bold mb-2 pr-4 mr-auto">John Doe
+                                        <h4 class="author-name font-weight-bold mb-2 pr-4 mr-auto"><%= blog.author %>
                                             <span class="font-weight-normal text-default">(AUTHOR)</span>
                                         </h4>
-                                      
                                     </div>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit natus consequuntur et labore officia? Ab optio molestiae, a quos unde minus eius id similique sequi voluptate odit enim, reprehenderit et. </p>
+                                    <% if (blog.metaDescription) { %>
+                                        <p class="mb-0"><%= blog.metaDescription %></p>
+                                    <% } %>
                                 </div>
                             </div>
                             <!-- End Post Author Detail -->
+
                             <div class="post-navigation">
                                 <div class="nav nav-prev">
-                                    <a href="#" class="align-items-start text-left">
-                                        <span><i class="w-icon-long-arrow-left"></i>previous post</span>
-                                     
-                                    </a>
+                                    <!-- Optionally, implement previous post navigation here -->
                                 </div>
                                 <div class="nav nav-next"> 
-                                    <a href="#" class="align-items-end text-right">
-                                        <span>next post<i class="w-icon-long-arrow-right"></i></span>
-
-                                    </a>
+                                    <!-- Optionally, implement next post navigation here -->
                                 </div>
                             </div>
                             <!-- End Post Navigation -->
+
                             <h4 class="title title-lg font-weight-bold mt-10 pt-1 mb-5">Related Posts</h4>
                             <div class="swiper">
                                 <div class="post-slider swiper-container swiper-theme nav-top pb-2" data-swiper-options="{
@@ -251,83 +218,42 @@
                                     }
                                 }">
                                     <div class="swiper-wrapper row cols-lg-3 cols-md-4 cols-sm-3 cols-xs-2 cols-1">
-                                        <div class="swiper-slide post post-grid">
-                                            <figure class="post-media br-sm">
-                                                <a href="blogDetails.html">
-                                                    <img src="/images/blog/single/2.jpg" alt="Post" width="296"
-                                                        height="190" style="background-color: #bcbcb4;" />
-                                                </a>
-                                            </figure>
-                                            <div class="post-details text-center">
-                                                <div class="post-meta">
-                                                    by <a href="#" class="post-author">Logan Cee</a>
-                                                    - <a href="#" class="post-date">03.05.2021</a>
+                                        <% if (relatedBlogs && relatedBlogs.length) { %>
+                                            <% relatedBlogs.forEach(function(rblog) { %>
+                                                <div class="swiper-slide post post-grid">
+                                                    <figure class="post-media br-sm">
+                                                        <a href="/blogs/<%= rblog._id %>">
+                                                            <img src="<%= rblog.imageUrl %>" alt="Post" width="296"
+                                                                height="190" style="background-color: #ececec;" />
+                                                        </a>
+                                                    </figure>
+                                                    <div class="post-details text-center">
+                                                        <div class="post-meta">
+                                                            by <span class="post-author"><%= rblog.author %></span>
+                                                            - <span class="post-date"><%= rblog.createdAt ? new Date(rblog.createdAt).toLocaleDateString('en-GB') : '' %></span>
+                                                        </div>
+                                                        <h4 class="post-title mb-3">
+                                                            <a href="/blogs/<%= rblog._id %>"><%= rblog.title %></a>
+                                                        </h4>
+                                                        <a href="/blogs/<%= rblog._id %>" class="btn btn-link btn-dark btn-underline font-weight-normal">
+                                                            Read More<i class="w-icon-long-arrow-right"></i>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                                <h4 class="post-title mb-3"><a href="blogDetails.html">Fashion tell about who you are from...</a></h4>
-                                                <a href="blogDetails.html" class="btn btn-link btn-dark btn-underline font-weight-normal">Read More<i class="w-icon-long-arrow-right"></i></a>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <div class="col-12">
+                                                <p>No related posts found.</p>
                                             </div>
-                                        </div>
-                                        <div class="swiper-slide post post-grid">
-                                            <figure class="post-media br-sm">
-                                                <a href="blogDetails.html">
-                                                    <img src="/images/blog/single/3.jpg" alt="Post" width="296"
-                                                        height="190" style="background-color: #cad2d1;" />
-                                                </a>
-                                            </figure>
-                                            <div class="post-details text-center">
-                                                <div class="post-meta">
-                                                    by <a href="#" class="post-author">Hilary Kreton</a>
-                                                    - <a href="#" class="post-date">03.05.2021</a>
-                                                </div>
-                                                <h4 class="post-title mb-3"><a href="blogDetails.html">Comes a cool blog post with Images</a></h4>
-                                                <a href="blogDetails.html" class="btn btn-link btn-dark btn-underline font-weight-normal">Read More<i class="w-icon-long-arrow-right"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide post post-grid">
-                                            <figure class="post-media br-sm">
-                                                <a href="blogDetails.html">
-                                                    <img src="/images/blog/single/4.jpg" alt="Post" width="296"
-                                                        height="190" style="background-color: #ececec;" />
-                                                </a>
-                                            </figure>
-                                            <div class="post-details text-center">
-                                                <div class="post-meta">
-                                                    by <a href="#" class="post-author">Casper Dailn</a>
-                                                    - <a href="#" class="post-date">03.05.2021</a>
-                                                </div>
-                                                <h4 class="post-title mb-3"><a href="blogDetails.html">Comes a cool blog post with Images</a></h4>
-                                                <a href="blogDetails.html" class="btn btn-link btn-dark btn-underline font-weight-normal">Read More<i class="w-icon-long-arrow-right"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide post post-grid">
-                                            <figure class="post-media br-sm">
-                                                <a href="blogDetails.html">
-                                                    <img src="/images/blog/single/5.jpg" alt="Post" width="296"
-                                                        height="190" style="background-color: #AFAFAF;" />
-                                                </a>
-                                            </figure>
-                                            <div class="post-details text-center">
-                                                <div class="post-meta">
-                                                    by <a href="#" class="post-author">John Doe</a>
-                                                    - <a href="#" class="post-date">03.05.2021</a>
-                                                </div>
-                                                <h4 class="post-title mb-3"><a href="blogDetails.html">We want to be different and fashion gives to me that outlet</a></h4>
-                                                <a href="blogDetails.html" class="btn btn-link btn-dark btn-underline font-weight-normal">Read More<i class="w-icon-long-arrow-right"></i></a>
-                                            </div>
-                                        </div>
+                                        <% } %>
                                     </div>
                                     <button class="swiper-button-next"></button>
                                     <button class="swiper-button-prev"></button>
                                 </div>
                             </div>
                             <!-- End Related Posts -->
-                            
-                     
-                      
-                     
                         </div>
                         <!-- End of Main Content -->
-                     
                     </div>
                 </div>
             </div>

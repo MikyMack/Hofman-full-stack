@@ -23,7 +23,7 @@
         };
         ( function ( d ) {
             var wf = d.createElement( 'script' ), s = d.scripts[0];
-            wf.src = 'assets/js/webfont.js';
+            wf.src = '/js/webfont.js';
             wf.async = true;
             s.parentNode.insertBefore( wf, s );
         } )( document );
@@ -50,7 +50,7 @@
 <body>
     <div class="page-wrapper">
         <!-- Start of Header -->
-   <header class="header">
+        <header class="header">
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
@@ -62,14 +62,14 @@
                         <a href="/about" class="d-lg-show">About Us</a>
                         <a href="/contact" class="d-lg-show">Contact Us</a>
                         <% if (user) { %>
-                            <a href="/user/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <a href="/account" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
                             <span class="delimiter d-lg-show">/</span>
-                            <a href="/user/orders" class="ml-0 d-lg-show">My Orders</a>
-                        <% } else { %>
-                            <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
-                            <span class="delimiter d-lg-show">/</span>
-                            <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
-                        <% } %>
+                            <a href="/orders" class="ml-0 d-lg-show">My Orders</a>
+                            <% } else { %>
+                                <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
+                                <span class="delimiter d-lg-show">/</span>
+                                <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
+                                <% } %>
                     </div>
                 </div>
             </div>
@@ -80,32 +80,31 @@
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
                         <a href="/" class="logo">
                             <img src="/images/logo.png" alt="logo" width="200">
-                        </a>                      
+                        </a>
                     </div>
                     <div class="header-right ml-4">
                         <div class="header-call d-xs-show d-lg-flex align-items-center">
                             <a href="tel:#" class="w-icon-call"></a>
                             <div class="call-info d-lg-show">
                                 <h4 class="chat font-size-md text-normal ls-normal text-white mb-0">
-                                    <a href=""
-                                        class="text-capitalize text-primary font-weight-normal">Customer care</a>
+                                    <a href="" class="text-capitalize text-primary font-weight-normal">Customer care</a>
                                 </h4>
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
                             </div>
                         </div>
-                        <a class="wishlist label-down link d-xs-show" href="wishlist.html">
+                        <a class="wishlist label-down link d-xs-show" href="/wishlist">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
-                        </a>                     
+                        </a>
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
-                            <a href="#" class=" label-down link">
+                            <a href="/cart" class=" label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count text-white">2</span>
+                                    <span class="cart-count text-white">+</span>
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
-                     
+
                             <!-- End of Dropdown Box -->
                         </div>
                     </div>
@@ -130,8 +129,8 @@
             <nav class="breadcrumb-nav mb-6">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="blogs.html">Blog</a></li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/blogs">Blog</a></li>
         
                     </ul>
                 </div>
@@ -141,195 +140,68 @@
             <!-- Start of Page Content -->
             <div class="page-content">
                 <div class="container">
-                
-
                     <div class="row grid cols-lg-3 cols-md-2 mb-2" data-grid-options="{
                         'layoutMode': 'fitRows'
                     }">
-                        <article class="post post-grid-type grid-item overlay-zoom fashion">
-                            <figure class="post-media br-sm">
-                                <a href="blogDetails.html">
-                                    <img src="/images/blog/2cols/1.jpg" width="600"
-                                        height="420" alt="blog">
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-cats text-primary">
-                                    <a href="#">Fashion</a>
-                                </div>
-                                <h4 class="post-title">
-                                    <a href="blogDetails.html">New found the men dress for summer</a>
-                                </h4>
-                                <div class="post-content">
-                                    <p>Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, 
-                                    eget blandit nunc tortor eu nibh. Suspendisse potenti.Sed egstas, ant at 
-                                    vulputate volutpat, uctus metus libero eu augue, vitae luctus…</p> <a href="blogDetails.html" class="btn btn-link btn-primary">(read more)</a>
-                                </div>
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date">03.01.2021</a>
-
-                                </div>
+                        <% if (blogs && blogs.length > 0) { %>
+                            <% blogs.forEach(function(blog) { %>
+                                <article class="post post-grid-type grid-item overlay-zoom">
+                                    <figure class="post-media br-sm">
+                                        <a href="/blogs/<%= blog._id %>">
+                                            <img src="<%= blog.imageUrl %>" width="600" height="420" alt="blog" style="height: 300px; object-fit: cover;">
+                                        </a>
+                                    </figure>
+                                    <div class="post-details">
+                                        <% if (blog.metaKeywords && blog.metaKeywords.length) { %>
+                                            <div class="post-cats text-primary">
+                                                <% blog.metaKeywords.forEach(function(tag, idx) { %>
+                                                    <a href="/blogs?tag=<%= encodeURIComponent(tag) %>"><%= tag %></a><%= idx < blog.metaKeywords.length - 1 ? ', ' : '' %>
+                                                <% }); %>
+                                            </div>
+                                        <% } %>
+                                        <h4 class="post-title">
+                                            <a href="/blogs/<%= blog._id %>"><%= blog.title %></a>
+                                        </h4>
+                                        <div class="post-content">
+                                            <p>
+                                                <%= blog.metaDescription.length > 150 ? blog.metaDescription.substring(0, 150) + '...' : blog.metaDescription %>
+                                            </p>
+                                            <a href="/blogs/<%= blog._id %>" class="btn btn-link btn-primary">(read more)</a>
+                                        </div>
+                                        <div class="post-meta">
+                                            by <span class="post-author"><%= blog.author %></span>
+                                            - <span class="post-date">
+                                                <%= blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-GB') : '' %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </article>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="col-12">
+                                <p class="text-center">No blogs found.</p>
                             </div>
-                        </article>
-                        <article class="post post-grid-type grid-item overlay-zoom others technology">
-                            <figure class="post-media br-sm">
-                                <a href="blogDetails.html">
-                                    <img src="/images/blog/2cols/2.jpg" width="600"
-                                        height="420" alt="blog">
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-cats text-primary">
-                                    <a href="#">Others</a>,
-                                    <a href="#">Technology</a>
-                                </div>
-                                <h4 class="post-title">
-                                    <a href="blogDetails.html">Recognitory the needs is primary condition  for design</a>
-                                </h4>
-                                <div class="post-content">
-                                    <p>Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, 
-                                    eget blandit nunc tortor eu nibh. Suspendisse potenti.Sed egstas, ant at 
-                                    vulputate volutpat, uctus metus libero eu augue, vitae luctus…</p>
-                                    <a href="blogDetails.html" class="btn btn-link btn-primary">(read more)</a>
-                                </div>
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date">03.05.2021</a>
-                                   
-                                </div>
-                            </div>
-                        </article>
-                        <article class="post post-grid-type grid-item overlay-zoom clothes">
-                            <figure class="post-media br-sm">
-                                <a href="blogDetails.html">
-                                    <img src="/images/blog/2cols/3.jpg" width="600"
-                                        height="420" alt="blog">
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-cats text-primary">
-                                    <a href="#">Clothes</a>
-                                </div>
-                                <h4 class="post-title">
-                                    <a href="blogDetails.html">New found the women’s shirt  for summer season</a>
-                                </h4>
-                                <div class="post-content">
-                                    <p>Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, 
-                                    eget blandit nunc tortor eu nibh. Suspendisse potenti.Sed egstas, ant at 
-                                    vulputate volutpat, uctus metus libero eu augue, vitae luctus…</p>
-                                    <a href="blogDetails.html" class="btn btn-link btn-primary">(read more)</a>
-                                </div>
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date">03.01.2021</a>
-                                  
-                                </div>
-                            </div>
-                        </article>
-                        <article class="post post-grid-type grid-item overlay-zoom lifestyle">
-                            <figure class="post-media br-sm">
-                                <a href="blogDetails.html">
-                                    <img src="/images/blog/2cols/4.jpg" width="600"
-                                        height="420" alt="blog">
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-cats text-primary">
-                                    <a href="#">Lifestyle</a>
-                                </div>
-                                <h4 class="post-title">
-                                    <a href="blogDetails.html">We want to be different and fashion gives to me that outlet</a>
-                                </h4>
-                                <div class="post-content">
-                                    <p>Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, 
-                                    eget blandit nunc tortor eu nibh. Suspendisse potenti.Sed egstas, ant at 
-                                    vulputate volutpat, uctus metus libero eu augue, vitae luctus…</p>
-                                    <a href="blogDetails.html" class="btn btn-link btn-primary">(read more)</a>
-                                </div>
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date">03.03.2021</a>
-                                  
-                                </div>
-                            </div>
-                        </article>
-                        <article class="post post-grid-type grid-item overlay-zoom entertainment shoes lifestyle others">
-                            <figure class="post-media br-sm">
-                                <a href="blogDetails.html">
-                                    <img src="/images/blog/2cols/5.jpg" width="600"
-                                        height="420" alt="blog">
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-cats text-primary">
-                                    <a href="#">Entertainment</a>,
-                                    <a href="#">Lifestyle</a>,
-                                    <a href="#">Others</a>
-                                </div>
-                                <h4 class="post-title">
-                                    <a href="blogDetails.html">Comes a cool blog post with Images</a>
-                                </h4>
-                                <div class="post-content">
-                                    <p>Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, 
-                                    eget blandit nunc tortor eu nibh. Suspendisse potenti.Sed egstas, ant at 
-                                    vulputate volutpat, uctus metus libero eu augue, vitae luctus…</p>
-                                    <a href="blogDetails.html" class="btn btn-link btn-primary">(read more)</a>
-                                </div>
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date">03.01.2021</a>
-                                   
-                                </div>
-                            </div>
-                        </article>
-                        <article class="post post-grid-type grid-item overlay-zoom fashion lifestyle">
-                            <figure class="post-media br-sm">
-                                <a href="blogDetails.html">
-                                    <img src="/images/blog/2cols/6.jpg" width="600"
-                                        height="420" alt="blog">
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-cats text-primary">
-                                    <a href="#">Fashion</a>,
-                                    <a href="#">Technology</a>
-                                </div>
-                                <h4 class="post-title">
-                                    <a href="blogDetails.html">Fusce lacinia arcuet nulla</a>
-                                </h4>
-                                <div class="post-content">
-                                    <p>Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, 
-                                    eget blandit nunc tortor eu nibh. Suspendisse potenti.Sed egstas, ant at 
-                                    vulputate volutpat, uctus metus libero eu augue, vitae luctus…</p>
-                                    <a href="blogDetails.html" class="btn btn-link btn-primary">(read more)</a>
-                                </div>
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date">03.06.2021</a>
-                                 
-                                </div>
-                            </div>
-                        </article>
+                        <% } %>
                     </div>
-                    <ul class="pagination justify-content-center mb-10 pb-2 pt-2">
-                        <li class="prev disabled">
-                            <a href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                <i class="w-icon-long-arrow-left"></i>Prev
-                            </a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="next">
-                            <a href="#" aria-label="Next">
-                                Next<i class="w-icon-long-arrow-right"></i>
-                            </a>
-                        </li>
-                    </ul>
+                    <% if (totalPages && totalPages > 1) { %>
+                        <ul class="pagination justify-content-center mb-10 pb-2 pt-2">
+                            <li class="prev <%= currentPage <= 1 ? 'disabled' : '' %>">
+                                <a href="<%= currentPage > 1 ? ('/blogs?page=' + (currentPage - 1)) : '#' %>" aria-label="Previous" <%= currentPage <= 1 ? 'tabindex="-1" aria-disabled="true"' : '' %>>
+                                    <i class="w-icon-long-arrow-left"></i>Prev
+                                </a>
+                            </li>
+                            <% for (let i = 1; i <= totalPages; i++) { %>
+                                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                    <a class="page-link" href="/blogs?page=<%= i %>"><%= i %></a>
+                                </li>
+                            <% } %>
+                            <li class="next <%= currentPage >= totalPages ? 'disabled' : '' %>">
+                                <a href="<%= currentPage < totalPages ? ('/blogs?page=' + (currentPage + 1)) : '#' %>" aria-label="Next" <%= currentPage >= totalPages ? 'tabindex="-1" aria-disabled="true"' : '' %>>
+                                    Next<i class="w-icon-long-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    <% } %>
                 </div>
             </div>
             <!-- End of Page Content -->

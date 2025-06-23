@@ -5,7 +5,6 @@ const crypto = require('crypto');
 require('dotenv').config();
 const shiprocketService = require('../services/shiprocketService');
 const { getOrdersWithTracking } = require('../services/orderService');
-const formatStatus = require('../utils/formatStatus');
 
 const Category = require('../models/Category');
 const Product = require('../models/Product');
@@ -17,6 +16,8 @@ const Wishlist = require('../models/Wishlist');
 const Address = require('../models/Address');
 const Coupon = require('../models/Coupon');
 const Order = require('../models/Order');
+const Blog = require('../models/Blog');
+const Testimonial = require('../models/Testimonial');
 const { createEmptyCart, validateCartCoupon } = require('../utils/cartUtils');
 const isUser = require('../middleware/isUser');
 const razorpayInstance = require('../utils/razorpay');
@@ -40,6 +41,13 @@ router.get('/', async (req, res) => {
         const bestSeller = await Product.find({ isActive: true, bestSeller: true }).sort({ createdAt: -1 }).limit(10).lean();
         const topRated = await Product.find({ isActive: true, topRated: true }).sort({ createdAt: -1 }).limit(10).lean();
 
+        // Fetch latest 5 blogs
+        let blogs = [];
+        try {       
+            blogs = await Blog.find().sort({ createdAt: -1 }).limit(5).lean();
+        } catch (blogErr) {
+            blogs = [];
+        }
 
         const activeCoupons = await Coupon.find({
             isActive: true,
@@ -65,8 +73,8 @@ router.get('/', async (req, res) => {
             topRated,
             cartItems: cart?.items || [],
             cartSubtotal: cart?.subtotal || 0,
-            activeCoupons
-
+            activeCoupons,
+            blogs
         });
 
     } catch (err) {
@@ -84,7 +92,8 @@ router.get('/', async (req, res) => {
             bestSeller: [],
             topRated: [],
             cartItems: [],
-            activeCoupons: []
+            activeCoupons: [],
+            blogs: []
         });
     }
 });
@@ -94,7 +103,21 @@ router.get('/about', async (req, res) => {
     const categories = await Category.find({ isActive: true })
         .select('name imageUrl isActive subCategories')
         .lean();
-    res.render('user/about', { user: req.user || null, categories });
+
+    const testimonials = await Testimonial.find({ isActive: true }).lean();
+    let blogs = [];
+    try {       
+        blogs = await Blog.find().sort({ createdAt: -1 }).limit(5).lean();
+    } catch (blogErr) {
+        blogs = [];
+    }
+
+    res.render('user/about', { 
+        user: req.user || null, 
+        categories, 
+        testimonials ,
+        blogs
+    });
 });
 router.get('/store', async (req, res) => {
     try {
@@ -359,9 +382,18 @@ router.get('/account', async (req, res) => {
     const categories = await Category.find({ isActive: true })
         .select('name imageUrl isActive subCategories')
         .lean();
-    res.render('user/account', { user: req.user || null, categories });
+
+    let orders = [];
+    if (req.user) {
+        orders = await Order.find({ user: req.user._id })
+            .sort({ createdAt: -1 })
+            .limit(10)
+            .lean();
+    }
+
+    res.render('user/account', { user: req.user || null, categories, orders });
 });
-// Orders page with filter by tab (current/delivered/cancelled)
+
 router.get('/orders', isUser, async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
@@ -709,7 +741,6 @@ router.post('/apply-coupon', async (req, res) => {
     }
 });
 
-// POST /place-order
 router.post('/place-order', async (req, res) => {
     try {
 
@@ -1006,16 +1037,63 @@ router.get('/terms_and_conditions', async (req, res) => {
     res.render('user/terms-conditions', { user: req.user || null, categories });
 });
 router.get('/blogs', async (req, res) => {
-    const categories = await Category.find({ isActive: true, })
-        .select('name imageUrl isActive subCategories')
-        .lean();
-    res.render('user/blogs', { user: req.user || null, categories });
+    try {
+        const categories = await Category.find({ isActive: true })
+            .select('name imageUrl isActive subCategories')
+            .lean();
+
+        let page = parseInt(req.query.page) || 1;
+        let limit = 6;
+        let skip = (page - 1) * limit;
+
+        const totalBlogs = await Blog.countDocuments();
+        const totalPages = Math.ceil(totalBlogs / limit);
+
+        const blogs = await Blog.find()
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+
+        res.render('user/blogs', {
+            user: req.user || null,
+            categories,
+            blogs,
+            currentPage: page,
+            totalPages
+        });
+    } catch (err) {
+        console.error("Error loading blogs:", err);
+        res.status(500).render('error', { message: 'Failed to load blogs' });
+    }
 });
 router.get('/blogs/:id', async (req, res) => {
-    const categories = await Category.find({ isActive: true })
-        .select('name imageUrl isActive subCategories')
-        .lean();
-    res.render('user/blogDetails', { user: req.user || null, categories });
+    try {
+        const categories = await Category.find()
+            .select('name imageUrl isActive subCategories')
+            .lean();
+
+        const blog = await Blog.findById(req.params.id).lean();
+
+        if (!blog) {
+            return res.status(404).render('error', { message: 'Blog not found' });
+        }
+
+        const relatedBlogs = await Blog.find({ _id: { $ne: req.params.id } })
+            .sort({ createdAt: -1 })
+            .limit(5)
+            .lean();
+
+        res.render('user/blogDetails', { 
+            user: req.user || null, 
+            categories, 
+            blog, 
+            relatedBlogs 
+        });
+    } catch (err) {
+        console.error("Error loading blog details:", err);
+        res.status(500).render('error', { message: 'Failed to load blog details' });
+    }
 });
 
 module.exports = router;

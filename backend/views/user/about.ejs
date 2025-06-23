@@ -52,7 +52,7 @@
 <body class="about-us">
     <div class="page-wrapper">
         <!-- Start of Header -->
-       <header class="header">
+        <header class="header">
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
@@ -64,14 +64,14 @@
                         <a href="/about" class="d-lg-show">About Us</a>
                         <a href="/contact" class="d-lg-show">Contact Us</a>
                         <% if (user) { %>
-                            <a href="/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
+                            <a href="/account" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
                             <span class="delimiter d-lg-show">/</span>
                             <a href="/orders" class="ml-0 d-lg-show">My Orders</a>
-                        <% } else { %>
-                            <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
-                            <span class="delimiter d-lg-show">/</span>
-                            <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
-                        <% } %>
+                            <% } else { %>
+                                <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
+                                <span class="delimiter d-lg-show">/</span>
+                                <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
+                                <% } %>
                     </div>
                 </div>
             </div>
@@ -82,15 +82,14 @@
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
                         <a href="/" class="logo">
                             <img src="/images/logo.png" alt="logo" width="200">
-                        </a>                      
+                        </a>
                     </div>
                     <div class="header-right ml-4">
                         <div class="header-call d-xs-show d-lg-flex align-items-center">
                             <a href="tel:#" class="w-icon-call"></a>
                             <div class="call-info d-lg-show">
                                 <h4 class="chat font-size-md text-normal ls-normal text-white mb-0">
-                                    <a href=""
-                                        class="text-capitalize text-primary font-weight-normal">Customer care</a>
+                                    <a href="" class="text-capitalize text-primary font-weight-normal">Customer care</a>
                                 </h4>
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
                             </div>
@@ -98,7 +97,7 @@
                         <a class="wishlist label-down link d-xs-show" href="/wishlist">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
-                        </a>                     
+                        </a>
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
                             <a href="/cart" class=" label-down link">
@@ -107,7 +106,7 @@
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
-                         
+
                             <!-- End of Dropdown Box -->
                         </div>
                     </div>
@@ -272,7 +271,7 @@ We’re known for quality, care,  and <br> quick support</p>
                                 <h4 class="text-primary font-weight-bold ls-25">Hear From Our Happy Clients</h4>
 
                                 <p>Discover why countless customers trust Hofmaan for their leather needs. From outstanding quality to exceptional service, our clients share their genuine experiences and success stories with our products. Join the community of satisfied customers who’ve made Hofmaan their go-to brand for timeless leather goods.</p>
-                                <a href="shop.html" class="btn btn-dark btn-link btn-underline btn-icon-right">
+                                <a href="/store" class="btn btn-dark btn-link btn-underline btn-icon-right">
                                      Shop Now<i class="w-icon-long-arrow-right"></i></a>
                             </div>
                             <!-- End of Col -->
@@ -289,75 +288,58 @@ We’re known for quality, care,  and <br> quick support</p>
                                         }
                                     }">
                                         <div class="swiper-wrapper row cols-sm-2">
-                                            <div class="swiper-slide testimonial-wrap">
-                                                <div class="testimonial testimonial-centered testimonial-boxed bg-white br-sm">
-                                                    <div class="testimonial-info">
-                                                        <figure class="testimonial-author-thumbnail">
-                                                            <img src="/images/hofmaan/dummy.jpg" alt="Testimonial" width="100"
-                                                                height="100" />
-                                                        </figure>
-                                                        <div class="ratings-container">
-                                                            <div class="ratings-full">
-                                                                <span class="ratings" style="width: 100%;"></span>
+                                            <% if (testimonials && testimonials.length > 0) { %>
+                                                <% testimonials.forEach(function(testimonial) { %>
+                                                    <div class="swiper-slide testimonial-wrap">
+                                                        <div class="testimonial testimonial-centered testimonial-boxed bg-white br-sm">
+                                                            <div class="testimonial-info">
+                                                                <figure>
+                                                                    <img src="<%= testimonial.imageUrl %>" alt="<%= testimonial.name %>" style="object-fit:cover;border-radius: 50%; height: 80px; width: 80px;" />
+                                                                </figure>
+                                                                <div class="ratings-container">
+                                                                    <div class="ratings-full">
+                                                                        <%    
+                                                                            var rating = testimonial.rating || 5;
+                                                                            var ratingPercent = Math.round((rating / 5) * 100);
+                                                                        %>
+                                                                        <span class="ratings" style="width: <%= ratingPercent %>%"></span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
+                                                            <blockquote>
+                                                                <%= testimonial.content %>
+                                                            </blockquote>
+                                                            <cite class="ls-25">
+                                                                <%= testimonial.name %>
+                                                                <% if (testimonial.designation) { %>
+                                                                    <span><%= testimonial.designation %></span>
+                                                                <% } %>
+                                                            </cite>
                                                         </div>
                                                     </div>
-                                                    <blockquote>
-                                                        Lorem ipsum dolor sit amet, consectetuerd
-                                                        do Pellentesque aliquet nib Nullamer
-                                                        mnequtesq nibhue aliquet urnaIn mattis...
-                                                    </blockquote>
-                                                    <cite class="ls-25">
-                                                        Anna<span>Investor</span>
-                                                    </cite>
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide testimonial-wrap">
-                                                <div class="testimonial testimonial-centered testimonial-boxed bg-white br-sm">
-                                                    <div class="testimonial-info">
-                                                        <figure class="testimonial-author-thumbnail">
-                                                            <img src="/images/hofmaan/dummy.jpg" alt="Testimonial" width="100"
-                                                                height="100" />
-                                                        </figure>
-                                                        <div class="ratings-container">
-                                                            <div class="ratings-full">
-                                                                <span class="ratings" style="width: 100%;"></span>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <div class="swiper-slide testimonial-wrap">
+                                                    <div class="testimonial testimonial-centered testimonial-boxed bg-white br-sm">
+                                                        <div class="testimonial-info">
+                                                            <figure class="testimonial-author-thumbnail">
+                                                                <img src="/images/hofmaan/dummy.jpg" alt="Testimonial" width="100" height="100" />
+                                                            </figure>
+                                                            <div class="ratings-container">
+                                                                <div class="ratings-full">
+                                                                    <span class="ratings" style="width: 100%;"></span>
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <blockquote>
+                                                            No testimonials available at the moment.
+                                                        </blockquote>
+                                                        <cite class="ls-25">
+                                                            Hofmaan Team
+                                                        </cite>
                                                     </div>
-                                                    <blockquote>
-                                                        Lorem ipsum dolor sit amet, consectetuerd
-                                                        do Pellentesque aliquet nib Nullamer
-                                                        mnequtesq nibhue aliquet urnaIn mattis...
-                                                    </blockquote>
-                                                    <cite class="ls-25">
-                                                        Anna<span>Investor</span>
-                                                    </cite>
                                                 </div>
-                                            </div>
-                                            <div class="swiper-slide testimonial-wrap">
-                                                <div class="testimonial testimonial-centered testimonial-boxed bg-white br-sm">
-                                                    <div class=" testimonial-info">
-                                                        <figure class="testimonial-author-thumbnail">
-                                                            <img src="/images/hofmaan/dummy.jpg" alt="Testimonial" width="100"
-                                                                height="100" />
-                                                        </figure>
-                                                        <div class="ratings-container">
-                                                            <div class="ratings-full">
-                                                                <span class="ratings" style="width: 100%;"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <blockquote>
-                                                        Lorem ipsum dolor sit amet, consectetuerd
-                                                        do Pellentesque aliquet nib Nullamer
-                                                        mnequtesq nibhue aliquet urnaIn mattis...
-                                                    </blockquote>
-                                                    <cite class="ls-25">
-                                                        Anna <span>Investor</span>
-                                                    </cite>
-                                                </div>
-                                            </div>
+                                            <% } %>
                                         </div>
                                         <div class="swiper-pagination"></div>
                                     </div>
@@ -368,114 +350,59 @@ We’re known for quality, care,  and <br> quick support</p>
 
                            <div class="title-link-wrapper title-post after-none mb-4 appear-animate mt-5">
                     <h2 class="title font-secondary ls-normal mb-0">From Our Blog</h2>
-                    <a href="blogs.html" class="font-weight-bold font-size-normal mb-0">
+                    <a href="/blogs" class="font-weight-bold font-size-normal mb-0">
                         View All Articles
                         <i class="w-icon-long-arrow-right"></i>
                     </a>
                 </div>
                 <div class="swiper-container swiper-theme post-wrapper pb-2 pb-lg-0 mb-5 appear-animate"
-                    data-swiper-options="{
+                data-swiper-options="{
                     'slidesPerView': 1,
                     'spaceBetween': 20,
                     'breakpoints': {
-                        '576': {
-                            'slidesPerView': 2
-                        },
-                        '768': {
-                            'slidesPerView': 3
-                        },
-                        '992': {
-                            'slidesPerView': 4,
-                            'dots': false
-                        }
+                        '576': { 'slidesPerView': 2 },
+                        '768': { 'slidesPerView': 3 },
+                        '992': { 'slidesPerView': 4, 'dots': false }
                     }
                 }">
-                    <div class="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1">
-
-                        <div class="swiper-slide post text-center overlay-zoom">
-                            <figure class="post-media br-sm">
-                                <a href="blogDetails.html">
-                                    <img src="/images/demos/demo12/blog/blog-1-650x440.jpg" alt="Post" width="325"
-                                        height="214" style="background-color: #b8bfc4;" />
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date mr-0">April 2, 2025</a>
+                <div class="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1">
+                    <% if (blogs && blogs.length) { %>
+                        <% blogs.forEach(function(blog) { %>
+                            <div class="swiper-slide post text-center overlay-zoom">
+                                <figure class="post-media br-sm">
+                                    <a href="/blogs/<%= blog._id %>">
+                                        <img src="<%= blog.imageUrl %>" alt="<%= blog.title %>" width="325"
+                                            height="214" style="background-color: #f5f5f5; object-fit:cover; height: 300px;" />
+                                    </a>
+                                </figure>
+                                <div class="post-details">
+                                    <div class="post-meta">
+                                        by <a href="#" class="post-author"><%= blog.author %></a>
+                                        - <a href="#" class="post-date mr-0">
+                                            <%= blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) : '' %>
+                                        </a>
+                                    </div>
+                                    <h4 class="post-title">
+                                        <a href="/blogs/<%= blog._id %>"><%= blog.title %></a>
+                                    </h4>
+                                    <a href="/blogs/<%= blog._id %>" class="btn btn-link btn-dark btn-underline">
+                                        Read More
+                                        <i class="w-icon-long-arrow-right"></i>
+                                    </a>
                                 </div>
-                                <h4 class="post-title"><a href="blogDetails.html">Aliquam tincidunt maurisus</a></h4>
-                                <a href="blogDetails.html" class="btn btn-link btn-dark btn-underline">
-                                    Read More
-                                    <i class="w-icon-long-arrow-right"></i>
-                                </a>
                             </div>
+                        <% }) %>
+                    <% } else { %>
+                        <div class="col-12 text-center py-5">
+                            <p class="text-muted mb-0">No blog articles found.</p>
                         </div>
-                        <div class="swiper-slide post text-center overlay-zoom">
-                            <figure class="post-media br-sm">
-                                <a href="blogDetails.html">
-                                    <img src="/images/demos/demo12/blog/blog-2-650x440.jpg" alt="Post" width="325"
-                                        height="214" style="background-color: #596066;" />
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date mr-0">April 2, 2025</a>
-                                </div>
-                                <h4 class="post-title"><a href="blogDetails.html">Vivamus Vestibulum Ntulla Nec Ante</a>
-                                </h4>
-                                <a href="blogDetails.html" class="btn btn-link btn-dark btn-underline">Read More<i
-                                        class="w-icon-long-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide post text-center overlay-zoom">
-                            <figure class="post-media br-sm">
-                                <a href="blogDetails.html">
-                                    <img src="/images/demos/demo12/blog/blog-3-650x440.jpg" alt="Post" width="325"
-                                        height="214" style="background-color: #eff3f4;" />
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date mr-0">April 2, 2025</a>
-                                </div>
-                                <h4 class="post-title"><a href="blogDetails.html">Ligula sollicitudin Laoreet
-                                        viverra</a></h4>
-                                <a href="blogDetails.html" class="btn btn-link btn-dark btn-underline">Read More<i
-                                        class="w-icon-long-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide post text-center overlay-zoom">
-                            <figure class="post-media br-sm">
-                                <a href="blogDetails.html">
-                                    <img src="/images/demos/demo12/blog/blog-4-650x440.jpg" alt="Post" width="325"
-                                        height="214" style="background-color: #68605e;" />
-                                </a>
-                            </figure>
-                            <div class="post-details">
-                                <div class="post-meta">
-                                    by <a href="#" class="post-author">John Doe</a>
-                                    - <a href="#" class="post-date mr-0">April 2, 2025</a>
-                                </div>
-                                <h4 class="post-title"><a href="blogDetails.html">Cras Ornare Tristique Elit</a></h4>
-                                <a href="blogDetails.html" class="btn btn-link btn-dark btn-underline">Read More<i
-                                        class="w-icon-long-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-pagination mt-2"></div>
+                    <% } %>
                 </div>
+                <div class="swiper-pagination mt-2"></div>
+            </div>
                     </div>
-                    <!-- End of Container -->
-                     
+                    <!-- End of Container -->                   
                 </div>
-
-
-                
-
-
             </div>
         </main>
         <!-- End of Main -->

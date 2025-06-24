@@ -131,6 +131,66 @@
                             <div class="custom-search-bar w-100">
                                 <input type="text" class="form-control" name="q" id="searchInput"
                                     placeholder="Search for products..." autocomplete="off" />
+
+                                <script>
+                                    // Typing animation for placeholder
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        const searchInput = document.getElementById('searchInput');
+                                        const placeholders = [
+                                            "Search for products...",
+                                            "Search by categories...",
+                                            "Search for loafers...",
+                                            "Search for sandals...",
+                                            "Search for bags...",
+                                            "Search for formal Shoes...",
+                                            "Search for clogs..."
+                                        ];
+                                        let current = 0;
+                                        let charIndex = 0;
+                                        let typing = true;
+
+                                        function typePlaceholder() {
+                                            const text = placeholders[current];
+                                            if (typing) {
+                                                if (charIndex < text.length) {
+                                                    searchInput.setAttribute('placeholder', text.substring(0, charIndex + 1));
+                                                    charIndex++;
+                                                    setTimeout(typePlaceholder, 60);
+                                                } else {
+                                                    typing = false;
+                                                    setTimeout(typePlaceholder, 1200);
+                                                }
+                                            } else {
+                                                if (charIndex > 0) {
+                                                    searchInput.setAttribute('placeholder', text.substring(0, charIndex - 1));
+                                                    charIndex--;
+                                                    setTimeout(typePlaceholder, 30);
+                                                } else {
+                                                    typing = true;
+                                                    current = (current + 1) % placeholders.length;
+                                                    setTimeout(typePlaceholder, 400);
+                                                }
+                                            }
+                                        }
+
+                                        // Only animate if input is not focused
+                                        let animating = true;
+                                        searchInput.addEventListener('focus', () => {
+                                            animating = false;
+                                            searchInput.setAttribute('placeholder', placeholders[current]);
+                                        });
+                                        searchInput.addEventListener('blur', () => {
+                                            if (!animating) {
+                                                animating = true;
+                                                charIndex = 0;
+                                                typing = true;
+                                                typePlaceholder();
+                                            }
+                                        });
+
+                                        typePlaceholder();
+                                    });
+                                </script>
                                 <button class="btn btn-search" type="submit" aria-label="Search">
                                     <i class="w-icon-search"></i>
                                 </button>
@@ -230,7 +290,11 @@
                                 </div>
                                 <div class="cart-action">
                                     <a href="/cart" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-                                    <a href="/checkout" class="btn btn-primary btn-rounded">Checkout</a>
+                                    <% if (user) { %>
+                                        <a href="/checkout" class="btn btn-primary btn-rounded">Checkout</a>
+                                    <% } else { %>
+                                        <a href="/auth/login" class="btn btn-primary btn-rounded">Login</a>
+                                    <% } %>
                                 </div>
                             </div>
                             <% if (!user) { %>

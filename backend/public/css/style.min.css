@@ -23365,7 +23365,7 @@ aside .sp-sidebar-banner span {
 
 .toolbox select {
   max-width: none;
-  width: 15.4rem;
+  width:100%;
   padding: 0.75em 2.7rem 0.75em 1.4rem;
   border-radius: 0.3rem;
   cursor: pointer;

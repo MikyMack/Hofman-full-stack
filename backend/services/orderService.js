@@ -41,9 +41,29 @@ async function getOrdersWithTracking(userId, { skip = 0, limit = 10 } = {}) {
           order.deliveryInfo.trackingHistory = validTrackingHistory;
           order.deliveryInfo.updatedAt = new Date();
 
-          if (latestEvent.status === 'Shipped' && order.orderStatus !== 'Delivered') {
-            order.orderStatus = 'Shipped';
-          }
+          switch(latestEvent.status) {
+            case 'Shipped':
+                if (order.orderStatus !== 'Delivered') {
+                    order.orderStatus = 'Shipped';
+                }
+                break;
+            case 'In Transit':
+            case 'Out for Delivery':
+                if (!['Delivered', 'Cancelled', 'Returned'].includes(order.orderStatus)) {
+                    order.orderStatus = 'Shipped'; // or create a new status if needed
+                }
+                break;
+            case 'Delivered':
+                order.orderStatus = 'Delivered';
+                break;
+            case 'Returned':
+                order.orderStatus = 'Returned';
+                break;
+            case 'Cancelled':
+            case 'Failed':
+                order.orderStatus = 'Cancelled';
+                break;
+        }
           await order.save();
         }
       } catch (error) {

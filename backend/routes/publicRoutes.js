@@ -420,13 +420,10 @@ router.get('/orders', isUser, async (req, res) => {
         const limit = parseInt(req.query.limit) || 10;
         const skip = (page - 1) * limit;
 
-        // --- FILTER LOGIC ---
-        // tab can be: 'current', 'delivered', 'cancelled'
         const tab = req.query.tab || 'current';
         let statusFilter = {};
 
         if (tab === 'current') {
-            // Show all except delivered/cancelled/returned
             statusFilter = {
                 orderStatus: { $in: ['Pending', 'Confirmed', 'Processing', 'Shipped', 'Out for Delivery'] }
             };

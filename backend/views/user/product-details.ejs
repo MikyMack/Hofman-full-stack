@@ -150,7 +150,7 @@
                                 <h4 class="chat font-size-md text-normal ls-normal text-white mb-0">
                                     <a href="" class="text-capitalize text-primary font-weight-normal">Customer care</a>
                                 </h4>
-                                <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
+                                <a href="tel:+919400947122" class="phone-number font-weight-bolder ls-50">+91 9400947122</a>
                             </div>
                         </div>
                         <a class="wishlist label-down link d-xs-show" href="/wishlist">
@@ -272,10 +272,10 @@
 
                                         <div class="product-price">
                                             <% if (product.salePrice && product.salePrice < product.basePrice) { %>
-                                                <del class="old-price">₹<%= product.basePrice %></del>
-                                                <ins class="new-price">₹<%= product.salePrice %></ins>
+                                                <del class="old-price"><span class="rupee-symbol">₹</span><%= product.basePrice %></del>
+                                                <ins class="new-price"><span class="rupee-symbol">₹</span><%= product.salePrice %></ins>
                                                 <% } else { %>
-                                                    <ins class="new-price">₹<%= product.basePrice %></ins>
+                                                    <ins class="new-price"><span class="rupee-symbol">₹</span><%= product.basePrice %></ins>
                                                     <% } %>
                                         </div>
 
@@ -349,7 +349,7 @@
                                                                             class="quantity-minus w-icon-minus"></button>
                                                                     </div>
                                                                 </div>
-                                                                <button class="btn btn-primary details-btn main-btn btn-cart-new">
+                                                                <button class="btn btn-primary stick-btn details-btn main-btn btn-cart-new">
                                                                     <i class="w-icon-cart"></i>
                                                                     <span>Add to Cart</span>
                                                                 </button>
@@ -890,9 +890,9 @@
                                                                     typeof rp.salePrice==='number' && rp.salePrice <
                                                                     rp.basePrice && rp.salePrice> 0); %>
                                                                     <% if (showOldPrice) { %>
-                                                                        <del class="old-price">₹<%= rp.basePrice %>
+                                                                        <del class="old-price"><span class="rupee-symbol">₹</span><%= rp.basePrice %>
                                                                                 </del>
-                                                                        <ins class="new-price">₹<%= rp.salePrice %>
+                                                                        <ins class="new-price"><span class="rupee-symbol">₹</span><%= rp.salePrice %>
                                                                                 </ins>
                                                                         <% } else if (typeof rp.basePrice==='number' ) {
                                                                             %>
@@ -1268,7 +1268,7 @@
                             </a>
                             <div class="widget-body">
                                 <p class="widget-about-title">Got Question? Call us 24/7</p>
-                                <a href="tel:18005707777" class="widget-about-call">1-800-570-7777</a>
+                                <a href="tel:+919400947122" class="widget-about-call">+91 9400947122</a>
                                  <p>Follow Us In :</p>
                                 <div class="social-icons social-icons-colored">
                                     <a href="https://www.facebook.com/profile.php?id=61577157921909#" class="social-icon social-facebook w-icon-facebook"></a>

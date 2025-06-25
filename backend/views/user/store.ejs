@@ -107,7 +107,7 @@
                                 <h4 class="chat font-size-md text-normal ls-normal text-white mb-0">
                                     <a href="" class="text-capitalize text-primary font-weight-normal">Customer care</a>
                                 </h4>
-                                <a href="tel:#" class="phone-number font-weight-bolder ls-50">+911234567890</a>
+                                <a href="tel:+919400947122" class="phone-number font-weight-bolder ls-50">+91 9400947122</a>
                             </div>
                         </div>
                         <a class="wishlist label-down link d-xs-show" href="/wishlist">
@@ -151,6 +151,7 @@
             <div class="page-content">
                 <div class="container">
                     <!-- Start of Shop Banner -->
+                     
                     <div class="shop-default-banner banner d-flex align-items-center mb-5 br-xs"
                         style="background-image: url(/images/banner/banner.png); background-color: #FFC74E;">
                         <div class="banner-content">
@@ -227,7 +228,7 @@
                                     <div class="widget widget-collapsible">
                                         <h3 class="widget-title"><span>Size</span></h3>
                                         <form id="size-filter-form" method="get" action="/store">
-                                            <ul class="widget-body filter-items item-check mt-1">
+                                            <ul style="display: flex; flex-wrap: wrap; gap: 5px;" class="widget-body filter-items item-check mt-1">
                                                 <% 
                                                     let sizeSet = new Set();
                                                     products.forEach(function(product) {
@@ -250,12 +251,14 @@
                                                     }
                                                 %>
                                                 <% sizes.forEach(function(size) { %>
-                                                    <li>
-                                                        <label style="cursor:pointer;">
-                                                            <input  type="checkbox" name="size" value="<%= size %>" <%= selectedSizes.includes(size) ? 'checked' : '' %> />
-                                                            <span style="color: #363636;"><%= size %></span>
-                                                        </label>
-                                                    </li>
+                                                <li class="sizes-filter <%= selectedSizes.includes(size) ? 'selected' : '' %>" 
+        data-size="<%= size %>">
+      <label style="cursor:pointer;">
+        <input hidden type="checkbox" name="size" value="<%= size %>" 
+               <%= selectedSizes.includes(size) ? 'checked' : '' %> />
+        <span style="color: #363636; position: relative;"><%= size %></span>
+      </label>
+    </li>
                                                 <% }) %>
                                             </ul>
                                             <% // Preserve other filters except size %>
@@ -271,7 +274,7 @@
                                     <div class="widget widget-collapsible">
                                         <h3 class="widget-title"><span>Color</span></h3>
                                         <form id="color-filter-form" method="get" action="/store">
-                                            <ul class="widget-body filter-items item-check mt-1">
+                                            <ul style="display: flex; gap: 5px;  flex-wrap: wrap;" class="widget-body filter-items item-check mt-1">
                                                 <% 
                                                     let colorSet = new Set();
                                                     products.forEach(function(product) {
@@ -294,10 +297,10 @@
                                                     }
                                                 %>
                                                 <% colors.forEach(function(color) { %>
-                                                    <li>
-                                                        <label style="cursor:pointer;">
-                                                            <input type="checkbox" name="color" value="<%= color %>" <%= selectedColors.includes(color) ? 'checked' : '' %> />
-                                                            <span style="color:#363636 ;"><%= color %></span>
+                                                    <li style="display: flex; ">
+                                                        <label style="cursor:pointer; display: flex;">
+                                                            <input hidden type="checkbox" name="color" value="<%= color %>" <%= selectedColors.includes(color) ? 'checked' : '' %> />
+                                                            <span class="color-swatch1" style="color:#363636 ;  position: relative;  background-color: <%=color%>;min-height: 30px!important; min-width: 30px!important; border-radius:50px; border:solid 1px grey " ></span>
                                                         </label>
                                                     </li>
                                                 <% }) %>
@@ -393,7 +396,7 @@
                                                 <div style="padding: 5px!important;" class="product-details ">
                                                   
                                                     <h3 class="product-name d-flex justify-center">
-                                                        <a class="text-uppercase" href="/product/<%= product.slug || product._id %>"><%= product.name %></a>
+                                                        <a class="text-uppercase store-product-name" href="/product/<%= product.slug || product._id %>"><%= product.name %></a>
                                                     </h3>
                                                     
                                                     <!-- Variant Selection -->
@@ -415,7 +418,7 @@
                                                         <% if (product.colorVariants && product.colorVariants.length > 0) { %>
                                                             <div class="product-color flex align-items-center gap-2">
                                                                 <% product.colorVariants.forEach(function(variant) { %>
-                                                                    <span class="color-options-new" 
+                                                                    <span class="color-options-new color-swatch" 
                                                                         style="background-color:<%= variant.colorCode || variant.color || '#ccc' %>;" 
                                                                         title="<%= variant.color %>"
                                                                         data-color="<%= variant.color %>"
@@ -430,10 +433,10 @@
                                                     <div class="product-pa-wrapper d-flex justify-content-start">
                                                         <div class="product-price">
                                                             <% if (product.salePrice && product.salePrice > 0 && product.salePrice < product.basePrice) { %>
-                                                                <ins class="new-price">₹<%= product.salePrice.toFixed(2) %></ins>
-                                                                <del class="old-price">₹<%= product.basePrice.toFixed(2) %></del>
+                                                                <ins class="new-price"><span class="rupee-symbol">₹</span><%= product.salePrice.toFixed(2) %></ins>
+                                                                <del class="old-price"><span class="rupee-symbol">₹</span><%= product.basePrice.toFixed(2) %></del>
                                                             <% } else { %>
-                                                                <ins class="new-price">₹<%= product.basePrice.toFixed(2) %></ins>
+                                                                <ins class="new-price"><span class="rupee-symbol">₹</span><%= product.basePrice.toFixed(2) %></ins>
                                                             <% } %>
                                                         </div>
                                                     </div>
@@ -782,7 +785,7 @@
                                 </a>
                                 <div class="widget-body">
                                     <p class="widget-about-title">Got Question? Call us 24/7</p>
-                                    <a href="tel:18005707777" class="widget-about-call">1-800-570-7777</a>
+                                    <a href="tel:+919400947122" class="widget-about-call">+91 9400947122</a>
                                      <p>Follow Us In :</p>
                                     <div class="social-icons social-icons-colored">
                                         <a href="https://www.facebook.com/profile.php?id=61577157921909#" class="social-icon social-facebook w-icon-facebook"></a>

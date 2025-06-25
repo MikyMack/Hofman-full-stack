@@ -18963,8 +18963,18 @@ body .product-popup {
 
 .payment img {
   display: block;
-}
+  height: 35px!important;
 
+  width: 270px!important;
+}
+  .color-swatch1 {
+        /* Your base styles */
+        border: 2px solid #ddd;
+    }
+    input[type="checkbox"]:checked + .color-swatch1 {
+        border-color: #000;
+        box-shadow: 0 0 0 2px white, 0 0 0 4px black;
+    }
 .payment-label {
   margin-right: 2rem;
 }
@@ -25136,6 +25146,85 @@ color: var(--theme-color)!important;
 .pr-size{
   padding: 6px!important;
 }
+.sticky-content.fixed.fix-top  .stick-btn{
+  width: 50px!important;
+  font-size: 13px!important;
+  height: 40px!important;
+  margin-top: 9px!important;
+  
+
+}
+.sticky-content.fixed.fix-top .btn-wishlist{
+  width: 110px!important;
+  font-size: 9px!important;
+  height: 40px!important;
+
+}
+.sticky-content.fixed.fix-top .stick-btn span{
+  display: none;
+}
+
+}
+@media(max-width:500px){
+  .store-product-name{
+  font-size: 14px!important; 
+}
+.store-price-new{
+  font-size: 14px;
+}
+.size-swatch{
+  height: 20px;
+  width: 20px;
+  border: solid 1px #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+}
+.size-pill {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin: 2px;
+  transition: all 0.3s ease;
+}
+.store-size{
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.size-pill-selected {
+  background-color: #FFC74E; /* Or any color you prefer */
+  color: white !important;
+  font-weight: bold;
+}
+.filter-items li .size-pill{
+  position: relative;
+}
+.sizes-filter{
+
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px #e0e0e0;
+}
+.sizes-filter:hover {
+  background-color: #f0f0f0;
+}
+
+.sizes-filter.selected {
+  background-color: var(--theme-color); /* Your selected color */
+  border-color: white;
+  color: white;
+}
+
+.sizes-filter.selected span {
+  color: white !important;
 }
 .hm-pr-btn{
   display: flex;
@@ -25151,12 +25240,19 @@ color: var(--theme-color)!important;
   gap: 10px;
 }
 
+.rupee-symbol {
+  font-family: 'Arial', sans-serif; /* Change to any font you want */
+  font-weight: bold;                /* Optional */
+  margin-right: 2px;                /* Optional spacing */
+  font-size: 1.1em;                 /* Optional size tweak */
+}
 .color-swatch {
   display: inline-block;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  margin-right: 12px;
+ display: flex ;
+margin-right: 5px;
   cursor: pointer;
   border: 2px solid transparent;
   transition: all 0.3s ease;
@@ -25218,7 +25314,20 @@ color: var(--theme-color)!important;
   background-color: #0056b3;
   border-color: #0056b3;
 }
-
+ .size-options-new {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .size-options-new.selected {
+        background-color: var(--theme-color); /* or any color you prefer */
+        color: white;
+        border-color: #007bff;
+    }
 .order-tab-btn, .order-tab-btn-active {
   color: #111827 !important;
   border-color: #111827 !important;

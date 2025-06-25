@@ -25578,3 +25578,92 @@ margin-right: 5px;
   font-weight: bold;
   color: #444;
 }
+/* Add this to your CSS file */
+@media(max-width:800px){
+  .whatsapp-float {
+  position: fixed;
+  bottom: 180px!important;
+  right: 20px;
+  z-index: 100;
+}
+.whatsapp-icon {
+  font-size: 20px;
+}
+}
+.whatsapp-float {
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
+  z-index: 100;
+}
+
+.whatsapp-icon {
+  font-size: 40px;
+  color: var(--theme-color); /* Dark blue WhatsApp color */
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.whatsapp-icon:hover {
+  transform: scale(1.1);
+  color: #128c7e; /* Slightly lighter blue on hover */
+}
+
+/* Wave background element */
+.whatsapp-float::before {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: rgba(7, 94, 84, 0.2);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  animation: wave 3s infinite ease-out;
+}
+
+/* Second wave */
+.whatsapp-float::after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: rgba(7, 94, 84, 0.1);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  animation: wave 3s infinite 0.5s ease-out;
+}
+
+@keyframes wave {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.8;
+  }
+  70% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* Optional: Add this if you want the icon to pulse slightly */
+@keyframes gentle-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.whatsapp-icon {
+  animation: gentle-pulse 3s infinite ease-in-out;
+}

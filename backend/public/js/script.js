@@ -172,3 +172,38 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const sizeFilters = document.querySelectorAll('.sizes-filter');
+  
+  sizeFilters.forEach(function(filter) {
+    filter.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Toggle the selected class
+      this.classList.toggle('selected');
+      
+      // Update the hidden checkbox state
+      const checkbox = this.querySelector('input[type="checkbox"]');
+      checkbox.checked = !checkbox.checked;
+      
+      // Get the size value
+      const size = this.getAttribute('data-size');
+      console.log('Selected size:', size);
+      
+      // Optional: Submit the form if you want immediate filtering
+      // this.closest('form').submit();
+    });
+  });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    var sizeOptions = document.querySelectorAll('.size-options-new');
+    sizeOptions.forEach(function(option) {
+        option.addEventListener('click', function() {
+            sizeOptions.forEach(function(opt) {
+                opt.classList.remove('selected');
+            });
+            this.classList.add('selected');
+        });
+    });
+});

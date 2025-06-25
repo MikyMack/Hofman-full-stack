@@ -160,42 +160,7 @@
                         </div>
                     </div>
                     <!-- End of Shop Banner -->
-            
-                    <!-- Categories Carousel -->
-                    <div class="shop-default-category category-ellipse-section mb-6">
-                        <div class="swiper-container swiper-theme shadow-swiper" data-swiper-options="{
-                            'spaceBetween': 20,
-                            'slidesPerView': 3,
-                            'breakpoints': {
-                                '480': { 'slidesPerView': 3 },
-                                '576': { 'slidesPerView': 4 },
-                                '768': { 'slidesPerView': 6 },
-                                '992': { 'slidesPerView': 6 },
-                                '1200': { 'slidesPerView': 6, 'spaceBetween': 30 }
-                            }
-                        }">
-                            <div class="swiper-wrapper row gutter-lg cols-xl-8 cols-lg-7 cols-md-6 cols-sm-4 cols-xs-3 cols-2">
-                                <% categories.forEach(function(category) { %>
-                                    <div class="swiper-slide category-wrap">
-                                        <div class="category category-ellipse">
-                                            <figure class="category ">
-                                                <a href="/store?<%= 'category=' + encodeURIComponent(category.slug || category.name) %>">
-                                                    <img src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt="<%= category.name %>"  />
-                                                </a>
-                                            </figure>
-                                            <div class="category-content">
-                                                <h4 class="category-name">
-                                                    <a href="/store?<%= 'category=' + encodeURIComponent(category.slug || category.name) %>"><%= category.name %></a>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <% }) %>
-                            </div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                    </div>
-               
+   
                     <div class="shop-content row gutter-lg mb-10">
                         <!-- Start of Sidebar, Shop Sidebar -->
                         <aside class="sidebar shop-sidebar sticky-sidebar-wrapper sidebar-fixed">

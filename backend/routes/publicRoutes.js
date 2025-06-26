@@ -130,7 +130,8 @@ router.get('/store', async (req, res) => {
             size,
             color,
             sort,
-            q 
+            q,
+            subcategory
         } = req.query;
 
         if (size) {
@@ -150,9 +151,19 @@ router.get('/store', async (req, res) => {
 
         let filter = { isActive: true };
 
-        if (req.query.subcategory && mongoose.Types.ObjectId.isValid(req.query.subcategory)) {
-            filter.subcategory = req.query.subcategory;
+        let pageTitle = 'Store';
+        let categoryTitle = null;
+        let subcategoryTitle = null;
+
+        if (subcategory && mongoose.Types.ObjectId.isValid(subcategory)) {
+            filter.subcategory = subcategory;
+            const foundCategory = await Category.findOne({ 'subCategories._id': subcategory }, { 'subCategories.$': 1, name: 1 }).lean();
+            if (foundCategory && foundCategory.subCategories && foundCategory.subCategories.length > 0) {
+                subcategoryTitle = foundCategory.subCategories[0].name;
+                categoryTitle = foundCategory.name;
+            }
         }
+
         if (category) {
             let decodedCategory = decodeURIComponent(category);
 
@@ -165,14 +176,30 @@ router.get('/store', async (req, res) => {
 
             if (foundCategory) {
                 filter.category = foundCategory._id;
+                if (!categoryTitle) categoryTitle = foundCategory.name;
             } else if (mongoose.Types.ObjectId.isValid(category)) {
                 filter.category = category;
+    
+                const foundById = await Category.findById(category).lean();
+                if (foundById && !categoryTitle) categoryTitle = foundById.name;
             } else {
                 filter.$or = [
                     { 'categoryName': { $regex: new RegExp(decodedCategory, 'i') } },
                     { 'category.slug': { $regex: new RegExp(decodedCategory, 'i') } }
                 ];
+
+                if (!categoryTitle) categoryTitle = decodedCategory;
             }
+        }
+
+        if (categoryTitle && subcategoryTitle) {
+            pageTitle = `${categoryTitle} - ${subcategoryTitle}`;
+        } else if (categoryTitle) {
+            pageTitle = categoryTitle;
+        } else if (subcategoryTitle) {
+            pageTitle = subcategoryTitle;
+        } else if (q && typeof q === 'string' && q.trim().length > 0) {
+            pageTitle = `Search: ${q.trim()}`;
         }
 
         if (q && typeof q === 'string' && q.trim().length > 0) {
@@ -323,7 +350,8 @@ router.get('/store', async (req, res) => {
                 limit: Number(limit),
                 q: q || ''
             },
-            cartItems: cart?.items || []
+            cartItems: cart?.items || [],
+            title: pageTitle
         });
 
     } catch (err) {
@@ -336,7 +364,8 @@ router.get('/store', async (req, res) => {
             totalPages: 1,
             totalProducts: 0,
             filters: {},
-            cartItems: []
+            cartItems: [],
+            title: 'Store'
         });
     }
 });

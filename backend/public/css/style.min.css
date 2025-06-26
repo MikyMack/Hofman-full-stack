@@ -241,8 +241,8 @@ table {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  top: 1px;
-  right: 20px;
+  top: -3px;
+  left: -5px;
   z-index: -1;
 }
 

@@ -51,6 +51,7 @@
 
     <link rel="stylesheet" type="text/css" href="/css/style.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.css">
 </head>
 
 <body>
@@ -155,9 +156,8 @@
                     <div class="shop-default-banner banner d-flex align-items-center mb-5 br-xs"
                         style="background-image: url(/images/banner/banner.png); background-color: #FFC74E;">
                         <div class="banner-content">
-                            <h4 style="color: white!important;" class="banner-subtitle font-weight-bold">Lofers Collection</h4>
-                            <h3 class="banner-title text-white text-uppercase font-weight-bolder ls-10">Slide Into Sophistication</h3>
-                            <a href="/store" class="btn btn-dark new-btn btn-rounded btn-icon-right">Discover Now<i class="w-icon-long-arrow-right"></i></a>
+                            <h4 style="color: white!important;" class="banner-subtitle font-weight-bold"><%= title %></h4>
+                            <h3 class="banner-title text-white text-uppercase font-weight-bolder ls-10">BORN IN INDIA , WORN EVERYWHERE</h3>
                         </div>
                     </div>
                     <!-- End of Shop Banner -->
@@ -187,42 +187,23 @@
                                     </div>
                                     
                                     <!-- Price Filter -->
-                                    <div class="widget widget-collapsible">
+                                     <div class="widget widget-collapsible">
                                         <h3 class="widget-title"><span>Price</span></h3>
-                                        <div class="widget-body">
-                                            <ul class="filter-items search-ul">
-                                                <% 
-                                                    const priceRanges = [
-                                                        { min: 0, max: 100 },
-                                                        { min: 100, max: 200 },
-                                                        { min: 200, max: 300 },
-                                                        { min: 300, max: 500 },
-                                                        { min: 500, max: null }
-                                                    ];
-                                                %>
-                                                <% priceRanges.forEach(function(range) { %>
-                                                    <li>
-                                                        <a href="/store?<%= 
-                                                            (filters.category ? 'category=' + encodeURIComponent(filters.category) + '&' : '') +
-                                                            'minPrice=' + range.min + 
-                                                            (range.max !== null ? '&maxPrice=' + range.max : '')
-                                                        %>">
-                                                            ₹<%= range.min %>.00<% if(range.max !== null) { %> - ₹<%= range.max %>.00<% } else { %>+<% } %>
-                                                        </a>
-                                                    </li>
-                                                <% }) %>
-                                            </ul>
-                                            <form class="price-range" method="get" action="/store">
-                                                <input type="number" name="minPrice" class="min_price text-center" placeholder="₹min" value="<%= filters.minPrice || '' %>">
-                                                <span class="delimiter">-</span>
-                                                <input type="number" name="maxPrice" class="max_price text-center" placeholder="₹max" value="<%= filters.maxPrice || '' %>">
+                                        <div id="price-slider" style="margin: 10 0;"></div>
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <span id="price-range-display">₹0 - ₹20000</span>
+                                            <form id="price-filter-form" method="get" action="/store" class="d-inline">
                                                 <% if (filters.category) { %>
                                                     <input type="hidden" name="category" value="<%= filters.category %>">
                                                 <% } %>
-                                                <button type="submit" class="btn btn-primary btn-rounded">Go</button>
+                                                <input type="hidden" name="minPrice" id="minPriceInput">
+                                                <input type="hidden" name="maxPrice" id="maxPriceInput">
+                                                <button type="submit" class="btn btn-sm btn-primary btn-rounded ms-3">Apply</button>
                                             </form>
                                         </div>
-                                    </div>
+                                     </div>
+                                    
+                                    
                                     
                                     <!-- Size Filter (Checkboxes + Apply Button) -->
                                     <div class="widget widget-collapsible">
@@ -1210,8 +1191,43 @@
             }
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var slider = document.getElementById('price-slider');
+            var min = <%= filters.minPrice || 0 %>;
+            var max = <%= filters.maxPrice || 20000 %>;
+    
+            noUiSlider.create(slider, {
+                start: [min, max],
+                connect: true,
+                range: {
+                    'min': 0,
+                    'max': 20000
+                },
+                step: 10,
+                format: {
+                    to: value => Math.round(value),
+                    from: value => parseInt(value)
+                }
+            });
+    
+            var minInput = document.getElementById('minPriceInput');
+            var maxInput = document.getElementById('maxPriceInput');
+            var display = document.getElementById('price-range-display');
+    
+            slider.noUiSlider.on('update', function (values, handle) {
+                var minVal = values[0];
+                var maxVal = values[1];
+    
+                minInput.value = minVal;
+                maxInput.value = maxVal;
+                display.innerText = `₹${minVal} - ₹${maxVal}`;
+            });
+        });
+    </script>
+    
 
-
+<script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.js"></script>
     <!-- Plugin JS File -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>

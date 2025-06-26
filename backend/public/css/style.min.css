@@ -11226,11 +11226,13 @@ body .product-popup {
 .product-price .old-price {
   font-weight: 400;
   color: #aaa;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .product-price .new-price {
   color: #333;
   text-decoration: none;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .product-price .new-price:not(:last-child) {
@@ -11420,6 +11422,7 @@ body .product-popup {
 .product .product-pa-wrapper .product-price {
   margin-bottom: 0;
   font-size: 20px;
+  font-family: cursive;
 }
 
 .product .product-pa-wrapper .product-action {

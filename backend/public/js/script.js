@@ -207,3 +207,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+// Add this if you want the icon to appear with a slide-up animation
+document.addEventListener('DOMContentLoaded', function() {
+  const whatsappFloat = document.querySelector('.whatsapp-float');
+  const scrollThreshold = 0.01; // Show after 10% of page is scrolled
+  let lastScrollPosition = 0;
+  
+  // Initially hide the icon
+  whatsappFloat.style.transform = 'translateY(100px)';
+  whatsappFloat.style.opacity = '0';
+  whatsappFloat.style.transition = 'all 0.3s ease';
+  
+  window.addEventListener('scroll', function() {
+    const currentScrollPosition = window.scrollY;
+    const scrollPercent = currentScrollPosition / (document.body.scrollHeight - window.innerHeight);
+    
+    // Determine scroll direction
+    const scrollingDown = currentScrollPosition > lastScrollPosition;
+    lastScrollPosition = currentScrollPosition;
+    
+    if (scrollPercent > scrollThreshold) {
+      if (scrollingDown) {
+        // Show the icon when scrolling down
+        whatsappFloat.style.transform = 'translateY(0)';
+        whatsappFloat.style.opacity = '1';
+      } else {
+        // Hide the icon when scrolling up
+        whatsappFloat.style.transform = 'translateY(100px)';
+        whatsappFloat.style.opacity = '0';
+      }
+    } else {
+      // Hide the icon when near top of page
+      whatsappFloat.style.transform = 'translateY(100px)';
+      whatsappFloat.style.opacity = '0';
+    }
+  });
+});

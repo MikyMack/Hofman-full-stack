@@ -9355,6 +9355,7 @@ body .product-popup {
 }
 .product .product-pa-wrapper .product-price {
   margin-bottom: 0;
+  font-family: sans-serif;
 }
 .product .product-pa-wrapper .product-action {
   bottom: -1rem;

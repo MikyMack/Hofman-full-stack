@@ -489,7 +489,7 @@
                                                 height="180"
                                                 style="background-color: #565960; object-fit: cover; width: 100%;" />
                                         </figure>
-                                        <div class="banner-content">
+                                        <!-- <div class="banner-content">
                                             <% if (banner.subtitle) { %>
                                                 <h5
                                                     class="banner-subtitle text-uppercase font-weight-bold <%= index === 1 ? 'text-default' : 'text-lighter' %>">
@@ -509,7 +509,7 @@
                                                                     <i class="w-icon-long-arrow-right"></i>
                                                                 </a>
                                                                 <% } %>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <% }) %>
@@ -695,7 +695,7 @@
                                             style="background-color: <%= index === 1 ? '#E5E6E8' : '#565960' %>; object-fit: cover;"
                                             loading="lazy" />
                                     </figure>
-                                    <div class="banner-content y-50">
+                                    <!-- <div class="banner-content y-50">
                                         <% if (banner.description) { %>
                                             <h4
                                                 class="banner-price-info font-secondary font-weight-normal mb-0 <%= index === 1 ? 'text-default' : 'text-lighter' %>">
@@ -721,7 +721,7 @@
                                                                         <i class="w-icon-long-arrow-right"></i>
                                                                     </a>
                                                                     <% } %>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <% }) %>
                                     <% } %>
@@ -747,7 +747,7 @@
             }'>
                         <div class="swiper-wrapper row cols-lg-2">
                             <% dealsOfTheDay.forEach(product=> { %>
-                                <div class="swiper-slide product product-list br-sm mb-0"
+                                <div class="swiper-slide product product-list br-sm mb-2"
                                     data-product-id="<%= product._id %>"
                                     data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
                                     data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"

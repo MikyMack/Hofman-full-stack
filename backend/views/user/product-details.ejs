@@ -131,7 +131,8 @@
                         <a href="/" class="logo">
                             <img src="/images/logo.png" alt="logo" width="200">
                         </a>
-                        <form class="input-wrapper header-search hs-expanded hs-round d-none d-md-flex" id="searchForm" style="position:relative;">
+                        <form class="input-wrapper header-search hs-expanded hs-round d-none d-md-flex" id="searchForm"
+                            style="position:relative;">
                             <div class="custom-search-bar w-100">
                                 <input type="text" class="form-control" name="q" id="searchInput"
                                     placeholder="Search for products..." autocomplete="off" />
@@ -148,9 +149,11 @@
                             <a href="tel:+919400947122" class="w-icon-call"></a>
                             <div class="call-info d-lg-show">
                                 <h4 class="chat font-size-md text-normal ls-normal text-white mb-0">
-                                    <a href="tel:+919400947122" class="text-capitalize text-primary font-weight-normal">Customer care</a>
+                                    <a href="tel:+919400947122"
+                                        class="text-capitalize text-primary font-weight-normal">Customer care</a>
                                 </h4>
-                                <a href="tel:+919400947122" class="phone-number font-weight-bolder ls-50">+91 9400947122</a>
+                                <a href="tel:+919400947122" class="phone-number font-weight-bolder ls-50">+91
+                                    9400947122</a>
                             </div>
                         </div>
                         <a class="wishlist label-down link d-xs-show" href="/wishlist">
@@ -238,8 +241,8 @@
                                         </h1>
                                         <div class="product-bm-wrapper">
                                             <figure class="brand">
-                                                <img src="<%= product.brandImage || '/images/hofmaan/blackDuck.jpg' %>" alt="Brand"
-                                                    width="102" height="48" />
+                                                <img src="<%= product.brandImage || '/images/hofmaan/blackDuck.jpg' %>"
+                                                    alt="Brand" width="102" height="48" />
                                             </figure>
 
                                         </div>
@@ -272,10 +275,16 @@
 
                                         <div class="product-price">
                                             <% if (product.salePrice && product.salePrice < product.basePrice) { %>
-                                                <del class="old-price"><span class="rupee-symbol">₹</span><%= product.basePrice %></del>
-                                                <ins class="new-price"><span class="rupee-symbol">₹</span><%= product.salePrice %></ins>
+                                                <del class="old-price"><span class="rupee-symbol">₹</span>
+                                                    <%= product.basePrice %>
+                                                </del>
+                                                <ins class="new-price"><span class="rupee-symbol">₹</span>
+                                                    <%= product.salePrice %>
+                                                </ins>
                                                 <% } else { %>
-                                                    <ins class="new-price"><span class="rupee-symbol">₹</span><%= product.basePrice %></ins>
+                                                    <ins class="new-price"><span class="rupee-symbol">₹</span>
+                                                        <%= product.basePrice %>
+                                                    </ins>
                                                     <% } %>
                                         </div>
 
@@ -297,17 +306,18 @@
                                                     <a href="#" class="product-variation-clean" id="reset-color"
                                                         style="display: none;">Reset</a>
                                                 </div>
-                                           <div class="d-flex align-items-center product-variations" id="color-options">
-  <% product.colorVariants.forEach(function(variant, index) { %>
-    <a href="#" 
-       class="color color-swatch <%= index === 0 ? 'color-swatch--selected' : '' %>" 
-       style="background-color: <%= variant.color || '#ccc' %>" 
-       data-color="<%= variant.color %>" 
-       data-image="<%= variant.image || '' %>" 
-       data-variant-id="<%= variant._id %>">
-    </a>
-  <% }) %>
-</div>
+                                                <div class="d-flex align-items-center product-variations"
+                                                    id="color-options">
+                                                    <% product.colorVariants.forEach(function(variant, index) { %>
+                                                        <a href="#"
+                                                            class="color color-swatch <%= index === 0 ? 'color-swatch--selected' : '' %>"
+                                                            style="background-color: <%= variant.color || '#ccc' %>"
+                                                            data-color="<%= variant.color %>"
+                                                            data-image="<%= variant.image || '' %>"
+                                                            data-variant-id="<%= variant._id %>">
+                                                        </a>
+                                                        <% }) %>
+                                                </div>
                                             </div>
                                             <% } %>
 
@@ -320,16 +330,18 @@
                                                             <a href="#" class="product-variation-clean" id="reset-size"
                                                                 style="display: none;">Clear</a>
                                                         </div>
-                                                     <div class="flex-wrap d-flex align-items-center product-variations" id="size-options">
-  <% product.sizeVariants.forEach(function(variant, index) { %>
-    <a href="#" 
-       class="size size-swatch <%= index === 0 ? 'size-swatch--selected' : '' %>"
-       data-size="<%= variant.size %>" 
-       data-variant-id="<%= variant._id %>">
-      <%= variant.size %>
-    </a>
-  <% }) %>
-</div>
+                                                        <div class="flex-wrap d-flex align-items-center product-variations"
+                                                            id="size-options">
+                                                            <% product.sizeVariants.forEach(function(variant, index) {
+                                                                %>
+                                                                <a href="#"
+                                                                    class="size size-swatch <%= index === 0 ? 'size-swatch--selected' : '' %>"
+                                                                    data-size="<%= variant.size %>"
+                                                                    data-variant-id="<%= variant._id %>">
+                                                                    <%= variant.size %>
+                                                                </a>
+                                                                <% }) %>
+                                                        </div>
                                                     </div>
                                                     <% } %>
 
@@ -340,16 +352,17 @@
                                                                 class="product-form container details-qty d-flex justify-content-start align-items-center ">
                                                                 <div class="product-qty-form details-qty">
                                                                     <div class="input-group mt-2">
-                                                                        <input class="quantity form-control"
+                                                                        <input class="product-quantity-input form-control"
                                                                             type="number" min="1" max="10000000"
                                                                             value="1">
                                                                         <button
-                                                                            class="quantity-plus w-icon-plus"></button>
+                                                                            class="product-quantity-plus w-icon-plus"></button>
                                                                         <button
-                                                                            class="quantity-minus w-icon-minus"></button>
+                                                                            class="product-quantity-minus w-icon-minus"></button>
                                                                     </div>
                                                                 </div>
-                                                                <button class="btn btn-primary stick-btn details-btn main-btn btn-cart-new">
+                                                                <button
+                                                                    class="btn btn-primary stick-btn details-btn main-btn btn-cart-new">
                                                                     <i class="w-icon-cart"></i>
                                                                     <span>Add to Cart</span>
                                                                 </button>
@@ -358,7 +371,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <script>
                                 document.addEventListener('DOMContentLoaded', function () {
                                     // Product data from server
@@ -378,34 +391,58 @@
                                         colorVariantId: null
                                     };
 
-                                    // DOM elements
-                                    const quantityInput = document.querySelector('.quantity');
+                                    // DOM elements with new class names
+                                    const quantityInput = document.querySelector('.product-quantity-input');
                                     const addToCartBtn = document.querySelector('.btn-cart-new');
                                     const colorOptions = document.querySelectorAll('#color-options .color');
                                     const sizeOptions = document.querySelectorAll('#size-options .size');
                                     const resetColorBtn = document.getElementById('reset-color');
                                     const resetSizeBtn = document.getElementById('reset-size');
 
-                                    // Quantity controls
-                                    const quantityPlus = document.querySelector('.quantity-plus');
-                                    const quantityMinus = document.querySelector('.quantity-minus');
+                                    // Quantity controls with new class names
+                                    const quantityPlus = document.querySelector('.product-quantity-plus');
+                                    const quantityMinus = document.querySelector('.product-quantity-minus');
 
-                                    // Initialize quantity controls
+                                    // Remove any existing event listeners by cloning the node (defensive, in case of re-render)
                                     if (quantityPlus) {
-                                        quantityPlus.addEventListener('click', function (e) {
+                                        const newPlus = quantityPlus.cloneNode(true);
+                                        quantityPlus.parentNode.replaceChild(newPlus, quantityPlus);
+                                    }
+                                    if (quantityMinus) {
+                                        const newMinus = quantityMinus.cloneNode(true);
+                                        quantityMinus.parentNode.replaceChild(newMinus, quantityMinus);
+                                    }
+                                    // Re-select after replacement
+                                    const plusBtn = document.querySelector('.product-quantity-plus');
+                                    const minusBtn = document.querySelector('.product-quantity-minus');
+
+                                    if (plusBtn) {
+                                        plusBtn.addEventListener('click', function (e) {
                                             e.preventDefault();
                                             let currentValue = parseInt(quantityInput.value) || 1;
                                             quantityInput.value = currentValue + 1;
+                                            quantityInput.dispatchEvent(new Event('change'));
                                         });
                                     }
 
-                                    if (quantityMinus) {
-                                        quantityMinus.addEventListener('click', function (e) {
+                                    if (minusBtn) {
+                                        minusBtn.addEventListener('click', function (e) {
                                             e.preventDefault();
                                             let currentValue = parseInt(quantityInput.value) || 1;
                                             if (currentValue > 1) {
                                                 quantityInput.value = currentValue - 1;
+                                                quantityInput.dispatchEvent(new Event('change'));
                                             }
+                                        });
+                                    }
+
+                                    // Prevent manual input of invalid values
+                                    if (quantityInput) {
+                                        quantityInput.addEventListener('input', function () {
+                                            let val = parseInt(this.value) || 1;
+                                            if (val < 1) val = 1;
+                                            if (val > 10000000) val = 10000000;
+                                            this.value = val;
                                         });
                                     }
 
@@ -822,10 +859,11 @@
                                                                 <% } %>
                                                         </a>
 
-                                                        <div class="product-action" >
+                                                        <div class="product-action">
                                                             <% if (typeof rp.stock==='number' && rp.stock> 0) { %>
-                                                                <button class="btn-product btn-add-to-cart" style="cursor: pointer;"
-                                                                    title="Add to Cart" data-product-id="<%= rp._id %>"
+                                                                <button class="btn-product btn-add-to-cart"
+                                                                    style="cursor: pointer;" title="Add to Cart"
+                                                                    data-product-id="<%= rp._id %>"
                                                                     data-product-name="<%= rp.name %>"
                                                                     data-product-image="<%= (rp.images && rp.images[0]) || '/images/hofmaan/sample3.jpg' %>"
                                                                     data-product-price="<%= rp.salePrice || rp.basePrice || rp.price %>">
@@ -848,10 +886,10 @@
                                                             style="display: flex; justify-content: space-between; gap: 20px; align-items: flex-start;">
                                                             <% if (rp.sizeVariants && rp.sizeVariants.length) { %>
                                                                 <div class="product-size">
-                                                                  
+
                                                                     <div class="size-options-container">
-                                                                        Size: <% rp.sizeVariants.forEach(function(s, index) {
-                                                                            %>
+                                                                        Size: <% rp.sizeVariants.forEach(function(s,
+                                                                            index) { %>
                                                                             <span
                                                                                 class="size-option <%= index === 0 ? 'selected' : '' %>"
                                                                                 data-size="<%= s.size %>"
@@ -866,9 +904,10 @@
                                                                     <% if (rp.colorVariants && rp.colorVariants.length)
                                                                         { %>
                                                                         <div class="product-color">
-                                                                         
+
                                                                             <div class="color-options-container">
-                                                                                Color:  <% rp.colorVariants.forEach(function(c,
+                                                                                Color: <%
+                                                                                    rp.colorVariants.forEach(function(c,
                                                                                     index) { %>
                                                                                     <span
                                                                                         class="color-option <%= index === 0 ? 'selected' : '' %>"
@@ -890,10 +929,14 @@
                                                                     typeof rp.salePrice==='number' && rp.salePrice <
                                                                     rp.basePrice && rp.salePrice> 0); %>
                                                                     <% if (showOldPrice) { %>
-                                                                        <del class="old-price"><span class="rupee-symbol">₹</span><%= rp.basePrice %>
-                                                                                </del>
-                                                                        <ins class="new-price"><span class="rupee-symbol">₹</span><%= rp.salePrice %>
-                                                                                </ins>
+                                                                        <del class="old-price"><span
+                                                                                class="rupee-symbol">₹</span>
+                                                                            <%= rp.basePrice %>
+                                                                        </del>
+                                                                        <ins class="new-price"><span
+                                                                                class="rupee-symbol">₹</span>
+                                                                            <%= rp.salePrice %>
+                                                                        </ins>
                                                                         <% } else if (typeof rp.basePrice==='number' ) {
                                                                             %>
                                                                             ₹<%= rp.basePrice %>
@@ -913,7 +956,7 @@
                                                         <% } %>
                                     </div>
 
-                                  
+
 
                                     <script>
                                         document.addEventListener('DOMContentLoaded', function () {
@@ -1247,8 +1290,7 @@
                         </div>
                     </div>
                     <div class="col-xl-7 col-lg-6 col-md-9 mt-4 mt-lg-0 ">
-                        <form action="#" method="get"
-                            class="input-wrapper input-wrapper-inline input-wrapper-rounded">
+                        <form action="#" method="get" class="input-wrapper input-wrapper-inline input-wrapper-rounded">
                             <input type="email" class="form-control mr-2 bg-white" name="email" id="email"
                                 placeholder="Your E-mail Address" />
                             <button class="btn btn-dark btn-rounded" type="submit">Subscribe<i
@@ -1269,23 +1311,22 @@
                             <div class="widget-body">
                                 <p class="widget-about-title">Got Question? Call us 24/7</p>
                                 <a href="tel:+919400947122" class="widget-about-call">+91 9400947122</a>
-                                 <p>Follow Us In :</p>
-                              <div class="social-icons social-icons-colored">
-                                        <a    target="_blank"  href="https://www.facebook.com/profile.php?id=61577041363849#"
-                                            class="social-icon social-facebook w-icon-facebook"></a>
-                                        <a    target="_blank"  href="https://www.instagram.com/hofmaan.official/?fbclid=IwY2xjawLJwfRleHRuA2FlbQIxMQBicmlkETFtbmQ0UnlRc3gyNDAwaU44AR5ZqTiWzEixcnjCAnjWdJJKxyOo1SDmgvhwN8_53T5gbWCz_nWAy3l3UTZALw_aem_icwl_UgQrgnfthtQ81Mmyw"
-                                            class="social-icon social-instagram w-icon-instagram"></a>
-                                        <a    target="_blank"  href="https://www.youtube.com/@hofmaanofficial"
-                                            class="social-icon social-youtube w-icon-youtube"></a>
-                                                <a    target="_blank"  href="https://in.pinterest.com/hofmaan_official/"
-                                            class="social-icon social-pinterest w-icon-pinterest"></a>
-                            <a href="https://www.linkedin.com/company/107658144/admin/page-posts/published/" 
-   class="social-icon" 
-   target="_blank" 
-   rel="noopener noreferrer">
-   <i style="color: blue;" class="fab fa-linkedin-in"></i> 
-</a>
-                                    </div>
+                                <p>Follow Us In :</p>
+                                <div class="social-icons social-icons-colored">
+                                    <a target="_blank" href="https://www.facebook.com/profile.php?id=61577041363849#"
+                                        class="social-icon social-facebook w-icon-facebook"></a>
+                                    <a target="_blank"
+                                        href="https://www.instagram.com/hofmaan.official/?fbclid=IwY2xjawLJwfRleHRuA2FlbQIxMQBicmlkETFtbmQ0UnlRc3gyNDAwaU44AR5ZqTiWzEixcnjCAnjWdJJKxyOo1SDmgvhwN8_53T5gbWCz_nWAy3l3UTZALw_aem_icwl_UgQrgnfthtQ81Mmyw"
+                                        class="social-icon social-instagram w-icon-instagram"></a>
+                                    <a target="_blank" href="https://www.youtube.com/@hofmaanofficial"
+                                        class="social-icon social-youtube w-icon-youtube"></a>
+                                    <a target="_blank" href="https://in.pinterest.com/hofmaan_official/"
+                                        class="social-icon social-pinterest w-icon-pinterest"></a>
+                                    <a href="https://www.linkedin.com/company/107658144/admin/page-posts/published/"
+                                        class="social-icon" target="_blank" rel="noopener noreferrer">
+                                        <i style="color: blue;" class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1293,11 +1334,11 @@
                         <div class="widget">
                             <h3 class="widget-title">Company</h3>
                             <ul class="widget-body">
-                                    <li><a href="/">Home</a></li>
-                                    <li><a href="/store">Store</a></li>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/store">Store</a></li>
                                 <li><a href="/about">About Us</a></li>
                                 <li><a href="/blogs">Blogs</a></li>
-                                <li><a href="/contact">Contact Us</a></li>                              
+                                <li><a href="/contact">Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1312,7 +1353,7 @@
                                     <% } else { %>
                                         <li><a href="/auth/login">Sign In</a></li>
                                         <% } %>
-                                <li><a href="/wishlist">My Wishlist</a></li>
+                                            <li><a href="/wishlist">My Wishlist</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1324,7 +1365,7 @@
                                 <li><a href="/Cancellation_Refund">Cancellation Refund</a></li>
                                 <li><a href="/shipping_policy">Shipping Policy</a></li>
                                 <li><a href="/privacy_policy">Privacy Policy</a></li>
-                       
+
                             </ul>
                         </div>
                     </div>
@@ -1335,7 +1376,8 @@
                 <div class="footer-left">
                     <p class="copyright">
                         Copyright © 2025 Hofmaan. All Rights Reserved. &nbsp;|&nbsp;
-                        developed by <a href="https://trivlogic.com/" target="_blank" rel="noopener" style="color:#888;text-decoration:none;">Trivlogic Pvt Ltd</a>
+                        developed by <a href="https://trivlogic.com/" target="_blank" rel="noopener"
+                            style="color:#888;text-decoration:none;">Trivlogic Pvt Ltd</a>
                     </p>
                 </div>
                 <div class="footer-right">
@@ -1379,12 +1421,12 @@
                     }
                 }
                 btn.addEventListener('click', doSearch);
-                input.addEventListener('keydown', function(e) {
+                input.addEventListener('keydown', function (e) {
                     if (e.key === 'Enter') {
                         doSearch(e);
                     }
                 });
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function (e) {
                     // Prevent default link if not searching
                     if (input.value.trim().length === 0) e.preventDefault();
                 });
@@ -1538,21 +1580,17 @@
         <!-- Slides wrapper with overflow:hidden. -->
         <div class="pswp__scroll-wrap">
 
-            <!-- Container that holds slides.
-			PhotoSwipe keeps only 3 of them in the DOM to save memory.
-			Don't modify these 3 pswp__item elements, data is added later on. -->
+
             <div class="pswp__container">
                 <div class="pswp__item"></div>
                 <div class="pswp__item"></div>
                 <div class="pswp__item"></div>
             </div>
 
-            <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
             <div class="pswp__ui pswp__ui--hidden">
 
                 <div class="pswp__top-bar">
 
-                    <!--  Controls are self-explanatory. Order can be changed. -->
 
                     <div class="pswp__counter"></div>
 
@@ -1578,160 +1616,160 @@
         </div>
     </div>
     <!-- End of PhotoSwipe -->
-       <!--whats app icon -->
-<div class="whatsapp-float">
-  <a href="https://wa.me/+919400947122" target="_blank" rel="noopener noreferrer">
-    <i class="fab fa-whatsapp whatsapp-icon"></i>
-  </a>
-</div>
+    <!--whats app icon -->
+    <div class="whatsapp-float">
+        <a href="https://wa.me/+919400947122" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+    </div>
     <script>
         window.isLoggedIn = <%= user ? 'true' : 'false' %>;
     </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.getElementById('searchInput');
-        const searchForm = document.getElementById('searchForm');
-        const suggestionsContainer = document.getElementById('searchSuggestions');
-        const resultsContainer = document.getElementById('searchResults');
-        let searchTimeout;
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const searchForm = document.getElementById('searchForm');
+            const suggestionsContainer = document.getElementById('searchSuggestions');
+            const resultsContainer = document.getElementById('searchResults');
+            let searchTimeout;
 
-        // Helper to safely format price
-        function formatPrice(price) {
-            if (typeof price === 'number' && !isNaN(price)) {
-                return price.toLocaleString('en-IN');
-            }
-            if (typeof price === 'string' && price.trim() !== '' && !isNaN(Number(price))) {
-                return Number(price).toLocaleString('en-IN');
-            }
-            return '';
-        }
-
-        // Search input handler
-        searchInput.addEventListener('input', function (e) {
-            clearTimeout(searchTimeout);
-            const query = e.target.value.trim();
-
-            if (query.length < 2) {
-                suggestionsContainer.style.display = 'none';
-                return;
+            // Helper to safely format price
+            function formatPrice(price) {
+                if (typeof price === 'number' && !isNaN(price)) {
+                    return price.toLocaleString('en-IN');
+                }
+                if (typeof price === 'string' && price.trim() !== '' && !isNaN(Number(price))) {
+                    return Number(price).toLocaleString('en-IN');
+                }
+                return '';
             }
 
-            searchTimeout = setTimeout(() => {
-                fetchSuggestions(query);
-            }, 300);
-        });
+            // Search input handler
+            searchInput.addEventListener('input', function (e) {
+                clearTimeout(searchTimeout);
+                const query = e.target.value.trim();
 
-        // Form submission handler
-        searchForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const query = searchInput.value.trim();
-            if (query) {
-                performSearch(query);
-            }
-        });
-
-        // Close results when clicking outside
-        document.addEventListener('click', function (e) {
-            if (!searchForm.contains(e.target)) {
-                suggestionsContainer.style.display = 'none';
-                resultsContainer.style.display = 'none';
-            }
-        });
-
-        // Fetch search suggestions
-        async function fetchSuggestions(query) {
-            try {
-                const response = await fetch(`/search/suggestions?q=${encodeURIComponent(query)}`);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                if (query.length < 2) {
+                    suggestionsContainer.style.display = 'none';
+                    return;
                 }
 
-                const suggestions = await response.json();
+                searchTimeout = setTimeout(() => {
+                    fetchSuggestions(query);
+                }, 300);
+            });
 
-                if (!Array.isArray(suggestions)) {
-                    throw new Error('Invalid suggestions format');
+            // Form submission handler
+            searchForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const query = searchInput.value.trim();
+                if (query) {
+                    performSearch(query);
+                }
+            });
+
+            // Close results when clicking outside
+            document.addEventListener('click', function (e) {
+                if (!searchForm.contains(e.target)) {
+                    suggestionsContainer.style.display = 'none';
+                    resultsContainer.style.display = 'none';
+                }
+            });
+
+            // Fetch search suggestions
+            async function fetchSuggestions(query) {
+                try {
+                    const response = await fetch(`/search/suggestions?q=${encodeURIComponent(query)}`);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const suggestions = await response.json();
+
+                    if (!Array.isArray(suggestions)) {
+                        throw new Error('Invalid suggestions format');
+                    }
+
+                    displaySuggestions(suggestions);
+                } catch (error) {
+                    console.error('Error fetching suggestions:', error);
+                    suggestionsContainer.style.display = 'none';
+                    suggestionsContainer.innerHTML = '<div class="error-message">Failed to load suggestions</div>';
+                }
+            }
+
+            // Display suggestions
+            function displaySuggestions(suggestions) {
+                if (!suggestions || suggestions.length === 0) {
+                    suggestionsContainer.innerHTML = '<div class="no-suggestions">No suggestions found</div>';
+                    suggestionsContainer.style.display = 'block';
+                    return;
                 }
 
-                displaySuggestions(suggestions);
-            } catch (error) {
-                console.error('Error fetching suggestions:', error);
-                suggestionsContainer.style.display = 'none';
-                suggestionsContainer.innerHTML = '<div class="error-message">Failed to load suggestions</div>';
-            }
-        }
-
-        // Display suggestions
-        function displaySuggestions(suggestions) {
-            if (!suggestions || suggestions.length === 0) {
-                suggestionsContainer.innerHTML = '<div class="no-suggestions">No suggestions found</div>';
-                suggestionsContainer.style.display = 'block';
-                return;
-            }
-
-            suggestionsContainer.innerHTML = '';
-            suggestions.forEach(item => {
-                const suggestionItem = document.createElement('div');
-                suggestionItem.className = 'suggestion-item';
-                suggestionItem.innerHTML = `
+                suggestionsContainer.innerHTML = '';
+                suggestions.forEach(item => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.className = 'suggestion-item';
+                    suggestionItem.innerHTML = `
         ${item.images?.length ? `<img src="${item.images[0]}" alt="${item.name}" />` : ''}
         <div class="suggestion-text">
             <div class="suggestion-name">${item.name}</div>
             <div class="suggestion-price">₹${formatPrice(item.basePrice)}</div>
         </div>
     `;
-                // ✅ Navigate to product page directly
-                suggestionItem.addEventListener('click', () => {
-                    window.location.href = `/product/${item._id}`;
+                    // ✅ Navigate to product page directly
+                    suggestionItem.addEventListener('click', () => {
+                        window.location.href = `/product/${item._id}`;
+                    });
+                    suggestionsContainer.appendChild(suggestionItem);
                 });
-                suggestionsContainer.appendChild(suggestionItem);
-            });
-            suggestionsContainer.style.display = 'block';
-        }
-
-        // Perform full search
-        async function performSearch(query) {
-            try {
-                const response = await fetch(`/search?q=${encodeURIComponent(query)}`);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const results = await response.json();
-
-                if (!Array.isArray(results)) {
-                    throw new Error('Invalid results format');
-                }
-
-                displaySearchResults(query, results);
-            } catch (error) {
-                console.error('Error performing search:', error);
-                displaySearchResults(query, []);
+                suggestionsContainer.style.display = 'block';
             }
-        }
 
-        // Display search results
-        function displaySearchResults(query, products) {
-            suggestionsContainer.style.display = 'none';
+            // Perform full search
+            async function performSearch(query) {
+                try {
+                    const response = await fetch(`/search?q=${encodeURIComponent(query)}`);
 
-            if (!products || products.length === 0) {
-                resultsContainer.innerHTML = `
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const results = await response.json();
+
+                    if (!Array.isArray(results)) {
+                        throw new Error('Invalid results format');
+                    }
+
+                    displaySearchResults(query, results);
+                } catch (error) {
+                    console.error('Error performing search:', error);
+                    displaySearchResults(query, []);
+                }
+            }
+
+            // Display search results
+            function displaySearchResults(query, products) {
+                suggestionsContainer.style.display = 'none';
+
+                if (!products || products.length === 0) {
+                    resultsContainer.innerHTML = `
             <div class="no-results">
                 <h3>No results found for "${query}"</h3>
                 <p>Try different keywords or browse our categories</p>
             </div>
         `;
-            } else {
-                resultsContainer.innerHTML = `
+                } else {
+                    resultsContainer.innerHTML = `
             <div class="search-results-header">
                 <h3>Results for "${query}" (${products.length})</h3>
                 <span class="close-results">&times;</span>
             </div>
             <div class="search-results-grid">
                 ${products.map(product => {
-                    const priceStr = formatPrice(product.basePrice);
-                    return `
+                        const priceStr = formatPrice(product.basePrice);
+                        return `
                     <div class="search-result-item">
                         <a href="/product/${product._id}">
                             <img src="${product.images?.[0] || '/images/placeholder.jpg'}" alt="${product.name}" />
@@ -1743,24 +1781,24 @@
                         </a>
                     </div>
                     `;
-                }).join('')}
+                    }).join('')}
             </div>
         `;
-            }
+                }
 
-            // Show results container
-            resultsContainer.style.display = 'block';
+                // Show results container
+                resultsContainer.style.display = 'block';
 
-            // Close button handler
-            const closeBtn = resultsContainer.querySelector('.close-results');
-            if (closeBtn) {
-                closeBtn.addEventListener('click', () => {
-                    resultsContainer.style.display = 'none';
-                });
+                // Close button handler
+                const closeBtn = resultsContainer.querySelector('.close-results');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        resultsContainer.style.display = 'none';
+                    });
+                }
             }
-        }
-    });
-</script>
+        });
+    </script>
 
     <!-- Plugin JS File -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

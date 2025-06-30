@@ -11226,15 +11226,14 @@ body .product-popup {
 .product-price .old-price {
   font-weight: 400;
   color: #aaa;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: sans-serif;
 }
 
 .product-price .new-price {
   color: #333;
   text-decoration: none;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: sans-serif;
 }
-
 .product-price .new-price:not(:last-child) {
   margin-right: 1rem;
 }
@@ -11422,7 +11421,7 @@ body .product-popup {
 .product .product-pa-wrapper .product-price {
   margin-bottom: 0;
   font-size: 20px;
-  font-family: cursive;
+  font-family: sans-serif;
 }
 
 .product .product-pa-wrapper .product-action {
@@ -11472,6 +11471,7 @@ body .product-popup {
 .product-list .product-price {
   margin-bottom: 0.6rem;
   font-size: 1.8rem;
+  font-family: sans-serif;
 }
 
 .product-list .product-action {
@@ -25247,7 +25247,7 @@ color: var(--theme-color)!important;
   font-family: 'Arial', sans-serif; /* Change to any font you want */
   font-weight: bold;                /* Optional */
   margin-right: 2px;                /* Optional spacing */
-  font-size: 1.1em;                 /* Optional size tweak */
+  font-size: 1em;                 /* Optional size tweak */
 }
 .color-swatch {
   display: inline-block;

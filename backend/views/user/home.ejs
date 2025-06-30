@@ -374,7 +374,7 @@
                             </h4>
 
                             <% if (category.subCategories && category.subCategories.length> 0) { %>
-                                <div class="subcategory-dropdown">
+                                <div class="subcategory-dropdown enhanced-submenu">
                                     <% category.subCategories.forEach(sub=> { %>
                                         <% if (sub.isActive) { %>
                                             <a href="/store?subcategory=<%= sub._id %>">

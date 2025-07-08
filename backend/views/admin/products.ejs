@@ -1199,10 +1199,9 @@
                                                     <label>Main Images <span class="required">*</span></label>
                                                     <input type="file" id="mainImages" name="mainImages" multiple
                                                         accept="image/*">
-                                                    <div id="mainImagesPreview" class="image-preview"></div>
-                                                    <div id="existingMainImages" class="existing-images"></div>
-                                                    <small class="text-muted">You can upload multiple images. Drag to
-                                                        reorder.</small>
+                                                    <div id="mainImagesPreview" class="image-preview" style="min-height: 60px; display: flex; gap: 8px;"></div>
+                                                    <div id="existingMainImages" class="existing-images" style="min-height: 60px; display: flex; gap: 8px;"></div>
+                                                    <small class="text-muted">You can upload multiple images. Drag to reorder. The first image will be the main image.</small>
                                                 </div>
                                                 <div class="form-actions step-actions">
                                                     <button type="button" class="btn btn-secondary"
@@ -1296,11 +1295,58 @@
                                         </form>
                                     </div>
                                 </div>
+                                <style>
+                                    .preview-image, .existing-image {
+                                        border: 1px solid #ddd;
+                                        border-radius: 4px;
+                                        padding: 2px;
+                                        background: #fff;
+                                        position: relative;
+                                        width: 60px;
+                                        height: 60px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        cursor: grab;
+                                    }
+                                    .preview-image.dragging, .existing-image.dragging {
+                                        opacity: 0.5;
+                                    }
+                                    .preview-image.drag-over, .existing-image.drag-over {
+                                        border: 2px dashed #007bff;
+                                    }
+                                    .preview-image img, .existing-image img {
+                                        max-width: 56px;
+                                        max-height: 56px;
+                                        object-fit: contain;
+                                    }
+                                    .remove-image-btn {
+                                        position: absolute;
+                                        top: 0;
+                                        right: 0;
+                                        background: #f44336;
+                                        color: #fff;
+                                        border: none;
+                                        border-radius: 50%;
+                                        width: 20px;
+                                        height: 20px;
+                                        font-size: 16px;
+                                        line-height: 18px;
+                                        cursor: pointer;
+                                        z-index: 2;
+                                    }
+                                </style>
                                 <script>
                                     // --- User-friendly Product Modal Logic ---
                                     document.addEventListener('DOMContentLoaded', function () {
                                         initProductForm();
                                     });
+
+                                    // --- DRAG & DROP IMAGE ORDERING LOGIC ---
+                                    // For new images (mainImagesPreview)
+                                    let mainImagesFiles = [];
+                                    // For existing images (edit mode)
+                                    // (We use DOM order for existing images)
 
                                     function goToStep(step) {
                                         document.querySelectorAll('.product-step').forEach(s => s.style.display = 'none');
@@ -1323,7 +1369,8 @@
                                         document.getElementById('category').addEventListener('change', loadSubCategories);
 
                                         document.getElementById('mainImages').addEventListener('change', function (e) {
-                                            previewImages(e.target.files, 'mainImagesPreview');
+                                            mainImagesFiles = Array.from(e.target.files);
+                                            renderMainImagesPreview();
                                         });
 
                                         // Color variant toggle
@@ -1348,6 +1395,10 @@
                                         document.getElementById('addReviewBtn').addEventListener('click', addReviewInput);
 
                                         document.getElementById('productForm').addEventListener('submit', handleProductSubmit);
+
+                                        // Initial drag & drop setup
+                                        renderMainImagesPreview();
+                                        makeExistingImagesSortable();
                                     }
 
                                     function loadSubCategories() {
@@ -1372,22 +1423,173 @@
                                         subcategorySelect.disabled = subCategories.length === 0;
                                     }
 
-                                    function previewImages(files, previewId) {
-                                        const preview = typeof previewId === 'string' ? document.getElementById(previewId) : previewId;
+                                    // --- DRAGGABLE IMAGE PREVIEW FOR NEW IMAGES ---
+                                    function renderMainImagesPreview() {
+                                        const preview = document.getElementById('mainImagesPreview');
                                         preview.innerHTML = '';
-                                        Array.from(files).forEach(file => {
+                                        mainImagesFiles.forEach((file, idx) => {
                                             const reader = new FileReader();
                                             reader.onload = function (e) {
                                                 const imgContainer = document.createElement('div');
                                                 imgContainer.className = 'preview-image';
                                                 imgContainer.draggable = true;
                                                 imgContainer.title = "Drag to reorder";
+                                                imgContainer.dataset.idx = idx;
                                                 const img = document.createElement('img');
                                                 img.src = e.target.result;
                                                 imgContainer.appendChild(img);
+
+                                                // Remove button for this image
+                                                const removeBtn = document.createElement('button');
+                                                removeBtn.type = 'button';
+                                                removeBtn.className = 'remove-image-btn';
+                                                removeBtn.innerHTML = '&times;';
+                                                removeBtn.onclick = function (ev) {
+                                                    ev.stopPropagation();
+                                                    mainImagesFiles.splice(idx, 1);
+                                                    renderMainImagesPreview();
+                                                    document.getElementById('mainImages').value = '';
+                                                };
+                                                imgContainer.appendChild(removeBtn);
+
                                                 preview.appendChild(imgContainer);
+
+                                                // After all images rendered, make them sortable
+                                                if (preview.childNodes.length === mainImagesFiles.length) {
+                                                    makePreviewImagesSortable();
+                                                }
                                             };
                                             reader.readAsDataURL(file);
+                                        });
+                                    }
+
+                                    function makePreviewImagesSortable() {
+                                        const preview = document.getElementById('mainImagesPreview');
+                                        let dragSrcEl = null;
+                                        let dragSrcIdx = null;
+
+                                        // Remove previous listeners to avoid stacking
+                                        preview.querySelectorAll('.preview-image').forEach(el => {
+                                            el.removeEventListener('dragstart', el._dragstartHandler);
+                                            el.removeEventListener('dragover', el._dragoverHandler);
+                                            el.removeEventListener('dragleave', el._dragleaveHandler);
+                                            el.removeEventListener('drop', el._dropHandler);
+                                            el.removeEventListener('dragend', el._dragendHandler);
+                                        });
+
+                                        preview.querySelectorAll('.preview-image').forEach((el, idx) => {
+                                            // dragstart
+                                            el._dragstartHandler = function (e) {
+                                                dragSrcEl = this;
+                                                dragSrcIdx = idx;
+                                                this.classList.add('dragging');
+                                                e.dataTransfer.effectAllowed = 'move';
+                                                e.dataTransfer.setData('text/plain', idx);
+                                            };
+                                            el.addEventListener('dragstart', el._dragstartHandler);
+
+                                            // dragover
+                                            el._dragoverHandler = function (e) {
+                                                e.preventDefault();
+                                                e.dataTransfer.dropEffect = 'move';
+                                                this.classList.add('drag-over');
+                                            };
+                                            el.addEventListener('dragover', el._dragoverHandler);
+
+                                            // dragleave
+                                            el._dragleaveHandler = function (e) {
+                                                this.classList.remove('drag-over');
+                                            };
+                                            el.addEventListener('dragleave', el._dragleaveHandler);
+
+                                            // drop
+                                            el._dropHandler = function (e) {
+                                                e.preventDefault();
+                                                this.classList.remove('drag-over');
+                                                const fromIdx = dragSrcIdx;
+                                                const toIdx = idx;
+                                                if (fromIdx !== toIdx) {
+                                                    const moved = mainImagesFiles.splice(fromIdx, 1)[0];
+                                                    mainImagesFiles.splice(toIdx, 0, moved);
+                                                    renderMainImagesPreview();
+                                                }
+                                            };
+                                            el.addEventListener('drop', el._dropHandler);
+
+                                            // dragend
+                                            el._dragendHandler = function (e) {
+                                                this.classList.remove('dragging');
+                                                preview.querySelectorAll('.preview-image').forEach(img => img.classList.remove('drag-over'));
+                                            };
+                                            el.addEventListener('dragend', el._dragendHandler);
+                                        });
+                                    }
+
+                                    // --- DRAGGABLE EXISTING IMAGES (EDIT MODE) ---
+                                    function makeExistingImagesSortable() {
+                                        const container = document.getElementById('existingMainImages');
+                                        let dragSrcEl = null;
+                                        let dragSrcIdx = null;
+
+                                        // Remove previous listeners to avoid stacking
+                                        container.querySelectorAll('.existing-image').forEach(el => {
+                                            el.removeEventListener('dragstart', el._dragstartHandler);
+                                            el.removeEventListener('dragover', el._dragoverHandler);
+                                            el.removeEventListener('dragleave', el._dragleaveHandler);
+                                            el.removeEventListener('drop', el._dropHandler);
+                                            el.removeEventListener('dragend', el._dragendHandler);
+                                        });
+
+                                        container.querySelectorAll('.existing-image').forEach((el, idx) => {
+                                            // dragstart
+                                            el._dragstartHandler = function (e) {
+                                                dragSrcEl = this;
+                                                dragSrcIdx = idx;
+                                                this.classList.add('dragging');
+                                                e.dataTransfer.effectAllowed = 'move';
+                                                e.dataTransfer.setData('text/plain', idx);
+                                            };
+                                            el.addEventListener('dragstart', el._dragstartHandler);
+
+                                            // dragover
+                                            el._dragoverHandler = function (e) {
+                                                e.preventDefault();
+                                                e.dataTransfer.dropEffect = 'move';
+                                                this.classList.add('drag-over');
+                                            };
+                                            el.addEventListener('dragover', el._dragoverHandler);
+
+                                            // dragleave
+                                            el._dragleaveHandler = function (e) {
+                                                this.classList.remove('drag-over');
+                                            };
+                                            el.addEventListener('dragleave', el._dragleaveHandler);
+
+                                            // drop
+                                            el._dropHandler = function (e) {
+                                                e.preventDefault();
+                                                this.classList.remove('drag-over');
+                                                const fromIdx = dragSrcIdx;
+                                                const toIdx = idx;
+                                                if (fromIdx !== toIdx) {
+                                                    const nodes = Array.from(container.children);
+                                                    const moved = nodes[fromIdx];
+                                                    if (toIdx > fromIdx) {
+                                                        container.insertBefore(moved, nodes[toIdx].nextSibling);
+                                                    } else {
+                                                        container.insertBefore(moved, nodes[toIdx]);
+                                                    }
+                                                    makeExistingImagesSortable();
+                                                }
+                                            };
+                                            el.addEventListener('drop', el._dropHandler);
+
+                                            // dragend
+                                            el._dragendHandler = function (e) {
+                                                this.classList.remove('dragging');
+                                                container.querySelectorAll('.existing-image').forEach(img => img.classList.remove('drag-over'));
+                                            };
+                                            el.addEventListener('dragend', el._dragendHandler);
                                         });
                                     }
 
@@ -1519,7 +1721,8 @@
                                         const status = document.getElementById('status').value;
                                         // Removed tags
                                         const moreDetails = document.getElementById('moreDetails').value;
-                                        const mainImages = document.getElementById('mainImages').files;
+                                        // For preview, count both new and existing images
+                                        const mainImagesCount = mainImagesFiles.length + document.querySelectorAll('#existingMainImages .existing-image').length;
 
                                         // Checkboxes
                                         const bestDeals = document.getElementById('bestDeals').checked;
@@ -1579,7 +1782,7 @@
                                                 <strong>Top Rated:</strong> ${topRated ? 'Yes' : 'No'}<br>
                                             </div>
                                             <div class="review-block">
-                                                <strong>Images:</strong> ${mainImages.length} selected
+                                                <strong>Images:</strong> ${mainImagesCount} selected
                                             </div>
                                         `;
                                         if (hasColorVariants) {
@@ -1605,16 +1808,38 @@
                                         formData.set('newArrivals', document.getElementById('newArrivals').checked);
                                         formData.set('bestSeller', document.getElementById('bestSeller').checked);
                                         formData.set('topRated', document.getElementById('topRated').checked);
-                                        // Removed tags
-                                        document.querySelectorAll('input[name="existingMainImages[]"]').forEach(input => {
-        if (!formData.has('existingMainImages[]')) {
-            formData.append('existingMainImages[]', input.value);
-        }
-    });
-    document.querySelectorAll('input[name*="[existingImage]"]').forEach(input => {
-        const name = input.name.replace('[existingImage]', '[image]');
-        formData.append(name, input.value);
-    });
+
+                                        // --- Handle existing images order (edit mode) ---
+                                        // Remove all existingMainImages[] from formData, we'll re-append in order
+                                        Array.from(formData.keys()).forEach(key => {
+                                            if (key === 'existingMainImages[]') formData.delete(key);
+                                        });
+                                        // Get all .existing-image in order
+                                        document.querySelectorAll('#existingMainImages .existing-image input[name="existingMainImages[]"]').forEach(input => {
+                                            formData.append('existingMainImages[]', input.value);
+                                        });
+
+                                        // --- Handle new images order (creation or edit) ---
+                                        // Remove all mainImages from formData, we'll re-append in order
+                                        formData.delete('mainImages');
+                                        if (mainImagesFiles.length > 0) {
+                                            mainImagesFiles.forEach(file => {
+                                                formData.append('mainImages', file);
+                                            });
+                                        } else {
+                                            // fallback: if user didn't drag, but just selected, use input.files
+                                            const inputFiles = document.getElementById('mainImages').files;
+                                            for (let i = 0; i < inputFiles.length; i++) {
+                                                formData.append('mainImages', inputFiles[i]);
+                                            }
+                                        }
+
+                                        // Color variant images (no change)
+                                        document.querySelectorAll('input[name*="[existingImage]"]').forEach(input => {
+                                            const name = input.name.replace('[existingImage]', '[image]');
+                                            formData.append(name, input.value);
+                                        });
+
                                         // Collect reviews from review input blocks
                                         const reviewInputs = document.querySelectorAll('.review-input-block');
                                         reviewInputs.forEach((div, idx) => {
@@ -1659,6 +1884,7 @@
                                             document.getElementById('productId').value = '';
                                             document.getElementById('mainImagesPreview').innerHTML = '';
                                             document.getElementById('existingMainImages').innerHTML = '';
+                                            mainImagesFiles = [];
                                             document.getElementById('colorVariantOptions').innerHTML = '';
                                             document.getElementById('sizeVariantOptions').innerHTML = '';
                                             document.getElementById('hasColorVariants').checked = false;
@@ -1672,6 +1898,8 @@
                                             document.getElementById('bestSeller').checked = false;
                                             document.getElementById('topRated').checked = false;
                                             document.getElementById('reviewInputs').innerHTML = '';
+                                            renderMainImagesPreview();
+                                            makeExistingImagesSortable();
                                             goToStep(1);
                                         } else {
                                             document.getElementById('productId').value = productId;
@@ -1741,14 +1969,19 @@
                                                 imagesArr.forEach(image => {
                                                     const imgDiv = document.createElement('div');
                                                     imgDiv.className = 'existing-image';
+                                                    imgDiv.draggable = true;
+                                                    imgDiv.title = "Drag to reorder";
                                                     imgDiv.innerHTML = `
                     <img src="${image}" alt="Product Image">
                     <input type="hidden" name="existingMainImages[]" value="${image}">
-                    <button type="button" onclick="removeImage(this)">×</button>
+                    <button type="button" class="remove-image-btn" onclick="removeImage(this)">×</button>
                 `;
                                                     existingImagesContainer.appendChild(imgDiv);
                                                 });
                                             }
+                                            // Enable drag & drop for existing images
+                                            makeExistingImagesSortable();
+
                                             // Color variants
                                             document.getElementById('hasColorVariants').checked = !!product.hasColorVariants;
                                             document.getElementById('colorVariantsContainer').style.display =
@@ -1839,6 +2072,10 @@
                                                     });
                                                 });
                                             }
+                                            // Reset mainImagesFiles for edit mode
+                                            mainImagesFiles = [];
+                                            renderMainImagesPreview();
+                                            makeExistingImagesSortable();
                                             goToStep(1);
                                         } catch (err) {
                                             console.error('Error loading product:', err);

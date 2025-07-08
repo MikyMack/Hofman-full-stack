@@ -1197,11 +1197,16 @@
                                                 <h5>Product Images</h5>
                                                 <div class="form-group">
                                                     <label>Main Images <span class="required">*</span></label>
-                                                    <input type="file" id="mainImages" name="mainImages" multiple
-                                                        accept="image/*">
-                                                    <div id="mainImagesPreview" class="image-preview" style="min-height: 60px; display: flex; gap: 8px;"></div>
-                                                    <div id="existingMainImages" class="existing-images" style="min-height: 60px; display: flex; gap: 8px;"></div>
-                                                    <small class="text-muted">You can upload multiple images. Drag to reorder. The first image will be the main image.</small>
+                                                    <!-- Custom image upload and order for creation mode -->
+                                                    <div id="mainImagesUploadArea" style="margin-bottom: 10px;">
+                                                        <input type="file" id="mainImageInput" accept="image/*" style="display:none;" multiple>
+                                                        <button type="button" class="btn btn-sm btn-primary" onclick="document.getElementById('mainImageInput').click();">
+                                                            <i class="icon-plus"></i> Add Images
+                                                        </button>
+                                                        <small class="text-muted" style="display:block;">Add images one by one or select multiple. You can reorder by moving up/down. The first image will be the main image.</small>
+                                                    </div>
+                                                    <div id="mainImagesPreview" class="image-preview" style="min-height: 100px; display: flex; gap: 8px; flex-wrap: wrap;"></div>
+                                                    <div id="existingMainImages" class="existing-images" style="min-height: 100px; display: flex; gap: 8px;"></div>
                                                 </div>
                                                 <div class="form-actions step-actions">
                                                     <button type="button" class="btn btn-secondary"
@@ -1303,28 +1308,23 @@
                                         padding: 2px;
                                         background: #fff;
                                         position: relative;
-                                        width: 60px;
-                                        height: 60px;
+                                        width: 100px;
+                                        height: 100px;
                                         display: flex;
                                         align-items: center;
                                         justify-content: center;
-                                        cursor: grab;
-                                    }
-                                    .preview-image.dragging, .existing-image.dragging {
-                                        opacity: 0.5;
-                                    }
-                                    .preview-image.drag-over, .existing-image.drag-over {
-                                        border: 2px dashed #007bff;
+                                        cursor: pointer;
                                     }
                                     .preview-image img, .existing-image img {
-                                        max-width: 56px;
-                                        max-height: 56px;
+                                        max-width: 100px;
+                                        max-height: 100px;
                                         object-fit: contain;
                                     }
                                     .remove-image-btn {
                                         position: absolute;
                                         top: 0;
                                         right: 0;
+                                        bottom: 0;
                                         background: #f44336;
                                         color: #fff;
                                         border: none;
@@ -1336,18 +1336,30 @@
                                         cursor: pointer;
                                         z-index: 2;
                                     }
+                                    .move-up-btn, .move-down-btn {
+                                        position: absolute;
+                                        left: 0;
+                                        width: 20px;
+                                        height: 20px;
+                                        background: #007bff;
+                                        color: #fff;
+                                        border: none;
+                                        border-radius: 50%;
+                                        font-size: 14px;
+                                        line-height: 18px;
+                                        cursor: pointer;
+                                        z-index: 2;
+                                        opacity: 0.8;
+                                    }
+                                    .move-up-btn { top: 0; }
+                                    .move-down-btn { bottom: 0; }
                                 </style>
                                 <script>
-                                    // --- User-friendly Product Modal Logic ---
                                     document.addEventListener('DOMContentLoaded', function () {
                                         initProductForm();
                                     });
 
-                                    // --- DRAG & DROP IMAGE ORDERING LOGIC ---
-                                    // For new images (mainImagesPreview)
-                                    let mainImagesFiles = [];
-                                    // For existing images (edit mode)
-                                    // (We use DOM order for existing images)
+                                    let mainImagesFiles = []; 
 
                                     function goToStep(step) {
                                         document.querySelectorAll('.product-step').forEach(s => s.style.display = 'none');
@@ -1369,35 +1381,35 @@
 
                                         document.getElementById('category').addEventListener('change', loadSubCategories);
 
-                                        document.getElementById('mainImages').addEventListener('change', function (e) {
-                                            mainImagesFiles = Array.from(e.target.files);
+                                        document.getElementById('mainImageInput').addEventListener('change', function (e) {
+                                            const files = Array.from(e.target.files);
+                                            files.forEach(file => {
+                                                const url = URL.createObjectURL(file);
+                                                mainImagesFiles.push({ file, url });
+                                            });
                                             renderMainImagesPreview();
+                                
+                                            e.target.value = '';
                                         });
 
-                                        // Color variant toggle
                                         document.getElementById('hasColorVariants').addEventListener('change', function () {
                                             document.getElementById('colorVariantsContainer').style.display =
                                                 this.checked ? 'block' : 'none';
                                         });
 
-                                        // Size variant toggle
                                         document.getElementById('hasSizeVariants').addEventListener('change', function () {
                                             document.getElementById('sizeVariantsContainer').style.display =
                                                 this.checked ? 'block' : 'none';
                                         });
 
-                                        // Color variant options
                                         document.getElementById('addColorVariantBtn').addEventListener('click', addColorVariantOption);
 
-                                        // Size variant options
                                         document.getElementById('addSizeVariantBtn').addEventListener('click', addSizeVariantOption);
 
-                                        // Review add button
                                         document.getElementById('addReviewBtn').addEventListener('click', addReviewInput);
 
                                         document.getElementById('productForm').addEventListener('submit', handleProductSubmit);
 
-                                        // Initial drag & drop setup
                                         renderMainImagesPreview();
                                         makeExistingImagesSortable();
                                     }
@@ -1424,113 +1436,70 @@
                                         subcategorySelect.disabled = subCategories.length === 0;
                                     }
 
-                                    // --- DRAGGABLE IMAGE PREVIEW FOR NEW IMAGES ---
                                     function renderMainImagesPreview() {
                                         const preview = document.getElementById('mainImagesPreview');
                                         preview.innerHTML = '';
-                                        mainImagesFiles.forEach((file, idx) => {
-                                            const reader = new FileReader();
-                                            reader.onload = function (e) {
-                                                const imgContainer = document.createElement('div');
-                                                imgContainer.className = 'preview-image';
-                                                imgContainer.draggable = true;
-                                                imgContainer.title = "Drag to reorder";
-                                                imgContainer.dataset.idx = idx;
-                                                const img = document.createElement('img');
-                                                img.src = e.target.result;
-                                                imgContainer.appendChild(img);
+                                        if (mainImagesFiles.length === 0) return;
 
-                                                // Remove button for this image
-                                                const removeBtn = document.createElement('button');
-                                                removeBtn.type = 'button';
-                                                removeBtn.className = 'remove-image-btn';
-                                                removeBtn.innerHTML = '&times;';
-                                                removeBtn.onclick = function (ev) {
+                                        mainImagesFiles.forEach((item, idx) => {
+                                            const imgContainer = document.createElement('div');
+                                            imgContainer.className = 'preview-image';
+                                            imgContainer.style.position = 'relative';
+
+                                            const img = document.createElement('img');
+                                            img.src = item.url;
+                                            imgContainer.appendChild(img);
+
+                                            const removeBtn = document.createElement('button');
+                                            removeBtn.type = 'button';
+                                            removeBtn.className = 'remove-image-btn';
+                                            removeBtn.innerHTML = '&times;';
+                                            removeBtn.onclick = function (ev) {
+                                                ev.stopPropagation();
+                                                URL.revokeObjectURL(item.url);
+                                                mainImagesFiles.splice(idx, 1);
+                                                renderMainImagesPreview();
+                                            };
+                                            imgContainer.appendChild(removeBtn);
+
+                                            if (idx > 0) {
+                                                const upBtn = document.createElement('button');
+                                                upBtn.type = 'button';
+                                                upBtn.className = 'move-up-btn';
+                                                upBtn.title = 'Move Up';
+                                                upBtn.innerHTML = '&#8593;';
+                                                upBtn.onclick = function (ev) {
                                                     ev.stopPropagation();
-                                                    mainImagesFiles.splice(idx, 1);
+                                                    [mainImagesFiles[idx - 1], mainImagesFiles[idx]] = [mainImagesFiles[idx], mainImagesFiles[idx - 1]];
                                                     renderMainImagesPreview();
-                                                    document.getElementById('mainImages').value = '';
                                                 };
-                                                imgContainer.appendChild(removeBtn);
+                                                imgContainer.appendChild(upBtn);
+                                            }
 
-                                                preview.appendChild(imgContainer);
-
-                                                // After all images rendered, make them sortable
-                                                if (preview.childNodes.length === mainImagesFiles.length) {
-                                                    makePreviewImagesSortable();
-                                                }
-                                            };
-                                            reader.readAsDataURL(file);
-                                        });
-                                    }
-
-                                    // --- Improved Drag & Drop for New Images ---
-                                    function makePreviewImagesSortable() {
-                                        const preview = document.getElementById('mainImagesPreview');
-                                        let dragSrcIdx = null;
-
-                                        // Remove previous listeners to avoid stacking
-                                        preview.querySelectorAll('.preview-image').forEach(el => {
-                                            el.removeEventListener('dragstart', el._dragstartHandler);
-                                            el.removeEventListener('dragover', el._dragoverHandler);
-                                            el.removeEventListener('dragleave', el._dragleaveHandler);
-                                            el.removeEventListener('drop', el._dropHandler);
-                                            el.removeEventListener('dragend', el._dragendHandler);
-                                        });
-
-                                        preview.querySelectorAll('.preview-image').forEach((el, idx) => {
-                                            // dragstart
-                                            el._dragstartHandler = function (e) {
-                                                dragSrcIdx = idx;
-                                                this.classList.add('dragging');
-                                                e.dataTransfer.effectAllowed = 'move';
-                                                e.dataTransfer.setData('text/plain', idx);
-                                            };
-                                            el.addEventListener('dragstart', el._dragstartHandler);
-
-                                            // dragover
-                                            el._dragoverHandler = function (e) {
-                                                e.preventDefault();
-                                                e.dataTransfer.dropEffect = 'move';
-                                                this.classList.add('drag-over');
-                                            };
-                                            el.addEventListener('dragover', el._dragoverHandler);
-
-                                            // dragleave
-                                            el._dragleaveHandler = function (e) {
-                                                this.classList.remove('drag-over');
-                                            };
-                                            el.addEventListener('dragleave', el._dragleaveHandler);
-
-                                            // drop
-                                            el._dropHandler = function (e) {
-                                                e.preventDefault();
-                                                this.classList.remove('drag-over');
-                                                const toIdx = idx;
-                                                if (dragSrcIdx !== null && dragSrcIdx !== toIdx) {
-                                                    // Move the file in mainImagesFiles
-                                                    const moved = mainImagesFiles.splice(dragSrcIdx, 1)[0];
-                                                    mainImagesFiles.splice(toIdx, 0, moved);
+                                            if (idx < mainImagesFiles.length - 1) {
+                                                const downBtn = document.createElement('button');
+                                                downBtn.type = 'button';
+                                                downBtn.className = 'move-down-btn';
+                                                downBtn.title = 'Move Down';
+                                                downBtn.innerHTML = '&#8595;';
+                                                downBtn.onclick = function (ev) {
+                                                    ev.stopPropagation();
+                                                    [mainImagesFiles[idx], mainImagesFiles[idx + 1]] = [mainImagesFiles[idx + 1], mainImagesFiles[idx]];
                                                     renderMainImagesPreview();
-                                                }
-                                            };
-                                            el.addEventListener('drop', el._dropHandler);
+                                                };
+                                                imgContainer.appendChild(downBtn);
+                                            }
 
-                                            // dragend
-                                            el._dragendHandler = function (e) {
-                                                this.classList.remove('dragging');
-                                                preview.querySelectorAll('.preview-image').forEach(img => img.classList.remove('drag-over'));
-                                            };
-                                            el.addEventListener('dragend', el._dragendHandler);
+                                            preview.appendChild(imgContainer);
                                         });
                                     }
 
-                                    // --- Improved Drag & Drop for Existing Images (Edit Mode) ---
                                     function makeExistingImagesSortable() {
                                         const container = document.getElementById('existingMainImages');
+                                        if (!container) return;
+
                                         let dragSrcIdx = null;
 
-                                        // Remove previous listeners to avoid stacking
                                         container.querySelectorAll('.existing-image').forEach(el => {
                                             el.removeEventListener('dragstart', el._dragstartHandler);
                                             el.removeEventListener('dragover', el._dragoverHandler);
@@ -1541,7 +1510,7 @@
 
                                         const images = Array.from(container.querySelectorAll('.existing-image'));
                                         images.forEach((el, idx) => {
-                                            // dragstart
+
                                             el._dragstartHandler = function (e) {
                                                 dragSrcIdx = idx;
                                                 this.classList.add('dragging');
@@ -1550,7 +1519,7 @@
                                             };
                                             el.addEventListener('dragstart', el._dragstartHandler);
 
-                                            // dragover
+           
                                             el._dragoverHandler = function (e) {
                                                 e.preventDefault();
                                                 e.dataTransfer.dropEffect = 'move';
@@ -1558,19 +1527,17 @@
                                             };
                                             el.addEventListener('dragover', el._dragoverHandler);
 
-                                            // dragleave
                                             el._dragleaveHandler = function (e) {
                                                 this.classList.remove('drag-over');
                                             };
                                             el.addEventListener('dragleave', el._dragleaveHandler);
 
-                                            // drop
                                             el._dropHandler = function (e) {
                                                 e.preventDefault();
                                                 this.classList.remove('drag-over');
                                                 const toIdx = idx;
                                                 if (dragSrcIdx !== null && dragSrcIdx !== toIdx) {
-                                                    // Move the DOM node
+
                                                     const nodes = Array.from(container.children);
                                                     const moved = nodes[dragSrcIdx];
                                                     if (toIdx > dragSrcIdx) {
@@ -1578,7 +1545,7 @@
                                                     } else {
                                                         container.insertBefore(moved, nodes[toIdx]);
                                                     }
-                                                    // Re-apply listeners to all .existing-image
+
                                                     makeExistingImagesSortable();
                                                 }
                                             };
@@ -1593,7 +1560,6 @@
                                         });
                                     }
 
-                                    // Color Variant Option Logic
                                     function addColorVariantOption() {
                                         const container = document.getElementById('colorVariantOptions');
                                         const colorId = Date.now();
@@ -1601,28 +1567,27 @@
                                         colorDiv.className = 'color-variant-option';
                                         colorDiv.dataset.colorId = colorId;
                                         colorDiv.innerHTML = `
-        <div class="form-row">
-            <div class="form-group">
-                <label>Color Name <span class="required">*</span></label>
-                <input type="text" name="colorVariants[${colorId}][color]" required placeholder="e.g. Red">
-            </div>
-            <div class="form-group">
-                <label>Color Image</label>
-                <input type="file" name="colorVariants[${colorId}][image]" accept="image/*">
-                <div class="color-image-preview"></div>
-                <div class="existing-color-image"></div>
-            </div>
-            <div class="form-group">
-                <label>Stock</label>
-                <input type="number" name="colorVariants[${colorId}][stock]" min="0" value="0" required>
-            </div>
-            <button type="button" class="btn btn-sm btn-danger" onclick="removeColorVariantOption(this)">
-                <i class="icon-trash"></i>
-            </button>
-        </div>
-    `;
+                                            <div class="form-row">
+                                                <div class="form-group">
+                                                    <label>Color Name <span class="required">*</span></label>
+                                                    <input type="text" name="colorVariants[${colorId}][color]" required placeholder="e.g. Red">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Color Image</label>
+                                                    <input type="file" name="colorVariants[${colorId}][image]" accept="image/*">
+                                                    <div class="color-image-preview"></div>
+                                                    <div class="existing-color-image"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Stock</label>
+                                                    <input type="number" name="colorVariants[${colorId}][stock]" min="0" value="0" required>
+                                                </div>
+                                                <button type="button" class="btn btn-sm btn-danger" onclick="removeColorVariantOption(this)">
+                                                    <i class="icon-trash"></i>
+                                                </button>
+                                            </div>
+                                        `;
                                         container.appendChild(colorDiv);
-                                        // Image preview for color image
                                         const fileInput = colorDiv.querySelector('input[type="file"]');
                                         fileInput.addEventListener('change', function (e) {
                                             previewImages(e.target.files, colorDiv.querySelector('.color-image-preview'));
@@ -1634,7 +1599,6 @@
                                         }
                                     }
 
-                                    // Size Variant Option Logic
                                     function addSizeVariantOption() {
                                         const container = document.getElementById('sizeVariantOptions');
                                         const sizeId = Date.now();
@@ -1664,7 +1628,6 @@
                                         }
                                     }
 
-                                    // Review Input Logic
                                     function addReviewInput(review = {}) {
                                         const container = document.getElementById('reviewInputs');
                                         const reviewId = Date.now() + Math.floor(Math.random() * 1000);
@@ -1705,7 +1668,6 @@
                                         }
                                     }
 
-                                    // Review step logic
                                     function populateReviewSection() {
                                         const review = document.getElementById('reviewSection');
                                         const name = document.getElementById('name').value;
@@ -1719,19 +1681,16 @@
                                         const subcategory = document.getElementById('subcategory');
                                         const subcategoryText = subcategory.options[subcategory.selectedIndex]?.textContent || '';
                                         const status = document.getElementById('status').value;
-                                        // Removed tags
+     
                                         const moreDetails = document.getElementById('moreDetails').value;
-                                        // For preview, count both new and existing images
                                         const mainImagesCount = mainImagesFiles.length + document.querySelectorAll('#existingMainImages .existing-image').length;
 
-                                        // Checkboxes
                                         const bestDeals = document.getElementById('bestDeals').checked;
                                         const dealsOfTheDay = document.getElementById('dealsOfTheDay').checked;
                                         const newArrivals = document.getElementById('newArrivals').checked;
                                         const bestSeller = document.getElementById('bestSeller').checked;
                                         const topRated = document.getElementById('topRated').checked;
 
-                                        // Variants
                                         const hasColorVariants = document.getElementById('hasColorVariants').checked;
                                         const hasSizeVariants = document.getElementById('hasSizeVariants').checked;
                                         let colorList = [];
@@ -1747,7 +1706,6 @@
                                             });
                                         }
 
-                                        // Reviews
                                         let reviewBlocks = '';
                                         const reviewInputs = document.querySelectorAll('.review-input-block');
                                         if (reviewInputs.length > 0) {
@@ -1795,7 +1753,6 @@
                                         review.innerHTML = html;
                                     }
 
-                                    // Form submission logic
                                     async function handleProductSubmit(e) {
                                         e.preventDefault();
                                         const form = e.target;
@@ -1809,7 +1766,6 @@
                                         formData.set('bestSeller', document.getElementById('bestSeller').checked);
                                         formData.set('topRated', document.getElementById('topRated').checked);
 
-                                        // --- Disable Save button and show loading ---
                                         const saveBtn = document.getElementById('saveProductBtn');
                                         const saveBtnText = document.getElementById('saveProductBtnText');
                                         const saveBtnLoading = document.getElementById('saveProductBtnLoading');
@@ -1819,38 +1775,25 @@
                                             if (saveBtnLoading) saveBtnLoading.style.display = '';
                                         }
 
-                                        // --- Handle existing images order (edit mode) ---
-                                        // Remove all existingMainImages[] from formData, we'll re-append in order
                                         Array.from(formData.keys()).forEach(key => {
                                             if (key === 'existingMainImages[]') formData.delete(key);
                                         });
-                                        // Get all .existing-image in order
                                         document.querySelectorAll('#existingMainImages .existing-image input[name="existingMainImages[]"]').forEach(input => {
                                             formData.append('existingMainImages[]', input.value);
                                         });
 
-                                        // --- Handle new images order (creation or edit) ---
-                                        // Remove all mainImages from formData, we'll re-append in order
                                         formData.delete('mainImages');
                                         if (mainImagesFiles.length > 0) {
-                                            mainImagesFiles.forEach(file => {
-                                                formData.append('mainImages', file);
+                                            mainImagesFiles.forEach(item => {
+                                                formData.append('mainImages', item.file);
                                             });
-                                        } else {
-                                            // fallback: if user didn't drag, but just selected, use input.files
-                                            const inputFiles = document.getElementById('mainImages').files;
-                                            for (let i = 0; i < inputFiles.length; i++) {
-                                                formData.append('mainImages', inputFiles[i]);
-                                            }
                                         }
 
-                                        // Color variant images (no change)
                                         document.querySelectorAll('input[name*="[existingImage]"]').forEach(input => {
                                             const name = input.name.replace('[existingImage]', '[image]');
                                             formData.append(name, input.value);
                                         });
 
-                                        // Collect reviews from review input blocks
                                         const reviewInputs = document.querySelectorAll('.review-input-block');
                                         reviewInputs.forEach((div, idx) => {
                                             const reviewer = div.querySelector('input[name*="[name]"]').value;
@@ -1881,7 +1824,6 @@
                                             console.error('Error saving product:', error);
                                             alert('An error occurred while saving the product');
                                         } finally {
-                                            // --- Re-enable Save button and restore text if not reloading ---
                                             if (saveBtn) {
                                                 saveBtn.disabled = false;
                                                 if (saveBtnText) saveBtnText.style.display = '';
@@ -1890,7 +1832,6 @@
                                         }
                                     }
 
-                                    // Modal open/close logic
                                     function openProductModal(productId = null) {
                                         const modal = document.getElementById('productModal');
                                         const form = document.getElementById('productForm');
@@ -1901,6 +1842,7 @@
                                             document.getElementById('productId').value = '';
                                             document.getElementById('mainImagesPreview').innerHTML = '';
                                             document.getElementById('existingMainImages').innerHTML = '';
+                                            mainImagesFiles.forEach(item => { try { URL.revokeObjectURL(item.url); } catch(e){} });
                                             mainImagesFiles = [];
                                             document.getElementById('colorVariantOptions').innerHTML = '';
                                             document.getElementById('sizeVariantOptions').innerHTML = '';
@@ -1915,7 +1857,6 @@
                                             document.getElementById('bestSeller').checked = false;
                                             document.getElementById('topRated').checked = false;
                                             document.getElementById('reviewInputs').innerHTML = '';
-                                            // Reset Save button state
                                             const saveBtn = document.getElementById('saveProductBtn');
                                             const saveBtnText = document.getElementById('saveProductBtnText');
                                             const saveBtnLoading = document.getElementById('saveProductBtnLoading');
@@ -1930,7 +1871,6 @@
                                         } else {
                                             document.getElementById('productId').value = productId;
                                             fetchProductData(productId);
-                                            // Reset Save button state
                                             const saveBtn = document.getElementById('saveProductBtn');
                                             const saveBtnText = document.getElementById('saveProductBtnText');
                                             const saveBtnLoading = document.getElementById('saveProductBtnLoading');
@@ -1946,7 +1886,6 @@
                                         document.getElementById('productModal').style.display = 'none';
                                     }
 
-                                    // Fetch product data for editing
                                     async function fetchProductData(productId) {
                                         try {
                                             const response = await fetch(`/products/${productId}`);
@@ -1959,9 +1898,7 @@
                                             document.getElementById('salePrice').value = product.salePrice || '';
                                             document.getElementById('stock').value = product.stock || '';
                                             document.getElementById('moreDetails').value = product.moreDetails || '';
-                                            // Fix: warranty field can be warranty or warrantyTime
                                             document.getElementById('warranty').value = product.warranty || product.warrantyTime || '';
-                                            // Fix: status field (use isActive if status missing)
                                             if (product.status) {
                                                 document.getElementById('status').value = product.status;
                                             } else if (typeof product.isActive === 'boolean') {
@@ -1969,20 +1906,18 @@
                                             } else {
                                                 document.getElementById('status').value = 'active';
                                             }
-                                            // Removed tags
-                                            // Checkboxes
+
                                             document.getElementById('bestDeals').checked = !!product.bestDeals;
                                             document.getElementById('dealsOfTheDay').checked = !!product.dealsOfTheDay;
                                             document.getElementById('newArrivals').checked = !!product.newArrivals;
                                             document.getElementById('bestSeller').checked = !!product.bestSeller;
                                             document.getElementById('topRated').checked = !!product.topRated;
-                                            // Category/subcategory
+
                                             if (product.category) {
                                                 document.getElementById('category').value = product.category._id || product.category;
                                                 loadSubCategories();
                                                 if (product.subcategory) {
                                                     setTimeout(() => {
-                                                        // subcategory can be id or object
                                                         if (typeof product.subcategory === 'object' && product.subcategory._id) {
                                                             document.getElementById('subcategory').value = product.subcategory._id;
                                                         } else {
@@ -1991,7 +1926,6 @@
                                                     }, 100);
                                                 }
                                             }
-                                            // Main images (support both mainImages and images)
                                             const existingImagesContainer = document.getElementById('existingMainImages');
                                             existingImagesContainer.innerHTML = '';
                                             let imagesArr = [];
@@ -2007,10 +1941,10 @@
                                                     imgDiv.draggable = true;
                                                     imgDiv.title = "Drag to reorder";
                                                     imgDiv.innerHTML = `
-                    <img src="${image}" alt="Product Image">
-                    <input type="hidden" name="existingMainImages[]" value="${image}">
-                    <button type="button" class="remove-image-btn" onclick="removeImage(this)">×</button>
-                `;
+                                                        <img src="${image}" alt="Product Image">
+                                                        <input type="hidden" name="existingMainImages[]" value="${image}">
+                                                        <button type="button" class="remove-image-btn" onclick="removeImage(this)">×</button>
+                                                    `;
                                                     existingImagesContainer.appendChild(imgDiv);
                                                 });
                                             }
@@ -2029,35 +1963,35 @@
                                                     colorDiv.className = 'color-variant-option';
                                                     colorDiv.dataset.colorId = colorId;
                                                     colorDiv.innerHTML = `
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Color Name <span class="required">*</span></label>
-                            <input type="text" name="colorVariants[${colorId}][color]" value="${color.color}" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Color Image</label>
-                            <input type="file" name="colorVariants[${colorId}][image]" accept="image/*">
-                            <div class="color-image-preview"></div>
-                            <div class="existing-color-image"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>Stock</label>
-                            <input type="number" name="colorVariants[${colorId}][stock]" min="0" value="${color.stock}" required>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="removeColorVariantOption(this)">
-                            <i class="icon-trash"></i>
-                        </button>
-                    </div>
-                `;
+                                                        <div class="form-row">
+                                                            <div class="form-group">
+                                                                <label>Color Name <span class="required">*</span></label>
+                                                                <input type="text" name="colorVariants[${colorId}][color]" value="${color.color}" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Color Image</label>
+                                                                <input type="file" name="colorVariants[${colorId}][image]" accept="image/*">
+                                                                <div class="color-image-preview"></div>
+                                                                <div class="existing-color-image"></div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Stock</label>
+                                                                <input type="number" name="colorVariants[${colorId}][stock]" min="0" value="${color.stock}" required>
+                                                            </div>
+                                                            <button type="button" class="btn btn-sm btn-danger" onclick="removeColorVariantOption(this)">
+                                                                <i class="icon-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    `;
                                                     const existingColorImage = colorDiv.querySelector('.existing-color-image');
                                                     if (color.image) {
                                                         const imgDiv = document.createElement('div');
                                                         imgDiv.className = 'existing-image';
                                                         imgDiv.innerHTML = `
-                        <img src="${color.image}" alt="Color Image">
-                        <input type="hidden" name="colorVariants[${colorId}][existingImage]" value="${color.image}">
-                        <button type="button" onclick="removeImage(this)">×</button>
-                    `;
+                                                            <img src="${color.image}" alt="Color Image">
+                                                            <input type="hidden" name="colorVariants[${colorId}][existingImage]" value="${color.image}">
+                                                            <button type="button" onclick="removeImage(this)">×</button>
+                                                        `;
                                                         existingColorImage.appendChild(imgDiv);
                                                     }
                                                     colorContainer.appendChild(colorDiv);
@@ -2106,6 +2040,7 @@
                                                 });
                                             }
 
+                                            mainImagesFiles.forEach(item => { try { URL.revokeObjectURL(item.url); } catch(e){} });
                                             mainImagesFiles = [];
                                             renderMainImagesPreview();
                                             makeExistingImagesSortable();
@@ -2166,6 +2101,22 @@
                                             console.error('Error deleting product:', err);
                                             alert('An error occurred while deleting the product');
                                         }
+                                    }
+
+                                    function previewImages(files, container) {
+                                        container.innerHTML = '';
+                                        if (!files || !files.length) return;
+                                        Array.from(files).forEach(file => {
+                                            const reader = new FileReader();
+                                            reader.onload = function (e) {
+                                                const img = document.createElement('img');
+                                                img.src = e.target.result;
+                                                img.style.maxWidth = '40px';
+                                                img.style.maxHeight = '40px';
+                                                container.appendChild(img);
+                                            };
+                                            reader.readAsDataURL(file);
+                                        });
                                     }
                                 </script>
                             </div>

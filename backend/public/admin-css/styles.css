@@ -2943,7 +2943,7 @@ form button,
 form input[type=button],
 form input[type=reset],
 form input[type=submit] {
-  padding: 14px 22px;
+  padding: 14px px;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;

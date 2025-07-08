@@ -137,7 +137,7 @@ exports.getProduct = async (req, res) => {
   }
 };
 
-// Create a new product
+// Enhanced createProduct controller with image ordering support
 exports.createProduct = async (req, res) => {
   try {
     const {
@@ -177,31 +177,47 @@ exports.createProduct = async (req, res) => {
     let images = [];
     const colorVariantImages = {};
 
-    // Process uploaded files
+    // Process uploaded files with proper ordering
     if (req.files && req.files.length > 0) {
-      // Separate main images from color variant images
-      const mainImageFiles = req.files.filter(file =>
-        file.fieldname === 'mainImages' ||
-        file.fieldname.startsWith('mainImages[')
-      );
+      // --- Handle Main Images with Ordering ---
+      // Get all main image files in the order they were submitted
+      const mainImageFiles = [];
+      
+      // First check for sequentially indexed files (mainImages[0], mainImages[1], etc.)
+      let index = 0;
+      while (true) {
+        const file = req.files.find(f => 
+          f.fieldname === `mainImages[${index}]` || 
+          (index === 0 && f.fieldname === 'mainImages')
+        );
+        if (!file) break;
+        mainImageFiles.push(file);
+        index++;
+      }
+      
+      // If no sequentially indexed files, use all files with fieldname 'mainImages'
+      if (mainImageFiles.length === 0) {
+        mainImageFiles.push(...req.files.filter(f => f.fieldname === 'mainImages'));
+      }
 
-      const colorVariantFiles = req.files.filter(file =>
-        file.fieldname.includes('colorVariants') &&
-        file.fieldname.includes('[image]')
-      );
-
-      // Upload main product images to 'products' folder
+      // Upload main product images in order
       if (mainImageFiles.length > 0) {
         images = await Promise.all(
           mainImageFiles.map(file => uploadToCloudinary(file, 'products'))
         );
       }
 
+      // --- Handle Color Variant Images ---
+      const colorVariantFiles = req.files.filter(file =>
+        file.fieldname.includes('colorVariants') &&
+        file.fieldname.includes('[image]')
+      );
+
       // Upload color variant images to 'products/color-variants' folder
       if (colorVariantFiles.length > 0) {
         await Promise.all(
           colorVariantFiles.map(async (file) => {
-            const match = file.fieldname.match(/colorVariants\[(\d+)\]\[image\]/);
+            const match = file.fieldname.match(/colorVariants\[([^\]]+)\]\[image\]/);
             if (match && match[1]) {
               const colorId = match[1];
               const imageUrl = await uploadToCloudinary(file, 'products/color-variants');
@@ -230,7 +246,7 @@ exports.createProduct = async (req, res) => {
       }
     }
 
-    // Process size variants (no images here)
+    // Process size variants
     if (sizeVariants) {
       try {
         const raw = typeof sizeVariants === 'string' ? JSON.parse(sizeVariants) : sizeVariants;
@@ -261,8 +277,7 @@ exports.createProduct = async (req, res) => {
       }
     }
 
-
-    // Create the product
+    // Create the product with ordered images
     const product = new Product({
       name,
       description,
@@ -284,7 +299,7 @@ exports.createProduct = async (req, res) => {
       colorVariants: parsedColorVariants,
       sizeVariants: parsedSizeVariants,
       reviews: parsedReviews,
-      images,
+      images, // This array is already in the correct order
       isActive: status !== 'inactive'
     });
 
@@ -306,8 +321,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-
-// Update product
+// Enhanced updateProduct controller with image ordering support
 exports.updateProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -315,47 +329,58 @@ exports.updateProduct = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Product not found' });
     }
 
-    // --- Handle Main Product Images ---
-    let images = product.images ? [...product.images] : [];
+    // --- Handle Image Ordering ---
+    let images = [];
 
-    // If existingMainImages is provided, use it as the base
+    // 1. Process existing images in the order they were submitted
     if (req.body.existingMainImages) {
-      images = Array.isArray(req.body.existingMainImages)
-        ? req.body.existingMainImages
-        : [req.body.existingMainImages];
+      // Convert to array if it's not already
+      let existingImages = req.body.existingMainImages;
+      if (!Array.isArray(existingImages)) {
+        // If it's a stringified array, parse it
+        if (typeof existingImages === 'string' && existingImages.startsWith('[')) {
+          try {
+            existingImages = JSON.parse(existingImages);
+          } catch (e) {
+            existingImages = [existingImages];
+          }
+        } else {
+          existingImages = [existingImages];
+        }
+      }
+      // Filter out any empty values and add to images array
+      images = existingImages.filter(img => img);
     }
 
-    // If new images are uploaded, replace the images at the corresponding indexes
+    // 2. Process new uploaded images in the correct order
     if (req.files && req.files.length > 0) {
-      // Find all main image files and their indexes
-      // Expecting fieldnames like mainImages[0], mainImages[1], etc.
-      const mainImageFiles = req.files.filter(file =>
-        file.fieldname === 'mainImages' || file.fieldname.startsWith('mainImages[')
-      );
+      // Collect all files for mainImages, regardless of fieldname format
+      // This will support both mainImages and mainImages[] and mainImages[0], mainImages[1], etc.
+      let mainImageFiles = [];
 
-      // Map: index in images array -> file
-      const mainImageFileMap = {};
-      mainImageFiles.forEach(file => {
-        let idx = 0;
-        const match = file.fieldname.match(/mainImages\[(\d+)\]/);
-        if (match) {
-          idx = parseInt(match[1], 10);
-        }
-        mainImageFileMap[idx] = file;
-      });
+      // 1. Collect all files with fieldname 'mainImages' or 'mainImages[]'
+      mainImageFiles.push(...req.files.filter(f => f.fieldname === 'mainImages' || f.fieldname === 'mainImages[]'));
 
-      // Upload and replace at the correct index
-      for (const [idxStr, file] of Object.entries(mainImageFileMap)) {
-        const idx = parseInt(idxStr, 10);
-        const uploadedUrl = await uploadToCloudinary(file, 'products');
-        // If index exists, replace; if not, push to the end
-        if (images.length > idx) {
-          images[idx] = uploadedUrl;
-        } else {
-          // Fill any gaps with nulls, then push
-          while (images.length < idx) images.push(null);
-          images.push(uploadedUrl);
-        }
+      // 2. Collect all files with fieldname like 'mainImages[0]', 'mainImages[1]', etc.
+      const indexedFiles = req.files
+        .filter(f => /^mainImages\[\d+\]$/.test(f.fieldname))
+        .sort((a, b) => {
+          // Sort by index in fieldname
+          const aIdx = parseInt(a.fieldname.match(/^mainImages\[(\d+)\]$/)[1], 10);
+          const bIdx = parseInt(b.fieldname.match(/^mainImages\[(\d+)\]$/)[1], 10);
+          return aIdx - bIdx;
+        });
+      mainImageFiles.push(...indexedFiles);
+
+      // Remove duplicates (in case multer sends both 'mainImages' and 'mainImages[0]')
+      mainImageFiles = Array.from(new Set(mainImageFiles));
+
+      // Upload new images in order and add to images array
+      if (mainImageFiles.length > 0) {
+        const uploadedImages = await Promise.all(
+          mainImageFiles.map(file => uploadToCloudinary(file, 'products'))
+        );
+        images = [...images, ...uploadedImages];
       }
     }
 
@@ -363,7 +388,8 @@ exports.updateProduct = async (req, res) => {
     const colorVariantImages = {};
     if (req.files && req.files.length > 0) {
       const colorVariantFiles = req.files.filter(file =>
-        file.fieldname.includes('colorVariants') && file.fieldname.includes('[image]')
+        file.fieldname.includes('colorVariants') && 
+        file.fieldname.includes('[image]')
       );
 
       await Promise.all(
@@ -392,16 +418,14 @@ exports.updateProduct = async (req, res) => {
       }
 
       parsedColorVariants = Object.entries(rawColorVariants).map(([key, variant]) => {
-        // Find existing variant by ID or color name
         const existing = product.colorVariants.find(cv =>
           cv._id?.toString() === key || cv.color === variant.color
         ) || {};
 
         return {
-          _id: existing._id || key, // Preserve existing ID
+          _id: existing._id || key,
           color: variant.color,
           stock: variant.stock || 0,
-          // If a new image is uploaded for this color variant, use it; else keep existing
           image: colorVariantImages[key] !== undefined
             ? colorVariantImages[key]
             : (variant.existingImage || existing.image || variant.image || null)
@@ -489,7 +513,7 @@ exports.updateProduct = async (req, res) => {
     product.colorVariants = parsedColorVariants;
     product.sizeVariants = parsedSizeVariants;
     product.reviews = parsedReviews;
-    product.images = images;
+    product.images = images; // This array is now in the correct order
     product.isActive = product.status !== 'inactive';
 
     await product.save();

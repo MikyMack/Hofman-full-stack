@@ -652,12 +652,10 @@
 
                                                 <div class="product-pa-wrapper">
                                                     <div class="product-price">
-                                                        <ins class="new-price">₹<%= product.salePrice ||
-                                                                product.basePrice %></ins>
-                                                        <% if (product.salePrice) { %>
-                                                            <del class="old-price">₹<%= product.basePrice %>
-                                                            </del>
-                                                            <% } %>
+                                                        <ins class="new-price">₹<%= product.salePrice || product.basePrice %></ins>
+                                                        <% if (product.salePrice && product.salePrice != product.basePrice) { %>
+                                                            <del class="old-price">₹<%= product.basePrice %></del>
+                                                        <% } %>
                                                     </div>
                                                     <div class="product-action">
                                                         <button

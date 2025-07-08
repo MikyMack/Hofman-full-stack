@@ -11230,7 +11230,7 @@ body .product-popup {
 }
 
 .product-price .new-price {
-  color: #333;
+  color: #3d3d3d;
   text-decoration: none;
   font-family: sans-serif;
 }
@@ -11420,8 +11420,8 @@ body .product-popup {
 
 .product .product-pa-wrapper .product-price {
   margin-bottom: 0;
-  font-size: 20px;
-  font-family: sans-serif;
+  font-size: 18px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .product .product-pa-wrapper .product-action {

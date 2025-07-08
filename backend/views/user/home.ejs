@@ -877,13 +877,12 @@
                                                     </a>
                                                 </h4>
                                                 <div class="product-price">
-                                                    <ins class="new-price">₹<%= product.salePrice || product.basePrice
-                                                            %>
-                                                    </ins>
-                                                    <% if (product.salePrice && product.salePrice < product.basePrice) {
-                                                        %>
+                                                    <% if (product.salePrice && product.salePrice < product.basePrice) { %>
+                                                        <ins class="new-price">₹<%= product.salePrice %></ins>
                                                         <del class="old-price">₹<%= product.basePrice %></del>
-                                                        <% } %>
+                                                    <% } else { %>
+                                                        <ins class="new-price">₹<%= product.basePrice %></ins>
+                                                    <% } %>
                                                 </div>
                                             </div>
                                         </div>
@@ -1368,9 +1367,12 @@
 
                         function createProductElement(product) {
                             // Determine price display
-                            const priceHtml = product.salePrice > 0
-                                ? `<ins class="new-price">₹${product.salePrice.toFixed(2)}</ins><del class="old-price">₹${product.basePrice.toFixed(2)}</del>`
-                                : `<ins class="new-price">₹${product.basePrice.toFixed(2)}</ins>`;
+                            let priceHtml;
+                            if (product.salePrice > 0 && product.salePrice < product.basePrice) {
+                                priceHtml = `<ins class="new-price">₹${product.salePrice.toFixed(2)}</ins><del class="old-price">₹${product.basePrice.toFixed(2)}</del>`;
+                            } else {
+                                priceHtml = `<ins class="new-price">₹${product.basePrice.toFixed(2)}</ins>`;
+                            }
 
                             // Create size options if available
                             let sizeOptions = '';
@@ -1801,7 +1803,7 @@
                     <ul class="mobile-menu">
                         <% categories.forEach(category=> { %>
                             <li>
-                                <a style="gap: 10px!important; display: flex;" href="/category/<%= category._id %>">
+                                <a style="gap: 10px!important; display: flex;" href="/store?category=<%= category._id %>">
                                     <img style="height: 30px; width: 30px; border-radius: 50px;"
                                         src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt="">
                                     <%= category.name %>
@@ -1811,7 +1813,7 @@
                                         <% category.subCategories.forEach(sub=> { %>
                                             <% if (sub.isActive) { %>
                                                 <li>
-                                                    <a href="/subcategory/<%= sub._id %>">
+                                                    <a href="/store?subcategory=<%= sub._id %>">
                                                         <%= sub.name %>
                                                     </a>
                                                 </li>
@@ -1822,7 +1824,6 @@
                             </li>
                             <% }); %>
                     </ul>
-
                 </div>
             </div>
         </div>

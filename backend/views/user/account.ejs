@@ -1047,7 +1047,7 @@
                     <ul class="mobile-menu">
                         <% categories.forEach(category=> { %>
                             <li>
-                                <a style="gap: 10px!important; display: flex;" href="/category/<%= category._id %>">
+                                <a style="gap: 10px!important; display: flex;" href="/store?category=<%= category._id %>">
                                     <img style="height: 30px; width: 30px; border-radius: 50px;"
                                         src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt="">
                                     <%= category.name %>
@@ -1057,7 +1057,7 @@
                                         <% category.subCategories.forEach(sub=> { %>
                                             <% if (sub.isActive) { %>
                                                 <li>
-                                                    <a href="/subcategory/<%= sub._id %>">
+                                                    <a href="/store?subcategory=<%= sub._id %>">
                                                         <%= sub.name %>
                                                     </a>
                                                 </li>
@@ -1068,7 +1068,6 @@
                             </li>
                             <% }); %>
                     </ul>
-
                 </div>
             </div>
         </div>

@@ -1,19 +1,15 @@
-/*!
-	Zoom 1.7.21
-	license: MIT
-	http://www.jacklmoore.com/zoom
-*/
+
 (function ($) {
 	var defaults = {
 		url: false,
 		callback: false,
 		target: false,
 		duration: 120,
-		on: 'mouseover', // other options: grab, click, toggle
-		touch: true, // enables a touch fallback
+		on: 'mouseover', 
+		touch: true, 
 		onZoomIn: false,
 		onZoomOut: false,
-		magnify: 1,
+		magnify: 1.02, 
 	};
 
 	// Core Zoom Logic, independent of event listeners.
@@ -28,7 +24,6 @@
 			$target = $(target),
 			position = $target.css('position'),
 			$source = $(source);
-
 
 		// The parent element needs positioning so that the zoomed element can be correctly positioned within.
 		target.style.position = /(absolute|fixed)/.test(position) ? position : 'relative';
@@ -85,6 +80,7 @@
 	$.fn.zoom = function (options) {
 		return this.each(function () {
 			var
+			// If user doesn't specify magnify, use the new very small default
 			settings = $.extend({}, defaults, options || {}),
 			//target will display the zoomed image
 			target = settings.target && $(settings.target)[0] || this,
@@ -119,14 +115,13 @@
 			}.bind(this, target.style.position, target.style.overflow, target.style.cursor ));
 
 			img.onload = function () {
-				var zoom = $.zoom(target, source, img, settings.magnify);
+				// If user didn't specify magnify, use the new very small default
+				var zoom = $.zoom(target, source, img, typeof settings.magnify !== "undefined" ? settings.magnify : 1.01);
 
 				function start(e) {
 					zoom.init();
 					zoom.move(e);
 
-					// Skip the fade-in for IE8 and lower since it chokes on fading-in
-					// and changing position based on mousemovement at the same time.
 					$img.stop()
 					.fadeTo($.support.opacity ? settings.duration : 0, 1, $.isFunction(settings.onZoomIn) ? settings.onZoomIn.call(img) : false);
 				}
@@ -191,7 +186,7 @@
 						}
 					);
 				} else if (settings.on === 'mouseover') {
-					zoom.init(); // Preemptively call init because IE7 will fire the mousemove handler before the hover handler.
+					zoom.init(); 
 
 					$source
 						.on('mouseenter.zoom', start)

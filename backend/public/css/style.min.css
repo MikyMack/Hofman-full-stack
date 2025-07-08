@@ -11085,11 +11085,13 @@ body .product-popup {
 
 .product-name {
   margin-bottom: 0.7rem;
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-wrap: auto;
+  text-align: start;
 }
 
 .product-name a {
@@ -11120,7 +11122,7 @@ body .product-popup {
 .product-variations {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  display: flex!important;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
@@ -11420,8 +11422,9 @@ body .product-popup {
 
 .product .product-pa-wrapper .product-price {
   margin-bottom: 0;
-  font-size: 18px;
+  font-size: 12px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin-top: 1rem;
 }
 
 .product .product-pa-wrapper .product-action {
@@ -25170,7 +25173,7 @@ color: var(--theme-color)!important;
 }
 @media(max-width:500px){
   .store-product-name{
-  font-size: 14px!important; 
+  font-size: 11px!important; 
 }
 .store-price-new{
   font-size: 14px;

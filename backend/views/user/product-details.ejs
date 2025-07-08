@@ -754,16 +754,34 @@
                                     </div>
                                     <div class="tab-pane" id="product-tab-specification">
                                         <ul class="list-none">
-
-                                            <% if (product.warrantyTime) { %>
-                                                <li>
-                                                    <label>Warranty Time</label>
-                                                    <p>
-                                                        <%= product.warrantyTime %>
-                                                    </p>
-                                                </li>
-                                                <% } %>
-
+                                            <% 
+                                                const details = product.productDetails || {};
+                                                const detailFields = [
+                                                    { key: 'articleNo', label: 'Article No' },
+                                                    { key: 'brand', label: 'Brand' },
+                                                    { key: 'productType', label: 'Product Type' },
+                                                    { key: 'soleMaterial', label: 'Sole Material' },
+                                                    { key: 'collection', label: 'Collection' }
+                                                ];
+                                                let hasAnyDetail = false;
+                                                detailFields.forEach(function(field) {
+                                                    if (details[field.key]) { hasAnyDetail = true; }
+                                                });
+                                            %>
+                                            <% if (hasAnyDetail) { %>
+                                                <% detailFields.forEach(function(field) { %>
+                                                    <% if (details[field.key]) { %>
+                                                        <li>
+                                                            <label><%= field.label %></label>
+                                                            <p>
+                                                                <%= details[field.key] %>
+                                                            </p>
+                                                        </li>
+                                                    <% } %>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <li>No product details available.</li>
+                                            <% } %>
                                         </ul>
                                     </div>
                                     <div class="tab-pane" id="product-tab-reviews">

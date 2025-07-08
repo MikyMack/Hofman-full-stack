@@ -18,7 +18,6 @@ const colorVariantSchema = new mongoose.Schema({
   }
 });
 
-// Size Variant subdocument (each size has its own stock)
 const sizeVariantSchema = new mongoose.Schema({
   size: {
     type: String,
@@ -53,6 +52,25 @@ const reviewSchema = new mongoose.Schema({
     default: Date.now
   }
 });
+
+// Product Details subdocument (all fields optional)
+const productDetailsSchema = new mongoose.Schema({
+  articleNo: {
+    type: String
+  },
+  brand: {
+    type: String
+  },
+  productType: {
+    type: String
+  },
+  soleMaterial: {
+    type: String
+  },
+  productCollection: {
+    type: String
+  }
+}, { _id: false });
 
 // Main Product Schema
 const productSchema = new mongoose.Schema({
@@ -131,9 +149,9 @@ const productSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
-  warrantyTime: {
-    type: String,
-    default: '1 year'
+  productDetails: {
+    type: productDetailsSchema,
+    default: undefined
   },
   reviews: {
     type: [reviewSchema],

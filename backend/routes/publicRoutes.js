@@ -129,41 +129,34 @@ router.get('/store', async (req, res) => {
             maxPrice,
             size,
             color,
-            sort,
+            sort = 'newest', // Default sort
             q,
-            subcategory
+            subcategory,
+            categoryPage = 1,
+            subcategoryPage = 1
         } = req.query;
 
+        // Convert size and color to arrays if they are strings
         if (size) {
-            if (Array.isArray(size)) {
-                size = size.flatMap(s => typeof s === 'string' ? s.split(',') : []);
-            } else if (typeof size === 'string') {
-                size = size.split(',');
-            }
+            size = Array.isArray(size) ? size : size.split(',');
+            size = size.filter(s => s.trim() !== '');
         }
         if (color) {
-            if (Array.isArray(color)) {
-                color = color.flatMap(c => typeof c === 'string' ? c.split(',') : []);
-            } else if (typeof color === 'string') {
-                color = color.split(',');
-            }
+            color = Array.isArray(color) ? color : color.split(',');
+            color = color.filter(c => c.trim() !== '');
         }
 
         let filter = { isActive: true };
 
-        let pageTitle = 'Store';
-        let categoryTitle = null;
-        let subcategoryTitle = null;
-
+        // Handle subcategory filtering
+        let useSubcategoryPagination = false;
         if (subcategory && mongoose.Types.ObjectId.isValid(subcategory)) {
             filter.subcategory = subcategory;
-            const foundCategory = await Category.findOne({ 'subCategories._id': subcategory }, { 'subCategories.$': 1, name: 1 }).lean();
-            if (foundCategory && foundCategory.subCategories && foundCategory.subCategories.length > 0) {
-                subcategoryTitle = foundCategory.subCategories[0].name;
-                categoryTitle = foundCategory.name;
-            }
+            useSubcategoryPagination = true;
         }
 
+        // Handle category filtering
+        let useCategoryPagination = false;
         if (category) {
             let decodedCategory = decodeURIComponent(category);
 
@@ -176,179 +169,197 @@ router.get('/store', async (req, res) => {
 
             if (foundCategory) {
                 filter.category = foundCategory._id;
-                if (!categoryTitle) categoryTitle = foundCategory.name;
+                useCategoryPagination = true;
             } else if (mongoose.Types.ObjectId.isValid(category)) {
                 filter.category = category;
-    
-                const foundById = await Category.findById(category).lean();
-                if (foundById && !categoryTitle) categoryTitle = foundById.name;
-            } else {
-                filter.$or = [
-                    { 'categoryName': { $regex: new RegExp(decodedCategory, 'i') } },
-                    { 'category.slug': { $regex: new RegExp(decodedCategory, 'i') } }
-                ];
-
-                if (!categoryTitle) categoryTitle = decodedCategory;
+                useCategoryPagination = true;
             }
         }
 
-        if (categoryTitle && subcategoryTitle) {
-            pageTitle = `${categoryTitle} - ${subcategoryTitle}`;
-        } else if (categoryTitle) {
-            pageTitle = categoryTitle;
-        } else if (subcategoryTitle) {
-            pageTitle = subcategoryTitle;
-        } else if (q && typeof q === 'string' && q.trim().length > 0) {
-            pageTitle = `Search: ${q.trim()}`;
+        // If both subcategory and category are present, subcategory pagination takes precedence
+        let effectivePage = Number(page);
+        if (useSubcategoryPagination) {
+            effectivePage = Number(subcategoryPage) || 1;
+        } else if (useCategoryPagination) {
+            effectivePage = Number(categoryPage) || 1;
         }
 
+        // Handle search query
         if (q && typeof q === 'string' && q.trim().length > 0) {
             const searchRegex = new RegExp(q.trim(), 'i');
-            if (filter.$or) {
-                filter.$and = filter.$and || [];
-                filter.$and.push({
-                    $or: [
-                        { name: searchRegex },
-                        { description: searchRegex },
-                        { categoryName: searchRegex }
-                    ]
-                });
-            } else {
-                filter.$or = [
-                    { name: searchRegex },
-                    { description: searchRegex },
-                    { categoryName: searchRegex }
-                ];
-            }
+            filter.$or = [
+                { name: searchRegex },
+                { description: searchRegex },
+                { 'category.name': searchRegex },
+                { 'subcategory.name': searchRegex }
+            ];
+            // For search, use main pagination (page)
+            effectivePage = Number(page) || 1;
         }
 
+        // Handle price range filtering
         if (minPrice || maxPrice) {
             filter.$and = filter.$and || [];
+            const priceFilter = {};
+
             if (minPrice) {
-                filter.$and.push({
-                    $or: [
-                        { salePrice: { $gte: Number(minPrice) } },
-                        {
-                            $and: [
-                                { $or: [{ salePrice: 0 }, { salePrice: { $exists: false } }] },
-                                { basePrice: { $gte: Number(minPrice) } }
-                            ]
-                        }
-                    ]
-                });
+                priceFilter.$gte = Number(minPrice);
             }
             if (maxPrice) {
-                filter.$and.push({
-                    $or: [
-                        { salePrice: { $lte: Number(maxPrice) } },
-                        {
-                            $and: [
-                                { $or: [{ salePrice: 0 }, { salePrice: { $exists: false } }] },
-                                { basePrice: { $lte: Number(maxPrice) } }
-                            ]
-                        }
-                    ]
-                });
+                priceFilter.$lte = Number(maxPrice);
             }
 
-            if (filter.$and.length === 0) delete filter.$and;
+            filter.$and.push({
+                $or: [
+                    { salePrice: priceFilter },
+                    {
+                        $and: [
+                            { $or: [{ salePrice: 0 }, { salePrice: { $exists: false } }] },
+                            { basePrice: priceFilter }
+                        ]
+                    }
+                ]
+            });
         }
 
+        // Handle size and color variants
         if (size && size.length > 0) {
             filter['sizeVariants.size'] = { $in: size };
         }
-
         if (color && color.length > 0) {
             filter['colorVariants.color'] = { $in: color };
         }
 
-        const categories = await Category.find({}).lean();
-
-        const skip = (Number(page) - 1) * Number(limit);
+        // Get total count of products matching the filter
         const totalProducts = await Product.countDocuments(filter);
 
-        let productsQuery = Product.find(filter);
+        // Build the base query
+        let productsQuery = Product.find(filter)
+            .skip((effectivePage - 1) * Number(limit))
+            .limit(Number(limit));
 
+        // Apply sorting
         switch (sort) {
             case 'price-low':
                 productsQuery.sort({
-                    salePrice: 1,
-                    basePrice: 1
+                    $sort: {
+                        $cond: {
+                            if: { $gt: ['$salePrice', 0] },
+                            then: '$salePrice',
+                            else: '$basePrice'
+                        }
+                    }
                 });
                 break;
             case 'price-high':
                 productsQuery.sort({
-                    salePrice: -1,
-                    basePrice: -1
+                    $sort: {
+                        $cond: {
+                            if: { $gt: ['$salePrice', 0] },
+                            then: '$salePrice',
+                            else: '$basePrice'
+                        }
+                    } * -1
                 });
                 break;
-            case 'newArrivals':
+            case 'newest':
                 productsQuery.sort({ createdAt: -1 });
                 break;
-            case 'bestSeller':
+            case 'bestseller':
                 productsQuery.sort({ soldCount: -1 });
                 break;
-            case 'bestDeals':
-                productsQuery = await Product.aggregate([
-                    { $match: filter },
-                    {
-                        $addFields: {
-                            discountPercent: {
-                                $cond: {
-                                    if: { $gt: ['$salePrice', 0] },
-                                    then: {
-                                        $multiply: [
-                                            {
-                                                $divide: [
-                                                    { $subtract: ['$basePrice', '$salePrice'] },
-                                                    '$basePrice'
-                                                ]
-                                            },
-                                            100
-                                        ]
-                                    },
-                                    else: 0
-                                }
+            case 'bestdeals':
+                productsQuery.sort({
+                    $addFields: {
+                        discountPercent: {
+                            $cond: {
+                                if: { $gt: ['$salePrice', 0] },
+                                then: {
+                                    $multiply: [
+                                        {
+                                            $divide: [
+                                                { $subtract: ['$basePrice', '$salePrice'] },
+                                                '$basePrice'
+                                            ]
+                                        },
+                                        100
+                                    ]
+                                },
+                                else: 0
                             }
                         }
-                    },
-                    { $sort: { discountPercent: -1 } },
-                    { $skip: skip },
-                    { $limit: Number(limit) }
-                ]);
+                    }
+                }).sort({ discountPercent: -1 });
                 break;
             default:
                 productsQuery.sort({ createdAt: -1 });
         }
 
-        if (sort !== 'bestDeals') {
-            productsQuery = await productsQuery
-                .skip(skip)
-                .limit(Number(limit))
-                .lean();
-        }
+        // Execute the query
+        const products = await productsQuery.lean();
 
+        // Get categories for sidebar
+        const categories = await Category.find({}).lean();
+
+        // Get cart if user is logged in
         let cart = null;
         if (req.user) {
             cart = await Cart.findOne({ user: req.user._id }).lean();
         }
 
+        // Set page title
+        let pageTitle = 'Store';
+        if (subcategory) {
+            const subcat = await Category.findOne(
+                { 'subCategories._id': subcategory },
+                { 'subCategories.$': 1, name: 1 }
+            ).lean();
+            if (subcat) {
+                pageTitle = `${subcat.name} - ${subcat.subCategories[0].name}`;
+            }
+        } else if (category) {
+            const cat = await Category.findOne({
+                $or: [
+                    { slug: category },
+                    { name: { $regex: new RegExp('^' + category + '$', 'i') } }
+                ]
+            }).lean();
+            if (cat) {
+                pageTitle = cat.name;
+            }
+        } else if (q) {
+            pageTitle = `Search: ${q}`;
+        }
+
+        // Determine which pagination to use for rendering
+        let currentPage = 1;
+        if (useSubcategoryPagination) {
+            currentPage = Number(subcategoryPage) || 1;
+        } else if (useCategoryPagination) {
+            currentPage = Number(categoryPage) || 1;
+        } else {
+            currentPage = Number(page) || 1;
+        }
+
         res.render('user/store', {
             user: req.user,
             categories,
-            products: sort === 'bestDeals' ? productsQuery : await productsQuery,
-            currentPage: Number(page),
+            products,
+            currentPage,
             totalPages: Math.ceil(totalProducts / Number(limit)),
             totalProducts,
             filters: {
                 category,
                 minPrice,
                 maxPrice,
-                size: Array.isArray(size) ? size.join(',') : size,
-                color: Array.isArray(color) ? color.join(',') : color,
+                size: size ? size.join(',') : '',
+                color: color ? color.join(',') : '',
                 sort,
                 limit: Number(limit),
-                q: q || ''
+                q: q || '',
+                subcategory,
+                categoryPage: useCategoryPagination ? currentPage : 1,
+                subcategoryPage: useSubcategoryPagination ? currentPage : 1
             },
             cartItems: cart?.items || [],
             title: pageTitle

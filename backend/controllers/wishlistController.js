@@ -8,33 +8,62 @@ exports.addToWishlist = async (req, res) => {
     const { productId, selectedColor, selectedSize } = req.body;
     const userId = req.user._id;
 
-    // Validate product exists
     const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
 
-    // Validate variants if needed
-    if (product.hasColorVariants && !selectedColor) {
-      return res.status(400).json({ error: 'Color selection is required for this product' });
+    if (product.hasColorVariants && !product.hasSizeVariants) {
+      if (!selectedColor) {
+        return res.status(400).json({ error: 'Color selection is required for this product' });
+      }
+    }
+    if (product.hasSizeVariants && !product.hasColorVariants) {
+      if (!selectedSize) {
+        return res.status(400).json({ error: 'Size selection is required for this product' });
+      }
+    }
+    if (product.hasColorVariants && product.hasSizeVariants) {
+      if (!selectedColor) {
+        return res.status(400).json({ error: 'Color selection is required for this product' });
+      }
+      if (!selectedSize) {
+        return res.status(400).json({ error: 'Size selection is required for this product' });
+      }
     }
 
-    if (product.hasSizeVariants && !selectedSize) {
-      return res.status(400).json({ error: 'Size selection is required for this product' });
-    }
-
-    // Validate variant stock
-    if (product.hasColorVariants) {
+    if (product.hasColorVariants && !product.hasSizeVariants) {
       const colorVariant = product.colorVariants.find(v => v.color === selectedColor);
       if (!colorVariant || colorVariant.stock <= 0) {
         return res.status(400).json({ error: 'Selected color is out of stock' });
       }
     }
 
-    if (product.hasSizeVariants) {
+    if (product.hasSizeVariants && !product.hasColorVariants) {
       const sizeVariant = product.sizeVariants.find(v => v.size === selectedSize);
       if (!sizeVariant || sizeVariant.stock <= 0) {
         return res.status(400).json({ error: 'Selected size is out of stock' });
+      }
+    }
+
+    if (product.hasColorVariants && product.hasSizeVariants) {
+
+      const colorVariant = product.colorVariants.find(v => v.color === selectedColor);
+      if (!colorVariant) {
+        return res.status(400).json({ error: 'Selected color is not available' });
+      }
+      // If color variant has sizeVariants, check inside it
+      if (Array.isArray(colorVariant.sizeVariants)) {
+        const sizeVariant = colorVariant.sizeVariants.find(sv => sv.size === selectedSize);
+        if (!sizeVariant || sizeVariant.stock <= 0) {
+          return res.status(400).json({ error: 'Selected size is out of stock for this color' });
+        }
+      } else {
+        // Fallback: check product-level sizeVariants
+        const sizeVariant = product.sizeVariants.find(v => v.size === selectedSize);
+        if (!sizeVariant || sizeVariant.stock <= 0) {
+          return res.status(400).json({ error: 'Selected size is out of stock' });
+        }
       }
     }
 
@@ -45,11 +74,11 @@ exports.addToWishlist = async (req, res) => {
       wishlist = new Wishlist({ user: userId, items: [] });
     }
 
-    // Check if product already exists in wishlist
+    // Check if product already exists in wishlist (match on product, color, size)
     const existingItemIndex = wishlist.items.findIndex(item => 
       item.product.toString() === productId &&
-      item.selectedColor === selectedColor &&
-      item.selectedSize === selectedSize
+      (item.selectedColor || null) === (selectedColor || null) &&
+      (item.selectedSize || null) === (selectedSize || null)
     );
 
     if (existingItemIndex >= 0) {
@@ -59,8 +88,8 @@ exports.addToWishlist = async (req, res) => {
     // Add new item
     wishlist.items.push({
       product: productId,
-      selectedColor,
-      selectedSize
+      selectedColor: selectedColor || undefined,
+      selectedSize: selectedSize || undefined
     });
 
     await wishlist.save();
@@ -73,7 +102,10 @@ exports.addToWishlist = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      wishlist: wishlist.items.find(item => item.product._id.toString() === productId)
+      wishlist: wishlist.items.find(item => item.product._id.toString() === productId &&
+        (item.selectedColor || null) === (selectedColor || null) &&
+        (item.selectedSize || null) === (selectedSize || null)
+      )
     });
 
   } catch (error) {

@@ -849,16 +849,16 @@
                                 </div>
                                 <div class="swiper-container swiper-theme" data-swiper-options="{
                                     'spaceBetween': 20,
-                                    'slidesPerView': 2,
+                                    'slidesPerView': 2.2,
                                     'breakpoints': {
                                         '576': {
-                                            'slidesPerView': 3
+                                            'slidesPerView': 1.2
                                         },
                                         '768': {
                                             'slidesPerView': 4
                                         },
                                         '992': {
-                                            'slidesPerView': 3
+                                            'slidesPerView': 4
                                         }
                                     }
                                 }">
@@ -899,47 +899,6 @@
                                                                 <%= rp.name %>
                                                             </a>
                                                         </h4>
-
-                                                        <div class="variant-row"
-                                                            style="display: flex; justify-content: space-between; gap: 20px; align-items: flex-start;">
-                                                            <% if (rp.sizeVariants && rp.sizeVariants.length) { %>
-                                                                <div class="product-size">
-
-                                                                    <div class="size-options-container">
-                                                                        Size: <% rp.sizeVariants.forEach(function(s,
-                                                                            index) { %>
-                                                                            <span
-                                                                                class="size-option <%= index === 0 ? 'selected' : '' %>"
-                                                                                data-size="<%= s.size %>"
-                                                                                data-size-id="<%= s._id %>">
-                                                                                <%= s.size %>
-                                                                            </span>
-                                                                            <% }) %>
-                                                                    </div>
-                                                                </div>
-                                                                <% } %>
-
-                                                                    <% if (rp.colorVariants && rp.colorVariants.length)
-                                                                        { %>
-                                                                        <div class="product-color">
-
-                                                                            <div class="color-options-container">
-                                                                                Color: <%
-                                                                                    rp.colorVariants.forEach(function(c,
-                                                                                    index) { %>
-                                                                                    <span
-                                                                                        class="color-option <%= index === 0 ? 'selected' : '' %>"
-                                                                                        data-color="<%= c.color || c.hex || c.code || c.value %>"
-                                                                                        data-color-id="<%= c._id %>"
-                                                                                        style="background-color: <%= c.color || c.hex || c.code || c.value || '#ccc' %>;"
-                                                                                        title="<%= c.color || c.name %>">
-                                                                                    </span>
-                                                                                    <% }) %>
-                                                                            </div>
-                                                                        </div>
-                                                                        <% } %>
-                                                        </div>
-
 
                                                         <div class="product-pa-wrapper">
                                                             <div class="product-price">

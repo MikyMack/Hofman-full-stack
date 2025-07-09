@@ -123,13 +123,13 @@ router.get('/store', async (req, res) => {
     try {
         let {
             page = 1,
-            limit = 12,
+            limit = 16,
             category,
             minPrice,
             maxPrice,
             size,
             color,
-            sort = 'newest', // Default sort
+            sort = 'newest', 
             q,
             subcategory,
             categoryPage = 1,
@@ -176,7 +176,6 @@ router.get('/store', async (req, res) => {
             }
         }
 
-        // If both subcategory and category are present, subcategory pagination takes precedence
         let effectivePage = Number(page);
         if (useSubcategoryPagination) {
             effectivePage = Number(subcategoryPage) || 1;
@@ -393,18 +392,29 @@ router.get('/product/:id', async (req, res) => {
                 user: req.user || null,
                 product: null,
                 relatedProducts: [],
-                category: null
+                category: null,
+                categories: []
             });
         }
         const categories = await Category.find({ isActive: true })
             .select('name imageUrl isActive subCategories')
             .lean();
 
-        // product.category is now the full category document (or null if not found)
         const category = product.category || null;
 
         let relatedProducts = [];
-        if (category && category._id) {
+        if (product.subcategory) {
+            const subcategoryId = typeof product.subcategory === 'object' && product.subcategory !== null
+                ? product.subcategory._id || product.subcategory
+                : product.subcategory;
+            relatedProducts = await Product.find({
+                _id: { $ne: product._id },
+                subcategory: subcategoryId,
+                isActive: true
+            })
+                .limit(10)
+                .lean();
+        } else if (category && category._id) {
             relatedProducts = await Product.find({
                 _id: { $ne: product._id },
                 category: category._id,
@@ -438,21 +448,26 @@ router.get('/contact', async (req, res) => {
         .lean();
     res.render('user/contact', { user: req.user || null, categories });
 });
-router.get('/account', async (req, res) => {
+router.get('/account',isUser, async (req, res) => {
     const categories = await Category.find({ isActive: true })
-        .select('name imageUrl isActive subCategories')
-        .lean();
-
+      .select('name imageUrl isActive subCategories')
+      .lean();
+  
     let orders = [];
-    if (req.user) {
-        orders = await Order.find({ user: req.user._id })
-            .sort({ createdAt: -1 })
-            .limit(10)
-            .lean();
+    if (req.session.user) {
+      orders = await Order.find({ user: req.session.user._id })
+        .sort({ createdAt: -1 })
+        .limit(10)
+        .lean();
     }
-
-    res.render('user/account', { user: req.user || null, categories, orders });
-});
+  
+    res.render('user/account', {
+      user: req.session.user || null, // ← Pass session user to EJS
+      categories,
+      orders,
+    });
+  });
+  
 
 router.get('/orders', isUser, async (req, res) => {
     try {

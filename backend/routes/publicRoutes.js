@@ -156,7 +156,6 @@ router.get('/store', async (req, res) => {
         let useSubcategoryPagination = false;
         let useCategoryPagination = false;
 
-        // Special category/subcategory logic
         const specialNewArrivalsCategory = "68401f815a149404380fc58f";
         const specialNewArrivalsSubcategory = "684020345a149404380fc594";
         const specialBestDealsCategory = "684023da5a149404380fc640";
@@ -164,7 +163,6 @@ router.get('/store', async (req, res) => {
         let isSpecialNewArrivals = false;
         let isSpecialBestDeals = false;
 
-        // Check for special subcategory first
         if (subcategory && mongoose.Types.ObjectId.isValid(subcategory)) {
             if (subcategory === specialNewArrivalsSubcategory) {
                 isSpecialNewArrivals = true;
@@ -174,10 +172,9 @@ router.get('/store', async (req, res) => {
             }
         }
 
-        // Check for special categories
         if (category) {
             let decodedCategory = decodeURIComponent(category);
-            // If category is special, set the flag
+
             if (category === specialNewArrivalsCategory) {
                 isSpecialNewArrivals = true;
             } else if (category === specialBestDealsCategory) {
@@ -200,15 +197,12 @@ router.get('/store', async (req, res) => {
             }
         }
 
-        // If special category/subcategory, override filter
         if (isSpecialNewArrivals) {
             filter = { isActive: true, newArrivals: true };
-            // Pagination for special case: use page param
             useCategoryPagination = false;
             useSubcategoryPagination = false;
         } else if (isSpecialBestDeals) {
             filter = { isActive: true, bestDeals: true };
-            // Pagination for special case: use page param
             useCategoryPagination = false;
             useSubcategoryPagination = false;
         }
@@ -227,14 +221,22 @@ router.get('/store', async (req, res) => {
         }
 
         if (q && typeof q === 'string' && q.trim()) {
-            const searchRegex = new RegExp(q.trim(), 'i');
+            const keywords = q.trim().split(/\s+/).join('|'); // "leather boots" → "leather|boots"
+            const searchRegex = new RegExp(keywords, 'i');
+        
             filter.$or = [
                 { name: searchRegex },
-                { description: searchRegex }
+                { description: searchRegex },
+                { moreDetails: searchRegex },
+                { 'productDetails.productType': searchRegex },
+                { 'productDetails.brand': searchRegex },
+                { 'productDetails.productCollection': searchRegex }
             ];
+        
             effectivePage = Number(page) || 1;
             currentPage = effectivePage;
         }
+        
 
         if (minPrice || maxPrice) {
             const priceFilter = {};

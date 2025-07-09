@@ -9,7 +9,7 @@
 		touch: true, 
 		onZoomIn: false,
 		onZoomOut: false,
-		magnify: 1.02, 
+		magnify: 0.5, 
 	};
 
 	// Core Zoom Logic, independent of event listeners.
@@ -116,7 +116,7 @@
 
 			img.onload = function () {
 				// If user didn't specify magnify, use the new very small default
-				var zoom = $.zoom(target, source, img, typeof settings.magnify !== "undefined" ? settings.magnify : 1.01);
+				var zoom = $.zoom(target, source, img, typeof settings.magnify !== "undefined" ? settings.magnify : 0.5);
 
 				function start(e) {
 					zoom.init();

@@ -397,8 +397,31 @@ router.put('/admin/orders/:id', isAdmin, async (req, res) => {
         res.status(500).json({ error: 'Failed to update order' });
     }
 });
-router.get('/admin/users',isAdmin, (req, res) => {
-    res.render('admin/users');
-  });
+router.get('/admin/users', isAdmin, async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    try {
+        const [users, total] = await Promise.all([
+            User.find({})
+                .skip(skip)
+                .limit(limit)
+                .select('-password -otp -otpExpires')
+                .lean(),
+            User.countDocuments()
+        ]);
+
+        res.render('admin/users', {
+            users,
+            currentPage: page,
+            totalPages: Math.ceil(total / limit),
+            totalUsers: total
+        });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).send('Failed to load users');
+    }
+});
 
 module.exports = router;

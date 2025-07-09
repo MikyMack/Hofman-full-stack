@@ -221,6 +221,11 @@
                                 showToast("Google login failed. Please try again.", "error");
                             }
 
+                            // Show blocked user error for Google login
+                            if (params.get('error') === 'blocked') {
+                                showToast("Your account has been blocked. Please contact support.", "error");
+                            }
+
                             if (params.get('googleLogin') === 'true') {
                                 showToast("Logged in with Google!", "success");
                             }
@@ -250,19 +255,35 @@
                                     })
                                 });
 
+                                // Always try to parse the response as JSON
+                                let result = {};
+                                try {
+                                    result = await response.json();
+                                } catch (e) {
+                                    // If not JSON, fallback to text
+                                    result = { message: await response.text() };
+                                }
+
                                 if (!response.ok) {
-                                    const error = await response.json();
-                                    throw new Error(error.message || 'Login failed');
+                                    // Display error from server in Toastify
+                                    showToast(result.message || 'Login failed', "error");
+                                    return false;
                                 }
 
                                 // Clear guest cart on successful login
                                 localStorage.removeItem('guestCart');
 
                                 showToast("Login successful!", "success");
-                                window.location.href = '/';
+                                // Redirect based on server response (if provided)
+                                if (result.redirect) {
+                                    window.location.href = result.redirect;
+                                } else {
+                                    window.location.href = '/auth/login';
+                                }
                             } catch (err) {
                                 showToast(err.message, "error");
                             }
+                            return false;
                         }
 
                         function handleGoogleLogin(event) {
@@ -271,7 +292,6 @@
                             const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
                             const encodedCart = encodeURIComponent(JSON.stringify(guestCart));
 
-                            // Save cart to server session before redirecting
                             fetch('/auth/store-guest-cart', {
                                 method: 'POST',
                                 headers: {
@@ -302,7 +322,8 @@
 
                                 const checkResult = await checkResponse.json();
                                 if (!checkResponse.ok || !checkResult.available) {
-                                    throw new Error('Email already registered');
+                                    showToast('Email already registered', "error");
+                                    return false;
                                 }
 
                                 // Then send OTP
@@ -314,7 +335,8 @@
 
                                 if (!otpResponse.ok) {
                                     const error = await otpResponse.json();
-                                    throw new Error(error.message || 'Failed to send OTP');
+                                    showToast(error.message || 'Failed to send OTP', "error");
+                                    return false;
                                 }
 
                                 // Replace form with OTP form
@@ -336,6 +358,7 @@
                             } catch (err) {
                                 showToast(err.message, "error");
                             }
+                            return false;
                         }
 
                         async function verifyOtp(event) {
@@ -355,7 +378,8 @@
 
                                 const verifyResult = await verifyResponse.json();
                                 if (!verifyResponse.ok || !verifyResult.success) {
-                                    throw new Error(verifyResult.message || 'OTP verification failed');
+                                    showToast(verifyResult.message || 'OTP verification failed', "error");
+                                    return false;
                                 }
 
                                 // Complete registration
@@ -367,7 +391,8 @@
 
                                 const registerResult = await registerResponse.json();
                                 if (!registerResponse.ok || !registerResult.success) {
-                                    throw new Error(registerResult.message || 'Registration failed');
+                                    showToast(registerResult.message || 'Registration failed', "error");
+                                    return false;
                                 }
 
                                 showToast("Registration successful!", "success");
@@ -375,6 +400,7 @@
                             } catch (err) {
                                 showToast(err.message, "error");
                             }
+                            return false;
                         }
 
                         async function resendOtp() {
@@ -393,8 +419,15 @@
                                     showToast("OTP resent successfully", "success");
                                     startCountdown();
                                 } else {
-                                    const error = await response.text();
-                                    showToast(error || 'Failed to resend OTP', "error");
+                                    let errorMsg = 'Failed to resend OTP';
+                                    try {
+                                        const error = await response.json();
+                                        errorMsg = error.message || errorMsg;
+                                    } catch (e) {
+                                        // fallback to text
+                                        errorMsg = (await response.text()) || errorMsg;
+                                    }
+                                    showToast(errorMsg, "error");
                                 }
                             } catch (err) {
                                 showToast("Failed to resend OTP", "error");

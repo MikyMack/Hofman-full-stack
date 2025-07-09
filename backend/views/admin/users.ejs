@@ -11,7 +11,7 @@
     <meta name="author" content="trivlogic.com">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maxim/um-scale=1">
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Theme Style -->
     <link rel="stylesheet" type="text/css" href="/admin-css/animate.min.css">
     <link rel="stylesheet" type="text/css" href="/admin-css/animation.css">
@@ -30,8 +30,10 @@
     <link rel="shortcut icon" href="/images/logo-2.png">
     <link rel="apple-touch-icon-precomposed" href="/images/logo-2.png">
     <style>
-        table, th, td {
-            border: none!important;
+        table,
+        th,
+        td {
+            border: none !important;
         }
     </style>
 
@@ -45,13 +47,6 @@
         <div id="page" class="">
             <!-- layout-wrap -->
             <div class="layout-wrap">
-                <!-- preload -->
-                <div id="preload" class="preload-container">
-                    <div class="preloading">
-                        <span></span>
-                    </div>
-                </div>
-                <!-- /preload -->
                 <!-- section-menu-left -->
                 <div class="section-menu-left">
                     <div class="box-logo">
@@ -91,14 +86,14 @@
                                             <div class="icon"><i class="icon-layers"></i></div>
                                             <div class="text">Category Management</div>
                                         </a>
-                                      
+
                                     </li>
                                     <li class="menu-item">
                                         <a href="/admin/coupons" class="menu-item-button">
                                             <div class="icon"><i class="icon-layers"></i></div>
                                             <div class="text">Coupons Management</div>
                                         </a>
-                                      
+
                                     </li>
                                     <li class="menu-item  ">
                                         <a href="/admin/orders" class="menu-item-button">
@@ -124,22 +119,22 @@
                                             </div>
                                             <div class="text">Banner Management</div>
                                         </a>
-                                   
+
                                     </li>
-                                  
+
                                     <li class="menu-item">
                                         <a href="/admin-blogs" class="menu-item-button">
                                             <div class="icon"><i class="fa fa-users"></i></div>
                                             <div class="text">Blogs Management</div>
                                         </a>
-                                      
+
                                     </li>
                                     <li class="menu-item ">
                                         <a href="/admin-testimonials" class="menu-item-button">
                                             <div class="icon"><i class="fa fa-star-o"></i></div>
                                             <div class="text">Testimonials Management</div>
                                         </a>
-                                       
+
                                     </li>
                                     <li class="menu-item">
                                         <a href="/auth/admin-logout" class="">
@@ -167,20 +162,20 @@
                         <div class="wrap">
                             <div class="header-left">
                                 <a href="/dashboard">
-                                    <img style="width: 50px;" id="logo_header_mobile" alt="Hofmaan" src="/images/logo.png"
-                                        data-light="img/logo.png" data-dark="img/logo.png">
+                                    <img style="width: 50px;" id="logo_header_mobile" alt="Hofmaan"
+                                        src="/images/logo.png" data-light="img/logo.png" data-dark="img/logo.png">
                                 </a>
                                 <div class="button-show-hide">
                                     <i class="icon-chevron-left"></i>
                                 </div>
-                               
+
                             </div>
                             <div class="header-grid">
                                 <div class="header-item button-dark-light">
                                     <i class="icon-moon"></i>
                                 </div>
-                               
-                                
+
+
 
                                 <div class="header-item button-zoom-maximize">
                                     <div class="">
@@ -230,200 +225,146 @@
                     <!-- main-content -->
                     <div class="main-content">
                         <!-- main-content-wrap -->
-                        <div  class="main-content-inner">
+                        <div class="main-content-inner">
                             <!-- main-content-wrap -->
 
-                                <div class="admin-dashboard-wrapper">
- 
-
-        <div class="admin-users-card">
-            <div class="admin-table-responsive">
-                <table class="admin-users-table">
-                    <thead class="admin-table-header">
-                        <tr>
-                            <th>User</th>
-                            <th>Email</th>
-                            <th>Mobile</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- User 1 -->
-                        <tr class="admin-table-row">
-                            <td>
-                                <div class="admin-user-avatar">
-                                    <div class="admin-avatar-img">JD</div>
-                                    <div>
-                                        <div class="admin-user-name">John Doe</div>
-
+                            <div class="admin-dashboard-wrapper">
+                                <div class="admin-users-card">
+                                    <div class="admin-table-responsive">
+                                        <table class="admin-users-table">
+                                            <thead class="admin-table-header">
+                                                <tr>
+                                                    <th>User</th>
+                                                    <th>Email</th>
+                                                    <th>Mobile</th>
+                                                    <th>Role</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% if (users && users.length > 0) { %>
+                                                    <% users.forEach(function(user) { %>
+                                                        <tr class="admin-table-row">
+                                                            <td>
+                                                                <div class="admin-user-avatar">
+                                                                    <div class="admin-avatar-img">
+                                                                        <% 
+                                                                            let initials = '';
+                                                                            if (user.name && user.name.trim().length > 0) {
+                                                                                const nameParts = user.name.trim().split(' ');
+                                                                                initials = nameParts[0][0];
+                                                                                if (nameParts.length > 1) {
+                                                                                    initials += nameParts[nameParts.length-1][0];
+                                                                                }
+                                                                            } else if (user.email) {
+                                                                                initials = user.email[0].toUpperCase();
+                                                                            }
+                                                                        %>
+                                                                        <%= initials %>
+                                                                    </div>
+                                                                    <div>
+                                                                        <div class="admin-user-name"><%= user.name || 'No Name' %></div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td><%= user.email %></td>
+                                                            <td><%= user.phone || '-' %></td>
+                                                            <td>
+                                                                <% 
+                                                                    let role = user.role || 'user';
+                                                                    let roleClass = 'admin-role-user';
+                                                                    let roleLabel = 'User';
+                                                                    if (role.toLowerCase() === 'admin') {
+                                                                        roleClass = 'admin-role-admin';
+                                                                        roleLabel = 'Admin';
+                                                                    } else if (role.toLowerCase() === 'moderator') {
+                                                                        roleClass = 'admin-role-moderator';
+                                                                        roleLabel = 'Moderator';
+                                                                    }
+                                                                %>
+                                                                <span class="admin-role-badge <%= roleClass %>"><%= roleLabel %></span>
+                                                            </td>
+                                                            <td>
+                                                                <% 
+                                                                    // Assume user.status or user.isBlocked
+                                                                    let isActive = true;
+                                                                    if (typeof user.isBlocked !== 'undefined') {
+                                                                        isActive = !user.isBlocked;
+                                                                    } else if (typeof user.status !== 'undefined') {
+                                                                        isActive = user.status === 'active' || user.status === true;
+                                                                    }
+                                                                %>
+                                                                <span class="admin-status-badge <%= isActive ? 'admin-status-active' : 'admin-status-inactive' %>">
+                                                                    <%= isActive ? 'Active' : 'Blocked' %>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="admin-actions-container">
+                                                                    <% if (isActive) { %>
+                                                                        <button class="admin-action-btn admin-block-btn" data-user-id="<%= user._id %>">
+                                                                            <i class="fas fa-ban"></i>
+                                                                            <span class="admin-action-tooltip">Block User</span>
+                                                                        </button>
+                                                                    <% } else { %>
+                                                                        <button class="admin-action-btn admin-unblock-btn" data-user-id="<%= user._id %>">
+                                                                            <i class="fas fa-check-circle"></i>
+                                                                            <span class="admin-action-tooltip">Unblock User</span>
+                                                                        </button>
+                                                                    <% } %>
+                                                                    
+                                                                    <% if (roleLabel === 'Admin') { %>
+                                                                        <button class="admin-action-btn admin-remove-admin-btn" data-user-id="<%= user._id %>">
+                                                                            <i class="fas fa-user-minus"></i>
+                                                                            <span class="admin-action-tooltip">Remove Admin</span>
+                                                                        </button>
+                                                                    <% } else { %>
+                                                                        <button class="admin-action-btn admin-make-admin-btn" data-user-id="<%= user._id %>">
+                                                                            <i class="fas fa-user-shield"></i>
+                                                                            <span class="admin-action-tooltip">Make Admin</span>
+                                                                        </button>
+                                                                    <% } %>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    <% }); %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No users found.</td>
+                                                    </tr>
+                                                <% } %>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                            </td>
-                            <td>john.doe@example.com</td>
-                            <td>+1 234 567 8901</td>
-                            <td><span class="admin-role-badge admin-role-admin">Admin</span></td>
-                            <td><span class="admin-status-badge admin-status-active">Active</span></td>
-                            <td>
-                                <div class="admin-actions-container">
-                                    <button class="admin-action-btn admin-block-btn">
-                                        <i class="fas fa-ban"></i>
-                                        <span class="admin-action-tooltip">Block User</span>
-                                    </button>
-                                    <button class="admin-action-btn admin-remove-admin-btn">
-                                        <i class="fas fa-user-minus"></i>
-                                        <span class="admin-action-tooltip">Remove Admin</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                        <!-- User 2 -->
-                        <tr class="admin-table-row">
-                            <td>
-                                <div class="admin-user-avatar">
-                                    <div class="admin-avatar-img">JS</div>
-                                    <div>
-                                        <div class="admin-user-name">Jane Smith</div>
-                    
+
+                                <div class="admin-footer-container">
+                                    <div class="admin-pagination">
+                                        <button class="admin-page-btn <%= currentPage === 1 ? 'disabled' : '' %>" 
+                                            <%= currentPage === 1 ? 'disabled' : '' %>
+                                            onclick="if(<%= currentPage %> > 1) window.location.href='?page=<%= currentPage - 1 %>&limit=<%= typeof limit !== 'undefined' ? limit : 10 %>';">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <% for(let i = 1; i <= totalPages; i++) { %>
+                                            <button class="admin-page-btn <%= currentPage === i ? 'active' : '' %>" 
+                                                onclick="window.location.href='?page=<%= i %>&limit=<%= typeof limit !== 'undefined' ? limit : 10 %>';">
+                                                <%= i %>
+                                            </button>
+                                        <% } %>
+                                        <button class="admin-page-btn <%= currentPage === totalPages ? 'disabled' : '' %>" 
+                                            <%= currentPage === totalPages ? 'disabled' : '' %>
+                                            onclick="if(<%= currentPage %> < <%= totalPages %>) window.location.href='?page=<%= currentPage + 1 %>&limit=<%= typeof limit !== 'undefined' ? limit : 10 %>';">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
                                     </div>
-                                </div>
-                            </td>
-                            <td>jane.smith@example.com</td>
-                            <td>+1 345 678 9012</td>
-                            <td><span class="admin-role-badge admin-role-user">User</span></td>
-                            <td><span class="admin-status-badge admin-status-active">Active</span></td>
-                            <td>
-                                <div class="admin-actions-container">
-                                    <button class="admin-action-btn admin-block-btn">
-                                        <i class="fas fa-ban"></i>
-                                        <span class="admin-action-tooltip">Block User</span>
-                                    </button>
-                                    <button class="admin-action-btn admin-make-admin-btn">
-                                        <i class="fas fa-user-shield"></i>
-                                        <span class="admin-action-tooltip">Make Admin</span>
+
+                                    <button class="admin-download-btn" onclick="window.location.href='/users/download-pdf'">
+                                        <i class="fas fa-file-pdf"></i>
+                                        Export as PDF
                                     </button>
                                 </div>
-                            </td>
-                        </tr>
-                        
-                        <!-- User 3 -->
-                        <tr class="admin-table-row">
-                            <td>
-                                <div class="admin-user-avatar">
-                                    <div class="admin-avatar-img">RJ</div>
-                                    <div>
-                                        <div class="admin-user-name">Robert Johnson</div>
-                                    
-                                    </div>
-                                </div>
-                            </td>
-                            <td>robert.j@example.com</td>
-                            <td>+1 456 789 0123</td>
-                            <td><span class="admin-role-badge admin-role-user">User</span></td>
-                            <td><span class="admin-status-badge admin-status-inactive">Blocked</span></td>
-                            <td>
-                                <div class="admin-actions-container">
-                                    <button class="admin-action-btn admin-unblock-btn">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span class="admin-action-tooltip">Unblock User</span>
-                                    </button>
-                                    <button class="admin-action-btn admin-make-admin-btn">
-                                        <i class="fas fa-user-shield"></i>
-                                        <span class="admin-action-tooltip">Make Admin</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                        <!-- User 4 -->
-                        <tr class="admin-table-row">
-                            <td>
-                                <div class="admin-user-avatar">
-                                    <div class="admin-avatar-img">ED</div>
-                                    <div>
-                                        <div class="admin-user-name">Emily Davis</div>
+                            </div>
 
-                                    </div>
-                                </div>
-                            </td>
-                            <td>emily.d@example.com</td>
-                            <td>+1 567 890 1234</td>
-                            <td><span class="admin-role-badge admin-role-admin">Admin</span></td>
-                            <td><span class="admin-status-badge admin-status-active">Active</span></td>
-                            <td>
-                                <div class="admin-actions-container">
-                                    <button class="admin-action-btn admin-block-btn">
-                                        <i class="fas fa-ban"></i>
-                                        <span class="admin-action-tooltip">Block User</span>
-                                    </button>
-                                    <button class="admin-action-btn admin-remove-admin-btn">
-                                        <i class="fas fa-user-minus"></i>
-                                        <span class="admin-action-tooltip">Remove Admin</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                        <!-- User 5 -->
-                        <tr class="admin-table-row">
-                            <td>
-                                <div class="admin-user-avatar">
-                                    <div class="admin-avatar-img">MW</div>
-                                    <div>
-                                        <div class="admin-user-name">Michael Wilson</div>
-                         
-                                    </div>
-                                </div>
-                            </td>
-                            <td>michael.w@example.com</td>
-                            <td>+1 678 901 2345</td>
-                            <td><span class="admin-role-badge admin-role-moderator">Moderator</span></td>
-                            <td><span class="admin-status-badge admin-status-inactive">Blocked</span></td>
-                            <td>
-                                <div class="admin-actions-container">
-                                    <button class="admin-action-btn admin-unblock-btn">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span class="admin-action-tooltip">Unblock User</span>
-                                    </button>
-                                    <button class="admin-action-btn admin-make-admin-btn">
-                                        <i class="fas fa-user-shield"></i>
-                                        <span class="admin-action-tooltip">Make Admin</span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="admin-footer-container">
-            <div class="admin-pagination">
-                <button class="admin-page-btn disabled">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="admin-page-btn active">1</button>
-                <button class="admin-page-btn">2</button>
-                <button class="admin-page-btn">3</button>
-                <button class="admin-page-btn">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-
-            <button class="admin-download-btn">
-                <i class="fas fa-file-pdf"></i>
-                Export as PDF
-            </button>
-        </div>
-    </div>
-
-
-
-
-
-                            <!-- /main-content-wrap -->
                         </div>
                         <!-- /main-content-wrap -->
                         <!-- bottom-page -->
@@ -442,26 +383,80 @@
         <!-- /#page -->
     </div>
     <!-- /#wrapper -->
+     <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.admin-block-btn, .admin-unblock-btn').forEach(btn => {
+    btn.addEventListener('click', async function() {
+      const userId = this.dataset.userId;
+      try {
+        const response = await fetch(`/users/${userId}/block`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const result = await response.json();
+        if (result.success) {
+          window.location.reload();
+        } else {
+          alert(result.message || 'Failed to update user status');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        alert('An error occurred');
+      }
+    });
+  });
+
+  // Make admin/remove admin
+  document.querySelectorAll('.admin-make-admin-btn, .admin-remove-admin-btn').forEach(btn => {
+    btn.addEventListener('click', async function() {
+      const userId = this.dataset.userId;
+      const action = this.classList.contains('admin-make-admin-btn') ? 'admin' : 'user';
+      
+      try {
+        const response = await fetch(`/users/${userId}/role`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ role: action })
+        });
+        const result = await response.json();
+        if (result.success) {
+          window.location.reload();
+        } else {
+          alert(result.message || 'Failed to update user role');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        alert('An error occurred');
+      }
+    });
+  });
+});
+     </script>
     <script>
         // Fetch Notifications
         function fetchNotifications() {
-    fetch('/notifications')
-        .then(response => response.json())
-        .then(notifications => {
-            const notificationItems = document.getElementById('notification-items');
-            notificationItems.innerHTML = ''; // Clear existing notifications
+            fetch('/notifications')
+                .then(response => response.json())
+                .then(notifications => {
+                    const notificationItems = document.getElementById('notification-items');
+                    notificationItems.innerHTML = ''; // Clear existing notifications
 
-            // Filter out only unread notifications
-            const unreadNotifications = notifications.filter(notification => !notification.isRead);
+                    // Filter out only unread notifications
+                    const unreadNotifications = notifications.filter(notification => !notification.isRead);
 
-            // If there are no unread notifications, display a message
-            if (unreadNotifications.length === 0) {
-                notificationItems.innerHTML = '<div class="no-notifications">No unread notifications</div>';
-            }
+                    // If there are no unread notifications, display a message
+                    if (unreadNotifications.length === 0) {
+                        notificationItems.innerHTML = '<div class="no-notifications">No unread notifications</div>';
+                    }
 
-            // Render unread notifications
-            unreadNotifications.forEach(notification => {
-                const notificationItem = `
+                    // Render unread notifications
+                    unreadNotifications.forEach(notification => {
+                        const notificationItem = `
                     <div class="noti-item w-full unread">
                         <div class="flex-grow">
                             <div class="flex items-center justify-between">
@@ -473,55 +468,55 @@
                         <button onclick="markAsRead('${notification._id}')">Mark as Read</button>
                     </div>
                 `;
-                notificationItems.innerHTML += notificationItem;
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching notifications:', error);
-        });
-}
+                        notificationItems.innerHTML += notificationItem;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching notifications:', error);
+                });
+        }
 
-// Call fetchNotifications on page load
-document.addEventListener('DOMContentLoaded', fetchNotifications);
+        // Call fetchNotifications on page load
+        document.addEventListener('DOMContentLoaded', fetchNotifications);
 
         // Mark a single notification as read
         function markAsRead(notificationId) {
-    fetch(`/notifications/read/${notificationId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Notification ${notificationId} marked as read`);
-                fetchNotifications(); // Refresh the list after marking as read
-            } else {
-                throw new Error('Failed to mark notification as read');
-            }
-        })
-        .catch(error => {
-            console.error('Error marking notification as read:', error);
-        });
-}
+            fetch(`/notifications/read/${notificationId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log(`Notification ${notificationId} marked as read`);
+                        fetchNotifications();
+                    } else {
+                        throw new Error('Failed to mark notification as read');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error marking notification as read:', error);
+                });
+        }
 
     </script>
 
     <script>
         function markAllAsRead() {
-    fetch('/notifications/read-all', {
-        method: 'PUT',
-    })
-    .then(response => {
-        if (response.ok) {
-            fetchNotifications(); // Refresh the list to show "No unread notifications"
-        } else {
-            console.error('Failed to mark all notifications as read');
+            fetch('/notifications/read-all', {
+                method: 'PUT',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        fetchNotifications();
+                    } else {
+                        console.error('Failed to mark all notifications as read');
+                    }
+                })
+                .catch(error => console.error('Error marking all notifications as read:', error));
         }
-    })
-    .catch(error => console.error('Error marking all notifications as read:', error));
-}
-/
+
     </script>
     <!-- Javascript -->
     <script src="/admin-js/jquery.min.js"></script>
@@ -530,11 +525,6 @@ document.addEventListener('DOMContentLoaded', fetchNotifications);
     <script src="/admin-js/zoom.js"></script>
     <script src="/admin-js/morris.min.js"></script>
     <script src="/admin-js/raphael.min.js"></script>
-    <!-- <script src="admin-js/morris.js"></script> -->
-    <!-- <script src="admin-js/jvectormap.min.js"></script>
-    <script src="admin-js/jvectormap-us-lcc.js"></script>
-    <script src="admin-js/jvectormap-data.js"></script>
-    <script src="admin-js/jvectormap.js"></script> -->
     <script src="/admin-js/apexcharts/apexcharts.js"></script>
     <script src="/admin-js/apexcharts/line-chart-1.js"></script>
     <script src="/admin-js/apexcharts/line-chart-2.js"></script>

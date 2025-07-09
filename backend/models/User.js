@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
   googleId: String,
   otp: String,
   otpExpires: Date,
-  role: { type: String, default: 'user' },
+  role: { type: String, default: 'user', enum: ['user', 'admin'] },
+  isBlocked: { type: Boolean, default: false }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

@@ -1,4 +1,3 @@
-
 (function ($) {
 	var defaults = {
 		url: false,
@@ -9,10 +8,10 @@
 		touch: true, 
 		onZoomIn: false,
 		onZoomOut: false,
-		magnify: 0.5, 
+		magnify: 1, 
 	};
 
-	// Core Zoom Logic, independent of event listeners.
+
 	$.zoom = function(target, source, img, magnify) {
 		var targetHeight,
 			targetWidth,
@@ -25,26 +24,30 @@
 			position = $target.css('position'),
 			$source = $(source);
 
-		// The parent element needs positioning so that the zoomed element can be correctly positioned within.
+		
 		target.style.position = /(absolute|fixed)/.test(position) ? position : 'relative';
 		target.style.overflow = 'hidden';
 		target.style.cursor = 'pointer';
 		img.style.width = img.style.height = '';
-
+		
+		var displayedWidth = $source.width();
+		var naturalWidth = img.naturalWidth;
+		var naturalHeight = img.naturalHeight;
+		var magnify = (displayedWidth > 0 && naturalWidth > 0) ? (1.9 * displayedWidth) / naturalWidth : 1.9;
 		$(img)
-			.addClass('zoomImg')
-			.css({
-				position: 'absolute',
-				top: 0,
-				left: 0,
-				opacity: 0,
-				width: img.width * magnify,
-				height: img.height * magnify,
-				border: 'none',
-				maxWidth: 'none',
-				maxHeight: 'none'
-			})
-			.appendTo(target);
+		.addClass('zoomImg')
+		.css({
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		opacity: 0,
+		width: naturalWidth * magnify,
+		height: naturalHeight * magnify,
+		border: 'none',
+		maxWidth: 'none',
+		maxHeight: 'none'
+		})
+		.appendTo(target);
 
 		return {
 			init: function() {
@@ -77,14 +80,15 @@
 		};
 	};
 
+
 	$.fn.zoom = function (options) {
 		return this.each(function () {
 			var
-			// If user doesn't specify magnify, use the new very small default
+			
 			settings = $.extend({}, defaults, options || {}),
-			//target will display the zoomed image
+		
 			target = settings.target && $(settings.target)[0] || this,
-			//source will provide zoom location info (thumbnail)
+		
 			source = target,
 			$source = $(source),
 			img = document.createElement('img'),
@@ -93,7 +97,7 @@
 			clicked = false,
 			touched = false;
 
-			// If a url wasn't specified, look for an image element.
+		
 			if (!settings.url) {
 				var srcElement = source.querySelector('img');
 				if (srcElement) {
@@ -115,8 +119,8 @@
 			}.bind(this, target.style.position, target.style.overflow, target.style.cursor ));
 
 			img.onload = function () {
-				// If user didn't specify magnify, use the new very small default
-				var zoom = $.zoom(target, source, img, typeof settings.magnify !== "undefined" ? settings.magnify : 0.5);
+				
+				var zoom = $.zoom(target, source, img, typeof settings.magnify !== "undefined" ? settings.magnify : 1.005);
 
 				function start(e) {
 					zoom.init();
@@ -131,7 +135,6 @@
 					.fadeTo(settings.duration, 0, $.isFunction(settings.onZoomOut) ? settings.onZoomOut.call(img) : false);
 				}
 
-				// Mouse events
 				if (settings.on === 'grab') {
 					$source
 						.on('mousedown.zoom',
@@ -157,7 +160,7 @@
 					$source.on('click.zoom',
 						function (e) {
 							if (clicked) {
-								// bubble the event up to the document to trigger the unbind.
+							
 								return;
 							} else {
 								clicked = true;
@@ -194,7 +197,7 @@
 						.on(mousemove, zoom.move);
 				}
 
-				// Touch fallback
+				
 				if (settings.touch) {
 					$source
 						.on('touchstart.zoom', function (e) {

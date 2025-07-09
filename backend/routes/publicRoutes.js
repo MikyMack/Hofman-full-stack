@@ -226,13 +226,10 @@ router.get('/store', async (req, res) => {
         
             const matchedCategories = await Category.find({
                 $or: [
-                    { name: searchRegex },
                     { 'subCategories.name': searchRegex }
                 ]
             }).lean();
         
-            // Collect matching category and subcategory IDs
-            const categoryIds = matchedCategories.map(cat => cat._id.toString());
             const subcategoryIds = matchedCategories.flatMap(cat =>
                 (cat.subCategories || []).filter(sub => searchRegex.test(sub.name)).map(sub => sub._id.toString())
             );
@@ -245,7 +242,6 @@ router.get('/store', async (req, res) => {
                 { 'productDetails.productType': searchRegex },
                 { 'productDetails.brand': searchRegex },
                 { 'productDetails.productCollection': searchRegex },
-                { category: { $in: categoryIds } },
                 { subcategory: { $in: subcategoryIds } }
             ];
         

@@ -11226,13 +11226,13 @@ body .product-popup {
 .product-price .old-price {
   font-weight: 400;
   color: #aaa;
-  font-family: sans-serif;
+  font-family: serif;
 }
 
 .product-price .new-price {
   color: #3d3d3d;
   text-decoration: none;
-  font-family: sans-serif;
+  font-family: serif;
 }
 .product-price .new-price:not(:last-child) {
   margin-right: 1rem;

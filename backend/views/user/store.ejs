@@ -373,9 +373,9 @@
                                             <div class="product text-center">
                                                 <figure class="product-media">
                                                     <a href="/product/<%= product.slug || product._id %>">
-                                                        <img src="<%= (product.images && product.images[0]) ? product.images[0] : '/images/hofmaan/category.jpg' %>" alt="Product" width="300" height="338" />
+                                                        <img src="<%= (product.images && product.images[0]) ? product.images[0] : '/images/hofmaan/category.jpg' %>" alt="Product" width="300" height="338" loading="lazy"/>
                                                         <% if (product.images && product.images[1]) { %>
-                                                            <img src="<%= product.images[1] %>" alt="Product" width="300" height="338" />
+                                                            <img src="<%= product.images[1] %>" alt="Product" width="300" height="338" loading="lazy"/>
                                                         <% } %>
                                                     </a>
                                                     <div class="product-action-horizontal">
@@ -451,45 +451,59 @@
                             <!-- Pagination -->
                             <div class="toolbox toolbox-pagination justify-content-between">
                                 <p class="showing-info mb-2 mb-sm-0">
-                                    <% 
-                                        let start = (currentPage - 1) * (filters.limit ? parseInt(filters.limit) : 12) + 1;
-                                        let end = Math.min(currentPage * (filters.limit ? parseInt(filters.limit) : 12), totalProducts);
-                                    %>
-                                    Showing <span><%= start %>-<%= end %> of <%= totalProducts %></span> Products
+                                  <% 
+                                    let start = (currentPage - 1) * (filters.limit ? parseInt(filters.limit) : 12) + 1;
+                                    let end = Math.min(currentPage * (filters.limit ? parseInt(filters.limit) : 12), totalProducts);
+                                    const paginationKey = filters.subcategory ? 'subcategoryPage' : (filters.category ? 'categoryPage' : 'page');
+                                  %>
+                                  Showing <span><%= start %>-<%= end %> of <%= totalProducts %></span> Products
                                 </p>
+                              
                                 <ul class="pagination">
-                                    <li class="prev <%= currentPage === 1 ? 'disabled' : '' %>">
-                                        <a href="<%= currentPage === 1 ? '#' : ('/store?' + 
-                                            Object.keys(filters).map(function(key) {
-                                                if (key !== 'page' && filters[key]) return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
-                                            }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + 'page=' + (currentPage - 1)
-                                        ) %>" aria-label="Previous" tabindex="-1" aria-disabled="<%= currentPage === 1 ? 'true' : 'false' %>">
-                                            <i class="w-icon-long-arrow-left"></i>Prev
-                                        </a>
+                                  <!-- Prev Button -->
+                                  <li class="prev <%= currentPage === 1 ? 'disabled' : '' %>">
+                                    <a 
+                                      href="<%= currentPage === 1 ? '#' : ('/store?' +
+                                        Object.keys(filters).map(function(key) {
+                                          if (key !== paginationKey && filters[key])
+                                            return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
+                                        }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + paginationKey + '=' + (currentPage - 1)
+                                      ) %>" 
+                                      aria-label="Previous" tabindex="-1" aria-disabled="<%= currentPage === 1 ? 'true' : 'false' %>">
+                                      <i class="w-icon-long-arrow-left"></i>Prev
+                                    </a>
+                                  </li>
+                              
+                                  <!-- Page Numbers -->
+                                  <% for (let i = 1; i <= totalPages; i++) { %>
+                                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                      <a class="page-link" href="/store?<%= 
+                                        Object.keys(filters).map(function(key) {
+                                          if (key !== paginationKey && filters[key])
+                                            return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
+                                        }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + paginationKey + '=' + i
+                                      %>"><%= i %></a>
                                     </li>
-                                    <% for (let i = 1; i <= totalPages; i++) { %>
-                                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                                            <a class="page-link" href="/store?<%= 
-                                                Object.keys(filters).map(function(key) {
-                                                    if (key !== 'page' && filters[key]) return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
-                                                }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + 'page=' + i
-                                            %>"><%= i %></a>
-                                        </li>
-                                    <% } %>
-                                    <li class="next <%= currentPage === totalPages ? 'disabled' : '' %>">
-                                        <a href="<%= currentPage === totalPages ? '#' : ('/store?' + 
-                                            Object.keys(filters).map(function(key) {
-                                                if (key !== 'page' && filters[key]) return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
-                                            }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + 'page=' + (currentPage + 1)
-                                        ) %>" aria-label="Next" aria-disabled="<%= currentPage === totalPages ? 'true' : 'false' %>">
-                                            Next<i class="w-icon-long-arrow-right"></i>
-                                        </a>
-                                    </li>
+                                  <% } %>
+                              
+                                  <!-- Next Button -->
+                                  <li class="next <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                    <a 
+                                      href="<%= currentPage === totalPages ? '#' : ('/store?' + 
+                                        Object.keys(filters).map(function(key) {
+                                          if (key !== paginationKey && filters[key])
+                                            return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
+                                        }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + paginationKey + '=' + (currentPage + 1)
+                                      ) %>" 
+                                      aria-label="Next" aria-disabled="<%= currentPage === totalPages ? 'true' : 'false' %>">
+                                      Next<i class="w-icon-long-arrow-right"></i>
+                                    </a>
+                                  </li>
                                 </ul>
-                            </div>
+                              </div>
+                              
                         </div>
                         <script>
-                            // Cart and Wishlist functionality with Toastify notifications
                             (function() {
                                 const selectedVariants = {};
 
@@ -771,11 +785,22 @@
                                         });
                                     });
 
-                                    // Add to wishlist button (prevent double call)
+                                    // Add to wishlist button (show login toast for guests)
                                     document.querySelectorAll('.add-to-wishlist-btn').forEach(btn => {
                                         btn.addEventListener('click', function(e) {
-                                            // Only handle if user is logged in and not a login link
-                                            if (btn.getAttribute('href') === '/auth/login') return;
+                                            // If the button is a login link, let it work as normal
+                                            if (btn.getAttribute('href') === '/auth/login') {
+                                                e.preventDefault();
+                                                showToast('Login to use wishlist', 'error');
+                                                return;
+                                            }
+                                            // If user is not logged in, show toast
+                                            const isLoggedIn = <%= user ? 'true' : 'false' %>;
+                                            if (!isLoggedIn) {
+                                                e.preventDefault();
+                                                showToast('Login to use wishlist', 'error');
+                                                return;
+                                            }
                                             e.preventDefault();
                                             // Prevent double call
                                             if (btn._wishlistLoading) return;

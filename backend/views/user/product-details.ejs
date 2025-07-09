@@ -275,15 +275,12 @@
 
                                         <div class="product-price">
                                             <% if (product.salePrice && product.salePrice < product.basePrice) { %>
-                                                <del class="old-price"><span class="rupee-symbol">₹</span>
-                                                    <%= product.basePrice %>
+                                                <del class="old-price mr-2">₹ <%= product.basePrice %>
                                                 </del>
-                                                <ins class="new-price"><span class="rupee-symbol">₹</span>
-                                                    <%= product.salePrice %>
+                                                <ins class="new-price ">₹ <%= product.salePrice %>
                                                 </ins>
                                                 <% } else { %>
-                                                    <ins class="new-price"><span class="rupee-symbol">₹</span>
-                                                        <%= product.basePrice %>
+                                                    <ins class="new-price">₹ <%= product.basePrice %>
                                                     </ins>
                                                     <% } %>
                                         </div>

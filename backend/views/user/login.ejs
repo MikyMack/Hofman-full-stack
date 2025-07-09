@@ -217,11 +217,28 @@
                         // Show toast for Google login result or error on page load
                         window.addEventListener('DOMContentLoaded', () => {
                             const params = new URLSearchParams(window.location.search);
+
+                            // If the server returned a JSON error message in the query string, show it
+                            if (params.get('errorMsg')) {
+                                // Try to parse as JSON, fallback to plain string
+                                let msg = params.get('errorMsg');
+                                try {
+                                    const parsed = JSON.parse(msg);
+                                    if (parsed && parsed.message) {
+                                        showToast(parsed.message, "error");
+                                    } else {
+                                        showToast(msg, "error");
+                                    }
+                                } catch (e) {
+                                    showToast(msg, "error");
+                                }
+                            }
+
                             if (params.get('error') === 'google_failed') {
                                 showToast("Google login failed. Please try again.", "error");
                             }
 
-                            // Show blocked user error for Google login
+                            // Show blocked user error for Google login (legacy, fallback)
                             if (params.get('error') === 'blocked') {
                                 showToast("Your account has been blocked. Please contact support.", "error");
                             }

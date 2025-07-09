@@ -58,7 +58,11 @@ router.get('/', async (req, res) => {
         if (req.user) {
             cart = await Cart.findOne({ user: req.user._id }).lean();
         }
-
+        let wishlistCount = 0;
+        if (req.user) {
+            const wishlist = await Wishlist.findOne({ user: req.user._id }).lean();
+            wishlistCount = wishlist && wishlist.items ? wishlist.items.length : 0;
+        }
         res.render('user/home', {
             user: req.user || null,
             categories,
@@ -74,7 +78,8 @@ router.get('/', async (req, res) => {
             cartItems: cart?.items || [],
             cartSubtotal: cart?.subtotal || 0,
             activeCoupons,
-            blogs
+            blogs,
+            wishlistCount
         });
 
     } catch (err) {
@@ -93,7 +98,8 @@ router.get('/', async (req, res) => {
             topRated: [],
             cartItems: [],
             activeCoupons: [],
-            blogs: []
+            blogs: [],
+            wishlistCount:[]
         });
     }
 });
@@ -112,11 +118,18 @@ router.get('/about', async (req, res) => {
         blogs = [];
     }
 
+    let wishlistCount = 0;
+    if (req.user) {
+        const wishlist = await Wishlist.findOne({ user: req.user._id }).lean();
+        wishlistCount = wishlist && wishlist.items ? wishlist.items.length : 0;
+    }
+
     res.render('user/about', { 
         user: req.user || null, 
         categories, 
-        testimonials ,
-        blogs
+        testimonials,
+        blogs,
+        wishlistCount
     });
 });
 router.get('/store', async (req, res) => {

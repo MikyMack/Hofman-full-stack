@@ -707,14 +707,18 @@
                 <div class="tab-pane active" id="main-menu">
                     <ul class="mobile-menu">
                         <li><a href="/">Home</a></li>
-                          <li><a href="/store">Store</a></li>
-                             <li><a href="/login">Profile</a></li>
-                                                          <li><a href="/wishlist">Wishlist</a></li>
-                                                           <li><a href="/cart">Cart</a></li>
-                                  <li><a href="/about">About Us</a></li>
-                                      <li><a href="/about">Blogs</a></li>
-                                                     <li><a href="/contact">Contact Us</a></li>
-                                                   
+                        <li><a href="/store">Store</a></li>
+                        <% if (user) { %>
+                        <li><a href="/account">Profile</a></li>
+                        <% } else { %>
+                        <li><a href="/auth/login">Login</a></li>
+                        <% } %>
+                        <li><a href="/wishlist">Wishlist</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/blogs">Blogs</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
+
                     </ul>
                 </div>
                 <div class="tab-pane" id="categories">

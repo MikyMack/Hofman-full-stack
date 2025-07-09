@@ -221,21 +221,38 @@ router.get('/store', async (req, res) => {
         }
 
         if (q && typeof q === 'string' && q.trim()) {
-            const keywords = q.trim().split(/\s+/).join('|'); // "leather boots" → "leather|boots"
+            const keywords = q.trim().split(/\s+/).join('|'); // e.g. "leather boots" → "leather|boots"
             const searchRegex = new RegExp(keywords, 'i');
         
+            const matchedCategories = await Category.find({
+                $or: [
+                    { name: searchRegex },
+                    { 'subCategories.name': searchRegex }
+                ]
+            }).lean();
+        
+            // Collect matching category and subcategory IDs
+            const categoryIds = matchedCategories.map(cat => cat._id.toString());
+            const subcategoryIds = matchedCategories.flatMap(cat =>
+                (cat.subCategories || []).filter(sub => searchRegex.test(sub.name)).map(sub => sub._id.toString())
+            );
+        
+            // Combine full filter
             filter.$or = [
                 { name: searchRegex },
                 { description: searchRegex },
                 { moreDetails: searchRegex },
                 { 'productDetails.productType': searchRegex },
                 { 'productDetails.brand': searchRegex },
-                { 'productDetails.productCollection': searchRegex }
+                { 'productDetails.productCollection': searchRegex },
+                { category: { $in: categoryIds } },
+                { subcategory: { $in: subcategoryIds } }
             ];
         
             effectivePage = Number(page) || 1;
             currentPage = effectivePage;
         }
+        
         
 
         if (minPrice || maxPrice) {

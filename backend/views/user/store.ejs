@@ -346,8 +346,17 @@
                             <!-- Products Grid -->
                             <div class="product-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-2">
                                 <% if (products.length === 0) { %>
-                                    <div class="col-12 text-center py-5">
-                                        <h4>No products found.</h4>
+                                    <div class="col-12 d-flex flex-column align-items-center justify-content-center py-5">
+                                       
+                                        <dotlottie-player 
+                                            src="https://lottie.host/21656489-d022-4843-8b3f-e1544ea38079/csqUJyufMI.lottie" 
+                                            background="transparent" 
+                                            speed="1" 
+                                            style="width: 300px; height: 300px" 
+                                            loop 
+                                            autoplay>
+                                        </dotlottie-player>
+                                        <h4 class="mt-3">Coming soon... Stay tuned!</h4>
                                     </div>
                                 <% } else { %>
                                     <% 
@@ -454,27 +463,29 @@
                                   <% 
                                     let start = (currentPage - 1) * (filters.limit ? parseInt(filters.limit) : 12) + 1;
                                     let end = Math.min(currentPage * (filters.limit ? parseInt(filters.limit) : 12), totalProducts);
-                                    const paginationKey = filters.subcategory ? 'subcategoryPage' : (filters.category ? 'categoryPage' : 'page');
+                                    const specialCategories = ['68401f815a149404380fc58f', '684023da5a149404380fc640'];
+                                    let paginationKey = 'page';
+                                    if (filters.subcategory) {
+                                      paginationKey = 'subcategoryPage';
+                                    } else if (filters.category && !specialCategories.includes(filters.category)) {
+                                      paginationKey = 'categoryPage';
+                                    }
                                   %>
                                   Showing <span><%= start %>-<%= end %> of <%= totalProducts %></span> Products
                                 </p>
                               
                                 <ul class="pagination">
-                                  <!-- Prev Button -->
                                   <li class="prev <%= currentPage === 1 ? 'disabled' : '' %>">
-                                    <a 
-                                      href="<%= currentPage === 1 ? '#' : ('/store?' +
-                                        Object.keys(filters).map(function(key) {
-                                          if (key !== paginationKey && filters[key])
-                                            return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
-                                        }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + paginationKey + '=' + (currentPage - 1)
-                                      ) %>" 
-                                      aria-label="Previous" tabindex="-1" aria-disabled="<%= currentPage === 1 ? 'true' : 'false' %>">
+                                    <a href="<%= currentPage === 1 ? '#' : ('/store?' +
+                                      Object.keys(filters).map(function(key) {
+                                        if (key !== paginationKey && filters[key])
+                                          return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
+                                      }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + paginationKey + '=' + (currentPage - 1)
+                                    ) %>" aria-label="Previous" tabindex="-1" aria-disabled="<%= currentPage === 1 ? 'true' : 'false' %>">
                                       <i class="w-icon-long-arrow-left"></i>Prev
                                     </a>
                                   </li>
                               
-                                  <!-- Page Numbers -->
                                   <% for (let i = 1; i <= totalPages; i++) { %>
                                     <li class="page-item <%= currentPage === i ? 'active' : '' %>">
                                       <a class="page-link" href="/store?<%= 
@@ -486,21 +497,19 @@
                                     </li>
                                   <% } %>
                               
-                                  <!-- Next Button -->
                                   <li class="next <%= currentPage === totalPages ? 'disabled' : '' %>">
-                                    <a 
-                                      href="<%= currentPage === totalPages ? '#' : ('/store?' + 
-                                        Object.keys(filters).map(function(key) {
-                                          if (key !== paginationKey && filters[key])
-                                            return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
-                                        }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + paginationKey + '=' + (currentPage + 1)
-                                      ) %>" 
-                                      aria-label="Next" aria-disabled="<%= currentPage === totalPages ? 'true' : 'false' %>">
+                                    <a href="<%= currentPage === totalPages ? '#' : ('/store?' +
+                                      Object.keys(filters).map(function(key) {
+                                        if (key !== paginationKey && filters[key])
+                                          return encodeURIComponent(key) + '=' + encodeURIComponent(filters[key]);
+                                      }).filter(Boolean).join('&') + (Object.keys(filters).length ? '&' : '') + paginationKey + '=' + (currentPage + 1)
+                                    ) %>" aria-label="Next" aria-disabled="<%= currentPage === totalPages ? 'true' : 'false' %>">
                                       Next<i class="w-icon-long-arrow-right"></i>
                                     </a>
                                   </li>
                                 </ul>
                               </div>
+                              
                               
                         </div>
                         <script>
@@ -1377,7 +1386,7 @@
     <script src="/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="/vendor/zoom/jquery.zoom.js"></script>
     <script src="/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
     <!-- Main JS -->
     <script src="/js/main.min.js"></script>
     <script src="/js/script.js"></script>

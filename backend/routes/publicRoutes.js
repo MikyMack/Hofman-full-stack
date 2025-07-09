@@ -156,38 +156,74 @@ router.get('/store', async (req, res) => {
         let useSubcategoryPagination = false;
         let useCategoryPagination = false;
 
+        // Special category/subcategory logic
+        const specialNewArrivalsCategory = "68401f815a149404380fc58f";
+        const specialNewArrivalsSubcategory = "684020345a149404380fc594";
+        const specialBestDealsCategory = "684023da5a149404380fc640";
+
+        let isSpecialNewArrivals = false;
+        let isSpecialBestDeals = false;
+
+        // Check for special subcategory first
         if (subcategory && mongoose.Types.ObjectId.isValid(subcategory)) {
-            filter.subcategory = subcategory;
-            useSubcategoryPagination = true;
+            if (subcategory === specialNewArrivalsSubcategory) {
+                isSpecialNewArrivals = true;
+            } else {
+                filter.subcategory = subcategory;
+                useSubcategoryPagination = true;
+            }
         }
 
+        // Check for special categories
         if (category) {
             let decodedCategory = decodeURIComponent(category);
-            const foundCategory = await Category.findOne({
-                $or: [
-                    { slug: decodedCategory },
-                    { name: new RegExp('^' + decodedCategory + '$', 'i') }
-                ]
-            }).lean();
+            // If category is special, set the flag
+            if (category === specialNewArrivalsCategory) {
+                isSpecialNewArrivals = true;
+            } else if (category === specialBestDealsCategory) {
+                isSpecialBestDeals = true;
+            } else {
+                const foundCategory = await Category.findOne({
+                    $or: [
+                        { slug: decodedCategory },
+                        { name: new RegExp('^' + decodedCategory + '$', 'i') }
+                    ]
+                }).lean();
 
-            if (foundCategory) {
-                filter.category = foundCategory._id;
-                useCategoryPagination = true;
-            } else if (mongoose.Types.ObjectId.isValid(category)) {
-                filter.category = category;
-                useCategoryPagination = true;
+                if (foundCategory) {
+                    filter.category = foundCategory._id;
+                    useCategoryPagination = true;
+                } else if (mongoose.Types.ObjectId.isValid(category)) {
+                    filter.category = category;
+                    useCategoryPagination = true;
+                }
             }
+        }
+
+        // If special category/subcategory, override filter
+        if (isSpecialNewArrivals) {
+            filter = { isActive: true, newArrivals: true };
+            // Pagination for special case: use page param
+            useCategoryPagination = false;
+            useSubcategoryPagination = false;
+        } else if (isSpecialBestDeals) {
+            filter = { isActive: true, bestDeals: true };
+            // Pagination for special case: use page param
+            useCategoryPagination = false;
+            useSubcategoryPagination = false;
         }
 
         let effectivePage = Number(page) || 1;
         let currentPage = effectivePage;
 
-        if (useSubcategoryPagination) {
-            effectivePage = Number(subcategoryPage) || 1;
-            currentPage = effectivePage;
-        } else if (useCategoryPagination) {
-            effectivePage = Number(categoryPage) || 1;
-            currentPage = effectivePage;
+        if (!isSpecialNewArrivals && !isSpecialBestDeals) {
+            if (useSubcategoryPagination) {
+                effectivePage = Number(subcategoryPage) || 1;
+                currentPage = effectivePage;
+            } else if (useCategoryPagination) {
+                effectivePage = Number(categoryPage) || 1;
+                currentPage = effectivePage;
+            }
         }
 
         if (q && typeof q === 'string' && q.trim()) {
@@ -248,7 +284,11 @@ router.get('/store', async (req, res) => {
         const cart = req.user ? await Cart.findOne({ user: req.user._id }).lean() : null;
 
         let pageTitle = 'Store';
-        if (subcategory) {
+        if (isSpecialNewArrivals) {
+            pageTitle = 'New Arrivals';
+        } else if (isSpecialBestDeals) {
+            pageTitle = 'Best Deals';
+        } else if (subcategory) {
             const subcat = await Category.findOne({ 'subCategories._id': subcategory }, { 'subCategories.$': 1, name: 1 }).lean();
             if (subcat) pageTitle = `${subcat.name} - ${subcat.subCategories[0].name}`;
         } else if (category) {

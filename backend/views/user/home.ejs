@@ -125,15 +125,13 @@
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
                         <a href="/" class="logo">
                             <img src="/images/logo.png" alt="logo" width="200">
-                        </a>
-                       
+                        </a>                
                         <form class="input-wrapper header-search hs-expanded hs-round d-none d-md-flex" id="searchForm" style="position:relative;">
                             <div class="custom-search-bar w-100">
                                 <input type="text" class="form-control" name="q" id="searchInput"
                                     placeholder="Search for products..." autocomplete="off" />
 
                                 <script>
-                                    // Typing animation for placeholder
                                     document.addEventListener('DOMContentLoaded', function () {
                                         const searchInput = document.getElementById('searchInput');
                                         const placeholders = [
@@ -304,7 +302,6 @@
                             </div>
                             <% if (!user) { %>
                                 <script>
-                                    // Guest cart rendering for non-logged-in users
                                     function renderGuestCart() {
                                         const cartProductsList = document.getElementById('cart-products-list');
                                         const subtotalSection = document.getElementById('cart-subtotal-amount');
@@ -358,7 +355,6 @@
                                     document.addEventListener('DOMContentLoaded', renderGuestCart);
                                 </script>
                                 <% } %>
-                                    <!-- End of Dropdown Box -->
                         </div>
                     </div>
                 </div>
@@ -490,9 +486,9 @@
                                     <div
                                         class="banner banner-fixed intro-banner<%= index === 1 ? ' intro-banner2' : '' %> br-sm h-100">
                                         <figure class="br-sm">
-                                            <img src="<%= banner.image %>" alt="Category Banner" width="680"
-                                                height="180"
-                                                style="background-color: #565960; object-fit: cover; width: 100%;" />
+                                            <img src="<%= banner.image %>" alt="Category Banner" width="680" class="second_banner"
+                                                height="300"
+                                                />
                                         </figure>
                                         <!-- <div class="banner-content">
                                             <% if (banner.subtitle) { %>

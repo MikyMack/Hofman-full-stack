@@ -25695,3 +25695,35 @@ margin-right: 5px;
 
 
 
+.second_banner {
+  width: 100% !important;
+  display: block;
+  object-fit: cover !important;
+  height: 300px !important;
+  max-width: 100% !important;
+  max-height: 300px !important;
+}
+
+@media (max-width: 1200px) {
+  .second_banner {
+    max-height: 250px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .second_banner {
+    max-height: 200px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .second_banner {
+    max-height: 160px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .second_banner {
+    max-height: 140px !important;
+  }
+}

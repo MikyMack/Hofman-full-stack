@@ -33,7 +33,7 @@
 		var displayedWidth = $source.width();
 		var naturalWidth = img.naturalWidth;
 		var naturalHeight = img.naturalHeight;
-		var magnify = (displayedWidth > 0 && naturalWidth > 0) ? (1.9 * displayedWidth) / naturalWidth : 1.9;
+		var magnify = (displayedWidth > 0 && naturalWidth > 0) ? (2 * displayedWidth) / naturalWidth : 2;
 		$(img)
 		.addClass('zoomImg')
 		.css({

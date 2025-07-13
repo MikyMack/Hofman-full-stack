@@ -25727,6 +25727,11 @@ margin-right: 5px;
     max-height: 140px !important;
   }
 }
+@media (max-width: 320px) {
+  .second_banner {
+    max-height: 100px !important;
+  }
+}
 
 .discount-badge {
   position: absolute;
@@ -25777,4 +25782,47 @@ margin-right: 5px;
   }
 }
 
-
+.out-of-stock-cross {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+.out-of-stock-cross::before,
+.out-of-stock-cross::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 70%;
+  height: 3px;
+  background: #f09c93;
+  border-radius: 2px;
+  transform-origin: center;
+}
+.out-of-stock-cross::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.out-of-stock-cross::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+@media (max-width: 768px) {
+  .out-of-stock-cross::before,
+  .out-of-stock-cross::after {
+      width: 80%;
+      height: 2.2px;
+  }
+}
+@media (max-width: 480px) {
+  .out-of-stock-cross::before,
+  .out-of-stock-cross::after {
+      width: 90%;
+      height: 1.7px;
+  }
+}

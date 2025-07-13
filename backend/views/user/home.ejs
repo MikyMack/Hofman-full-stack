@@ -632,10 +632,10 @@
                                                                 class="size-option pr-size badge badge-light border px-2 py-1 mr-1"
                                                                 data-size="<%= size.size %>"
                                                                 data-stock="<%= size.stock %>"
-                                                                style="cursor:pointer; position: relative;">
+                                                                style="cursor:pointer; position: relative; overflow: hidden;">
                                                                 <%= size.size %>
                                                                 <% if (size.stock === 0) { %>
-                                                                    <span style="color: #f09c93; font-weight: bold; position: absolute; top: 0; right: 6px; font-size: 2.5em; pointer-events: none;">&#10006;</span>
+                                                                    <span class="out-of-stock-cross" aria-label="Out of stock"></span>
                                                                 <% } %>
                                                             </span>
                                                         <% }) %>
@@ -700,8 +700,8 @@
                             <% bannerThree.slice(0, 2).forEach((banner, index)=> { %>
                                 <div class="banner banner-fixed overlay-dark br-sm mt-4">
                                     <figure class="br-sm">
-                                        <img src="<%= banner.image %>" alt="Category Banner" width="680" height="180"
-                                            style="background-color: <%= index === 1 ? '#E5E6E8' : '#565960' %>; object-fit: cover;"
+                                        <img src="<%= banner.image %>" alt="Category Banner"width="680" class="second_banner"
+                                        height="300"
                                             loading="lazy" />
                                     </figure>
                                     <!-- <div class="banner-content y-50">
@@ -805,7 +805,7 @@
                                                                 style="cursor:pointer; position: relative;">
                                                                 <%= size.size %>
                                                                 <% if (size.stock === 0) { %>
-                                                                    <span style="color: #f09c93; font-weight: bold; position: absolute; top: 0; right: 6px; font-size: 2.5em; pointer-events: none;">&#10006;</span>
+                                                                    <span class="out-of-stock-cross" aria-label="Out of stock"></span>
                                                                 <% } %>
                                                             </span>
                                                         <% }) %>

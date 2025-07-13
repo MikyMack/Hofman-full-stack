@@ -391,92 +391,112 @@
 
 
                 <!-- Main Banner Full Width -->
+              <style>
+                @media (max-width: 576px) {
+                  .main-banner-mobile {
+                    height: 180px !important;
+                  }
+                  .main-banner-content-wrapper {
+                    padding: 0 12px !important;
+                  }
+                  .main-banner-content-wrapper .banner-content {
+                    max-width: 95vw !important;
+                  }
+                  .main-banner-content-wrapper h2.banner-title {
+                    font-size: 1.1rem !important;
+                  }
+                  .main-banner-content-wrapper h3.banner-subtitle {
+                    font-size: 0.85rem !important;
+                  }
+                  .main-banner-content-wrapper h4.banner-price-info {
+                    font-size: 0.8rem !important;
+                  }
+                  .main-banner-content-wrapper .bnr-btn {
+                    font-size: 0.85rem !important;
+                    padding: 0.35em 1.1em !important;
+                  }
+                  .main-banner-content-wrapper .w-icon-long-arrow-right {
+                    font-size: 1em !important;
+                  }
+                }
+              </style>
               <div class="intro-section mb-2">
-                    <div class="row">
-                        <div class="col-12 mt-4 mb-4">
-                            <div class="swiper-container swiper-theme pg-inner pg-white animation-slider"
-                                data-swiper-options="{
-                                    'spaceBetween': 0,
-                                    'slidesPerView': 1,
-                                    'autoplay': {
-                                        'delay': 4500,
-                                        'disableOnInteraction': false
-                                    },
-                                    'loop': true,
-                                    'effect': 'fade',
-                                    'fadeEffect': { 'crossFade': true },
-                                    'speed': 1500
-                                }">
-                                <div class="swiper-wrapper row gutter-no cols-1">
-                                    <% if (mainBanner && mainBanner.length> 0) { %>
-                                        <% mainBanner.forEach((banner, index)=> { %>
-                                            <div class="swiper-slide banner banner-fixed intro-slide br-sm"
-                                                style="background-image: url(<%= banner.image %>); background-color: #EAEAEA; position: relative; height: 400px; background-size: cover; background-position: center;">
-                                                <div class="main-banner-content-wrapper" style="
-                                                        position: absolute;
-                                                        top: 50%;
-                                                        transform: translateY(-50%);
-                                                        width: 100%;
-                                                        padding: 0 60px;
-                                                        display: flex;
-                                                        justify-content: <%= index % 2 === 0 ? 'flex-start' : 'flex-end' %>;
-                                                    ">
-                                                    <div class="banner-content text-<%= index % 2 === 0 ? 'left' : 'right' %>"
-                                                        style="max-width: 600px;">
-                                                        <% if (banner.subtitle) { %>
-                                                            <h3 class="banner-subtitle text-uppercase font-secondary font-weight-bolder slide-animate text-black"
-                                                                data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '.5s', 'delay': '.2s'}">
-                                                                <%= banner.subtitle %>
-                                                            </h3>
-                                                            <% } %>
-                                                                <% if (banner.title) { %>
-                                                                    <h2 class="banner-title font-secondary text-capitalize text-black slide-animate"
-                                                                        data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
-                                                                        <%= banner.title %>
-                                                                    </h2>
-                                                                    <% } %>
-                                                                        <% if (banner.description) { %>
-                                                                            <h4 class="banner-price-info font-weight-normal text-black ls-25 slide-animate"
-                                                                                data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
-                                                                                <% const
-                                                                                    words=banner.description.split(' ');
-                                                                    if (words.length > 6) {
-                                                                        const firstSix = words.slice(0, 6).join(' ');
-                                                                        const rest = words.slice(6).join(' ');
-                                                                %>
-                                                                    <%= firstSix %><br><%= rest %>
-                                                                <% 
-                                                                    } else { 
-                                                                %>
-                                                                    <%= banner.description %>
-                                                                <% 
-                                                                    }
-                                                                %>
-                                                            </h4>
-                                                        <% } %>
-                                                        <% if (banner.link) { %>
-                                                            <a href="<%= banner.link %>"
-                                                                class="btn btn-outline btn-black bnr-btn btn-rounded btn-icon-right slide-animate"
-                                                                data-animation-options="{' name': 'fadeInUpShorter'
-                                                                                    , 'duration' : '.5s' , 'delay'
-                                                                                    : '.6s' }">
-                                                                                    Shop Now
-                                                                                    <i
-                                                                                        class="w-icon-long-arrow-right"></i>
-                                                                                    </a>
-                                                                                    <% } %>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <% }) %>
-                                                <% } %>
+                <div class="row">
+                  <div class="col-12 mt-4 mb-4">
+                    <div class="swiper-container swiper-theme pg-inner pg-white animation-slider"
+                      data-swiper-options="{
+                        'spaceBetween': 0,
+                        'slidesPerView': 1,
+                        'autoplay': {
+                          'delay': 4500,
+                          'disableOnInteraction': false
+                        },
+                        'loop': true,
+                        'effect': 'fade',
+                        'fadeEffect': { 'crossFade': true },
+                        'speed': 1500
+                      }">
+                      <div class="swiper-wrapper row gutter-no cols-1">
+                        <% if (mainBanner && mainBanner.length> 0) { %>
+                          <% mainBanner.forEach((banner, index)=> { %>
+                            <div class="swiper-slide banner banner-fixed intro-slide br-sm main-banner-mobile"
+                              style="background-image: url(<%= banner.image %>); background-color: #EAEAEA; position: relative; height: 400px; background-size: cover; background-position: center;">
+                              <div class="main-banner-content-wrapper"
+                                style="
+                                  position: absolute;
+                                  top: 50%;
+                                  transform: translateY(-50%);
+                                  width: 100%;
+                                  padding: 0 60px;
+                                  display: flex;
+                                  justify-content: <%= index % 2 === 0 ? 'flex-start' : 'flex-end' %>;
+                                ">
+                                <div class="banner-content text-<%= index % 2 === 0 ? 'left' : 'right' %>"
+                                  style="max-width: 600px;">
+                                  <% if (banner.subtitle) { %>
+                                    <h3 class="banner-subtitle text-uppercase font-secondary font-weight-bolder slide-animate text-black"
+                                      data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '.5s', 'delay': '.2s'}">
+                                      <%= banner.subtitle %>
+                                    </h3>
+                                  <% } %>
+                                  <% if (banner.title) { %>
+                                    <h2 class="banner-title font-secondary text-capitalize text-black slide-animate"
+                                      data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
+                                      <%= banner.title %>
+                                    </h2>
+                                  <% } %>
+                                  <% if (banner.description) { %>
+                                    <h4 class="banner-price-info font-weight-normal text-black ls-25 slide-animate"
+                                      data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
+                                      <% const words=banner.description.split(' '); if (words.length > 6) {
+                                        const firstSix = words.slice(0, 6).join(' ');
+                                        const rest = words.slice(6).join(' ');
+                                      %>
+                                        <%= firstSix %><br><%= rest %>
+                                      <% } else { %>
+                                        <%= banner.description %>
+                                      <% } %>
+                                    </h4>
+                                  <% } %>
+                                  <% if (banner.link) { %>
+                                    <a href="<%= banner.link %>"
+                                      class="btn btn-outline btn-black bnr-btn btn-rounded btn-icon-right slide-animate"
+                                      data-animation-options="{' name': 'fadeInUpShorter', 'duration' : '.5s' , 'delay' : '.6s' }">
+                                      Shop Now
+                                      <i class="w-icon-long-arrow-right"></i>
+                                    </a>
+                                  <% } %>
                                 </div>
-                                <div class="swiper-pagination"></div>
+                              </div>
                             </div>
-                        </div>
+                          <% }) %>
+                        <% } %>
+                      </div>
+                      <div class="swiper-pagination"></div>
                     </div>
+                  </div>
                 </div>
-
+              </div>
                 <!-- Banner Two Row Below Main Banner -->
                 <div class=" container intro-banner-row mb-2">
                     <div class="row">

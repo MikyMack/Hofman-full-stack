@@ -196,6 +196,51 @@
                 <div class="container">
                     <div class="row gutter-lg">
                         <div class="main-content">
+                            <style>
+                                .size-swatch--out-of-stock {
+                                    position: relative;
+                                    pointer-events: none;
+                                    opacity: 0.5;
+                                    cursor: not-allowed;
+                                }
+                                .size-swatch--out-of-stock .cross-mark {
+                                    position: absolute;
+                                    left: 50%;
+                                    top: 50%;
+                                    transform: translate(-50%, -50%) rotate(-45deg);
+                                    width: 80%;
+                                    height: 2px;
+                                    background: #e74c3c;
+                                    z-index: 2;
+                                    border-radius: 2px;
+                                }
+                                .size-swatch--out-of-stock .cross-mark-2 {
+                                    position: absolute;
+                                    left: 50%;
+                                    top: 50%;
+                                    transform: translate(-50%, -50%) rotate(45deg);
+                                    width: 80%;
+                                    height: 2px;
+                                    background: #e74c3c;
+                                    z-index: 2;
+                                    border-radius: 2px;
+                                }
+                                .size-swatch--out-of-stock {
+                                    color: #aaa !important;
+                                    background: #f8d7da !important;
+                                }
+                                .size-swatch--out-of-stock span {
+                                    z-index: 3;
+                                    position: relative;
+                                }
+                            </style>
+                            <% 
+                                // Calculate discount percentage if applicable
+                                let discountPercent = null;
+                                if (product.salePrice && product.basePrice && product.salePrice < product.basePrice) {
+                                    discountPercent = Math.round(((product.basePrice - product.salePrice) / product.basePrice) * 100);
+                                }
+                            %>
                             <div class="product product-single row">
                                 <div class="col-md-6 mb-6">
                                     <div class="product-gallery product-gallery-sticky">
@@ -244,7 +289,6 @@
                                                 <img src="<%= product.brandImage || '/images/hofmaan/blackDuck.jpg' %>"
                                                     alt="Brand" width="102" height="48" />
                                             </figure>
-
                                         </div>
                                         <div class="product-meta">
                                             <div class="product-categories">
@@ -273,17 +317,63 @@
                                         </div>
                                         <hr class="product-divider">
 
-                                        <div class="product-price">
+                                        <div class="product-price d-flex align-items-center" style="gap: 12px;">
                                             <% if (product.salePrice && product.salePrice < product.basePrice) { %>
                                                 <del class="old-price mr-2">₹ <%= product.basePrice %>
                                                 </del>
                                                 <ins class="new-price ">₹ <%= product.salePrice %>
                                                 </ins>
-                                                <% } else { %>
-                                                    <ins class="new-price">₹ <%= product.basePrice %>
-                                                    </ins>
-                                                    <% } %>
+                                                <% if (discountPercent) { %>
+                                                    <span class="" style="
+                                                        background: linear-gradient(90deg, #ff512f 0%, #dd2476 100%);
+                                                        color: #fff;
+                                                        font-weight: bold;
+                                                        border-radius: 20px;
+                                                        padding: 6px 16px;
+                                                        font-size: 1.1rem;
+                                                        margin-left: 8px;
+                                                        box-shadow: 0 2px 8px rgba(221,36,118,0.15);
+                                                        letter-spacing: 1px;
+                                                        animation: pop-discount 1s cubic-bezier(.36,1.64,.7,.98) 1;
+                                                    ">
+                                                        <i class="w-icon-sale" style="margin-right: 4px;"></i>
+                                                        <%= discountPercent %>% OFF
+                                                    </span>
+                                                    <style>
+                                                        @keyframes pop-discount {
+                                                            0% { transform: scale(0.7); opacity: 0.2; }
+                                                            60% { transform: scale(1.15); opacity: 1; }
+                                                            100% { transform: scale(1); }
+                                                        }
+                                                        .discount-badge {
+                                                            display: inline-flex;
+                                                            align-items: center;
+                                                            box-shadow: 0 2px 8px rgba(221,36,118,0.15);
+                                                        }
+                                                    </style>
+                                                <% } %>
+                                            <% } else { %>
+                                                <ins class="new-price">₹ <%= product.basePrice %>
+                                                </ins>
+                                            <% } %>
                                         </div>
+
+                                        <% if (discountPercent) { %>
+                                            <div class="catchy-discount-text" style="
+                                                margin-top: 10px;
+                                                font-size: 1.15rem;
+                                                color: #e74c3c;
+                                                font-weight: 600;
+                                                letter-spacing: 0.5px;
+                                                text-shadow: 0 1px 6px #ffeaea;
+                                                display: flex;
+                                                align-items: center;
+                                                gap: 6px;
+                                            ">
+                                                <i class="w-icon-fire" style="color: #ff512f; font-size: 1.3em;"></i>
+                                                <span>Hurry! <%= discountPercent %>% OFF for a limited time!</span>
+                                            </div>
+                                        <% } %>
 
                                         <div class="product-short-desc">
                                             <% if (product.description) { %>
@@ -330,14 +420,21 @@
                                                         <div class="flex-wrap d-flex align-items-center product-variations"
                                                             id="size-options">
                                                             <% product.sizeVariants.forEach(function(variant, index) {
-                                                                %>
+                                                                const outOfStock = (typeof variant.stock !== 'undefined' && variant.stock === 0);
+                                                            %>
                                                                 <a href="#"
-                                                                    class="size size-swatch <%= index === 0 ? 'size-swatch--selected' : '' %>"
+                                                                    class="size size-swatch <%= index === 0 && !outOfStock ? 'size-swatch--selected' : '' %> <%= outOfStock ? 'size-swatch--out-of-stock' : '' %>"
                                                                     data-size="<%= variant.size %>"
-                                                                    data-variant-id="<%= variant._id %>">
-                                                                    <%= variant.size %>
+                                                                    data-variant-id="<%= variant._id %>"
+                                                                    <%= outOfStock ? 'tabindex="-1" aria-disabled="true"' : '' %>
+                                                                    style="position: relative; user-select: none;">
+                                                                    <span><%= variant.size %></span>
+                                                                    <% if (outOfStock) { %>
+                                                                        <span class="cross-mark"></span>
+                                                                        <span class="cross-mark-2"></span>
+                                                                    <% } %>
                                                                 </a>
-                                                                <% }) %>
+                                                            <% }) %>
                                                         </div>
                                                     </div>
                                                     <% } %>
@@ -378,7 +475,8 @@
                                         image: '<%= product.images && product.images[0] ? product.images[0] : "/images/placeholder-product.jpg" %>',
                                         price: <%= product.salePrice || product.basePrice %>,
                                         hasColor: <%= product.hasColorVariants ? 'true' : 'false' %>,
-                                        hasSize: <%= product.hasSizeVariants ? 'true' : 'false' %>
+                                        hasSize: <%= product.hasSizeVariants ? 'true' : 'false' %>,
+                                        sizeVariants: <%- JSON.stringify(product.sizeVariants || []) %>
                                     };
 
                                     // Selected variants tracking
@@ -473,6 +571,16 @@
 
                                     // Size selection
                                     sizeOptions.forEach(sizeOption => {
+                                        // If out of stock, do not allow selection
+                                        if (sizeOption.classList.contains('size-swatch--out-of-stock')) {
+                                            sizeOption.addEventListener('click', function (e) {
+                                                e.preventDefault();
+                                                return false;
+                                            });
+                                            sizeOption.setAttribute('aria-disabled', 'true');
+                                            sizeOption.setAttribute('tabindex', '-1');
+                                            return;
+                                        }
                                         sizeOption.addEventListener('click', function (e) {
                                             e.preventDefault();
 
@@ -529,6 +637,17 @@
                                                 return;
                                             }
 
+                                            // If size is selected, check if out of stock
+                                            if (productData.hasSize && selectedVariants.size) {
+                                                const selectedSizeObj = productData.sizeVariants.find(
+                                                    v => v.size === selectedVariants.size
+                                                );
+                                                if (selectedSizeObj && selectedSizeObj.stock === 0) {
+                                                    showToast('Selected size is out of stock', 'error');
+                                                    return;
+                                                }
+                                            }
+
                                             const quantity = parseInt(quantityInput.value) || 1;
 
                                             // Prepare cart item
@@ -569,6 +688,18 @@
 
                                             wishlistBtn.addEventListener('click', function (e) {
                                                 e.preventDefault();
+
+                                                // If size is required and selected size is out of stock, block wishlist
+                                                if (productData.hasSize && selectedVariants.size) {
+                                                    const selectedSizeObj = productData.sizeVariants.find(
+                                                        v => v.size === selectedVariants.size
+                                                    );
+                                                    if (selectedSizeObj && selectedSizeObj.stock === 0) {
+                                                        showToast('Selected size is out of stock', 'error');
+                                                        return;
+                                                    }
+                                                }
+
                                                 addToWishlist();
                                             });
 
@@ -651,6 +782,17 @@
                                         if (productData.hasSize && !selectedVariants.size) {
                                             showToast('Please select a size before adding to wishlist', 'error');
                                             return;
+                                        }
+
+                                        // If size is selected, check if out of stock
+                                        if (productData.hasSize && selectedVariants.size) {
+                                            const selectedSizeObj = productData.sizeVariants.find(
+                                                v => v.size === selectedVariants.size
+                                            );
+                                            if (selectedSizeObj && selectedSizeObj.stock === 0) {
+                                                showToast('Selected size is out of stock', 'error');
+                                                return;
+                                            }
                                         }
 
                                         const wishlistItem = {
@@ -744,7 +886,7 @@
                                             <div class="mb-3">
                                                 <h5 class="sub-title font-weight-bold"><span>3.</span> Secure Payment
                                                 </h5>
-                                                <p class="detail pl-5">100% Secure Payments — UPI, Card, COD<br>
+                                                <p class="detail pl-5">100% Secure Payments — UPI, Card<br>
                                                     Reassures users that their transactions are safe.</p>
                                             </div>
                                         </div>

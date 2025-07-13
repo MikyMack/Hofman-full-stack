@@ -391,7 +391,7 @@
 
 
                 <!-- Main Banner Full Width -->
-                <div class="intro-section mb-2">
+              <div class="intro-section mb-2">
                     <div class="row">
                         <div class="col-12 mt-4 mb-4">
                             <div class="swiper-container swiper-theme pg-inner pg-white animation-slider"
@@ -621,29 +621,31 @@
                                                                         class="size-option pr-size badge badge-light border px-2 py-1 mr-1"
                                                                         data-size="<%= size.size %>"
                                                                         data-stock="<%= size.stock %>"
-                                                                        style="cursor:pointer;">
+                                                                        style="cursor:pointer; position: relative;">
                                                                         <%= size.size %>
+                                                                        <% if (size.stock === 0) { %>
+                                                                            <span style="color: #854040; font-weight: bold; position: absolute; top: 0; right: 6px; font-size: 2.5em; pointer-events: none;">&#10006;</span>
+                                                                        <% } %>
                                                                     </span>
-                                                                    <% }) %>
+                                                                <% }) %>
                                                             </div>
                                                         </div>
-                                                        <% } %>
+                                                    <% } %>
 
-                                                            <% if (product.hasColorVariants) { %>
-                                                                <div class="product-color">
-                                                                    <span class="font-weight-bold mr-1"> Color</span>
-                                                                    <% product.colorVariants.forEach(color=>
-                                                                        { %>
-                                                                        <span
-                                                                            class="color-option border rounded-circle d-inline-block mr-1 mb-1"
-                                                                            data-color="<%= color.color %>"
-                                                                            data-stock="<%= color.stock %>"
-                                                                            title="<%= color.color %>"
-                                                                            style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
-                                                                        </span>
-                                                                        <% }) %>
-                                                                </div>
-                                                                <% } %>
+                                                    <% if (product.hasColorVariants) { %>
+                                                        <div class="product-color">
+                                                            <span class="font-weight-bold mr-1"> Color</span>
+                                                            <% product.colorVariants.forEach(color=> { %>
+                                                                <span
+                                                                    class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                                                                    data-color="<%= color.color %>"
+                                                                    data-stock="<%= color.stock %>"
+                                                                    title="<%= color.color %>"
+                                                                    style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
+                                                                </span>
+                                                            <% }) %>
+                                                        </div>
+                                                    <% } %>
                                                 </div>
 
                                                 <div class="selected-variant-info"
@@ -745,103 +747,115 @@
                 }
             }'>
                         <div class="swiper-wrapper row cols-lg-2">
-                            <% dealsOfTheDay.forEach(product=> { %>
+                            <% dealsOfTheDay.forEach(product=> { 
+                                // Calculate discount percent if salePrice is present and less than basePrice
+                                let base = product.basePrice || 0;
+                                let sale = product.salePrice && product.salePrice < base ? product.salePrice : base;
+                                let discountPercent = (base > 0 && sale < base) ? Math.round(((base - sale) / base) * 100) : 0;
+                            %>
                                 <div class="swiper-slide product product-list br-sm mb-2"
                                     data-product-id="<%= product._id %>"
                                     data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
                                     data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
-                                    data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
+                                    data-product-name="<%= product.name.replace(/\"/g, '&quot;' ) %>"
                                     data-product-image="<%= product.images[0] %>"
-                                        data-product-price="<%= product.salePrice || product.basePrice %>">
-                                            <figure class="product-media">
-                                                <a href="/product/<%= product._id %>">
-                                                    <img src="<%= product.images[0] %>" alt="Product Image" width="315"
-                                                        height="355" loading="lazy">
-                                                    <% if (product.images[1]) { %>
-                                                        <img src="<%= product.images[1] %>" alt="Product Image"
-                                                            width="315" height="355" loading="lazy">
-                                                        <% } %>
-                                                </a>
-                                            </figure>
-                                            <div class="product-details">
-                                                <h4 class="product-name">
-                                                    <a href="/product/<%= product._id %>">
-                                                        <%= product.name %>
-                                                    </a>
-                                                </h4>
-                                                <div class="product-variations flex flex-wrap justify-content-start">
-                                                    <% if (product.sizeVariants && product.sizeVariants.length) { %>
-                                                        <div class="product-size mr-3 d-flex align-items-center">
-                                                            <span class="font-weight-bold mr-1">Size:</span>
-                                                            <div>
-                                                                <% product.sizeVariants.forEach(size=> { %>
-                                                                    <span
-                                                                        class="size-option badge  badge-light border px-2 py-1 mr-1"
-                                                                        data-size="<%= size.size %>"
-                                                                        data-stock="<%= size.stock %>"
-                                                                        style="cursor:pointer;">
-                                                                        <%= size.size %>
-                                                                    </span>
-                                                                    <% }) %>
-                                                            </div>
-                                                        </div>
-                                                        <% } %>
-                                                            <% if (product.colorVariants &&
-                                                                product.colorVariants.length) { %>
-                                                                <div class="product-color">
-                                                                    <span class="font-weight-bold mr-1"></span>
-                                                                    <% product.colorVariants.forEach(color=> { %>
-                                                                        <span
-                                                                            class="color-option border rounded-circle d-inline-block mr-1 mb-1"
-                                                                            data-color="<%= color.color %>"
-                                                                            data-stock="<%= color.stock %>"
-                                                                            title="<%= color.color %>"
-                                                                            style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
-                                                                        </span>
-                                                                        <% }) %>
-                                                                </div>
-                                                                <% } %>
-                                                </div>
-
-                                                <div class="product-price">
-                                                    <ins class="new-price">₹<%= product.salePrice || product.basePrice
-                                                            %>
-                                                    </ins>
-                                                    <% if (product.salePrice) { %>
-                                                        <del class="old-price">₹<%= product.basePrice %></del>
-                                                        <% } %>
-                                                </div>
-                                                <p class="text-default">
-                                                    <%= product.description.substring(0, 50) %>...
-                                                </p>
-                                                <div class="product-action  hm-pr-btn">
-                                                    <button
-                                                        class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn1"
-                                                        data-product-id="<%= product._id %>"
-                                                        data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
-                                                        data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
-                                                        data-product-name="<%= product.name.replace(/" /g, '&quot;' )
-                                                        %>"
-                                                        data-product-image="<%= product.images[0] %>"
-                                                            data-product-price="<%= product.salePrice ||
-                                                                product.basePrice %>">
-                                                                <i class="w-icon-cart"></i>
-                                                                <span>Add to cart</span>
-                                                    </button>
-                                                    <% if (user) { %>
-                                                        <a href="#" class="btn-wishlist w-icon-heart ml-4"
-                                                            data-product-id="<%= product._id %>" title="Add to wishlist"
-                                                            onclick="event.preventDefault(); addTooWishlist('<%= product._id %>', this);">
-                                                        </a>
-                                                        <% } else { %>
-                                                            <a href="/auth/login" class="btn-wishlist w-icon-heart"
-                                                                title="Login to add to wishlist">
-                                                            </a>
-                                                            <% } %>
-                                                </div>
+                                    data-product-price="<%= sale %>">
+                                    <figure class="product-media" style="position:relative;">
+                                        <a href="/product/<%= product._id %>">
+                                            <img src="<%= product.images[0] %>" alt="Product Image" width="315"
+                                                height="355" loading="lazy">
+                                            <% if (product.images[1]) { %>
+                                                <img src="<%= product.images[1] %>" alt="Product Image"
+                                                    width="315" height="355" loading="lazy">
+                                            <% } %>
+                                        </a>
+                                        <% if (discountPercent > 0) { %>
+                                            <div class="discount-badge" style="position:absolute;top:10px;left:10px;">
+                                                <span>
+                                                    <i class="w-icon-sale"></i>
+                                                    <%= discountPercent %>% OFF
+                                                </span>
                                             </div>
+                                        <% } %>
+                                    </figure>
+                                    <div class="product-details">
+                                        <h4 class="product-name">
+                                            <a href="/product/<%= product._id %>">
+                                                <%= product.name %>
+                                            </a>
+                                        </h4>
+                                        <div class="product-variations product-det flex flex-wrap mb-2">
+                                            <% if (product.hasSizeVariants) { %>
+                                                <div class="product-size  mr-3 d-flex align-items-center">
+                                                    <span class="font-weight-bold mr-1">Size:</span>
+                                                    <div class="prd-size">
+                                                        <% product.sizeVariants.forEach(size=> { %>
+                                                            <span
+                                                                class="size-option pr-size badge badge-light border px-2 py-1 mr-1"
+                                                                data-size="<%= size.size %>"
+                                                                data-stock="<%= size.stock %>"
+                                                                style="cursor:pointer; position: relative;">
+                                                                <%= size.size %>
+                                                                <% if (size.stock === 0) { %>
+                                                                    <span style="color: #854040; font-weight: bold; position: absolute; top: 0; right: 6px; font-size: 2.5em; pointer-events: none;">&#10006;</span>
+                                                                <% } %>
+                                                            </span>
+                                                        <% }) %>
+                                                    </div>
+                                                </div>
+                                            <% } %>
+
+                                            <% if (product.hasColorVariants) { %>
+                                                <div class="product-color">
+                                                    <span class="font-weight-bold mr-1"> Color</span>
+                                                    <% product.colorVariants.forEach(color=> { %>
+                                                        <span
+                                                            class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                                                            data-color="<%= color.color %>"
+                                                            data-stock="<%= color.stock %>"
+                                                            title="<%= color.color %>"
+                                                            style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
+                                                        </span>
+                                                    <% }) %>
+                                                </div>
+                                            <% } %>
+                                        </div>
+
+                                        <div class="product-price">
+                                            <ins class="new-price">₹<%= sale %></ins>
+                                            <% if (discountPercent > 0) { %>
+                                                <del class="old-price">₹<%= base %></del>
+                                            <% } %>
+                                        </div>
+                                        <p class="text-default">
+                                            <%= product.description.substring(0, 50) %>...
+                                        </p>
+                                        <div class="product-action  hm-pr-btn">
+                                            <button
+                                                class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn1"
+                                                data-product-id="<%= product._id %>"
+                                                data-has-color="<%= !!(product.colorVariants && product.colorVariants.length) %>"
+                                                data-has-size="<%= !!(product.sizeVariants && product.sizeVariants.length) %>"
+                                                data-product-name="<%= product.name.replace(/\"/g, '&quot;' ) %>"
+                                                data-product-image="<%= product.images[0] %>"
+                                                data-product-price="<%= sale %>">
+                                                <i class="w-icon-cart"></i>
+                                                <span>Add to cart</span>
+                                            </button>
+                                            <% if (user) { %>
+                                                <a href="#" class="btn-wishlist w-icon-heart ml-4"
+                                                    data-product-id="<%= product._id %>" title="Add to wishlist"
+                                                    onclick="event.preventDefault(); addTooWishlist('<%= product._id %>', this);">
+                                                </a>
+                                            <% } else { %>
+                                                <a href="/auth/login" class="btn-wishlist w-icon-heart"
+                                                    title="Login to add to wishlist">
+                                                </a>
+                                            <% } %>
+                                        </div>
+                                    </div>
                                 </div>
-                                <% }); %>
+                            <% }); %>
                         </div>
                     </div>
 
@@ -1080,6 +1094,26 @@
                             });
                         });
 
+                        // Helper: check stock for a product and selected variant
+                        function checkStock(product, selectedColor = null, selectedSize = null) {
+                            // If product has size or color variants, check the selected variant's stock
+                            if (product.hasSizeVariants && selectedSize) {
+                                const sizeObj = (product.sizeVariants || []).find(s => s.size === selectedSize);
+                                if (!sizeObj || parseInt(sizeObj.stock, 10) <= 0) return false;
+                            }
+                            if (product.hasColorVariants && selectedColor) {
+                                const colorObj = (product.colorVariants || []).find(c => c.color === selectedColor);
+                                if (!colorObj || parseInt(colorObj.stock, 10) <= 0) return false;
+                            }
+                            // If no variants, check product-level stock
+                            if (!product.hasSizeVariants && !product.hasColorVariants) {
+                                if (typeof product.stock !== 'undefined' && (isNaN(parseInt(product.stock, 10)) || parseInt(product.stock, 10) <= 0)) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }
+
                         function loadProducts(type, containerId) {
                             const container = document.getElementById(containerId);
                             if (!container) {
@@ -1094,6 +1128,10 @@
 
                                         data.products.forEach(product => {
                                             const productElement = createProductElement(product);
+                                            // Attach product data for later stock checking
+                                            if (productElement && productElement.firstElementChild) {
+                                                productElement.firstElementChild.__productData = product;
+                                            }
                                             container.appendChild(productElement);
                                         });
 
@@ -1170,6 +1208,12 @@
                                     const el = e.target;
                                     const productEl = el.closest('.swiper-slide');
                                     const productId = productEl.getAttribute('data-product-id');
+                                    // Check stock
+                                    const stock = parseInt(el.getAttribute('data-stock'), 10);
+                                    if (isNaN(stock) || stock <= 0) {
+                                        showToast('Out of stock', "error");
+                                        return;
+                                    }
                                     // Remove active from siblings
                                     productEl.querySelectorAll('.size-option').forEach(sib => {
                                         sib.classList.remove('active', 'selected');
@@ -1187,6 +1231,12 @@
                                     const el = e.target;
                                     const productEl = el.closest('.swiper-slide');
                                     const productId = productEl.getAttribute('data-product-id');
+                                    // Check stock
+                                    const stock = parseInt(el.getAttribute('data-stock'), 10);
+                                    if (isNaN(stock) || stock <= 0) {
+                                        showToast('Out of stock', "error");
+                                        return;
+                                    }
                                     // Remove active from siblings
                                     productEl.querySelectorAll('.color-option').forEach(sib => {
                                         sib.classList.remove('active', 'selected');
@@ -1204,6 +1254,80 @@
                                     e.preventDefault();
                                     const productEl = e.target.closest('.swiper-slide');
                                     const productId = productEl.getAttribute('data-product-id');
+                                    // Out of stock check for wishlist
+                                    let outOfStock = false;
+                                    const hasColor = productEl.getAttribute('data-has-color') === 'true';
+                                    const hasSize = productEl.getAttribute('data-has-size') === 'true';
+
+                                    // Get product data for stock check
+                                    const productData = productEl.__productData;
+                                    let selectedColor = null;
+                                    let selectedSize = null;
+                                    if (hasColor) {
+                                        const selectedColorEl = productEl.querySelector('.color-option.selected');
+                                        if (!selectedColorEl) {
+                                            showToast('Please select a color.', "error");
+                                            return;
+                                        }
+                                        selectedColor = selectedColorEl.getAttribute('data-color');
+                                        // Prevent adding to wishlist if selected color is out of stock
+                                        const colorStock = parseInt(selectedColorEl.getAttribute('data-stock'), 10);
+                                        if (isNaN(colorStock) || colorStock <= 0) {
+                                            showToast('Selected color is out of stock', "error");
+                                            return;
+                                        }
+                                    }
+                                    if (hasSize) {
+                                        const selectedSizeEl = productEl.querySelector('.size-option.selected');
+                                        if (!selectedSizeEl) {
+                                            showToast('Please select a size.', "error");
+                                            return;
+                                        }
+                                        selectedSize = selectedSizeEl.getAttribute('data-size');
+                                        // Prevent adding to wishlist if selected size is out of stock
+                                        const sizeStock = parseInt(selectedSizeEl.getAttribute('data-stock'), 10);
+                                        if (isNaN(sizeStock) || sizeStock <= 0) {
+                                            showToast('Selected size is out of stock', "error");
+                                            return;
+                                        }
+                                    }
+                                    // Use checkStock if productData is available
+                                    if (productData) {
+                                        if (!checkStock(productData, selectedColor, selectedSize)) {
+                                            showToast('Out of stock', "error");
+                                            return;
+                                        }
+                                    } else {
+                                        // fallback to DOM-based check
+                                        if (hasColor) {
+                                            const selectedColorEl = productEl.querySelector('.color-option.selected');
+                                            if (selectedColorEl) {
+                                                const colorStock = parseInt(selectedColorEl.getAttribute('data-stock'), 10);
+                                                if (isNaN(colorStock) || colorStock <= 0) {
+                                                    outOfStock = true;
+                                                }
+                                            }
+                                        }
+                                        if (hasSize) {
+                                            const selectedSizeEl = productEl.querySelector('.size-option.selected');
+                                            if (selectedSizeEl) {
+                                                const sizeStock = parseInt(selectedSizeEl.getAttribute('data-stock'), 10);
+                                                if (isNaN(sizeStock) || sizeStock <= 0) {
+                                                    outOfStock = true;
+                                                }
+                                            }
+                                        }
+                                        if (!hasColor && !hasSize) {
+                                            const productStock = productEl.querySelector('.add-to-cart-btn')?.getAttribute('data-stock');
+                                            if (typeof productStock !== 'undefined' && (isNaN(parseInt(productStock, 10)) || parseInt(productStock, 10) <= 0)) {
+                                                outOfStock = true;
+                                            }
+                                        }
+                                        if (outOfStock) {
+                                            showToast('Out of stock', "error");
+                                            return;
+                                        }
+                                    }
                                     addToWishlist(productId, e.target);
                                 }
                             });
@@ -1213,6 +1337,7 @@
                                 if (e.target.classList.contains('add-to-cart-btn')) {
                                     e.preventDefault();
                                     const btn = e.target;
+                                    const productEl = btn.closest('.swiper-slide');
                                     const productId = btn.getAttribute('data-product-id');
                                     const hasColor = btn.getAttribute('data-has-color') === 'true';
                                     const hasSize = btn.getAttribute('data-has-size') === 'true';
@@ -1223,6 +1348,7 @@
 
                                     let selectedColor = null;
                                     let selectedSize = null;
+                                    let outOfStock = false;
 
                                     if (hasColor) {
                                         selectedColor = (selectedVariants[productId] && selectedVariants[productId].selectedColor) || null;
@@ -1231,6 +1357,15 @@
                                             updateSelectedVariantInfo(productId);
                                             return;
                                         }
+                                        // Prevent adding to cart if selected color is out of stock
+                                        const selectedColorEl = productEl.querySelector('.color-option.selected');
+                                        if (selectedColorEl) {
+                                            const colorStock = parseInt(selectedColorEl.getAttribute('data-stock'), 10);
+                                            if (isNaN(colorStock) || colorStock <= 0) {
+                                                showToast('Selected color is out of stock', "error");
+                                                return;
+                                            }
+                                        }
                                     }
 
                                     if (hasSize) {
@@ -1238,6 +1373,54 @@
                                         if (!selectedSize) {
                                             showToast('Please select a size.', "error");
                                             updateSelectedVariantInfo(productId);
+                                            return;
+                                        }
+                                        // Prevent adding to cart if selected size is out of stock
+                                        const selectedSizeEl = productEl.querySelector('.size-option.selected');
+                                        if (selectedSizeEl) {
+                                            const sizeStock = parseInt(selectedSizeEl.getAttribute('data-stock'), 10);
+                                            if (isNaN(sizeStock) || sizeStock <= 0) {
+                                                showToast('Selected size is out of stock', "error");
+                                                return;
+                                            }
+                                        }
+                                    }
+
+                                    // Use checkStock if product data is available
+                                    const productData = productEl.__productData;
+                                    if (productData) {
+                                        if (!checkStock(productData, selectedColor, selectedSize)) {
+                                            showToast('Out of stock', "error");
+                                            return;
+                                        }
+                                    } else {
+                                        // fallback to DOM-based check
+                                        if (hasColor) {
+                                            const selectedColorEl = productEl.querySelector('.color-option.selected');
+                                            if (selectedColorEl) {
+                                                const colorStock = parseInt(selectedColorEl.getAttribute('data-stock'), 10);
+                                                if (isNaN(colorStock) || colorStock <= 0) {
+                                                    outOfStock = true;
+                                                }
+                                            }
+                                        }
+                                        if (hasSize) {
+                                            const selectedSizeEl = productEl.querySelector('.size-option.selected');
+                                            if (selectedSizeEl) {
+                                                const sizeStock = parseInt(selectedSizeEl.getAttribute('data-stock'), 10);
+                                                if (isNaN(sizeStock) || sizeStock <= 0) {
+                                                    outOfStock = true;
+                                                }
+                                            }
+                                        }
+                                        if (!hasColor && !hasSize) {
+                                            const stock = btn.getAttribute('data-stock');
+                                            if (typeof stock !== 'undefined' && (isNaN(parseInt(stock, 10)) || parseInt(stock, 10) <= 0)) {
+                                                outOfStock = true;
+                                            }
+                                        }
+                                        if (outOfStock) {
+                                            showToast('Out of stock', "error");
                                             return;
                                         }
                                     }
@@ -1268,6 +1451,37 @@
                             const productCard = el.closest('.product');
                             const hasColor = productCard.dataset.hasColor === 'true';
                             const hasSize = productCard.dataset.hasSize === 'true';
+
+                            // Out of stock check for wishlist (redundant, but for safety if called directly)
+                            let outOfStock = false;
+                            if (hasColor) {
+                                const selectedColorEl = productCard.querySelector('.color-option.selected');
+                                if (selectedColorEl) {
+                                    const colorStock = parseInt(selectedColorEl.getAttribute('data-stock'), 10);
+                                    if (isNaN(colorStock) || colorStock <= 0) {
+                                        outOfStock = true;
+                                    }
+                                }
+                            }
+                            if (hasSize) {
+                                const selectedSizeEl = productCard.querySelector('.size-option.selected');
+                                if (selectedSizeEl) {
+                                    const sizeStock = parseInt(selectedSizeEl.getAttribute('data-stock'), 10);
+                                    if (isNaN(sizeStock) || sizeStock <= 0) {
+                                        outOfStock = true;
+                                    }
+                                }
+                            }
+                            if (!hasColor && !hasSize) {
+                                const productStock = productCard.querySelector('.add-to-cart-btn')?.getAttribute('data-stock');
+                                if (typeof productStock !== 'undefined' && (isNaN(parseInt(productStock, 10)) || parseInt(productStock, 10) <= 0)) {
+                                    outOfStock = true;
+                                }
+                            }
+                            if (outOfStock) {
+                                showToast('Out of stock', "error");
+                                return;
+                            }
 
                             const selectedColor = productCard.querySelector('.color-option.selected')?.dataset.color || null;
                             const selectedSize = productCard.querySelector('.size-option.selected')?.dataset.size || null;
@@ -1369,8 +1583,11 @@
                         function createProductElement(product) {
                             // Determine price display
                             let priceHtml;
+                            let discountPercent = 0;
                             if (product.salePrice > 0 && product.salePrice < product.basePrice) {
                                 priceHtml = `<ins class="new-price">₹${product.salePrice.toFixed(2)}</ins><del class="old-price">₹${product.basePrice.toFixed(2)}</del>`;
+                                // Calculate discount percentage
+                                discountPercent = Math.round(((product.basePrice - product.salePrice) / product.basePrice) * 100);
                             } else {
                                 priceHtml = `<ins class="new-price">₹${product.basePrice.toFixed(2)}</ins>`;
                             }
@@ -1378,27 +1595,54 @@
                             // Create size options if available
                             let sizeOptions = '';
                             if (product.hasSizeVariants && product.sizeVariants) {
-                                sizeOptions = product.sizeVariants.map(size =>
-                                    `<span class="size-option badge badge-light border px-2 py-1 mr-1"
+                                sizeOptions = product.sizeVariants.map(size => {
+                                    let cross = '';
+                                    if (parseInt(size.stock, 10) === 0) {
+                                        cross = `<span style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:2;">
+                                            <svg width="22" height="22" viewBox="0 0 22 22" style="pointer-events:none;">
+                                                <line x1="4" y1="4" x2="18" y2="18" stroke="#c0392b" stroke-width="3" />
+                                                <line x1="18" y1="4" x2="4" y2="18" stroke="#c0392b" stroke-width="3" />
+                                            </svg>
+                                        </span>`;
+                                    }
+                                    return `<span class="size-option badge badge-light border px-2 py-1 mr-1"
                                       data-size="${size.size}"
                                       data-stock="${size.stock}"
-                                      style="cursor:pointer;">
-                                   ${size.size}
-                                 </span>`
-                                ).join('');
+                                      style="cursor:pointer;position:relative;display:inline-block;${parseInt(size.stock,10)<=0?'opacity:0.5;pointer-events:none;':''}">
+                                        <span style="position:relative;z-index:1;">${size.size}</span>
+                                        ${cross}
+                                    </span>`;
+                                }).join('');
                             }
 
                             // Create color options if available
                             let colorOptions = '';
                             if (product.hasColorVariants && product.colorVariants) {
-                                colorOptions = product.colorVariants.map(color =>
-                                    `<span class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                                colorOptions = product.colorVariants.map(color => {
+                                    let cross = '';
+                                    if (parseInt(color.stock, 10) === 0) {
+                                        cross = `<span style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:2;">
+                                            <svg width="22" height="22" viewBox="0 0 22 22" style="pointer-events:none;">
+                                                <line x1="4" y1="4" x2="18" y2="18" stroke="#c0392b" stroke-width="3" />
+                                                <line x1="18" y1="4" x2="4" y2="18" stroke="#c0392b" stroke-width="3" />
+                                            </svg>
+                                        </span>`;
+                                    }
+                                    return `<span class="color-option border rounded-circle d-inline-block mr-1 mb-1"
                                       data-color="${color.color}"
                                       data-stock="${color.stock}"
                                       title="${color.color}"
-                                      style="width:22px;height:22px;cursor:pointer;background:${color.color};border:2px solid #eee;">
-                                 </span>`
-                                ).join('');
+                                      style="width:22px;height:22px;cursor:pointer;background:${color.color};border:2px solid #eee;position:relative;display:inline-block;${parseInt(color.stock,10)<=0?'opacity:0.5;pointer-events:none;':''}">
+                                        ${cross}
+                                    </span>`;
+                                }).join('');
+                            }
+
+                            // Determine product-level stock (for non-variant products)
+                            let productStock = typeof product.stock !== 'undefined' ? product.stock : 1;
+                            let isOutOfStock = false;
+                            if (!product.hasSizeVariants && !product.hasColorVariants) {
+                                isOutOfStock = (typeof productStock !== 'undefined' && (isNaN(parseInt(productStock, 10)) || parseInt(productStock, 10) <= 0));
                             }
 
                             // Main product HTML
@@ -1411,7 +1655,7 @@
                                     data-product-image="${product.images && product.images[0] ? product.images[0] : ''}"
                                     data-product-price="${product.salePrice || product.basePrice}">
                         
-                                    <figure class="product-media">
+                                    <figure class="product-media" style="position:relative;">
                                         <a href="/product/${product._id}">
                                             ${product.images && product.images[0] ?
                                     `<img src="${product.images[0]}" alt="${product.name}" width="295" height="335" />` :
@@ -1419,11 +1663,19 @@
                                             ${product.images && product.images[1] ?
                                     `<img src="${product.images[1]}" alt="${product.name}" width="295" height="335" />` : ''}
                                         </a>
+                                        ${discountPercent > 0 ? `
+                                            <div class="discount-badge">
+                                                <span>
+                                                    <i class="w-icon-sale"></i>
+                                                    ${discountPercent}% OFF
+                                                </span>
+                                            </div>
+                                        ` : ''}
                                     </figure>
                         
                                     <div class="product-details">
                                         <div class='wish-btn'>
-                                        <a href="#" class="btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                                        <a href="#" class="btn-wishlist w-icon-heart${isOutOfStock ? ' disabled' : ''}" title="Add to wishlist" ${isOutOfStock ? 'style="pointer-events:none;opacity:0.5;"' : ''}></a>
                                         <h4 class="product-name">
                                             <a href="/product/${product._id}">${product.name}</a>
                                         </h4>
@@ -1433,13 +1685,13 @@
                                             ${product.hasSizeVariants ? `
                                                 <div class="product-size d-flex align-items-center">
                                                     <span class="font-weight-bold mr-1">Size:</span>
-                                                    <div>${sizeOptions}</div>
+                                                    <div style="position:relative;display:inline-block;">${sizeOptions}</div>
                                                 </div>` : ''}
                         
                                             ${product.hasColorVariants ? `
                                                 <div class="product-color">
                                                     <span class="font-weight-bold ">Color:</span>
-                                                    ${colorOptions}
+                                                    <div style="position:relative;display:inline-block;">${colorOptions}</div>
                                                 </div>` : ''}
                                         </div>        
                         
@@ -1452,8 +1704,10 @@
                                                     data-has-size="${product.hasSizeVariants}"
                                                     data-product-name="${product.name.replace(/"/g, '&quot;')}"
                                                     data-product-image="${product.images && product.images[0] ? product.images[0] : ''}"
-                                                    data-product-price="${product.salePrice || product.basePrice}">
-                                                    Add To Cart
+                                                    data-product-price="${product.salePrice || product.basePrice}"
+                                                    data-stock="${typeof product.stock !== 'undefined' ? product.stock : 1}"
+                                                    ${isOutOfStock ? 'disabled style="pointer-events:none;opacity:0.5;"' : ''}>
+                                                    ${isOutOfStock ? 'Out of Stock' : 'Add To Cart'}
                                                 </button>
                                             </div>
                                         </div>

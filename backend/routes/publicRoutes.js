@@ -640,48 +640,62 @@ router.get('/wishlist', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
 router.get('/checkout', async (req, res) => {
-    try {
-        // 1. Get basic data
-        const categories = await Category.find({ isActive: true })
-            .select('name imageUrl isActive subCategories')
-            .lean();
+  try {
+    const categories = await Category.find({ isActive: true }).lean();
+    const addresses = req.user
+      ? await Address.find({ user: req.user._id }).sort({ isDefault: -1 }).lean()
+      : [];
 
-        // 2. Get user addresses (if logged in)
-        const addresses = req.user ?
-            await Address.find({ user: req.user._id })
-                .sort({ isDefault: -1, createdAt: -1 })
-                .lean() : [];
+    let cart = req.user
+      ? await Cart.findOne({ user: req.user._id }).lean()
+      : await Cart.findOne({ sessionId: req.sessionID }).lean();
 
-        // 3. Get and validate cart
-        let cart;
-        if (req.user) {
-            cart = await Cart.findOne({ user: req.user._id }).lean();
-        } else {
-            cart = await Cart.findOne({ sessionId: req.sessionID }).lean();
-        }
+    cart = cart ? await validateCartCoupon(cart) : createEmptyCart();
 
-        cart = cart ? await validateCartCoupon(cart) : createEmptyCart();
+    // 🔄 Fetch product pricing for each cart item
+    const productMap = {};
+    const productIds = cart.items.map(item => item.product);
+    const products = await Product.find({ _id: { $in: productIds } }).select('basePrice salePrice name').lean();
+    products.forEach(prod => productMap[prod._id] = prod);
 
-        // 4. Render checkout page
-        res.render('user/checkout', {
-            user: req.user || null,
-            categories,
-            addresses,
-            cart,
-            defaultAddress: addresses.find(addr => addr.isDefault) || null,
-            selectedBillingAddress: req.query.billingAddressId || null,
-            selectedShippingAddress: req.query.shippingAddressId || null
-        });
+    // 💡 Attach product price info to each cart item
+    cart.items = cart.items.map(item => {
+      const prod = productMap[item.product];
+      const base = prod?.basePrice || item.price;
+      const sale = prod?.salePrice > 0 && prod?.salePrice < base ? prod.salePrice : base;
+      const discountAmount = base - sale;
+      const discountPercent = base > sale ? Math.round((discountAmount / base) * 100) : 0;
 
-    } catch (error) {
-        console.error('Checkout error:', error);
-        res.status(500).render('error', {
-            message: 'Error loading checkout page',
-            error: process.env.NODE_ENV === 'development' ? error : null
-        });
-    }
+      return {
+        ...item,
+        basePrice: base,
+        salePrice: sale,
+        discountAmount,
+        discountPercent
+      };
+    });
+
+    res.render('user/checkout', {
+      user: req.user || null,
+      categories,
+      addresses,
+      cart,
+      defaultAddress: addresses.find(addr => addr.isDefault) || null,
+      selectedBillingAddress: req.query.billingAddressId || null,
+      selectedShippingAddress: req.query.shippingAddressId || null
+    });
+
+  } catch (error) {
+    console.error('Checkout error:', error);
+    res.status(500).render('error', {
+      message: 'Error loading checkout page',
+      error: process.env.NODE_ENV === 'development' ? error : null
+    });
+  }
 });
+
 router.post('/apply-coupon', async (req, res) => {
     try {
         const { couponCode } = req.body;

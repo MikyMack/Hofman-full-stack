@@ -570,115 +570,123 @@
                 }
             }'>
                         <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2">
-                            <% bestDeals.forEach(product=> { %>
+                            <% bestDeals.forEach(product=> { 
+                                // Calculate discount percent
+                                let discountPercent = 0;
+                                if (product.basePrice && product.salePrice && product.salePrice < product.basePrice) {
+                                    discountPercent = Math.round(((product.basePrice - product.salePrice) / product.basePrice) * 100);
+                                }
+                            %>
                                 <div class="swiper-slide product product-image-gap product-simple"
                                     data-product-id="<%= product._id %>"
                                     data-has-color="<%= product.hasColorVariants %>"
                                     data-has-size="<%= product.hasSizeVariants %>"
-                                    data-product-name="<%= product.name.replace(/" /g, '&quot;' ) %>"
+                                    data-product-name="<%= product.name.replace(/\"/g, '&quot;' ) %>"
                                     data-product-image="<%= product.images[0] %>"
-                                        data-product-price="<%= product.salePrice || product.basePrice %>">
+                                    data-product-price="<%= product.salePrice || product.basePrice %>">
 
-                                            <figure class="product-media">
-                                                <a href="/product/<%= product._id %>">
-                                                    <img src="<%= product.images[0] %>" alt="Product" width="295"
-                                                        height="335" loading="lazy" />
-                                                    <% if (product.images[1]) { %>
-                                                        <img src="<%= product.images[1] %>" alt="Product" width="295"
-                                                            height="335" loading="lazy" />
-                                                        <% } %>
-                                                </a>
-                                            </figure>
-
-                                            <div class="product-details">
-                                                <div class="wish-btn">
-
-
-                                                    <% if (user) { %>
-                                                        <a href="#" class="btn-wishlist wish-btn w-icon-heart"
-                                                            data-product-id="<%= product._id %>" title="Add to wishlist"
-                                                            onclick="event.preventDefault(); addTooWishlist('<%= product._id %>', this);">
-                                                        </a>
-                                                        <% } else { %>
-                                                            <a href="/auth/login" class="btn-wishlist w-icon-heart"
-                                                                title="Login to add to wishlist">
-                                                            </a>
-                                                            <% } %>
-                                                                <h4 class="product-name">
-                                                                    <a href="/product/<%= product._id %>">
-                                                                        <%= product.name %>
-                                                                    </a>
-                                                                </h4>
-                                                </div>
-
-                                                <div class="product-variations product-det flex flex-wrap mb-2">
-                                                    <% if (product.hasSizeVariants) { %>
-                                                        <div class="product-size  mr-3 d-flex align-items-center">
-                                                            <span class="font-weight-bold mr-1">Size:</span>
-                                                            <div class="prd-size">
-                                                                <% product.sizeVariants.forEach(size=> { %>
-                                                                    <span
-                                                                        class="size-option pr-size badge badge-light border px-2 py-1 mr-1"
-                                                                        data-size="<%= size.size %>"
-                                                                        data-stock="<%= size.stock %>"
-                                                                        style="cursor:pointer; position: relative;">
-                                                                        <%= size.size %>
-                                                                        <% if (size.stock === 0) { %>
-                                                                            <span style="color: #854040; font-weight: bold; position: absolute; top: 0; right: 6px; font-size: 2.5em; pointer-events: none;">&#10006;</span>
-                                                                        <% } %>
-                                                                    </span>
-                                                                <% }) %>
-                                                            </div>
-                                                        </div>
-                                                    <% } %>
-
-                                                    <% if (product.hasColorVariants) { %>
-                                                        <div class="product-color">
-                                                            <span class="font-weight-bold mr-1"> Color</span>
-                                                            <% product.colorVariants.forEach(color=> { %>
-                                                                <span
-                                                                    class="color-option border rounded-circle d-inline-block mr-1 mb-1"
-                                                                    data-color="<%= color.color %>"
-                                                                    data-stock="<%= color.stock %>"
-                                                                    title="<%= color.color %>"
-                                                                    style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
-                                                                </span>
-                                                            <% }) %>
-                                                        </div>
-                                                    <% } %>
-                                                </div>
-
-                                                <div class="selected-variant-info"
-                                                    style="min-height:24px;font-size:0.95em;color:#444;">
-                                                    <!-- Will be filled by JS -->
-                                                </div>
-
-                                                <div class="product-pa-wrapper">
-                                                    <div class="product-price">
-                                                        <ins class="new-price">₹<%= product.salePrice || product.basePrice %></ins>
-                                                        <% if (product.salePrice && product.salePrice != product.basePrice) { %>
-                                                            <del class="old-price">₹<%= product.basePrice %></del>
-                                                        <% } %>
-                                                    </div>
-                                                    <div class="product-action">
-                                                        <button
-                                                            class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn1"
-                                                            data-product-id="<%= product._id %>"
-                                                            data-has-color="<%= product.hasColorVariants %>"
-                                                            data-has-size="<%= product.hasSizeVariants %>"
-                                                            data-product-name="<%= product.name.replace(/" /g, '&quot;'
-                                                            ) %>"
-                                                            data-product-image="<%= product.images[0] %>"
-                                                                data-product-price="<%= product.salePrice ||
-                                                                    product.basePrice %>">
-                                                                    Add To Cart
-                                                        </button>
-
-                                                    </div>
-                                                </div>
+                                    <figure class="product-media" style="position:relative;">
+                                        <a href="/product/<%= product._id %>">
+                                            <img src="<%= product.images[0] %>" alt="Product" width="295"
+                                                height="335" loading="lazy" />
+                                            <% if (product.images[1]) { %>
+                                                <img src="<%= product.images[1] %>" alt="Product" width="295"
+                                                    height="335" loading="lazy" />
+                                            <% } %>
+                                        </a>
+                                        <% if (discountPercent > 0) { %>
+                                            <div class="discount-badge">
+                                                <span>
+                                                    <i class="w-icon-sale"></i> <%= discountPercent %>% OFF
+                                                </span>
                                             </div>
+                                        <% } %>
+                                    </figure>
+
+                                    <div class="product-details">
+                                        <div class="wish-btn">
+                                            <% if (user) { %>
+                                                <a href="#" class="btn-wishlist wish-btn w-icon-heart"
+                                                    data-product-id="<%= product._id %>" title="Add to wishlist"
+                                                    onclick="event.preventDefault(); addTooWishlist('<%= product._id %>', this);">
+                                                </a>
+                                            <% } else { %>
+                                                <a href="/auth/login" class="btn-wishlist w-icon-heart"
+                                                    title="Login to add to wishlist">
+                                                </a>
+                                            <% } %>
+                                            <h4 class="product-name">
+                                                <a href="/product/<%= product._id %>">
+                                                    <%= product.name %>
+                                                </a>
+                                            </h4>
+                                        </div>
+
+                                        <div class="product-variations product-det flex flex-wrap mb-2">
+                                            <% if (product.hasSizeVariants) { %>
+                                                <div class="product-size  mr-3 d-flex align-items-center">
+                                                    <span class="font-weight-bold mr-1">Size:</span>
+                                                    <div class="prd-size">
+                                                        <% product.sizeVariants.forEach(size=> { %>
+                                                            <span
+                                                                class="size-option pr-size badge badge-light border px-2 py-1 mr-1"
+                                                                data-size="<%= size.size %>"
+                                                                data-stock="<%= size.stock %>"
+                                                                style="cursor:pointer; position: relative;">
+                                                                <%= size.size %>
+                                                                <% if (size.stock === 0) { %>
+                                                                    <span style="color: #f09c93; font-weight: bold; position: absolute; top: 0; right: 6px; font-size: 2.5em; pointer-events: none;">&#10006;</span>
+                                                                <% } %>
+                                                            </span>
+                                                        <% }) %>
+                                                    </div>
+                                                </div>
+                                            <% } %>
+
+                                            <% if (product.hasColorVariants) { %>
+                                                <div class="product-color">
+                                                    <span class="font-weight-bold mr-1"> Color</span>
+                                                    <% product.colorVariants.forEach(color=> { %>
+                                                        <span
+                                                            class="color-option border rounded-circle d-inline-block mr-1 mb-1"
+                                                            data-color="<%= color.color %>"
+                                                            data-stock="<%= color.stock %>"
+                                                            title="<%= color.color %>"
+                                                            style="width:22px;height:22px;vertical-align:middle;cursor:pointer;background:<%= color.color %>;border:2px solid #eee;display:inline-block;">
+                                                        </span>
+                                                    <% }) %>
+                                                </div>
+                                            <% } %>
+                                        </div>
+
+                                        <div class="selected-variant-info"
+                                            style="min-height:24px;font-size:0.95em;color:#444;">
+                                            <!-- Will be filled by JS -->
+                                        </div>
+
+                                        <div class="product-pa-wrapper">
+                                            <div class="product-price">
+                                                <ins class="new-price">₹<%= product.salePrice || product.basePrice %></ins>
+                                                <% if (product.salePrice && product.salePrice != product.basePrice) { %>
+                                                    <del class="old-price">₹<%= product.basePrice %></del>
+                                                <% } %>
+                                            </div>
+                                            <div class="product-action">
+                                                <button
+                                                    class="btn-cart btn-product btn btn-link btn-underline add-to-cart-btn1"
+                                                    data-product-id="<%= product._id %>"
+                                                    data-has-color="<%= product.hasColorVariants %>"
+                                                    data-has-size="<%= product.hasSizeVariants %>"
+                                                    data-product-name="<%= product.name.replace(/\"/g, '&quot;' ) %>"
+                                                    data-product-image="<%= product.images[0] %>"
+                                                    data-product-price="<%= product.salePrice || product.basePrice %>">
+                                                        Add To Cart
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <% }) %>
+                            <% }) %>
                         </div>
 
 
@@ -797,7 +805,7 @@
                                                                 style="cursor:pointer; position: relative;">
                                                                 <%= size.size %>
                                                                 <% if (size.stock === 0) { %>
-                                                                    <span style="color: #854040; font-weight: bold; position: absolute; top: 0; right: 6px; font-size: 2.5em; pointer-events: none;">&#10006;</span>
+                                                                    <span style="color: #f09c93; font-weight: bold; position: absolute; top: 0; right: 6px; font-size: 2.5em; pointer-events: none;">&#10006;</span>
                                                                 <% } %>
                                                             </span>
                                                         <% }) %>

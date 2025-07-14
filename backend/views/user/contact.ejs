@@ -281,6 +281,11 @@
                                             class="form-control" required>
                                     </div>
                                     <div class="form-group">
+                                        <label for="mobile">Your Mobile Number</label>
+                                        <input type="tel" id="mobile" name="mobile"
+                                            class="form-control" required pattern="[0-9]{10,15}" maxlength="15" placeholder="Enter your mobile number">
+                                    </div>
+                                    <div class="form-group">
                                         <label for="message">Your Message</label>
                                         <textarea id="message" name="message" cols="30" rows="5"
                                             class="form-control" required></textarea>
@@ -292,15 +297,22 @@
                                         event.preventDefault();
                                         var name = document.getElementById('username').value.trim();
                                         var email = document.getElementById('email_1').value.trim();
+                                        var mobile = document.getElementById('mobile').value.trim();
                                         var message = document.getElementById('message').value.trim();
                                         var whatsappNumber = '919400947122';
-                                        var text = encodeURIComponent(
-                                            "Contact Form Submission:%0A" +
-                                            "Name: " + name + "%0A" +
-                                            "Email: " + email + "%0A" +
-                                            "Message: " + message
-                                        );
-                                        var url = "https://wa.me/" + whatsappNumber + "?text=" + text;
+
+                                        var text =
+                                            "Contact Form Submission:\n" +
+                                            "Name: " + name + "\n" +
+                                            "Email: " + email + "\n" +
+                                            "Mobile: " + mobile + "\n" +
+                                            "Message: " + message;
+
+                                        var encodedText = encodeURIComponent(text);
+
+                                        // Always use wa.me for both mobile and desktop
+                                        var url = "https://wa.me/" + whatsappNumber + "?text=" + encodedText;
+
                                         window.open(url, '_blank');
                                     }
                                 </script>

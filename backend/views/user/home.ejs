@@ -695,45 +695,43 @@
 
                     <!-- End of Selected Products Wrapper -->
 
-                    <div class="banner-wrapper appear-animate row cols-md-2 mb-7">
-                        <% if (bannerThree && bannerThree.length> 0) { %>
-                            <% bannerThree.slice(0, 2).forEach((banner, index)=> { %>
-                                <div class="banner banner-fixed overlay-dark br-sm mt-4">
-                                    <figure class="br-sm">
-                                        <img src="<%= banner.image %>" alt="Category Banner"width="680" class="second_banner"
-                                        height="300"
-                                            loading="lazy" />
-                                    </figure>
-                                    <!-- <div class="banner-content y-50">
-                                        <% if (banner.description) { %>
-                                            <h4
-                                                class="banner-price-info font-secondary font-weight-normal mb-0 <%= index === 1 ? 'text-default' : 'text-lighter' %>">
-                                                <%= banner.description %>
-                                            </h4>
-                                            <% } %>
-                                                <% if (banner.title) { %>
-                                                    <h2
-                                                        class="banner-title font-secondary <%= index === 1 ? 'text-dark' : 'text-white' %>">
-                                                        <%= banner.title %>
-                                                    </h2>
+                    <div class=" container intro-banner-row mb-2">
+                        <div class="row">
+                            <% if (bannerThree && bannerThree.length> 0) { %>
+                                <% bannerThree.forEach((banner, index)=> { %>
+                                    <div class="col-lg-6 col-md-6 col-12 mb-4">
+                                        <div
+                                            class="banner banner-fixed intro-banner<%= index === 1 ? ' intro-banner2' : '' %> br-sm h-100">
+                                            <figure class="br-sm">
+                                                <img src="<%= banner.image %>" alt="Category Banner" width="680"
+                                                    class="second_banner" height="300" />
+                                            </figure>
+                                            <!-- <div class="banner-content">
+                                                <% if (banner.subtitle) { %>
+                                                    <h5
+                                                        class="banner-subtitle text-uppercase font-weight-bold <%= index === 1 ? 'text-default' : 'text-lighter' %>">
+                                                        <%= banner.subtitle %>
+                                                    </h5>
                                                     <% } %>
-                                                        <% if (banner.subtitle) { %>
+                                                        <% if (banner.title) { %>
                                                             <h3
-                                                                class="banner-subtitle font-weight-normal <%= index === 1 ? 'text-default' : 'text-lighter' %>">
-                                                                <%= banner.subtitle %>
+                                                                class="banner-title font-secondary font-weight-bolder ls-25 <%= index === 1 ? 'text-dark' : 'text-white' %>">
+                                                                <%= banner.title %>
                                                             </h3>
                                                             <% } %>
                                                                 <% if (banner.link) { %>
                                                                     <a href="<%= banner.link %>"
-                                                                        class="btn btn-sm btn-outline <%= index === 1 ? 'btn-dark' : 'btn-white' %> btn-rounded btn-icon-right slide-animate">
+                                                                        class="btn <%= index === 1 ? 'btn-dark' : 'btn-white' %> btn-link btn-slide-right btn-icon-right btn-infinite">
                                                                         Shop Now
                                                                         <i class="w-icon-long-arrow-right"></i>
                                                                     </a>
                                                                     <% } %>
-                                    </div> -->
-                                </div>
-                                <% }) %>
-                                    <% } %>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                                        <% } %>
+                        </div>
                     </div>
 
                     <!-- End of Banner-wrapper -->

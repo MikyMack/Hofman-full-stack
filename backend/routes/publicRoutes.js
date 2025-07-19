@@ -23,6 +23,15 @@ const isUser = require('../middleware/isUser');
 const razorpayInstance = require('../utils/razorpay');
 const sendInvoiceEmail = require("../utils/sendInvoice");
 
+const shuffleArray = (arr) => {
+    if (!Array.isArray(arr)) return arr;
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+};
+
 router.get('/', async (req, res) => {
     try {
         const categories = await Category.find({ isActive: true })
@@ -33,21 +42,25 @@ router.get('/', async (req, res) => {
         const bannerTwo = await BannerTwo.find({ isActive: true });
         const bannerThree = await BannerThree.find({ isActive: true });
 
-        // Fetching products
-        const allProducts = await Product.find({ isActive: true }).limit(20).sort({ createdAt: -1 }).lean();
-        const bestDeals = await Product.find({ isActive: true, bestDeals: true }).limit(10).sort({ createdAt: -1 }).lean();
-        const dealsOfTheDay = await Product.find({ isActive: true, dealsOfTheDay: true }).sort({ createdAt: -1 }).limit(2).lean();
-        const newArrivals = await Product.find({ isActive: true, newArrivals: true }).sort({ createdAt: -1 }).limit(10).lean();
-        const bestSeller = await Product.find({ isActive: true, bestSeller: true }).sort({ createdAt: -1 }).limit(10).lean();
-        const topRated = await Product.find({ isActive: true, topRated: true }).sort({ createdAt: -1 }).limit(10).lean();
+        const allProducts = await Product.find({ isActive: true })
+            .limit(20)
+            .sort({ createdAt: -1 })
+            .lean();
 
-        // Fetch latest 5 blogs
-        let blogs = [];
-        try {       
-            blogs = await Blog.find().sort({ createdAt: -1 }).limit(5).lean();
-        } catch (blogErr) {
-            blogs = [];
-        }
+        // Randomize sections
+        const bestDealsRaw = await Product.find({ isActive: true, bestDeals: true }).lean();
+        const newArrivalsRaw = await Product.find({ isActive: true, newArrivals: true }).lean();
+        const bestSellerRaw = await Product.find({ isActive: true, bestSeller: true }).lean();
+        const topRatedRaw = await Product.find({ isActive: true, topRated: true }).lean();
+        const dealsOfTheDayRaw = await Product.find({ isActive: true, dealsOfTheDay: true }).lean();
+
+        const bestDeals = shuffleArray(bestDealsRaw).slice(0, 10);
+        const newArrivals = shuffleArray(newArrivalsRaw).slice(0, 10);
+        const bestSeller = shuffleArray(bestSellerRaw).slice(0, 10);
+        const topRated = shuffleArray(topRatedRaw).slice(0, 10);
+        const dealsOfTheDay = shuffleArray(dealsOfTheDayRaw).slice(0, 2); // You confirmed this works
+
+        const blogs = await Blog.find().sort({ createdAt: -1 }).limit(5).lean().catch(() => []);
 
         const activeCoupons = await Coupon.find({
             isActive: true,
@@ -58,11 +71,13 @@ router.get('/', async (req, res) => {
         if (req.user) {
             cart = await Cart.findOne({ user: req.user._id }).lean();
         }
+
         let wishlistCount = 0;
         if (req.user) {
             const wishlist = await Wishlist.findOne({ user: req.user._id }).lean();
-            wishlistCount = wishlist && wishlist.items ? wishlist.items.length : 0;
+            wishlistCount = wishlist?.items?.length || 0;
         }
+
         res.render('user/home', {
             user: req.user || null,
             categories,
@@ -97,12 +112,14 @@ router.get('/', async (req, res) => {
             bestSeller: [],
             topRated: [],
             cartItems: [],
+            cartSubtotal: 0,
             activeCoupons: [],
             blogs: [],
-            wishlistCount:[]
+            wishlistCount: 0
         });
     }
 });
+
 
 
 router.get('/about', async (req, res) => {

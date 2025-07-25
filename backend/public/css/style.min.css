@@ -26077,4 +26077,8 @@ margin-right: 5px;
             .lws-popup-title {
                 font-size: 22px;
             }
+            .product-size div{
+              gap: 0;
+              justify-content: start;
+            }
         }

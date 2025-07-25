@@ -611,7 +611,8 @@
               <div class="intro-section mb-2">
                     <div class="row">
                         <div class="col-12 mt-4 mb-4">
-                            <div class="swiper-container swiper-theme pg-inner pg-white animation-slider"
+                            <div>
+                                      <div class="swiper-container swiper-theme pg-inner pg-white animation-slider desk-banner"
                                 data-swiper-options="{
                                     'spaceBetween': 0,
                                     'slidesPerView': 1,
@@ -627,7 +628,7 @@
                                 <div class="swiper-wrapper row gutter-no cols-1">
                                     <% if (mainBanner && mainBanner.length> 0) { %>
                                         <% mainBanner.forEach((banner, index)=> { %>
-                                            <div class="swiper-slide banner banner-fixed intro-slide br-sm"
+                                            <div class="swiper-slide banner banner-fixed intro-slide br-sm "
                                                 style="background-image: url(<%= banner.image %>); background-color: #EAEAEA; position: relative; height: 400px; background-size: cover; background-position: center;">
                                                 <div class="main-banner-content-wrapper" style="
                                                         position: absolute;
@@ -690,6 +691,44 @@
                                 </div>
                                 <div class="swiper-pagination"></div>
                             </div>
+                                          <div class="swiper-container swiper-theme pg-inner pg-white animation-slider mobile-banner"
+                                data-swiper-options="{
+                                    'spaceBetween': 0,
+                                    'slidesPerView': 1,
+                                    'autoplay': {
+                                        'delay': 4500,
+                                        'disableOnInteraction': false
+                                    },
+                                    'loop': true,
+                                    'effect': 'fade',
+                                    'fadeEffect': { 'crossFade': true },
+                                    'speed': 1500
+                                }">
+                                <div class="swiper-wrapper row gutter-no cols-1">
+                                    <% if (mainBanner && mainBanner.length> 0) { %>
+                                        <% mainBanner.forEach((banner, index)=> { %>
+                                            <div class="swiper-slide banner banner-fixed intro-slide br-sm "
+                                                style="background-image: url(<%= banner.image %>); background-color: #EAEAEA; position: relative; height: 400px; background-size: cover; background-position: center;">
+                                                <div class="main-banner-content-wrapper" style="
+                                                        position: absolute;
+                                                        top: 50%;
+                                                        transform: translateY(-50%);
+                                                        width: 100%;
+                                                        padding: 0 60px;
+                                                        display: flex;
+                                                        justify-content: <%= index % 2 === 0 ? 'flex-start' : 'flex-end' %>;
+                                                    ">
+                                                
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                                <% } %>
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+
+                            </div>
+                      
                         </div>
                     </div>
                 </div>
@@ -2130,6 +2169,32 @@
             </div>
         </footer>
         <!-- End of Footer -->
+
+        <!-- pop up -->
+    <div class="lws-popup-overlay" id="newsletterPopup">
+        <div class="lws-popup-container">
+            <button class="lws-popup-close" id="popupClose"></button>
+            
+            <div style="background-image: url('/images/pop.jpg');" class="lws-popup-image"></div>
+            
+            <div class="lws-popup-content">
+                <div class="lws-popup-header">
+                    <div class="lws-popup-sale">Exclusive Member Offer</div>
+                    <div class="lws-popup-title">We're Offering Up To 10% Off!</div>
+                    <div class="lws-popup-subtitle">
+                       Sign in to unlock your exclusive discount. Enjoy 10% off your  purchase and access to member-only deals and early sales.
+                    </div>
+                </div>
+                
+                <form class="lws-popup-form">
+                   
+                 <a style="width: 100%!important;" href=""> <button type="submit" class="lws-popup-btn">Sign up Now </button> </a>
+                </form>
+                
+                <a href="#" class="lws-popup-shop">Shop now</a>
+            </div>
+        </div>
+    </div>
     </div>
     <!-- End of Page-wrapper -->
 
@@ -2693,6 +2758,41 @@
 
     <script>
         window.isLoggedIn = <%= user ? 'true' : 'false' %>;
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.getElementById('newsletterPopup');
+            const closeBtn = document.getElementById('popupClose');
+            
+       
+            setTimeout(() => {
+                popup.classList.add('active');
+            }, 1000);
+            
+    
+            popup.addEventListener('click', function(e) {
+                if (e.target === popup) {
+                    closePopup();
+                }
+            });
+            
+        
+            closeBtn.addEventListener('click', closePopup);
+            
+   
+            const form = popup.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = form.querySelector('input').value;
+               
+              
+            });
+            
+            function closePopup() {
+                popup.classList.remove('active');
+                
+            }
+        });
     </script>
 
     <!-- Plugin JS File -->

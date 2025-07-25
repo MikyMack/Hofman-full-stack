@@ -4,6 +4,11 @@
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KTMNTPV3');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
@@ -51,7 +56,7 @@
 <body>
     <!-- Start of Page Wrapper -->
     <div class="page-wrapper">
-        <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
+        <h1 class="d-none">Hofmaan Error page</h1>
         <!-- Start of Header -->
         <header class="header">
             <div class="header-top">
@@ -84,14 +89,7 @@
                         <a href="/" class="logo">
                             <img src="/images/logo.png" alt="logo" width="200">
                         </a>
-                        <form method="get" action="#"
-                            class="input-wrapper header-search  hs-expanded sticky-border hs-round d-none d-md-flex">                            
-                            <input type="text" class="form-control header-sticky-border bg-white pt-0 pb-0" name="search" id="search"
-                                placeholder="Search in..." required />
-                            <button class="btn btn-search header-sticky-border-btn" type="submit">
-                                <i class="w-icon-search"></i>
-                            </button>
-                        </form>
+                      
                     </div>
                     <div class="header-right ml-4">
                         <div class="header-call d-xs-show d-lg-flex align-items-center">
@@ -112,7 +110,7 @@
                             <div class="cart-overlay"></div>
                             <a href="/cart" class="cart-toggle1 label-down link">
                                 <i class="w-icon-cart">
-                                    <span class="cart-count text-white">2</span>
+                               
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
@@ -410,14 +408,18 @@
                 <div class="tab-pane active" id="main-menu">
                     <ul class="mobile-menu">
                         <li><a href="/">Home</a></li>
-                          <li><a href="/store">Store</a></li>
-                             <li><a href="/login">Profile</a></li>
-                                                          <li><a href="/wishlist">Wishlist</a></li>
-                                                           <li><a href="/cart">Cart</a></li>
-                                  <li><a href="/about">About Us</a></li>
-                                      <li><a href="/about">Blogs</a></li>
-                                                     <li><a href="/contact">Contact Us</a></li>
-                                                   
+                        <li><a href="/store">Store</a></li>
+                        <% if (user) { %>
+                        <li><a href="/account">Profile</a></li>
+                        <% } else { %>
+                        <li><a href="/auth/login">Login</a></li>
+                        <% } %>
+                        <li><a href="/wishlist">Wishlist</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/blogs">Blogs</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
+
                     </ul>
                 </div>
                 <div class="tab-pane" id="categories">

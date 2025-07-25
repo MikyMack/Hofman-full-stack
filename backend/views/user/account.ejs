@@ -5,6 +5,11 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 <head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KTMNTPV3');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
@@ -337,12 +342,31 @@
 
                         <div class="tab-content mb-6">
                             <div class="tab-pane active in" id="account-dashboard">
-                                <p class="greeting">
-                                    Hello 😉
-                                    <a href="/auth/logout" class="text-primary">Log out</a>
-                                </p>
-
-
+                                <div class="account-greeting card shadow-sm p-4 mb-4 bg-light rounded">
+                                  <% if (user) { %>
+                                    <div class="d-flex align-items-center mb-2">
+                                      <img src="/images/prflepic.jpg" alt="Avatar" class="rounded-circle mr-3" style="width:48px;height:48px;object-fit:cover;">
+                                      <div>
+                                        <h4 class="mb-0">Welcome back, <span class="text-primary"><%= user.name %></span>!</h4>
+                                        <small class="text-muted"><i class="w-icon-envelope"></i> <%= user.email %></small>
+                                      </div>
+                                    </div>
+                                    <p class="mb-2">
+                                      We're glad to see you again. From your account dashboard you can view your <a href="#account-orders" class="text-primary">recent orders</a>, manage your <a href="#account-addresses" class="text-primary">shipping addresses</a>, and update your <a href="/user/profile" class="text-primary">account details</a>.
+                                    </p>
+                                  <% } else { %>
+                                    <div class="d-flex align-items-center mb-2">
+                                      <img src="/images/prflepic.jpg" alt="Guest Avatar" class="rounded-circle mr-3" style="width:48px;height:48px;object-fit:cover;">
+                                      <div>
+                                        <h4 class="mb-0">Hello Guest 👋</h4>
+                                        <small class="text-muted">You are not logged in.</small>
+                                      </div>
+                                    </div>
+                                    <p class="mb-2">
+                                      Please <a href="/auth/login" class="text-primary">log in</a> to access your account dashboard, view orders, and manage your wishlist.
+                                    </p>
+                                  <% } %>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-lg-₹ col-md-6 col-sm-₹ col-xs-6 mb-₹">
@@ -1034,11 +1058,15 @@
                     <ul class="mobile-menu">
                         <li><a href="/">Home</a></li>
                         <li><a href="/store">Store</a></li>
-                        <li><a href="/login">Profile</a></li>
+                        <% if (user) { %>
+                        <li><a href="/account">Profile</a></li>
+                        <% } else { %>
+                        <li><a href="/auth/login">Login</a></li>
+                        <% } %>
                         <li><a href="/wishlist">Wishlist</a></li>
                         <li><a href="/cart">Cart</a></li>
                         <li><a href="/about">About Us</a></li>
-                        <li><a href="/about">Blogs</a></li>
+                        <li><a href="/blogs">Blogs</a></li>
                         <li><a href="/contact">Contact Us</a></li>
 
                     </ul>

@@ -345,14 +345,14 @@ table {
   margin-right: auto;
 }
 
-@media (max-width: 479px) {
+/* @media (max-width: 479px) {
 
   .container,
   .container-fluid {
     padding-left: 15px;
     padding-right: 15px;
   }
-}
+} */
 
 .container-fluid {
   max-width: 1820px;
@@ -3044,11 +3044,11 @@ blockquote {
 }
 
 .font-primary {
-  font-family: Poppins, sans-serif !important;
+  font-family: 'Outfit', sans-serif !important;
 }
 
 .font-secondary {
-  font-family: "Open Sans", sans-serif !important;
+  font-family: 'Outfit', sans-serif !important;
 }
 
 .text-left {
@@ -11085,7 +11085,7 @@ body .product-popup {
 
 .product-name {
   margin-bottom: 0.7rem;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
@@ -11226,13 +11226,13 @@ body .product-popup {
 .product-price .old-price {
   font-weight: 400;
   color: #aaa;
-  font-family: sans-serif;
+  font-family: serif;
 }
 
 .product-price .new-price {
   color: #3d3d3d;
   text-decoration: none;
-  font-family: sans-serif;
+  font-family: serif;
 }
 .product-price .new-price:not(:last-child) {
   margin-right: 1rem;
@@ -19220,7 +19220,7 @@ body .product-popup {
 
 .about-us .introduce p {
   margin-bottom: 4.3rem;
-  max-width: 57rem;
+  /* max-width: 57rem; */
 }
 
 .about-us .introduce img {
@@ -19238,7 +19238,9 @@ body .product-popup {
 
 .about-us .customer-service img,
 .about-us .boost-section img {
-  width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .about-us .customer-service .title,
@@ -25693,3 +25695,171 @@ margin-right: 5px;
 
 
 
+.second_banner {
+  width: 100% !important;
+  display: block;
+  object-fit: cover !important;
+  height: 300px !important;
+  max-width: 100% !important;
+  max-height: 300px !important;
+}
+
+@media (max-width: 1200px) {
+  .second_banner {
+    max-height: 250px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .second_banner {
+    max-height: 200px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .second_banner {
+    max-height: 160px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .second_banner {
+    max-height: 140px !important;
+  }
+}
+@media (max-width: 320px) {
+  .second_banner {
+    max-height: 100px !important;
+  }
+}
+.third_banner {
+  width: 100% !important;
+  display: block;
+  object-fit: cover !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+
+@media (max-width: 1200px) {
+  .third_banner {
+    max-height: 100% !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .third_banner {
+    max-height: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .third_banner {
+    max-height: 100% !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .third_banner {
+    max-height: 100% !important;
+  }
+}
+@media (max-width: 320px) {
+  .third_banner {
+    max-height: 100% !important;
+  }
+}
+
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+}
+
+.discount-badge span {
+  background: linear-gradient(90deg,#ff512f,#dd2476);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1.1em;
+  animation: pulse 1.2s infinite alternate;
+  display: inline-block;
+  box-shadow: 0 2px 8px #ffb3b3;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 2px 8px #ffb3b3; }
+  100% { box-shadow: 0 0 24px #c5c5c5; }
+}
+
+/* Responsive adjustments for discount badge */
+@media (max-width: 768px) {
+  .discount-badge {
+    top: 6px;
+    left: 6px;
+  }
+  .discount-badge span {
+    font-size: 1em;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .discount-badge {
+    top: 3px;
+    left: 3px;
+  }
+  .discount-badge span {
+    font-size: 0.95em;
+    padding: 4px 8px;
+  }
+}
+
+.out-of-stock-cross {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+.out-of-stock-cross::before,
+.out-of-stock-cross::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 70%;
+  height: 3px;
+  background: #f09c93;
+  border-radius: 2px;
+  transform-origin: center;
+}
+.out-of-stock-cross::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.out-of-stock-cross::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+@media (max-width: 768px) {
+  .out-of-stock-cross::before,
+  .out-of-stock-cross::after {
+      width: 80%;
+      height: 2.2px;
+  }
+}
+@media (max-width: 480px) {
+  .out-of-stock-cross::before,
+  .out-of-stock-cross::after {
+      width: 90%;
+      height: 1.7px;
+  }
+}

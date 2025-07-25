@@ -657,19 +657,30 @@
                                     document.getElementById('bannerFormSubmitBtn').innerText = 'Save';
                                     document.getElementById('bannerModal').style.display = 'block';
                                 }
+
                                 function showEditBannerModal(type, banner) {
+                                    // Defensive: If banner is a string, parse it
+                                    if (typeof banner === 'string') {
+                                        try {
+                                            banner = JSON.parse(banner);
+                                        } catch (e) {
+                                            alert('Invalid banner data');
+                                            return;
+                                        }
+                                    }
                                     document.getElementById('bannerModalTitle').innerText = 'Edit ' + (type === 'main' ? 'Main Banner' : type === 'two' ? 'Banner Two' : 'Banner Three');
                                     document.getElementById('bannerType').value = type;
-                                    document.getElementById('bannerId').value = banner._id;
+                                    document.getElementById('bannerId').value = banner._id || '';
                                     document.getElementById('bannerTitle').value = banner.title || '';
                                     document.getElementById('bannerSubtitle').value = banner.subtitle || '';
                                     document.getElementById('bannerDescription').value = banner.description || '';
                                     document.getElementById('bannerLink').value = banner.link || '';
                                     document.getElementById('bannerImage').value = '';
-                                    document.getElementById('bannerImagePreview').innerHTML = banner.image ? '<img src="' + banner.image + '" style="width:120px;height:50px;object-fit:cover;border-radius:4px;">' : '';
+                                    document.getElementById('bannerImagePreview').innerHTML = banner.image ? '<img src="' + banner.image.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '" style="width:120px;height:50px;object-fit:cover;border-radius:4px;">' : '';
                                     document.getElementById('bannerFormSubmitBtn').innerText = 'Update';
                                     document.getElementById('bannerModal').style.display = 'block';
                                 }
+
                                 function closeBannerModal() {
                                     document.getElementById('bannerModal').style.display = 'none';
                                 }
@@ -697,6 +708,17 @@
                                     }
                                 }
 
+                                // Safely escape string for HTML attribute
+                                function escapeAttr(str) {
+                                    if (!str) return '';
+                                    return String(str)
+                                        .replace(/&/g, '&amp;')
+                                        .replace(/"/g, '&quot;')
+                                        .replace(/'/g, '&#39;')
+                                        .replace(/</g, '&lt;')
+                                        .replace(/>/g, '&gt;');
+                                }
+
                                 function renderBannerList(type, banners) {
                                     const listId = type + '-banner-list';
                                     const list = document.getElementById(listId);
@@ -708,33 +730,54 @@
                                     banners.forEach(banner => {
                                         const li = document.createElement('li');
                                         li.className = 'flex gap20 align-center banner-row';
+
+                                        // Instead of inlining JSON.stringify(banner) in HTML, attach data to DOM and use event handler
+                                        // We'll use a data attribute to store the banner index and keep a global map
+                                        if (!window._bannerDataMap) window._bannerDataMap = {};
+                                        const bannerId = banner._id || Math.random().toString(36).substr(2, 9);
+                                        window._bannerDataMap[bannerId] = banner;
+
                                         li.innerHTML = `
                                             <div style="width:140px;">
-                                                <img src="${banner.image ? banner.image : '/images/no-image.png'}" alt="Banner" />
+                                                <img src="${escapeAttr(banner.image ? banner.image : '/images/no-image.png')}" alt="Banner" />
                                             </div>
                                             <div style="flex:1;">
-                                                <span class="body-text">${banner.title || ''}</span>
+                                                <span class="body-text">${escapeAttr(banner.title || '')}</span>
                                             </div>
                                             <div style="flex:1;">
-                                                <span class="body-text">${banner.subtitle || ''}</span>
+                                                <span class="body-text">${escapeAttr(banner.subtitle || '')}</span>
                                             </div>
                                             <div style="flex:2;">
-                                                <span class="body-text">${banner.description || ''}</span>
+                                                <span class="body-text">${escapeAttr(banner.description || '')}</span>
                                             </div>
                                             <div style="flex:1;">
-                                                <span class="body-text">${banner.link ? `<a href="${banner.link}" target="_blank">${banner.link}</a>` : ''}</span>
+                                                <span class="body-text">${banner.link ? `<a href="${escapeAttr(banner.link)}" target="_blank">${escapeAttr(banner.link)}</a>` : ''}</span>
                                             </div>
                                             <div>
                                                 <label class="switch">
-                                                    <input type="checkbox" ${banner.isActive ? 'checked' : ''} onchange="toggleBannerStatus('${type}','${banner._id}',this)">
+                                                    <input type="checkbox" ${banner.isActive ? 'checked' : ''} onchange="toggleBannerStatus('${type}','${escapeAttr(banner._id)}',this)">
                                                     <span class="slider"></span>
                                                 </label>
                                             </div>
                                             <div class="banner-actions">
-                                                <button class="btn btn-sm btn-primary" onclick='showEditBannerModal("${type}",${JSON.stringify(banner)})'><i class="icon-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger" onclick="deleteBanner('${type}','${banner._id}')"><i class="icon-trash"></i></button>
+                                                <button class="btn btn-sm btn-primary" data-banner-id="${escapeAttr(bannerId)}" data-banner-type="${escapeAttr(type)}"><i class="icon-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" onclick="deleteBanner('${type}','${escapeAttr(banner._id)}')"><i class="icon-trash"></i></button>
                                             </div>
                                         `;
+                                        // Attach edit event handler after element is in DOM
+                                        setTimeout(() => {
+                                            const editBtn = li.querySelector('.btn-primary[data-banner-id]');
+                                            if (editBtn) {
+                                                editBtn.onclick = function() {
+                                                    const id = this.getAttribute('data-banner-id');
+                                                    const t = this.getAttribute('data-banner-type');
+                                                    if (window._bannerDataMap && window._bannerDataMap[id]) {
+                                                        showEditBannerModal(t, window._bannerDataMap[id]);
+                                                    }
+                                                };
+                                            }
+                                        }, 0);
+
                                         list.appendChild(li);
                                     });
                                 }

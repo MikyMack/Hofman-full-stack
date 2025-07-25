@@ -23,6 +23,15 @@ const isUser = require('../middleware/isUser');
 const razorpayInstance = require('../utils/razorpay');
 const sendInvoiceEmail = require("../utils/sendInvoice");
 
+const shuffleArray = (arr) => {
+    if (!Array.isArray(arr)) return arr;
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+};
+
 router.get('/', async (req, res) => {
     try {
         const categories = await Category.find({ isActive: true })
@@ -33,21 +42,25 @@ router.get('/', async (req, res) => {
         const bannerTwo = await BannerTwo.find({ isActive: true });
         const bannerThree = await BannerThree.find({ isActive: true });
 
-        // Fetching products
-        const allProducts = await Product.find({ isActive: true }).limit(20).sort({ createdAt: -1 }).lean();
-        const bestDeals = await Product.find({ isActive: true, bestDeals: true }).limit(10).sort({ createdAt: -1 }).lean();
-        const dealsOfTheDay = await Product.find({ isActive: true, dealsOfTheDay: true }).sort({ createdAt: -1 }).limit(2).lean();
-        const newArrivals = await Product.find({ isActive: true, newArrivals: true }).sort({ createdAt: -1 }).limit(10).lean();
-        const bestSeller = await Product.find({ isActive: true, bestSeller: true }).sort({ createdAt: -1 }).limit(10).lean();
-        const topRated = await Product.find({ isActive: true, topRated: true }).sort({ createdAt: -1 }).limit(10).lean();
+        const allProducts = await Product.find({ isActive: true })
+            .limit(20)
+            .sort({ createdAt: -1 })
+            .lean();
 
-        // Fetch latest 5 blogs
-        let blogs = [];
-        try {       
-            blogs = await Blog.find().sort({ createdAt: -1 }).limit(5).lean();
-        } catch (blogErr) {
-            blogs = [];
-        }
+        // Randomize sections
+        const bestDealsRaw = await Product.find({ isActive: true, bestDeals: true }).lean();
+        const newArrivalsRaw = await Product.find({ isActive: true, newArrivals: true }).lean();
+        const bestSellerRaw = await Product.find({ isActive: true, bestSeller: true }).lean();
+        const topRatedRaw = await Product.find({ isActive: true, topRated: true }).lean();
+        const dealsOfTheDayRaw = await Product.find({ isActive: true, dealsOfTheDay: true }).lean();
+
+        const bestDeals = shuffleArray(bestDealsRaw).slice(0, 10);
+        const newArrivals = shuffleArray(newArrivalsRaw).slice(0, 10);
+        const bestSeller = shuffleArray(bestSellerRaw).slice(0, 10);
+        const topRated = shuffleArray(topRatedRaw).slice(0, 10);
+        const dealsOfTheDay = shuffleArray(dealsOfTheDayRaw).slice(0, 2); // You confirmed this works
+
+        const blogs = await Blog.find().sort({ createdAt: -1 }).limit(5).lean().catch(() => []);
 
         const activeCoupons = await Coupon.find({
             isActive: true,
@@ -57,6 +70,12 @@ router.get('/', async (req, res) => {
         let cart = null;
         if (req.user) {
             cart = await Cart.findOne({ user: req.user._id }).lean();
+        }
+
+        let wishlistCount = 0;
+        if (req.user) {
+            const wishlist = await Wishlist.findOne({ user: req.user._id }).lean();
+            wishlistCount = wishlist?.items?.length || 0;
         }
 
         res.render('user/home', {
@@ -74,7 +93,8 @@ router.get('/', async (req, res) => {
             cartItems: cart?.items || [],
             cartSubtotal: cart?.subtotal || 0,
             activeCoupons,
-            blogs
+            blogs,
+            wishlistCount
         });
 
     } catch (err) {
@@ -92,11 +112,14 @@ router.get('/', async (req, res) => {
             bestSeller: [],
             topRated: [],
             cartItems: [],
+            cartSubtotal: 0,
             activeCoupons: [],
-            blogs: []
+            blogs: [],
+            wishlistCount: 0
         });
     }
 });
+
 
 
 router.get('/about', async (req, res) => {
@@ -112,248 +135,229 @@ router.get('/about', async (req, res) => {
         blogs = [];
     }
 
+    let wishlistCount = 0;
+    if (req.user) {
+        const wishlist = await Wishlist.findOne({ user: req.user._id }).lean();
+        wishlistCount = wishlist && wishlist.items ? wishlist.items.length : 0;
+    }
+
     res.render('user/about', { 
         user: req.user || null, 
         categories, 
-        testimonials ,
-        blogs
+        testimonials,
+        blogs,
+        wishlistCount
     });
 });
 router.get('/store', async (req, res) => {
     try {
         let {
             page = 1,
-            limit = 12,
+            limit = 16,
             category,
             minPrice,
             maxPrice,
             size,
             color,
-            sort,
+            sort = 'newest', 
             q,
-            subcategory
+            subcategory,
+            categoryPage = 1,
+            subcategoryPage = 1
         } = req.query;
 
-        if (size) {
-            if (Array.isArray(size)) {
-                size = size.flatMap(s => typeof s === 'string' ? s.split(',') : []);
-            } else if (typeof size === 'string') {
-                size = size.split(',');
-            }
-        }
-        if (color) {
-            if (Array.isArray(color)) {
-                color = color.flatMap(c => typeof c === 'string' ? c.split(',') : []);
-            } else if (typeof color === 'string') {
-                color = color.split(',');
-            }
-        }
+        if (size) size = Array.isArray(size) ? size : size.split(',').filter(s => s.trim());
+        if (color) color = Array.isArray(color) ? color : color.split(',').filter(c => c.trim());
 
         let filter = { isActive: true };
+        let useSubcategoryPagination = false;
+        let useCategoryPagination = false;
 
-        let pageTitle = 'Store';
-        let categoryTitle = null;
-        let subcategoryTitle = null;
+        const specialNewArrivalsCategory = "68401f815a149404380fc58f";
+        const specialNewArrivalsSubcategory = "684020345a149404380fc594";
+        const specialBestDealsCategory = "684023da5a149404380fc640";
+
+        let isSpecialNewArrivals = false;
+        let isSpecialBestDeals = false;
 
         if (subcategory && mongoose.Types.ObjectId.isValid(subcategory)) {
-            filter.subcategory = subcategory;
-            const foundCategory = await Category.findOne({ 'subCategories._id': subcategory }, { 'subCategories.$': 1, name: 1 }).lean();
-            if (foundCategory && foundCategory.subCategories && foundCategory.subCategories.length > 0) {
-                subcategoryTitle = foundCategory.subCategories[0].name;
-                categoryTitle = foundCategory.name;
+            if (subcategory === specialNewArrivalsSubcategory) {
+                isSpecialNewArrivals = true;
+            } else {
+                filter.subcategory = subcategory;
+                useSubcategoryPagination = true;
             }
         }
 
         if (category) {
             let decodedCategory = decodeURIComponent(category);
 
-            const foundCategory = await Category.findOne({
+            if (category === specialNewArrivalsCategory) {
+                isSpecialNewArrivals = true;
+            } else if (category === specialBestDealsCategory) {
+                isSpecialBestDeals = true;
+            } else {
+                const foundCategory = await Category.findOne({
+                    $or: [
+                        { slug: decodedCategory },
+                        { name: new RegExp('^' + decodedCategory + '$', 'i') }
+                    ]
+                }).lean();
+
+                if (foundCategory) {
+                    filter.category = foundCategory._id;
+                    useCategoryPagination = true;
+                } else if (mongoose.Types.ObjectId.isValid(category)) {
+                    filter.category = category;
+                    useCategoryPagination = true;
+                }
+            }
+        }
+
+        if (isSpecialNewArrivals) {
+            filter = { isActive: true, newArrivals: true };
+            useCategoryPagination = false;
+            useSubcategoryPagination = false;
+        } else if (isSpecialBestDeals) {
+            filter = { isActive: true, bestDeals: true };
+            useCategoryPagination = false;
+            useSubcategoryPagination = false;
+        }
+
+        let effectivePage = Number(page) || 1;
+        let currentPage = effectivePage;
+
+        if (!isSpecialNewArrivals && !isSpecialBestDeals) {
+            if (useSubcategoryPagination) {
+                effectivePage = Number(subcategoryPage) || 1;
+                currentPage = effectivePage;
+            } else if (useCategoryPagination) {
+                effectivePage = Number(categoryPage) || 1;
+                currentPage = effectivePage;
+            }
+        }
+
+        if (q && typeof q === 'string' && q.trim()) {
+            const keywords = q.trim().split(/\s+/).join('|'); // e.g. "leather boots" → "leather|boots"
+            const searchRegex = new RegExp(keywords, 'i');
+        
+            const matchedCategories = await Category.find({
                 $or: [
-                    { slug: decodedCategory },
-                    { name: { $regex: new RegExp('^' + decodedCategory + '$', 'i') } }
+                    { 'subCategories.name': searchRegex }
                 ]
             }).lean();
-
-            if (foundCategory) {
-                filter.category = foundCategory._id;
-                if (!categoryTitle) categoryTitle = foundCategory.name;
-            } else if (mongoose.Types.ObjectId.isValid(category)) {
-                filter.category = category;
-    
-                const foundById = await Category.findById(category).lean();
-                if (foundById && !categoryTitle) categoryTitle = foundById.name;
-            } else {
-                filter.$or = [
-                    { 'categoryName': { $regex: new RegExp(decodedCategory, 'i') } },
-                    { 'category.slug': { $regex: new RegExp(decodedCategory, 'i') } }
-                ];
-
-                if (!categoryTitle) categoryTitle = decodedCategory;
-            }
+        
+            const subcategoryIds = matchedCategories.flatMap(cat =>
+                (cat.subCategories || []).filter(sub => searchRegex.test(sub.name)).map(sub => sub._id.toString())
+            );
+        
+            // Combine full filter
+            filter.$or = [
+                { name: searchRegex },
+                { description: searchRegex },
+                { moreDetails: searchRegex },
+                { 'productDetails.productType': searchRegex },
+                { 'productDetails.brand': searchRegex },
+                { 'productDetails.productCollection': searchRegex },
+                { subcategory: { $in: subcategoryIds } }
+            ];
+        
+            effectivePage = Number(page) || 1;
+            currentPage = effectivePage;
         }
-
-        if (categoryTitle && subcategoryTitle) {
-            pageTitle = `${categoryTitle} - ${subcategoryTitle}`;
-        } else if (categoryTitle) {
-            pageTitle = categoryTitle;
-        } else if (subcategoryTitle) {
-            pageTitle = subcategoryTitle;
-        } else if (q && typeof q === 'string' && q.trim().length > 0) {
-            pageTitle = `Search: ${q.trim()}`;
-        }
-
-        if (q && typeof q === 'string' && q.trim().length > 0) {
-            const searchRegex = new RegExp(q.trim(), 'i');
-            if (filter.$or) {
-                filter.$and = filter.$and || [];
-                filter.$and.push({
-                    $or: [
-                        { name: searchRegex },
-                        { description: searchRegex },
-                        { categoryName: searchRegex }
-                    ]
-                });
-            } else {
-                filter.$or = [
-                    { name: searchRegex },
-                    { description: searchRegex },
-                    { categoryName: searchRegex }
-                ];
-            }
-        }
+        
+        
 
         if (minPrice || maxPrice) {
+            const priceFilter = {};
+            if (minPrice) priceFilter.$gte = Number(minPrice);
+            if (maxPrice) priceFilter.$lte = Number(maxPrice);
+
             filter.$and = filter.$and || [];
-            if (minPrice) {
-                filter.$and.push({
-                    $or: [
-                        { salePrice: { $gte: Number(minPrice) } },
-                        {
-                            $and: [
-                                { $or: [{ salePrice: 0 }, { salePrice: { $exists: false } }] },
-                                { basePrice: { $gte: Number(minPrice) } }
-                            ]
-                        }
-                    ]
-                });
-            }
-            if (maxPrice) {
-                filter.$and.push({
-                    $or: [
-                        { salePrice: { $lte: Number(maxPrice) } },
-                        {
-                            $and: [
-                                { $or: [{ salePrice: 0 }, { salePrice: { $exists: false } }] },
-                                { basePrice: { $lte: Number(maxPrice) } }
-                            ]
-                        }
-                    ]
-                });
-            }
-
-            if (filter.$and.length === 0) delete filter.$and;
+            filter.$and.push({
+                $or: [
+                    { salePrice: priceFilter },
+                    {
+                        $and: [
+                            { $or: [{ salePrice: 0 }, { salePrice: { $exists: false } }] },
+                            { basePrice: priceFilter }
+                        ]
+                    }
+                ]
+            });
         }
 
-        if (size && size.length > 0) {
-            filter['sizeVariants.size'] = { $in: size };
-        }
+        if (size?.length) filter['sizeVariants.size'] = { $in: size };
+        if (color?.length) filter['colorVariants.color'] = { $in: color };
 
-        if (color && color.length > 0) {
-            filter['colorVariants.color'] = { $in: color };
-        }
-
-        const categories = await Category.find({}).lean();
-
-        const skip = (Number(page) - 1) * Number(limit);
         const totalProducts = await Product.countDocuments(filter);
 
-        let productsQuery = Product.find(filter);
+        let productsQuery = Product.find(filter)
+            .skip((effectivePage - 1) * Number(limit))
+            .limit(Number(limit))
+            .sort({ createdAt: -1 });
 
         switch (sort) {
             case 'price-low':
-                productsQuery.sort({
-                    salePrice: 1,
-                    basePrice: 1
-                });
+                productsQuery.sort({ salePrice: 1, basePrice: 1 });
                 break;
             case 'price-high':
-                productsQuery.sort({
-                    salePrice: -1,
-                    basePrice: -1
-                });
+                productsQuery.sort({ salePrice: -1, basePrice: -1 });
                 break;
-            case 'newArrivals':
-                productsQuery.sort({ createdAt: -1 });
-                break;
-            case 'bestSeller':
+            case 'bestseller':
                 productsQuery.sort({ soldCount: -1 });
-                break;
-            case 'bestDeals':
-                productsQuery = await Product.aggregate([
-                    { $match: filter },
-                    {
-                        $addFields: {
-                            discountPercent: {
-                                $cond: {
-                                    if: { $gt: ['$salePrice', 0] },
-                                    then: {
-                                        $multiply: [
-                                            {
-                                                $divide: [
-                                                    { $subtract: ['$basePrice', '$salePrice'] },
-                                                    '$basePrice'
-                                                ]
-                                            },
-                                            100
-                                        ]
-                                    },
-                                    else: 0
-                                }
-                            }
-                        }
-                    },
-                    { $sort: { discountPercent: -1 } },
-                    { $skip: skip },
-                    { $limit: Number(limit) }
-                ]);
                 break;
             default:
                 productsQuery.sort({ createdAt: -1 });
         }
 
-        if (sort !== 'bestDeals') {
-            productsQuery = await productsQuery
-                .skip(skip)
-                .limit(Number(limit))
-                .lean();
-        }
+        const products = await productsQuery.lean();
+        const categories = await Category.find({}).lean();
+        const cart = req.user ? await Cart.findOne({ user: req.user._id }).lean() : null;
 
-        let cart = null;
-        if (req.user) {
-            cart = await Cart.findOne({ user: req.user._id }).lean();
+        let pageTitle = 'Store';
+        if (isSpecialNewArrivals) {
+            pageTitle = 'New Arrivals';
+        } else if (isSpecialBestDeals) {
+            pageTitle = 'Best Deals';
+        } else if (subcategory) {
+            const subcat = await Category.findOne({ 'subCategories._id': subcategory }, { 'subCategories.$': 1, name: 1 }).lean();
+            if (subcat) pageTitle = `${subcat.name} - ${subcat.subCategories[0].name}`;
+        } else if (category) {
+            const cat = await Category.findOne({
+                $or: [
+                    { slug: category },
+                    { name: new RegExp('^' + category + '$', 'i') }
+                ]
+            }).lean();
+            if (cat) pageTitle = cat.name;
+        } else if (q) {
+            pageTitle = `Search: ${q}`;
         }
 
         res.render('user/store', {
             user: req.user,
             categories,
-            products: sort === 'bestDeals' ? productsQuery : await productsQuery,
-            currentPage: Number(page),
+            products,
+            currentPage,
             totalPages: Math.ceil(totalProducts / Number(limit)),
             totalProducts,
             filters: {
                 category,
                 minPrice,
                 maxPrice,
-                size: Array.isArray(size) ? size.join(',') : size,
-                color: Array.isArray(color) ? color.join(',') : color,
+                size: size?.join(',') || '',
+                color: color?.join(',') || '',
                 sort,
                 limit: Number(limit),
-                q: q || ''
+                q: q || '',
+                subcategory,
+                categoryPage: useCategoryPagination ? currentPage : 1,
+                subcategoryPage: useSubcategoryPagination ? currentPage : 1
             },
             cartItems: cart?.items || [],
             title: pageTitle
         });
-
     } catch (err) {
         console.error('Error fetching store data:', err);
         res.status(500).render('user/store', {
@@ -370,6 +374,7 @@ router.get('/store', async (req, res) => {
     }
 });
 
+
 router.get('/product/:id', async (req, res) => {
     try {
         const productId = req.params.id;
@@ -382,18 +387,29 @@ router.get('/product/:id', async (req, res) => {
                 user: req.user || null,
                 product: null,
                 relatedProducts: [],
-                category: null
+                category: null,
+                categories: []
             });
         }
         const categories = await Category.find({ isActive: true })
             .select('name imageUrl isActive subCategories')
             .lean();
 
-        // product.category is now the full category document (or null if not found)
         const category = product.category || null;
 
         let relatedProducts = [];
-        if (category && category._id) {
+        if (product.subcategory) {
+            const subcategoryId = typeof product.subcategory === 'object' && product.subcategory !== null
+                ? product.subcategory._id || product.subcategory
+                : product.subcategory;
+            relatedProducts = await Product.find({
+                _id: { $ne: product._id },
+                subcategory: subcategoryId,
+                isActive: true
+            })
+                .limit(10)
+                .lean();
+        } else if (category && category._id) {
             relatedProducts = await Product.find({
                 _id: { $ne: product._id },
                 category: category._id,
@@ -427,21 +443,26 @@ router.get('/contact', async (req, res) => {
         .lean();
     res.render('user/contact', { user: req.user || null, categories });
 });
-router.get('/account', async (req, res) => {
+router.get('/account',isUser, async (req, res) => {
     const categories = await Category.find({ isActive: true })
-        .select('name imageUrl isActive subCategories')
-        .lean();
-
+      .select('name imageUrl isActive subCategories')
+      .lean();
+  
     let orders = [];
-    if (req.user) {
-        orders = await Order.find({ user: req.user._id })
-            .sort({ createdAt: -1 })
-            .limit(10)
-            .lean();
+    if (req.session.user) {
+      orders = await Order.find({ user: req.session.user._id })
+        .sort({ createdAt: -1 })
+        .limit(10)
+        .lean();
     }
-
-    res.render('user/account', { user: req.user || null, categories, orders });
-});
+  
+    res.render('user/account', {
+      user: req.session.user || null, // ← Pass session user to EJS
+      categories,
+      orders,
+    });
+  });
+  
 
 router.get('/orders', isUser, async (req, res) => {
     try {
@@ -636,48 +657,62 @@ router.get('/wishlist', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
 router.get('/checkout', async (req, res) => {
-    try {
-        // 1. Get basic data
-        const categories = await Category.find({ isActive: true })
-            .select('name imageUrl isActive subCategories')
-            .lean();
+  try {
+    const categories = await Category.find({ isActive: true }).lean();
+    const addresses = req.user
+      ? await Address.find({ user: req.user._id }).sort({ isDefault: -1 }).lean()
+      : [];
 
-        // 2. Get user addresses (if logged in)
-        const addresses = req.user ?
-            await Address.find({ user: req.user._id })
-                .sort({ isDefault: -1, createdAt: -1 })
-                .lean() : [];
+    let cart = req.user
+      ? await Cart.findOne({ user: req.user._id }).lean()
+      : await Cart.findOne({ sessionId: req.sessionID }).lean();
 
-        // 3. Get and validate cart
-        let cart;
-        if (req.user) {
-            cart = await Cart.findOne({ user: req.user._id }).lean();
-        } else {
-            cart = await Cart.findOne({ sessionId: req.sessionID }).lean();
-        }
+    cart = cart ? await validateCartCoupon(cart) : createEmptyCart();
 
-        cart = cart ? await validateCartCoupon(cart) : createEmptyCart();
+    // 🔄 Fetch product pricing for each cart item
+    const productMap = {};
+    const productIds = cart.items.map(item => item.product);
+    const products = await Product.find({ _id: { $in: productIds } }).select('basePrice salePrice name').lean();
+    products.forEach(prod => productMap[prod._id] = prod);
 
-        // 4. Render checkout page
-        res.render('user/checkout', {
-            user: req.user || null,
-            categories,
-            addresses,
-            cart,
-            defaultAddress: addresses.find(addr => addr.isDefault) || null,
-            selectedBillingAddress: req.query.billingAddressId || null,
-            selectedShippingAddress: req.query.shippingAddressId || null
-        });
+    // 💡 Attach product price info to each cart item
+    cart.items = cart.items.map(item => {
+      const prod = productMap[item.product];
+      const base = prod?.basePrice || item.price;
+      const sale = prod?.salePrice > 0 && prod?.salePrice < base ? prod.salePrice : base;
+      const discountAmount = base - sale;
+      const discountPercent = base > sale ? Math.round((discountAmount / base) * 100) : 0;
 
-    } catch (error) {
-        console.error('Checkout error:', error);
-        res.status(500).render('error', {
-            message: 'Error loading checkout page',
-            error: process.env.NODE_ENV === 'development' ? error : null
-        });
-    }
+      return {
+        ...item,
+        basePrice: base,
+        salePrice: sale,
+        discountAmount,
+        discountPercent
+      };
+    });
+
+    res.render('user/checkout', {
+      user: req.user || null,
+      categories,
+      addresses,
+      cart,
+      defaultAddress: addresses.find(addr => addr.isDefault) || null,
+      selectedBillingAddress: req.query.billingAddressId || null,
+      selectedShippingAddress: req.query.shippingAddressId || null
+    });
+
+  } catch (error) {
+    console.error('Checkout error:', error);
+    res.status(500).render('error', {
+      message: 'Error loading checkout page',
+      error: process.env.NODE_ENV === 'development' ? error : null
+    });
+  }
 });
+
 router.post('/apply-coupon', async (req, res) => {
     try {
         const { couponCode } = req.body;

@@ -11,7 +11,6 @@ const bannerThreeCtrl = require('../controllers/bannerThreeController');
 const Product = require("../models/Product")
 const Category = require("../models/Category")
 
-
 router.get('/categories', categoryController.getAllCategories);
 router.post('/categories', upload.single('image'), categoryController.addCategory);
 router.put('/categories/:id', upload.single('image'), categoryController.editCategory);

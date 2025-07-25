@@ -5,6 +5,11 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 <head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KTMNTPV3');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
@@ -488,11 +493,15 @@
                     <ul class="mobile-menu">
                         <li><a href="/">Home</a></li>
                         <li><a href="/store">Store</a></li>
-                        <li><a href="/login">Profile</a></li>
+                        <% if (user) { %>
+                        <li><a href="/account">Profile</a></li>
+                        <% } else { %>
+                        <li><a href="/auth/login">Login</a></li>
+                        <% } %>
                         <li><a href="/wishlist">Wishlist</a></li>
                         <li><a href="/cart">Cart</a></li>
                         <li><a href="/about">About Us</a></li>
-                        <li><a href="/about">Blogs</a></li>
+                        <li><a href="/blogs">Blogs</a></li>
                         <li><a href="/contact">Contact Us</a></li>
 
                     </ul>

@@ -4,6 +4,11 @@
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KTMNTPV3');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
@@ -173,7 +178,7 @@
                                     </span>
                                     <div class="icon-box-content">
                                         <h4 class="icon-box-title">E-mail Address</h4>
-                                        <p><a href="mailto:hofmaanstore@gmail.com" class="__cf_email__" data-cfemail="hofmaanstore@gmail.com">hofmaanstore@gmail.com</a></p>
+                                        <p><a href="mailto:support@hofmaan.com" class="__cf_email__" data-cfemail="support@hofmaan.com">support@hofmaan.com</a></p>
                                     </div>
                                 </div>
                                 <div class="swiper-slide icon-box text-center icon-box-primary">
@@ -191,7 +196,7 @@
                                     </span>
                                     <div class="icon-box-content">
                                         <h4 class="icon-box-title">Address</h4>
-                                        <p>Hofmaan,Ernakulam ,Kerala,India</p>
+                                        <p>Hofmaan,Kochi,Kerala,India</p>
                                     </div>
                                 </div>
                                      <div class="swiper-slide icon-box text-center icon-box-primary">
@@ -253,11 +258,11 @@
 
                                     <div class="card">
                                         <div class="card-header">
-                                            <a href="#collapse4" class="expand">Do you provide bulk or wholesale pricing?</a>
+                                            <a href="#collapse4" class="expand">Do you provide bulk orders?</a>
                                         </div>
                                         <div id="collapse4" class="card-body collapsed">
                                             <p class="mb-0">
-                                     Absolutely! We offer special rates for bulk and wholesale orders. Please contact us directly for a custom quote.
+                                     Absolutely! We offer bulk orders. Please contact us directly for a custom orders.
 
 
                                             </p>
@@ -269,24 +274,53 @@
                             </div>
                             <div class="col-lg-6 mb-8">
                                 <h4 class="title mb-3">Send Us a Message</h4>
-                                <form class="form contact-us-form" action="#" method="post">
+                                <form class="form contact-us-form" id="whatsapp-contact-form" onsubmit="sendWhatsAppMessage(event)">
                                     <div class="form-group">
                                         <label for="username">Your Name</label>
                                         <input type="text" id="username" name="username"
-                                            class="form-control">
+                                            class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="email_1">Your Email</label>
                                         <input type="email" id="email_1" name="email_1"
-                                            class="form-control">
+                                            class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mobile">Your Mobile Number</label>
+                                        <input type="tel" id="mobile" name="mobile"
+                                            class="form-control" required pattern="[0-9]{10,15}" maxlength="15" placeholder="Enter your mobile number">
                                     </div>
                                     <div class="form-group">
                                         <label for="message">Your Message</label>
                                         <textarea id="message" name="message" cols="30" rows="5"
-                                            class="form-control"></textarea>
+                                            class="form-control" required></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-dark btn-rounded">Send Now</button>
+                                    <button type="submit" class="btn btn-dark btn-rounded">Send Now via WhatsApp</button>
                                 </form>
+                                <script>
+                                    function sendWhatsAppMessage(event) {
+                                        event.preventDefault();
+                                        var name = document.getElementById('username').value.trim();
+                                        var email = document.getElementById('email_1').value.trim();
+                                        var mobile = document.getElementById('mobile').value.trim();
+                                        var message = document.getElementById('message').value.trim();
+                                        var whatsappNumber = '919400947122';
+
+                                        var text =
+                                            "Contact Form Submission:\n" +
+                                            "Name: " + name + "\n" +
+                                            "Email: " + email + "\n" +
+                                            "Mobile: " + mobile + "\n" +
+                                            "Message: " + message;
+
+                                        var encodedText = encodeURIComponent(text);
+
+                                        // Always use wa.me for both mobile and desktop
+                                        var url = "https://wa.me/" + whatsappNumber + "?text=" + encodedText;
+
+                                        window.open(url, '_blank');
+                                    }
+                                </script>
                             </div>
                         </div>
                     </section>
@@ -558,14 +592,18 @@
                 <div class="tab-pane active" id="main-menu">
                     <ul class="mobile-menu">
                         <li><a href="/">Home</a></li>
-                          <li><a href="/store">Store</a></li>
-                             <li><a href="/login">Profile</a></li>
-                                                          <li><a href="/wishlist">Wishlist</a></li>
-                                                           <li><a href="/cart">Cart</a></li>
-                                  <li><a href="/about">About Us</a></li>
-                                      <li><a href="/about">Blogs</a></li>
-                                                     <li><a href="/contact">Contact Us</a></li>
-                                                   
+                        <li><a href="/store">Store</a></li>
+                        <% if (user) { %>
+                        <li><a href="/account">Profile</a></li>
+                        <% } else { %>
+                        <li><a href="/auth/login">Login</a></li>
+                        <% } %>
+                        <li><a href="/wishlist">Wishlist</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/blogs">Blogs</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
+
                     </ul>
                 </div>
                 <div class="tab-pane" id="categories">

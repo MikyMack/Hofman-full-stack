@@ -137,7 +137,6 @@ exports.getProduct = async (req, res) => {
   }
 };
 
-// Enhanced createProduct controller with image ordering support
 exports.createProduct = async (req, res) => {
   try {
     const {
@@ -155,15 +154,14 @@ exports.createProduct = async (req, res) => {
       bestSeller,
       topRated,
       moreDetails,
-      warranty,
       hasColorVariants,
       hasSizeVariants,
       colorVariants,
       sizeVariants,
-      reviews
+      reviews,
+      productDetails 
     } = req.body;
 
-    // Validate required fields
     if (!name || !basePrice || !description || !category || !status) {
       return res.status(400).json({
         success: false,
@@ -177,13 +175,10 @@ exports.createProduct = async (req, res) => {
     let images = [];
     const colorVariantImages = {};
 
-    // Process uploaded files with proper ordering
     if (req.files && req.files.length > 0) {
-      // --- Handle Main Images with Ordering ---
-      // Get all main image files in the order they were submitted
+
       const mainImageFiles = [];
       
-      // First check for sequentially indexed files (mainImages[0], mainImages[1], etc.)
       let index = 0;
       while (true) {
         const file = req.files.find(f => 
@@ -195,25 +190,21 @@ exports.createProduct = async (req, res) => {
         index++;
       }
       
-      // If no sequentially indexed files, use all files with fieldname 'mainImages'
       if (mainImageFiles.length === 0) {
         mainImageFiles.push(...req.files.filter(f => f.fieldname === 'mainImages'));
       }
 
-      // Upload main product images in order
       if (mainImageFiles.length > 0) {
         images = await Promise.all(
           mainImageFiles.map(file => uploadToCloudinary(file, 'products'))
         );
       }
 
-      // --- Handle Color Variant Images ---
       const colorVariantFiles = req.files.filter(file =>
         file.fieldname.includes('colorVariants') &&
         file.fieldname.includes('[image]')
       );
 
-      // Upload color variant images to 'products/color-variants' folder
       if (colorVariantFiles.length > 0) {
         await Promise.all(
           colorVariantFiles.map(async (file) => {
@@ -277,7 +268,22 @@ exports.createProduct = async (req, res) => {
       }
     }
 
-    // Create the product with ordered images
+    // Process productdetails (new field)
+    let parsedProductDetails = undefined;
+    if (typeof productDetails !== 'undefined') {
+      try {
+        parsedProductDetails = typeof productDetails === 'string'
+          ? JSON.parse(productDetails)
+          : productDetails;
+      } catch (e) {
+        console.error('Error parsing productdetails:', e);
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid productdetails format'
+        });
+      }
+    }
+
     const product = new Product({
       name,
       description,
@@ -293,14 +299,14 @@ exports.createProduct = async (req, res) => {
       bestSeller: bestSeller === 'true' || bestSeller === true,
       topRated: topRated === 'true' || topRated === true,
       moreDetails: moreDetails || undefined,
-      warranty: warranty || undefined,
       hasColorVariants: hasColorVariants === 'true' || hasColorVariants === true,
       hasSizeVariants: hasSizeVariants === 'true' || hasSizeVariants === true,
       colorVariants: parsedColorVariants,
       sizeVariants: parsedSizeVariants,
       reviews: parsedReviews,
-      images, // This array is already in the correct order
-      isActive: status !== 'inactive'
+      images, 
+      isActive: status !== 'inactive',
+      productDetails: parsedProductDetails 
     });
 
     await product.save();
@@ -321,7 +327,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// Enhanced updateProduct controller with image ordering support
+
 exports.updateProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -329,15 +335,13 @@ exports.updateProduct = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Product not found' });
     }
 
-    // --- Handle Image Ordering ---
     let images = [];
 
-    // 1. Process existing images in the order they were submitted
     if (req.body.existingMainImages) {
-      // Convert to array if it's not already
+
       let existingImages = req.body.existingMainImages;
       if (!Array.isArray(existingImages)) {
-        // If it's a stringified array, parse it
+
         if (typeof existingImages === 'string' && existingImages.startsWith('[')) {
           try {
             existingImages = JSON.parse(existingImages);
@@ -348,20 +352,15 @@ exports.updateProduct = async (req, res) => {
           existingImages = [existingImages];
         }
       }
-      // Filter out any empty values and add to images array
+
       images = existingImages.filter(img => img);
     }
 
-    // 2. Process new uploaded images in the correct order
     if (req.files && req.files.length > 0) {
-      // Collect all files for mainImages, regardless of fieldname format
-      // This will support both mainImages and mainImages[] and mainImages[0], mainImages[1], etc.
       let mainImageFiles = [];
 
-      // 1. Collect all files with fieldname 'mainImages' or 'mainImages[]'
       mainImageFiles.push(...req.files.filter(f => f.fieldname === 'mainImages' || f.fieldname === 'mainImages[]'));
 
-      // 2. Collect all files with fieldname like 'mainImages[0]', 'mainImages[1]', etc.
       const indexedFiles = req.files
         .filter(f => /^mainImages\[\d+\]$/.test(f.fieldname))
         .sort((a, b) => {
@@ -473,6 +472,22 @@ exports.updateProduct = async (req, res) => {
       parsedReviews = product.reviews || [];
     }
 
+    // --- Process productdetails (new field) ---
+    let parsedProductDetails = product.productDetails;
+    if (typeof req.body.productDetails !== 'undefined') {
+      try {
+        parsedProductDetails = typeof req.body.productDetails === 'string'
+          ? JSON.parse(req.body.productDetails)
+          : req.body.productDetails;
+      } catch (e) {
+        console.error('Error parsing productdetails:', e);
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid productdetails format'
+        });
+      }
+    }
+
     // --- Update Product Fields ---
     product.name = req.body.name || product.name;
     product.description = req.body.description || product.description;
@@ -500,9 +515,6 @@ exports.updateProduct = async (req, res) => {
     product.moreDetails = typeof req.body.moreDetails !== 'undefined'
       ? req.body.moreDetails
       : product.moreDetails;
-    product.warranty = typeof req.body.warranty !== 'undefined'
-      ? req.body.warranty
-      : product.warranty;
     product.hasColorVariants = typeof req.body.hasColorVariants !== 'undefined'
       ? req.body.hasColorVariants === 'true' || req.body.hasColorVariants === true
       : product.hasColorVariants;
@@ -515,6 +527,7 @@ exports.updateProduct = async (req, res) => {
     product.reviews = parsedReviews;
     product.images = images; // This array is now in the correct order
     product.isActive = product.status !== 'inactive';
+    product.productDetails = parsedProductDetails; // <-- new field
 
     await product.save();
 

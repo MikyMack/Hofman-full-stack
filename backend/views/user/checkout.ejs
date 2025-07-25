@@ -5,6 +5,11 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 <head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KTMNTPV3');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
@@ -734,60 +739,85 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% if (cart.items && cart.items.length> 0) { %>
-                                            <% cart.items.forEach(item=> { %>
+                                        <% if (cart.items && cart.items.length > 0) { %>
+                                            <% cart.items.forEach(item => { %>
                                                 <tr>
-                                                    <td class="product-name">
+                                                    <td class="product-name" style="position:relative;">
                                                         <%= item.productName %>
-                                                            <% if (item.selectedColor) { %>
-                                                                <br><small>Color: <%= item.selectedColor %></small>
-                                                                <% } %>
-                                                                    <% if (item.selectedSize) { %>
-                                                                        <br><small>Size: <%= item.selectedSize %>
-                                                                        </small>
-                                                                        <% } %>
-                                                                            <br><small>Qty: <%= item.quantity %></small>
+                                                        <% if (item.selectedColor) { %>
+                                                            <br><small>Color: <%= item.selectedColor %></small>
+                                                        <% } %>
+                                                        <% if (item.selectedSize) { %>
+                                                            <br><small>Size: <%= item.selectedSize %></small>
+                                                        <% } %>
+                                                        <br><small>Qty: <%= item.quantity %></small>
+                                                        <br>
+                                                        <% if (item.basePrice && item.salePrice && item.basePrice > item.salePrice) { %>
+                                                            <span style="color:#888;text-decoration:line-through;">
+                                                                ₹<%= item.basePrice.toFixed(2) %>
+                                                            </span>
+                                                            <span style="color:#e53935;font-weight:bold;">
+                                                                ₹<%= item.salePrice.toFixed(2) %>
+                                                            </span>
+                                                            <% if (item.discountPercent && item.discountPercent > 0) { %>
+                                                                <span style="display:inline-block;vertical-align:middle;margin-left:8px;position:relative;top:-2px;">
+                                                                    <span style="background:linear-gradient(90deg,#ff512f,#dd2476);color:#fff;padding:4px 10px;border-radius:30px;font-weight:bold;font-size:0.98em;box-shadow:0 2px 8px #ffb3b3;display:inline-block;">
+                                                                        <%= item.discountPercent %>% OFF
+                                                                    </span>
+                                                                </span>
+                                                                <br>
+                                                                <span style="color:#388e3c;font-size:0.97em;display:inline-block;margin-top:2px;">
+                                                                    You’re saving <b>₹<%= item.discountAmount.toFixed(2) %></b> on this item! 🎉
+                                                                </span>
+                                                            <% } %>
+                                                        <% } else { %>
+                                                            <span style="color:#222;font-weight:bold;">
+                                                                ₹<%= (item.salePrice || item.basePrice || item.price).toFixed(2) %>
+                                                            </span>
+                                                        <% } %>
                                                     </td>
-                                                    <td>₹<%= (item.price * item.quantity).toFixed(2) %>
+                                                    <td>
+                                                        <% 
+                                                            let unitPrice = (item.salePrice && item.salePrice < item.basePrice) ? item.salePrice : (item.basePrice || item.price);
+                                                            let subtotal = unitPrice * item.quantity;
+                                                        %>
+                                                        ₹<%= subtotal.toFixed(2) %>
                                                     </td>
                                                 </tr>
-                                                <% }); %>
-                                                    <% } else { %>
-                                                        <tr>
-                                                            <td colspan="2">Your cart is empty</td>
-                                                        </tr>
-                                                        <% } %>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="2">Your cart is empty</td>
+                                            </tr>
+                                        <% } %>
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <th>Subtotal</th>
-                                            <td id="cart-subtotal">₹<%= cart.subtotal.toFixed(2) %>
-                                            </td>
+                                            <td id="cart-subtotal">₹<%= cart.subtotal.toFixed(2) %></td>
                                         </tr>
 
                                         <% if (cart.couponInfo && cart.couponInfo.validated) { %>
                                             <tr id="discount-row">
                                                 <th>Discount (<%= cart.couponInfo.code %>)</th>
-                                                <td id="cart-discount">-₹<%= cart.discountAmount.toFixed(2) %>
-                                                </td>
+                                                <td id="cart-discount">-₹<%= cart.discountAmount.toFixed(2) %></td>
                                             </tr>
-                                            <% } else { %>
-                                                <tr id="discount-row" style="display: none;">
-                                                    <th>Discount</th>
-                                                    <td id="cart-discount">-₹0.00</td>
-                                                </tr>
-                                                <% } %>
+                                        <% } else { %>
+                                            <tr id="discount-row" style="display: none;">
+                                                <th>Discount</th>
+                                                <td id="cart-discount">-₹0.00</td>
+                                            </tr>
+                                        <% } %>
 
-                                                    <tr>
-                                                        <th>Shipping</th>
-                                                        <td>Free</td>
-                                                    </tr>
+                                        <tr>
+                                            <th>Shipping</th>
+                                            <td>Free</td>
+                                        </tr>
 
-                                                    <tr>
-                                                        <th>Total</th>
-                                                        <td id="cart-total">₹<%= cart.total.toFixed(2) %>
-                                                        </td>
-                                                    </tr>
+                                        <tr>
+                                            <th>Total</th>
+                                            <td id="cart-total">₹<%= cart.total.toFixed(2) %></td>
+                                        </tr>
                                     </tfoot>
                                 </table>
 
@@ -1616,11 +1646,15 @@
                     <ul class="mobile-menu">
                         <li><a href="/">Home</a></li>
                         <li><a href="/store">Store</a></li>
-                        <li><a href="/login">Profile</a></li>
+                        <% if (user) { %>
+                        <li><a href="/account">Profile</a></li>
+                        <% } else { %>
+                        <li><a href="/auth/login">Login</a></li>
+                        <% } %>
                         <li><a href="/wishlist">Wishlist</a></li>
                         <li><a href="/cart">Cart</a></li>
                         <li><a href="/about">About Us</a></li>
-                        <li><a href="/about">Blogs</a></li>
+                        <li><a href="/blogs">Blogs</a></li>
                         <li><a href="/contact">Contact Us</a></li>
 
                     </ul>

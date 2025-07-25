@@ -4,6 +4,9 @@ const Product = require('../models/Product');
 const bcrypt = require('bcrypt');
 const sendOtp = require('../utils/sendOtp');
 const crypto = require('crypto');
+const { generateUsersPDF } = require('../utils/pdfGenerator');
+const path = require('path');
+const fs = require('fs');
 
 
 exports.mergeGuestCartToUserCart = async function(req, userId, guestCart = []) {
@@ -55,7 +58,6 @@ exports.storeGuestCart = (req, res) => {
 };
 
 
-
 // Register user
 exports.register = async (req, res) => {
     const { name, email, password } = req.body;
@@ -95,33 +97,38 @@ exports.register = async (req, res) => {
     try {
       const user = await User.findOne({ email });
       if (!user || !(await bcrypt.compare(password, user.password))) {
-        req.flash('error', 'Invalid email or password');
-        return res.redirect('/auth/login');
+        return res.status(401).json({ success: false, message: 'Invalid email or password' });
+      }
+
+      // Check if user is blocked
+      if (user.isBlocked) {
+        return res.status(403).json({ success: false, message: 'Your account has been blocked. Please contact support.' });
       }
   
       req.session.user = user;
-      
-      // Merge both session guest cart and localStorage guest cart
+
       const sessionGuestCart = req.session.guestCart || [];
       const localStorageGuestCart = guestCart || [];
       const combinedGuestCart = [...sessionGuestCart, ...localStorageGuestCart];
       
       if (combinedGuestCart.length > 0) {
-        await this.mergeGuestCartToUserCart(req, user._id, combinedGuestCart);
+        await exports.mergeGuestCartToUserCart(req, user._id, combinedGuestCart);
       }
       
-      // Clear all guest cart data
       req.session.guestCart = [];
       if (req.session.guestCartId) {
         await Cart.deleteOne({ sessionId: req.session.guestCartId });
         delete req.session.guestCartId;
       }
       
-      res.redirect(user.role === 'admin' ? '/admin/dashboard' : '/');
+      res.json({ 
+        success: true, 
+        message: 'Login successful', 
+        redirect: user.role === 'admin' ? '/admin/dashboard' : '/' 
+      });
     } catch (err) {
       console.error(err);
-      req.flash('error', 'Login failed');
-      res.redirect('/auth/login');
+      res.status(500).json({ success: false, message: 'Login failed' });
     }
   };
 
@@ -227,3 +234,81 @@ exports.adminLogin = async (req, res) => {
   };
 
 
+  exports.downloadUsersPDF = async (req, res) => {
+    try {
+      const users = await User.find().lean();
+      
+      const fileName = `users-report-${Date.now()}.pdf`;
+      const filePath = path.join(__dirname, '..', 'temp', fileName);
+      
+      // Ensure temp directory exists
+      if (!fs.existsSync(path.dirname(filePath))) {
+        fs.mkdirSync(path.dirname(filePath), { recursive: true });
+      }
+      
+      await generateUsersPDF(users, filePath);
+      
+      res.download(filePath, fileName, (err) => {
+        if (err) {
+          console.error('Error sending file:', err);
+        }
+        // Clean up the file after download
+        fs.unlink(filePath, () => {});
+      });
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+      res.status(500).json({ success: false, message: 'Failed to generate PDF' });
+    }
+  };
+
+  exports.toggleBlockUser = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const user = await User.findById(userId);
+      
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+      }
+      
+      user.isBlocked = !user.isBlocked;
+      await user.save();
+      
+      res.json({ 
+        success: true, 
+        message: `User ${user.isBlocked ? 'blocked' : 'unblocked'} successfully`,
+        isBlocked: user.isBlocked
+      });
+    } catch (err) {
+      console.error('Error toggling user block status:', err);
+      res.status(500).json({ success: false, message: 'Failed to update user status' });
+    }
+  };
+  
+  exports.updateUserRole = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { role } = req.body;
+      
+      if (!['user', 'moderator', 'admin'].includes(role)) {
+        return res.status(400).json({ success: false, message: 'Invalid role' });
+      }
+      
+      const user = await User.findById(userId);
+      
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+      }
+      
+      user.role = role;
+      await user.save();
+      
+      res.json({ 
+        success: true, 
+        message: `User role updated to ${role} successfully`,
+        role: user.role
+      });
+    } catch (err) {
+      console.error('Error updating user role:', err);
+      res.status(500).json({ success: false, message: 'Failed to update user role' });
+    }
+  };

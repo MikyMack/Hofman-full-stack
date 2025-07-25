@@ -5,6 +5,11 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 <head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KTMNTPV3');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
@@ -90,14 +95,23 @@
                             <a href="tel:+919400947122" class="w-icon-call"></a>
                             <div class="call-info d-lg-show">
                                 <h4 class="chat font-size-md text-normal ls-normal text-white mb-0">
-                                    <a href="tel:+919400947122" class="text-capitalize text-primary font-weight-normal">Customer care</a>
+                                    <a href="tel:+919400947122"
+                                        class="text-capitalize text-primary font-weight-normal">Customer care</a>
                                 </h4>
-                                <a href="tel:+919400947122" class="phone-number font-weight-bolder ls-50">+91 9400947122</a>
+                                <a href="tel:+919400947122" class="phone-number font-weight-bolder ls-50">+91
+                                    9400947122</a>
                             </div>
                         </div>
-                        <a class="wishlist label-down link d-xs-show" href="/wishlist">
+                        <a class="wishlist label-down link d-xs-show position-relative" href="/wishlist"
+                            style="position: relative;">
                             <i class="w-icon-heart"></i>
-                            <span class="wishlist-label d-lg-show">Wishlist</span>
+                            <% if (user && typeof wishlistCount !=='undefined' && wishlistCount> 0) { %>
+                                <span class="wishlist-count-badge"
+                                    style="position: absolute; top: -6px; right: 1px; background: #011f3f; color: #fff; border-radius: 50%; font-size: 1.1rem; min-width: 1.9rem; height: 1.9rem; display: flex; align-items: center; justify-content: center; padding: 0 5px; z-index: 2;">
+                                    <%= wishlistCount %>
+                                </span>
+                                <% } %>
+                                    <span class="wishlist-label d-lg-show">Wishlist</span>
                         </a>
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
@@ -122,7 +136,8 @@
             <!-- Start of Page Header -->
             <div class="page-header">
                 <div class="container">
-                    <h1 class="page-title mb-0">About Us</h1>
+                    <h1 class="page-title mb-0">About Hofmaan
+                    </h1>
                 </div>
             </div>
             <!-- End of Page Header -->
@@ -143,12 +158,17 @@
                 <div class="container">
                     <section class="introduce mb-10 pb-10">
                         <h2 class="title title-center">
-                            Hofmaan <br>Crafted in Leather, Defined by Excellence
+                            Crafted in Leather. Defined by Excellence.
                         </h2>
-                        <p class=" mx-auto text-center abt-discription">Hofmaan blends heritage craftsmanship with
-                            modern elegance in premium leather shoes, belts, and bags.
-                            From retail shelves to wholesale deals, we deliver style that lasts and quality that
-                            speaks..</p>
+                        <p class=" mx-auto text-center abt-discription">Hofmaan, a proud brand under Future Line Retail,
+                            is dedicated to reviving the art of leather craftsmanship with a modern sensibility. We
+                            specialize in premium leather shoes, jackets, belts, bags, and accessories that reflect
+                            timeless style, enduring quality, and meticulous attention to detail.
+                            At Hofmaan, every product is more than just an accessory or garment — it's a symbol of
+                            heritage, precision, and refined elegance. Whether you’re dressing for a formal occasion,
+                            heading out in style, or adding everyday polish to your wardrobe, our products are designed
+                            to bring confidence and comfort to every step you take.
+                        </p>
                         <figure class="br-lg">
                             <img src="/images/banner/about-banner.jpg" alt="Banner" width="1240" height="440"
                                 style="background-color: #D0C1AE; height: 580px!important; width: 100%; object-fit: cover; object-position: top center;" />
@@ -160,6 +180,10 @@
                             <div class="col-md-6 pr-lg-8 mb-8">
                                 <h2 class="title text-left">Delivering Timeless Leather Craftsmanship with Unmatched
                                     Service & Lasting Trust</h2>
+                                <p>Our products are thoughtfully crafted using the finest grades of leather, selected
+                                    for durability, texture, and long-term performance. Blending traditional Indian
+                                    craftsmanship with global design cues, we offer a curated collection that celebrates
+                                    style, substance, and sophistication.</p>
                                 <div class="accordion accordion-simple accordion-plus">
                                     <div class="card border-no">
                                         <div class="card-header">
@@ -175,25 +199,30 @@
                                     </div>
                                     <div class="card">
                                         <div class="card-header">
-                                            <a href="#collapse3-2" class="expand">Dependable Wholesale & Retail
-                                                Solutions</a>
+                                            <a href="#collapse3-2" class="expand">A Future Line Retail Brand
+                                            </a>
                                         </div>
                                         <div class="card-body collapsed" id="collapse3-2">
                                             <p class="mb-0">
-                                                From individual customers to large-scale partners, we ensure smooth,
-                                                responsive service that meets every need.
+                                                As part of Future Line Retail, Hofmaan stands on a foundation of strong
+                                                retail vision and trusted customer experience. This empowers us to focus
+                                                on delivering exceptional quality and long-lasting value while staying
+                                                rooted in our passion for superior leather and thoughtful design.
                                             </p>
                                         </div>
                                     </div>
                                     <div class="card">
                                         <div class="card-header">
-                                            <a href="#collapse3-3" class="expand">Customer-First Support at Every
-                                                Step</a>
+                                            <a href="#collapse3-3" class="expand">Premium Leather, Perfected for
+                                                Everyday Living</a>
                                         </div>
                                         <div class="card-body collapsed" id="collapse3-3">
                                             <p class="mb-0">
-                                                We prioritize your satisfaction with dedicated assistance before,
-                                                during, and long after your purchase.
+                                                From handcrafted formal shoes to rugged high-ankle boots, from sleek
+                                                belts and durable bags to stylish leather jackets — each Hofmaan product
+                                                is created with expert technique and a focus on style, comfort, and
+                                                longevity. We believe in purposeful craftsmanship every stitch, every
+                                                detail, every design has meaning.
                                             </p>
                                         </div>
                                     </div>
@@ -220,32 +249,22 @@
                                 }
                             }
                         }">
-                            <div class="swiper-wrapper row cols-lg-3 cols-md-2 cols-1">
-                                <div class="swiper-slide counter-wrap">
+                            <div class="swiper-wrapper d-flex justify-content-center">
+                                <div class="swiper-slide counter-wrap mx-3">
                                     <div class="counter text-center">
                                         <span class="count-to" data-to="5000">0</span>
                                         <span>+</span>
                                         <h4 class="title title-center">Premium Leather Products Sold</h4>
-                                        <p>Trusted by individuals and retailers across <br> the country
+                                        <p>Trusted by individuals across <br> the country
                                             Delivering durability, design, <br> and everyday elegance</p>
                                     </div>
                                 </div>
-                                <div class="swiper-slide counter-wrap">
-                                    <div class="counter text-center">
-
-                                        <span class="count-to" data-to="500">0</span>
-                                        <span>+</span>
-                                        <h4 class="title title-center">Retail & Wholesale Partners</h4>
-                                        <p>Growing network of fashion stores, boutiques, and B2B clients
-                                            Seamless service with flexible <br> supply options</p>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide counter-wrap">
+                                <div class="swiper-slide counter-wrap mx-3">
                                     <div class="counter text-center">
                                         <span class="count-to" data-to="10000">0</span>
                                         <span>+</span>
                                         <h4 class="title title-center">Happy Customers Served</h4>
-                                        <p>From first-time buyers to returning clients <br>
+                                        <p>From first time buyers to returning clients <br>
                                             We’re known for quality, care, and <br> quick support</p>
                                     </div>
                                 </div>
@@ -260,18 +279,15 @@
                         <div class="row align-items-center mb-10">
                             <div class="col-md-6 mb-8">
                                 <figure class="br-lg">
-                                    <img src="/images/pages/about_us/3.jpg" alt="Banner" width="610" height="450"
-                                        style="background-color: #9E9DA2;" />
+                                    <img src="/images/logo-2.png" alt="Banner" width="400" height="300" />
                                 </figure>
                             </div>
                             <div class="col-md-6 pl-lg-8 mb-8">
-                                <h4 class="title text-left">Premium Leather Products Crafted to Perfection</h4>
-                                <p class="mb-6">Our collection at Hofmaan features meticulously crafted leather shoes,
-                                    belts, bags, and accessories designed to blend style, comfort, and durability. Using
-                                    only the finest materials and expert techniques, each product reflects timeless
-                                    elegance and robust quality made to elevate your everyday look and last for years.
-                                    Whether for casual wear or special occasions, Hofmaan products deliver unmatched
-                                    craftsmanship and effortless sophistication.</p>
+                                <h4 class="title text-left">Customer First Support at Every Step</h4>
+                                <p class="mb-6">At Hofmaan, we believe that quality doesn’t end at the product it
+                                    extends to the entire experience. Our customer first approach ensures responsive,
+                                    friendly support before, during, and after purchase. From size guidance to product
+                                    care, we’re always here to help.</p>
                                 <a href="/contact" class="btn btn-dark btn-rounded">Contact us</a>
                             </div>
                         </div>
@@ -279,291 +295,294 @@
 
                     </div>
                 </section>
-                <div class="bg-grey pt-2 pt-lg-10 wolmart-sellers pb-10">
-                    <div class="container mt-0 mt-lg-10 mb-2 mb-lg-9">
-                        <div class="row">
-                            <div class="col-lg-4 mb-4 mb-lg-0">
-                                <h4 class="text-primary font-weight-bold ls-25">Hear From Our Happy Clients</h4>
 
-                                <p>Discover why countless customers trust Hofmaan for their leather needs. From
-                                    outstanding quality to exceptional service, our clients share their genuine
-                                    experiences and success stories with our products. Join the community of satisfied
-                                    customers who’ve made Hofmaan their go-to brand for timeless leather goods.</p>
-                                <a href="/store" class="btn btn-dark btn-link btn-underline btn-icon-right">
-                                    Shop Now<i class="w-icon-long-arrow-right"></i></a>
-                            </div>
-                            <!-- End of Col -->
-                            <div class="col-lg-8">
-                                <div class="swiper">
-                                    <div class="swiper-container swiper-theme" data-swiper-options="{
-                                        'spaceBetween': 20,
-                                        'slidesPerView': 1,
-                                        'loop': true,
-                                        'breakpoints': {
-                                            '576': {
-                                                'slidesPerView': 2
-                                            }
+
+
+
+
+                <!-- Testimonials Section -->
+                <section class="container my-7" style="margin-top: 60px;">
+                    <div class="row">
+                        <div class="col-lg-4 mb-4 mb-lg-0">
+                            <h4 class="text-primary font-weight-bold ls-25">Hear From Our Happy Clients</h4>
+                            <p>Discover why countless customers trust Hofmaan for their leather needs. From
+                                outstanding quality to exceptional service, our clients share their genuine
+                                experiences and success stories with our products. Join the community of satisfied
+                                customers who’ve made Hofmaan their go-to brand for timeless leather goods.</p>
+                            <a href="/store" class="btn btn-dark btn-link btn-underline btn-icon-right">
+                                Shop Now<i class="w-icon-long-arrow-right"></i></a>
+                        </div>
+                        <!-- End of Col -->
+                        <div class="col-lg-8">
+                            <div class="swiper">
+                                <div class="swiper-container swiper-theme" data-swiper-options="{
+                                    'spaceBetween': 20,
+                                    'slidesPerView': 1,
+                                    'loop': true,
+                                    'breakpoints': {
+                                        '576': {
+                                            'slidesPerView': 2
                                         }
-                                    }">
-                                        <div class="swiper-wrapper row cols-sm-2">
-                                            <% if (testimonials && testimonials.length> 0) { %>
-                                                <% testimonials.forEach(function(testimonial) { %>
-                                                    <div class="swiper-slide testimonial-wrap">
-                                                        <div
-                                                            class="testimonial testimonial-centered testimonial-boxed bg-white br-sm">
-                                                            <div class="testimonial-info">
-                                                                <figure>
-                                                                    <img src="<%= testimonial.imageUrl %>"
-                                                                        alt="<%= testimonial.name %>"
-                                                                        style="object-fit:cover;border-radius: 50%; height: 80px; width: 80px;" />
-                                                                </figure>
-                                                                <div class="ratings-container">
-                                                                    <div class="ratings-full">
-                                                                        <% var rating=testimonial.rating || 5; var
-                                                                            ratingPercent=Math.round((rating / 5) *
-                                                                            100); %>
-                                                                            <span class="ratings"
-                                                                                style="width: <%= ratingPercent %>%"></span>
-                                                                    </div>
+                                    }
+                                }">
+                                    <div class="swiper-wrapper row cols-sm-2">
+                                        <% if (testimonials && testimonials.length> 0) { %>
+                                            <% testimonials.forEach(function(testimonial) { %>
+                                                <div class="swiper-slide testimonial-wrap">
+                                                    <div
+                                                        class="testimonial testimonial-centered testimonial-boxed bg-white br-sm">
+                                                        <div class="testimonial-info">
+                                                            <figure>
+                                                                <img src="<%= testimonial.imageUrl %>"
+                                                                    alt="<%= testimonial.name %>"
+                                                                    style="object-fit:cover;border-radius: 50%; height: 80px; width: 80px;" />
+                                                            </figure>
+                                                            <div class="ratings-container">
+                                                                <div class="ratings-full">
+                                                                    <% var rating=testimonial.rating || 5; var
+                                                                        ratingPercent=Math.round((rating / 5) * 100); %>
+                                                                        <span class="ratings"
+                                                                            style="width: <%= ratingPercent %>%"></span>
                                                                 </div>
                                                             </div>
-                                                            <blockquote>
-                                                                <%= testimonial.content %>
-                                                            </blockquote>
-                                                            <cite class="ls-25">
-                                                                <%= testimonial.name %>
-                                                                    <% if (testimonial.designation) { %>
-                                                                        <span>
-                                                                            <%= testimonial.designation %>
-                                                                        </span>
-                                                                        <% } %>
-                                                            </cite>
                                                         </div>
+                                                        <blockquote>
+                                                            <%= testimonial.content %>
+                                                        </blockquote>
+                                                        <cite class="ls-25">
+                                                            <%= testimonial.name %>
+                                                                <% if (testimonial.designation) { %>
+                                                                    <span>
+                                                                        <%= testimonial.designation %>
+                                                                    </span>
+                                                                    <% } %>
+                                                        </cite>
                                                     </div>
-                                                    <% }); %>
-                                                        <% } else { %>
-                                                            <div class="swiper-slide testimonial-wrap">
-                                                                <div
-                                                                    class="testimonial testimonial-centered testimonial-boxed bg-white br-sm">
-                                                                    <div class="testimonial-info">
-                                                                        <figure class="testimonial-author-thumbnail">
-                                                                            <img src="/images/hofmaan/dummy.jpg"
-                                                                                alt="Testimonial" width="100"
-                                                                                height="100" />
-                                                                        </figure>
-                                                                        <div class="ratings-container">
-                                                                            <div class="ratings-full">
-                                                                                <span class="ratings"
-                                                                                    style="width: 100%;"></span>
-                                                                            </div>
+                                                </div>
+                                                <% }); %>
+                                                    <% } else { %>
+                                                        <div class="swiper-slide testimonial-wrap">
+                                                            <div
+                                                                class="testimonial testimonial-centered testimonial-boxed bg-white br-sm">
+                                                                <div class="testimonial-info">
+                                                                    <figure class="testimonial-author-thumbnail">
+                                                                        <img src="/images/hofmaan/dummy.jpg"
+                                                                            alt="Testimonial" width="100"
+                                                                            height="100" />
+                                                                    </figure>
+                                                                    <div class="ratings-container">
+                                                                        <div class="ratings-full">
+                                                                            <span class="ratings"
+                                                                                style="width: 100%;"></span>
                                                                         </div>
                                                                     </div>
-                                                                    <blockquote>
-                                                                        No testimonials available at the moment.
-                                                                    </blockquote>
-                                                                    <cite class="ls-25">
-                                                                        Hofmaan Team
-                                                                    </cite>
                                                                 </div>
+                                                                <blockquote>
+                                                                    No testimonials available at the moment.
+                                                                </blockquote>
+                                                                <cite class="ls-25">
+                                                                    Hofmaan Team
+                                                                </cite>
                                                             </div>
-                                                            <% } %>
-                                        </div>
-                                        <div class="swiper-pagination"></div>
+                                                        </div>
+                                                        <% } %>
                                     </div>
+                                    <div class="swiper-pagination"></div>
                                 </div>
                             </div>
-                            <!-- End of Col -->
                         </div>
+                        <!-- End of Col -->
+                    </div>
 
-                        <div class="title-link-wrapper title-post after-none mb-4 appear-animate mt-5">
-                            <h2 class="title font-secondary ls-normal mb-0">From Our Blog</h2>
-                            <a href="/blogs" class="font-weight-bold font-size-normal mb-0">
-                                View All Articles
-                                <i class="w-icon-long-arrow-right"></i>
-                            </a>
-                        </div>
-                        <div class="swiper-container swiper-theme post-wrapper pb-2 pb-lg-0 mb-5 appear-animate"
-                            data-swiper-options="{
-                    'slidesPerView': 1,
-                    'spaceBetween': 20,
-                    'breakpoints': {
-                        '576': { 'slidesPerView': 2 },
-                        '768': { 'slidesPerView': 3 },
-                        '992': { 'slidesPerView': 4, 'dots': false }
-                    }
-                }">
-                            <div class="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1">
-                                <% if (blogs && blogs.length) { %>
-                                    <% blogs.forEach(function(blog) { %>
-                                        <div class="swiper-slide post text-center overlay-zoom">
-                                            <figure class="post-media br-sm">
-                                                <a href="/blogs/<%= blog._id %>">
-                                                    <img src="<%= blog.imageUrl %>" alt="<%= blog.title %>" width="325"
-                                                        height="214"
-                                                        style="background-color: #f5f5f5; object-fit:cover; height: 300px;" />
+                    <div class="title-link-wrapper title-post after-none mb-4 appear-animate mt-5">
+                        <h2 class="title font-secondary ls-normal mb-0">From Our Blog</h2>
+                        <a href="/blogs" class="font-weight-bold font-size-normal mb-0">
+                            View All Articles
+                            <i class="w-icon-long-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="swiper-container swiper-theme post-wrapper pb-2 pb-lg-0 mb-5 appear-animate"
+                        data-swiper-options="{
+                'slidesPerView': 1,
+                'spaceBetween': 20,
+                'breakpoints': {
+                    '576': { 'slidesPerView': 2 },
+                    '768': { 'slidesPerView': 3 },
+                    '992': { 'slidesPerView': 4, 'dots': false }
+                }
+            }">
+                        <div class="swiper-wrapper row cols-lg-4 cols-md-3 cols-sm-2 cols-1">
+                            <% if (blogs && blogs.length) { %>
+                                <% blogs.forEach(function(blog) { %>
+                                    <div class="swiper-slide post text-center overlay-zoom">
+                                        <figure class="post-media br-sm">
+                                            <a href="/blogs/<%= blog._id %>">
+                                                <img src="<%= blog.imageUrl %>" alt="<%= blog.title %>" width="325"
+                                                    height="214"
+                                                    style="background-color: #f5f5f5; object-fit:cover; height: 300px;" />
+                                            </a>
+                                        </figure>
+                                        <div class="post-details">
+                                            <div class="post-meta">
+                                                by <a href="#" class="post-author">
+                                                    <%= blog.author %>
                                                 </a>
-                                            </figure>
-                                            <div class="post-details">
-                                                <div class="post-meta">
-                                                    by <a href="#" class="post-author">
-                                                        <%= blog.author %>
-                                                    </a>
-                                                    - <a href="#" class="post-date mr-0">
-                                                        <%= blog.createdAt ? new
-                                                            Date(blog.createdAt).toLocaleDateString('en-IN', {
-                                                            year: 'numeric' , month: 'short' , day: 'numeric' }) : '' %>
-                                                    </a>
-                                                </div>
-                                                <h4 class="post-title">
-                                                    <a href="/blogs/<%= blog._id %>">
-                                                        <%= blog.title %>
-                                                    </a>
-                                                </h4>
-                                                <a href="/blogs/<%= blog._id %>"
-                                                    class="btn btn-link btn-dark btn-underline">
-                                                    Read More
-                                                    <i class="w-icon-long-arrow-right"></i>
+                                                - <a href="#" class="post-date mr-0">
+                                                    <%= blog.createdAt ? new
+                                                        Date(blog.createdAt).toLocaleDateString('en-IN', {
+                                                        year: 'numeric' , month: 'short' , day: 'numeric' }) : '' %>
                                                 </a>
                                             </div>
+                                            <h4 class="post-title">
+                                                <a href="/blogs/<%= blog._id %>">
+                                                    <%= blog.title %>
+                                                </a>
+                                            </h4>
+                                            <a href="/blogs/<%= blog._id %>"
+                                                class="btn btn-link btn-dark btn-underline">
+                                                Read More
+                                                <i class="w-icon-long-arrow-right"></i>
+                                            </a>
                                         </div>
-                                        <% }) %>
-                                            <% } else { %>
-                                                <div class="col-12 text-center py-5">
-                                                    <p class="text-muted mb-0">No blog articles found.</p>
-                                                </div>
-                                                <% } %>
-                            </div>
-                            <div class="swiper-pagination mt-2"></div>
+                                    </div>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <div class="col-12 text-center py-5">
+                                                <p class="text-muted mb-0">No blog articles found.</p>
+                                            </div>
+                                            <% } %>
                         </div>
+                        <div class="swiper-pagination mt-2"></div>
                     </div>
-                    <!-- End of Container -->
-                </div>
+                </section>
+                <!-- End Testimonials Section -->
+                <!-- End of Container -->
             </div>
-        </main>
-        <!-- End of Main -->
+    </div>
+    </main>
+    <!-- End of Main -->
 
-        <!-- Start of Footer -->
-        <footer class="footer appear-animate" data-animation-options="{
+    <!-- Start of Footer -->
+    <footer class="footer appear-animate" data-animation-options="{
             'name': 'fadeIn'
         }">
-            <div class="footer-newsletter bg-primary">
-                <div class="container">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-xl-5 col-lg-6">
-                            <div class="icon-box icon-box-side text-white">
-                                <div class="icon-box-icon d-inline-flex">
-                                    <i class="w-icon-envelop3"></i>
-                                </div>
-                                <div class="icon-box-content">
-                                    <h4 class="icon-box-title text-white text-uppercase font-weight-bold">Subscribe To
-                                        Our Newsletter</h4>
-                                    <p class="text-white">Get all the latest information on Events, Sales and Offers.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-7 col-lg-6 col-md-9 mt-4 mt-lg-0 ">
-                            <form action="#" method="get"
-                                class="input-wrapper input-wrapper-inline input-wrapper-rounded">
-                                <input type="email" class="form-control mr-2 bg-white" name="email" id="email"
-                                    placeholder="Your E-mail Address" />
-                                <button class="btn btn-dark btn-rounded" type="submit">Subscribe<i
-                                        class="w-icon-long-arrow-right"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="footer-newsletter bg-primary">
             <div class="container">
-                <div class="footer-top">
-                    <div class="row">
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="widget widget-about mt-0 mb-4">
-                                <a href="/" class="logo-footer">
-                                    <img src="/images/logo.png" alt="logo-footer" width="200" height="45" />
-                                </a>
-                                <div class="widget-body">
-                                    <p class="widget-about-title">Got Question? Call us 24/7</p>
-                                    <a href="tel:+919400947122" class="widget-about-call">+91 9400947122</a>
-                                    <p>Follow Us In :</p>
-                                  <div class="social-icons social-icons-colored">
-                                        <a    target="_blank"  href="https://www.facebook.com/profile.php?id=61577041363849#"
-                                            class="social-icon social-facebook w-icon-facebook"></a>
-                                        <a    target="_blank"  href="https://www.instagram.com/hofmaan.official/?fbclid=IwY2xjawLJwfRleHRuA2FlbQIxMQBicmlkETFtbmQ0UnlRc3gyNDAwaU44AR5ZqTiWzEixcnjCAnjWdJJKxyOo1SDmgvhwN8_53T5gbWCz_nWAy3l3UTZALw_aem_icwl_UgQrgnfthtQ81Mmyw"
-                                            class="social-icon social-instagram w-icon-instagram"></a>
-                                        <a    target="_blank"  href="https://www.youtube.com/@hofmaanofficial"
-                                            class="social-icon social-youtube w-icon-youtube"></a>
-                                                <a    target="_blank"  href="https://in.pinterest.com/hofmaan_official/"
-                                            class="social-icon social-pinterest w-icon-pinterest"></a>
-                            <a href="https://www.linkedin.com/company/107658144/admin/page-posts/published/" 
-   class="social-icon" 
-   target="_blank" 
-   rel="noopener noreferrer">
-   <i style="color: blue;" class="fab fa-linkedin-in"></i> 
-</a>
-                                    </div>
-                                </div>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-xl-5 col-lg-6">
+                        <div class="icon-box icon-box-side text-white">
+                            <div class="icon-box-icon d-inline-flex">
+                                <i class="w-icon-envelop3"></i>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="widget">
-                                <h3 class="widget-title">Company</h3>
-                                <ul class="widget-body">
-                                    <li><a href="/">Home</a></li>
-                                    <li><a href="/store">Store</a></li>
-                                    <li><a href="/about">About Us</a></li>
-                                    <li><a href="/blogs">Blogs</a></li>
-                                    <li><a href="/contact">Contact Us</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="widget">
-                                <h4 class="widget-title">My Account</h4>
-                                <ul class="widget-body">
-                                    <li><a href="/orders">Track My Order</a></li>
-                                    <li><a href="/cart">View Cart</a></li>
-                                    <% if (user) { %>
-                                        <li><a href="/account">Account</a></li>
-                                        <% } else { %>
-                                            <li><a href="/auth/login">Sign In</a></li>
-                                            <% } %>
-                                                <li><a href="/wishlist">My Wishlist</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="widget">
-                                <h4 class="widget-title">Customer Service</h4>
-                                <ul class="widget-body">
-                                    <li><a href="/terms_and_conditions">Terms and Conditions</a></li>
-                                    <li><a href="/Cancellation_Refund">Cancellation Refund</a></li>
-                                    <li><a href="/shipping_policy">Shipping Policy</a></li>
-                                    <li><a href="/privacy_policy">Privacy Policy</a></li>
-
-                                </ul>
+                            <div class="icon-box-content">
+                                <h4 class="icon-box-title text-white text-uppercase font-weight-bold">Subscribe To
+                                    Our Newsletter</h4>
+                                <p class="text-white">Get all the latest information on Events, Sales and Offers.
+                                </p>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="footer-bottom">
-                    <div class="footer-left">
-                        <p class="copyright">
-                            Copyright © 2025 Hofmaan. All Rights Reserved. &nbsp;|&nbsp;
-                            developed by <a href="https://trivlogic.com/" target="_blank" rel="noopener" style="color:#888;text-decoration:none;">Trivlogic Pvt Ltd</a>
-                        </p>
-                    </div>
-                    <div class="footer-right">
-                        <span class="payment-label mr-lg-8">We're using safe payment for</span>
-                        <figure class="payment">
-                            <img src="/images/payment.png" alt="payment" width="159" height="25" />
-                        </figure>
+                    <div class="col-xl-7 col-lg-6 col-md-9 mt-4 mt-lg-0 ">
+                        <form action="#" method="get" class="input-wrapper input-wrapper-inline input-wrapper-rounded">
+                            <input type="email" class="form-control mr-2 bg-white" name="email" id="email"
+                                placeholder="Your E-mail Address" />
+                            <button class="btn btn-dark btn-rounded" type="submit">Subscribe<i
+                                    class="w-icon-long-arrow-right"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </footer>
-        <!-- End of Footer -->
+        </div>
+        <div class="container">
+            <div class="footer-top">
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="widget widget-about mt-0 mb-4">
+                            <a href="/" class="logo-footer">
+                                <img src="/images/logo.png" alt="logo-footer" width="200" height="45" />
+                            </a>
+                            <div class="widget-body">
+                                <p class="widget-about-title">Got Question? Call us 24/7</p>
+                                <a href="tel:+919400947122" class="widget-about-call">+91 9400947122</a>
+                                <p>Follow Us In :</p>
+                                <div class="social-icons social-icons-colored">
+                                    <a target="_blank" href="https://www.facebook.com/profile.php?id=61577041363849#"
+                                        class="social-icon social-facebook w-icon-facebook"></a>
+                                    <a target="_blank"
+                                        href="https://www.instagram.com/hofmaan.official/?fbclid=IwY2xjawLJwfRleHRuA2FlbQIxMQBicmlkETFtbmQ0UnlRc3gyNDAwaU44AR5ZqTiWzEixcnjCAnjWdJJKxyOo1SDmgvhwN8_53T5gbWCz_nWAy3l3UTZALw_aem_icwl_UgQrgnfthtQ81Mmyw"
+                                        class="social-icon social-instagram w-icon-instagram"></a>
+                                    <a target="_blank" href="https://www.youtube.com/@hofmaanofficial"
+                                        class="social-icon social-youtube w-icon-youtube"></a>
+                                    <a target="_blank" href="https://in.pinterest.com/hofmaan_official/"
+                                        class="social-icon social-pinterest w-icon-pinterest"></a>
+                                    <a href="https://www.linkedin.com/company/107658144/admin/page-posts/published/"
+                                        class="social-icon" target="_blank" rel="noopener noreferrer">
+                                        <i style="color: blue;" class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="widget">
+                            <h3 class="widget-title">Company</h3>
+                            <ul class="widget-body">
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/store">Store</a></li>
+                                <li><a href="/about">About Us</a></li>
+                                <li><a href="/blogs">Blogs</a></li>
+                                <li><a href="/contact">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="widget">
+                            <h4 class="widget-title">My Account</h4>
+                            <ul class="widget-body">
+                                <li><a href="/orders">Track My Order</a></li>
+                                <li><a href="/cart">View Cart</a></li>
+                                <% if (user) { %>
+                                    <li><a href="/account">Account</a></li>
+                                    <% } else { %>
+                                        <li><a href="/auth/login">Sign In</a></li>
+                                        <% } %>
+                                            <li><a href="/wishlist">My Wishlist</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="widget">
+                            <h4 class="widget-title">Customer Service</h4>
+                            <ul class="widget-body">
+                                <li><a href="/terms_and_conditions">Terms and Conditions</a></li>
+                                <li><a href="/Cancellation_Refund">Cancellation Refund</a></li>
+                                <li><a href="/shipping_policy">Shipping Policy</a></li>
+                                <li><a href="/privacy_policy">Privacy Policy</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-left">
+                    <p class="copyright">
+                        Copyright © 2025 Hofmaan. All Rights Reserved. &nbsp;|&nbsp;
+                        developed by <a href="https://trivlogic.com/" target="_blank" rel="noopener"
+                            style="color:#888;text-decoration:none;">Trivlogic Pvt Ltd</a>
+                    </p>
+                </div>
+                <div class="footer-right">
+                    <span class="payment-label mr-lg-8">We're using safe payment for</span>
+                    <figure class="payment">
+                        <img src="/images/payment.png" alt="payment" width="159" height="25" />
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
     </div>
 
     <!-- Start of Sticky Footer -->
@@ -703,12 +722,16 @@
                     <ul class="mobile-menu">
                         <li><a href="/">Home</a></li>
                         <li><a href="/store">Store</a></li>
-                        <li><a href="/login">Profile</a></li>
-                        <li><a href="/wishlist">Wishlist</a></li>
-                        <li><a href="/cart">Cart</a></li>
-                        <li><a href="/about">About Us</a></li>
-                        <li><a href="/about">Blogs</a></li>
-                        <li><a href="/contact">Contact Us</a></li>
+                        <% if (user) { %>
+                            <li><a href="/account">Profile</a></li>
+                            <% } else { %>
+                                <li><a href="/auth/login">Login</a></li>
+                                <% } %>
+                                    <li><a href="/wishlist">Wishlist</a></li>
+                                    <li><a href="/cart">Cart</a></li>
+                                    <li><a href="/about">About Us</a></li>
+                                    <li><a href="/blogs">Blogs</a></li>
+                                    <li><a href="/contact">Contact Us</a></li>
 
                     </ul>
                 </div>
@@ -716,7 +739,8 @@
                     <ul class="mobile-menu">
                         <% categories.forEach(category=> { %>
                             <li>
-                                <a style="gap: 10px!important; display: flex;" href="/store?category=<%= category._id %>">
+                                <a style="gap: 10px!important; display: flex;"
+                                    href="/store?category=<%= category._id %>">
                                     <img style="height: 30px; width: 30px; border-radius: 50px;"
                                         src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt="">
                                     <%= category.name %>
@@ -742,12 +766,12 @@
         </div>
     </div>
     <!-- End of Mobile Menu -->
-  <!--whats app icon -->
-<div class="whatsapp-float">
-  <a href="https://wa.me/+919400947122" target="_blank" rel="noopener noreferrer">
-    <i class="fab fa-whatsapp whatsapp-icon"></i>
-  </a>
-</div>
+    <!--whats app icon -->
+    <div class="whatsapp-float">
+        <a href="https://wa.me/+919400947122" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+    </div>
     <!-- Plugin JS File -->
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/jquery.count-to/jquery.count-to.min.js"></script>

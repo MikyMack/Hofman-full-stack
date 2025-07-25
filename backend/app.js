@@ -16,6 +16,7 @@ const cartRoutes = require('./routes/cartRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
 const addressRoutes = require('./routes/addressRoutes');
 const razorpayRoutes = require('./routes/razorpayRoutes');
+const Category = require('./models/Category');
 
 const app = express();
 
@@ -69,12 +70,53 @@ app.use('/', addressRoutes);
 app.use('/', razorpayRoutes); 
 
 
+// Flash messages middleware
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success');
   res.locals.error_msg = req.flash('error');
   next();
 });
-// Home Route
+
+
+
+app.use(async (err, req, res, next) => {
+  console.error(err.stack || err);
+  let categories = [];
+  try {
+    categories = await Category.find({ isActive: true })
+      .select('name imageUrl isActive subCategories')
+      .lean();
+  } catch (catErr) {
+    console.error('Error fetching categories for error page:', catErr);
+  }
+  res.status(err.status || 500);
+  res.render('user/error', {
+    message: err.message || 'Internal Server Error',
+    error: process.env.NODE_ENV === 'development' ? err : {},
+    user: req.user || null,
+    categories
+  });
+});
+
+app.use(async (req, res) => {
+  let categories = [];
+  try {
+    categories = await Category.find({ isActive: true })
+      .select('name imageUrl isActive subCategories')
+      .lean();
+  } catch (catErr) {
+    console.error('Error fetching categories for 404 page:', catErr);
+  }
+  res.status(404).render('user/error', {
+    message: 'Page Not Found',
+    error: {},
+    user: req.user || null,
+    categories
+  });
+});
+
+
+
 
 
 module.exports = app;

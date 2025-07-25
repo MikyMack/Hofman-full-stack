@@ -931,12 +931,26 @@
                                                             </span>
                                                         </div>
                                                     <% } %>
-                                                    <% if (product.warrantyTime) { %>
+                                                    <% if (product.productDetails) { %>
                                                         <div class="product-meta">
-                                                            <span style="color:#888;">Warranty:</span>
-                                                            <span>
-                                                                <%= product.warrantyTime %>
-                                                            </span>
+                                                            <span style="color:#888;">Product Details:</span>
+                                                            <ul style="margin: 0; padding-left: 18px;">
+                                                                <% if (product.productDetails.articleNo) { %>
+                                                                    <li><b>Article No:</b> <%= product.productDetails.articleNo %></li>
+                                                                <% } %>
+                                                                <% if (product.productDetails.brand) { %>
+                                                                    <li><b>Brand:</b> <%= product.productDetails.brand %></li>
+                                                                <% } %>
+                                                                <% if (product.productDetails.productType) { %>
+                                                                    <li><b>Product Type:</b> <%= product.productDetails.productType %></li>
+                                                                <% } %>
+                                                                <% if (product.productDetails.soleMaterial) { %>
+                                                                    <li><b>Sole Material:</b> <%= product.productDetails.soleMaterial %></li>
+                                                                <% } %>
+                                                                <% if (product.productDetails.productCollection) { %>
+                                                                    <li><b>productCollection:</b> <%= product.productDetails.productCollection %></li>
+                                                                <% } %>
+                                                            </ul>
                                                         </div>
                                                     <% } %>
                                                     <div class="product-tags">
@@ -1067,14 +1081,12 @@
 
                                             <!-- Stepper Navigation -->
                                             <div class="product-stepper">
-                                                <button type="button" class="step-btn active" data-step="1">1. Basic
-                                                    Info</button>
+                                                <button type="button" class="step-btn active" data-step="1">1. Basic Info</button>
                                                 <button type="button" class="step-btn" data-step="2">2. Images</button>
-                                                <button type="button" class="step-btn" data-step="3">3.
-                                                    Variants</button>
-                                                <button type="button" class="step-btn" data-step="4">4. Reviews</button>
-                                                <button type="button" class="step-btn" data-step="5">5. Review &
-                                                    Save</button>
+                                                <button type="button" class="step-btn" data-step="3">3. Variants</button>
+                                                <button type="button" class="step-btn" data-step="4">4. Product Details</button>
+                                                <button type="button" class="step-btn" data-step="5">5. Reviews</button>
+                                                <button type="button" class="step-btn" data-step="6">6. Review & Save</button>
                                             </div>
 
                                             <!-- Step 1: Basic Info -->
@@ -1082,53 +1094,38 @@
                                                 <h5>Basic Information</h5>
                                                 <div class="form-row">
                                                     <div class="form-group" style="flex: 2;">
-                                                        <label for="name">Product Name <span
-                                                                class="required">*</span></label>
-                                                        <input type="text" id="name" name="name" required
-                                                            placeholder="Enter product name">
+                                                        <label for="name">Product Name <span class="required">*</span></label>
+                                                        <input type="text" id="name" name="name" required placeholder="Enter product name">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="basePrice">Base Price <span
-                                                                class="required">*</span></label>
-                                                        <input type="number" id="basePrice" name="basePrice" min="0"
-                                                            step="0.01" required placeholder="0.00">
+                                                        <label for="basePrice">Base Price <span class="required">*</span></label>
+                                                        <input type="number" id="basePrice" name="basePrice" min="0" step="0.01" required placeholder="0.00">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="salePrice">Sale Price</label>
-                                                        <input type="number" id="salePrice" name="salePrice" min="0"
-                                                            step="0.01" placeholder="0.00">
+                                                        <input type="number" id="salePrice" name="salePrice" min="0" step="0.01" placeholder="0.00">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="baseStock">Base Stock</label>
-                                                        <input type="number" id="stock" name="stock" min="0" step="0.01"
-                                                            placeholder="0.00">
+                                                        <input type="number" id="stock" name="stock" min="0" step="0.01" placeholder="0.00">
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group" style="flex: 2;">
-                                                        <label for="description">Description <span
-                                                                class="required">*</span></label>
-                                                        <textarea id="description" name="description" rows="3" required
-                                                            placeholder="Describe the product"></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="warranty">Warranty</label>
-                                                        <input type="text" id="warranty" name="warranty"
-                                                            placeholder="e.g. 1 year">
+                                                        <label for="description">Description <span class="required">*</span></label>
+                                                        <textarea id="description" name="description" rows="3" required placeholder="Describe the product"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group">
-                                                        <label for="category">Category <span
-                                                                class="required">*</span></label>
+                                                        <label for="category">Category <span class="required">*</span></label>
                                                         <select id="category" name="category" required>
                                                             <option value="">Select Category</option>
                                                             <% categories.forEach(category=> { %>
-                                                                <option value="<%= category._id %>"
-                                                                    data-subs='<%- JSON.stringify(category.subCategories || []) %>'>
+                                                                <option value="<%= category._id %>" data-subs='<%- JSON.stringify(category.subCategories || []) %>'>
                                                                     <%= category.name %>
                                                                 </option>
-                                                                <% }); %>
+                                                            <% }); %>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
@@ -1138,8 +1135,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="status">Status <span
-                                                                class="required">*</span></label>
+                                                        <label for="status">Status <span class="required">*</span></label>
                                                         <select id="status" name="status" required>
                                                             <option value="active">Active</option>
                                                             <option value="inactive">Inactive</option>
@@ -1156,8 +1152,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label>
-                                                            <input type="checkbox" id="dealsOfTheDay"
-                                                                name="dealsOfTheDay">
+                                                            <input type="checkbox" id="dealsOfTheDay" name="dealsOfTheDay">
                                                             Deals of the day
                                                         </label>
                                                     </div>
@@ -1180,15 +1175,12 @@
                                                         </label>
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label for="moreDetails">Additional Details</label>
-                                                    <textarea id="moreDetails" name="moreDetails" rows="2"
-                                                        placeholder="Any extra info"></textarea>
+                                                    <textarea id="moreDetails" name="moreDetails" rows="2" placeholder="Any extra info"></textarea>
                                                 </div>
                                                 <div class="form-actions step-actions">
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="goToStep(2)">Next</button>
+                                                    <button type="button" class="btn btn-primary" onclick="goToStep(2)">Next</button>
                                                 </div>
                                             </div>
 
@@ -1197,7 +1189,6 @@
                                                 <h5>Product Images</h5>
                                                 <div class="form-group">
                                                     <label>Main Images <span class="required">*</span></label>
-                                                    <!-- Custom image upload and order for creation mode -->
                                                     <div id="mainImagesUploadArea" style="margin-bottom: 10px;">
                                                         <input type="file" id="mainImageInput" accept="image/*" style="display:none;" multiple>
                                                         <button type="button" class="btn btn-sm btn-primary" onclick="document.getElementById('mainImageInput').click();">
@@ -1209,10 +1200,8 @@
                                                     <div id="existingMainImages" class="existing-images" style="min-height: 100px; display: flex; gap: 8px;"></div>
                                                 </div>
                                                 <div class="form-actions step-actions">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        onclick="goToStep(1)">Back</button>
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="goToStep(3)">Next</button>
+                                                    <button type="button" class="btn btn-secondary" onclick="goToStep(1)">Back</button>
+                                                    <button type="button" class="btn btn-primary" onclick="goToStep(3)">Next</button>
                                                 </div>
                                             </div>
 
@@ -1221,8 +1210,7 @@
                                                 <h5>Product Variants</h5>
                                                 <div class="form-group">
                                                     <label>
-                                                        <input type="checkbox" id="hasColorVariants"
-                                                            name="hasColorVariants">
+                                                        <input type="checkbox" id="hasColorVariants" name="hasColorVariants">
                                                         This product has color variants
                                                     </label>
                                                 </div>
@@ -1230,16 +1218,14 @@
                                                     <div class="variant-section">
                                                         <h6>Color Variants</h6>
                                                         <div id="colorVariantOptions"></div>
-                                                        <button type="button" class="btn btn-sm btn-secondary"
-                                                            id="addColorVariantBtn">
+                                                        <button type="button" class="btn btn-sm btn-secondary" id="addColorVariantBtn">
                                                             <i class="icon-plus"></i> Add Color Variant
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>
-                                                        <input type="checkbox" id="hasSizeVariants"
-                                                            name="hasSizeVariants">
+                                                        <input type="checkbox" id="hasSizeVariants" name="hasSizeVariants">
                                                         This product has size variants
                                                     </label>
                                                 </div>
@@ -1247,53 +1233,78 @@
                                                     <div class="variant-section">
                                                         <h6>Size Variants</h6>
                                                         <div id="sizeVariantOptions"></div>
-                                                        <button type="button" class="btn btn-sm btn-secondary"
-                                                            id="addSizeVariantBtn">
+                                                        <button type="button" class="btn btn-sm btn-secondary" id="addSizeVariantBtn">
                                                             <i class="icon-plus"></i> Add Size Variant
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="form-actions step-actions">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        onclick="goToStep(2)">Back</button>
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="goToStep(4)">Next</button>
+                                                    <button type="button" class="btn btn-secondary" onclick="goToStep(2)">Back</button>
+                                                    <button type="button" class="btn btn-primary" onclick="goToStep(4)">Next</button>
                                                 </div>
                                             </div>
 
-                                            <!-- Step 4: Reviews -->
+                                            <!-- Step 4: Product Details -->
                                             <div class="form-section product-step" data-step="4" style="display:none;">
+                                                <h5>Product Details</h5>
+                                                <div class="form-row">
+                                                    <div class="form-group">
+                                                        <label for="articleNo">Article No</label>
+                                                        <input type="text" id="articleNo" name="productDetails[articleNo]" placeholder="Article Number">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="brand">Brand</label>
+                                                        <input type="text" id="brand" name="productDetails[brand]" placeholder="Brand">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="productType">Product Type</label>
+                                                        <input type="text" id="productType" name="productDetails[productType]" placeholder="Product Type">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group">
+                                                        <label for="soleMaterial">Sole Material</label>
+                                                        <input type="text" id="soleMaterial" name="productDetails[soleMaterial]" placeholder="Sole Material">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="productCollection">productCollection</label>
+                                                        <input type="text" id="productCollection" name="productDetails[productCollection]" placeholder="productCollection">
+                                                    </div>
+                                                </div>
+                                                <div class="form-actions step-actions">
+                                                    <button type="button" class="btn btn-secondary" onclick="goToStep(3)">Back</button>
+                                                    <button type="button" class="btn btn-primary" onclick="goToStep(5)">Next</button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Step 5: Reviews -->
+                                            <div class="form-section product-step" data-step="5" style="display:none;">
                                                 <h5>Product Reviews</h5>
                                                 <div id="reviewsContainer">
                                                     <div id="reviewInputs"></div>
-                                                    <button type="button" class="btn btn-sm btn-secondary"
-                                                        id="addReviewBtn">
+                                                    <button type="button" class="btn btn-sm btn-secondary" id="addReviewBtn">
                                                         <i class="icon-plus"></i> Add Review
                                                     </button>
                                                 </div>
                                                 <div class="form-actions step-actions">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        onclick="goToStep(3)">Back</button>
-                                                    <button type="button" class="btn btn-primary"
-                                                        onclick="goToStep(5)">Next</button>
+                                                    <button type="button" class="btn btn-secondary" onclick="goToStep(4)">Back</button>
+                                                    <button type="button" class="btn btn-primary" onclick="goToStep(6)">Next</button>
                                                 </div>
                                             </div>
 
-                                            <!-- Step 5: Review & Save -->
-                                            <div class="form-section product-step" data-step="5" style="display:none;">
+                                            <!-- Step 6: Review & Save -->
+                                            <div class="form-section product-step" data-step="6" style="display:none;">
                                                 <h5>Review & Save</h5>
                                                 <div id="reviewSection" class="review-section">
                                                     <!-- Review summary will be populated here -->
                                                 </div>
                                                 <div class="form-actions step-actions">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        onclick="goToStep(4)">Back</button>
+                                                    <button type="button" class="btn btn-secondary" onclick="goToStep(5)">Back</button>
                                                     <button type="submit" class="btn btn-primary" id="saveProductBtn">
                                                         <span id="saveProductBtnText"><i class="icon-save"></i> Save Product</span>
                                                         <span id="saveProductBtnLoading" style="display:none;"><i class="icon-save"></i> Saving...</span>
                                                     </button>
-                                                    <button type="button" class="btn btn-secondary"
-                                                        onclick="closeProductModal()">
+                                                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">
                                                         <i class="icon-close"></i> Cancel
                                                     </button>
                                                 </div>
@@ -1366,7 +1377,7 @@
                                         document.querySelector('.product-step[data-step="' + step + '"]').style.display = '';
                                         document.querySelectorAll('.step-btn').forEach(btn => btn.classList.remove('active'));
                                         document.querySelector('.step-btn[data-step="' + step + '"]').classList.add('active');
-                                        if (parseInt(step) === 5) {
+                                        if (parseInt(step) === 6) {
                                             populateReviewSection();
                                         }
                                     }
@@ -1388,7 +1399,6 @@
                                                 mainImagesFiles.push({ file, url });
                                             });
                                             renderMainImagesPreview();
-                                
                                             e.target.value = '';
                                         });
 
@@ -1519,7 +1529,6 @@
                                             };
                                             el.addEventListener('dragstart', el._dragstartHandler);
 
-           
                                             el._dragoverHandler = function (e) {
                                                 e.preventDefault();
                                                 e.dataTransfer.dropEffect = 'move';
@@ -1537,7 +1546,6 @@
                                                 this.classList.remove('drag-over');
                                                 const toIdx = idx;
                                                 if (dragSrcIdx !== null && dragSrcIdx !== toIdx) {
-
                                                     const nodes = Array.from(container.children);
                                                     const moved = nodes[dragSrcIdx];
                                                     if (toIdx > dragSrcIdx) {
@@ -1545,13 +1553,11 @@
                                                     } else {
                                                         container.insertBefore(moved, nodes[toIdx]);
                                                     }
-
                                                     makeExistingImagesSortable();
                                                 }
                                             };
                                             el.addEventListener('drop', el._dropHandler);
 
-                                            // dragend
                                             el._dragendHandler = function (e) {
                                                 this.classList.remove('dragging');
                                                 container.querySelectorAll('.existing-image').forEach(img => img.classList.remove('drag-over'));
@@ -1675,13 +1681,11 @@
                                         const salePrice = document.getElementById('salePrice').value;
                                         const stock = document.getElementById('stock').value;
                                         const description = document.getElementById('description').value;
-                                        const warranty = document.getElementById('warranty').value;
                                         const category = document.getElementById('category');
                                         const categoryText = category.options[category.selectedIndex]?.textContent || '';
                                         const subcategory = document.getElementById('subcategory');
                                         const subcategoryText = subcategory.options[subcategory.selectedIndex]?.textContent || '';
                                         const status = document.getElementById('status').value;
-     
                                         const moreDetails = document.getElementById('moreDetails').value;
                                         const mainImagesCount = mainImagesFiles.length + document.querySelectorAll('#existingMainImages .existing-image').length;
 
@@ -1690,6 +1694,13 @@
                                         const newArrivals = document.getElementById('newArrivals').checked;
                                         const bestSeller = document.getElementById('bestSeller').checked;
                                         const topRated = document.getElementById('topRated').checked;
+
+                                        // Product Details
+                                        const articleNo = document.getElementById('articleNo').value;
+                                        const brand = document.getElementById('brand').value;
+                                        const productType = document.getElementById('productType').value;
+                                        const soleMaterial = document.getElementById('soleMaterial').value;
+                                        const productCollection = document.getElementById('productCollection').value;
 
                                         const hasColorVariants = document.getElementById('hasColorVariants').checked;
                                         const hasSizeVariants = document.getElementById('hasSizeVariants').checked;
@@ -1728,7 +1739,6 @@
                                                 <strong>Sale Price:</strong> ₹${salePrice || '-'}<br>
                                                 <strong>Base Stock:</strong>  ${stock || '-'}<br>
                                                 <strong>Description:</strong> ${description}<br>
-                                                <strong>Warranty:</strong> ${warranty || '-'}<br>
                                                 <strong>Category:</strong> ${categoryText}<br>
                                                 <strong>Subcategory:</strong> ${subcategoryText || '-'}<br>
                                                 <strong>Status:</strong> ${status}<br>
@@ -1741,6 +1751,14 @@
                                             </div>
                                             <div class="review-block">
                                                 <strong>Images:</strong> ${mainImagesCount} selected
+                                            </div>
+                                            <div class="review-block">
+                                                <strong>Product Details:</strong><br>
+                                                <strong>Article No:</strong> ${articleNo || '-'}<br>
+                                                <strong>Brand:</strong> ${brand || '-'}<br>
+                                                <strong>Product Type:</strong> ${productType || '-'}<br>
+                                                <strong>Sole Material:</strong> ${soleMaterial || '-'}<br>
+                                                <strong>productCollection:</strong> ${productCollection || '-'}<br>
                                             </div>
                                         `;
                                         if (hasColorVariants) {
@@ -1857,6 +1875,12 @@
                                             document.getElementById('bestSeller').checked = false;
                                             document.getElementById('topRated').checked = false;
                                             document.getElementById('reviewInputs').innerHTML = '';
+                                            // Reset product details fields
+                                            document.getElementById('articleNo').value = '';
+                                            document.getElementById('brand').value = '';
+                                            document.getElementById('productType').value = '';
+                                            document.getElementById('soleMaterial').value = '';
+                                            document.getElementById('productCollection').value = '';
                                             const saveBtn = document.getElementById('saveProductBtn');
                                             const saveBtnText = document.getElementById('saveProductBtnText');
                                             const saveBtnLoading = document.getElementById('saveProductBtnLoading');
@@ -1898,7 +1922,12 @@
                                             document.getElementById('salePrice').value = product.salePrice || '';
                                             document.getElementById('stock').value = product.stock || '';
                                             document.getElementById('moreDetails').value = product.moreDetails || '';
-                                            document.getElementById('warranty').value = product.warranty || product.warrantyTime || '';
+                                            // Product Details
+                                            document.getElementById('articleNo').value = (product.productDetails && product.productDetails.articleNo) || '';
+                                            document.getElementById('brand').value = (product.productDetails && product.productDetails.brand) || '';
+                                            document.getElementById('productType').value = (product.productDetails && product.productDetails.productType) || '';
+                                            document.getElementById('soleMaterial').value = (product.productDetails && product.productDetails.soleMaterial) || '';
+                                            document.getElementById('productCollection').value = (product.productDetails && product.productDetails.productCollection) || '';
                                             if (product.status) {
                                                 document.getElementById('status').value = product.status;
                                             } else if (typeof product.isActive === 'boolean') {
@@ -2027,7 +2056,13 @@
                                                     sizeContainer.appendChild(sizeDiv);
                                                 });
                                             }
-                                            // Reviews
+                                            // Product Details
+                                            document.getElementById('articleNo').value = (product.productDetails && product.productDetails.articleNo) || '';
+                                            document.getElementById('brand').value = (product.productDetails && product.productDetails.brand) || '';
+                                            document.getElementById('productType').value = (product.productDetails && product.productDetails.productType) || '';
+                                            document.getElementById('soleMaterial').value = (product.productDetails && product.productDetails.soleMaterial) || '';
+                                            document.getElementById('productCollection').value = (product.productDetails && product.productDetails.productCollection) || '';
+                                           
                                             const reviewInputsContainer = document.getElementById('reviewInputs');
                                             reviewInputsContainer.innerHTML = '';
                                             if (product.reviews && product.reviews.length > 0) {

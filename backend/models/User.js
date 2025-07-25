@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   googleId: String,
   otp: String,
   otpExpires: Date,
+  otpVerified: { type: Boolean, default: false },
   role: { type: String, default: 'user', enum: ['user', 'admin'] },
   isBlocked: { type: Boolean, default: false }
 }, { timestamps: true });

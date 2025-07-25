@@ -206,7 +206,7 @@
                                                     <% imagesToShow.forEach(function(img, idx) { %>
                                                         <div class="swiper-slide">
                                                             <figure class="product-image">
-                                                                <img src="<%= img %>" data-zoom-image="<%= img %>"
+                                                                <img  src="<%= img %>" data-zoom-image="<%= img %>"
                                                                     alt="<%= product.name %> Image <%= idx+1 %>"
                                                                     width="800" height="900">
                                                             </figure>
@@ -470,6 +470,12 @@
                                             const variantImage = this.getAttribute('data-image');
                                             if (variantImage) {
                                                 updateMainImage(variantImage);
+                                                // Re-initialize zoom after image update
+                                                if (window.jQuery && window.Wolmart && window.Wolmart.zoomImageOptions) {
+                                                    setTimeout(function() {
+                                                        $('.product-image img').trigger('zoom.destroy').zoom(Wolmart.zoomImageOptions);
+                                                    }, 100);
+                                                }
                                             }
                                         });
                                     });
@@ -558,6 +564,12 @@
                                             // Update the first main image
                                             mainImages[0].src = imageUrl;
                                             mainImages[0].setAttribute('data-zoom-image', imageUrl);
+                                            // Re-initialize zoom after image update
+                                            if (window.jQuery && window.Wolmart && window.Wolmart.zoomImageOptions) {
+                                                setTimeout(function() {
+                                                    $('.product-image img').trigger('zoom.destroy').zoom(Wolmart.zoomImageOptions);
+                                                }, 100);
+                                            }
                                         }
                                     }
 
@@ -1817,6 +1829,7 @@
     <!-- Main JS File -->
     <script src="/js/main.min.js"></script>
     <script src="/js/script.js"></script>
+  
 </body>
 
 

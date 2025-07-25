@@ -208,6 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 // Add this if you want the icon to appear with a slide-up animation
+
 document.addEventListener('DOMContentLoaded', function() {
   const whatsappFloat = document.querySelector('.whatsapp-float');
   const scrollThreshold = 0.01; // Show after 10% of page is scrolled

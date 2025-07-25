@@ -24398,6 +24398,7 @@ aside .sp-sidebar-banner span {
 .product-size-new {
   display: flex;
   gap: 4px;
+  flex-wrap: wrap;
 }
 
 .size-options-new {

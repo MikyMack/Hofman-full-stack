@@ -2185,13 +2185,11 @@
                        Sign in to unlock your exclusive discount. Enjoy 10% off your  purchase and access to member-only deals and early sales.
                     </div>
                 </div>
+                <div class="lws-popup-form">
+                    <a style="width: 100%!important; display: block;" href="/auth/login" class="lws-popup-btn">Sign up Now</a>
+                </div>
                 
-                <form class="lws-popup-form">
-                   
-                 <a style="width: 100%!important;" href=""> <button type="submit" class="lws-popup-btn">Sign up Now </button> </a>
-                </form>
-                
-                <a href="#" class="lws-popup-shop">Shop now</a>
+                <a href="/store" class="lws-popup-shop">Shop now</a>
             </div>
         </div>
     </div>
@@ -2761,38 +2759,35 @@
     </script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Only show the popup if the user is NOT logged in
+        if (!window.isLoggedIn) {
             const popup = document.getElementById('newsletterPopup');
             const closeBtn = document.getElementById('popupClose');
-            
-       
+
             setTimeout(() => {
                 popup.classList.add('active');
             }, 1000);
-            
-    
+
             popup.addEventListener('click', function(e) {
                 if (e.target === popup) {
                     closePopup();
                 }
             });
-            
-        
+
             closeBtn.addEventListener('click', closePopup);
-            
-   
+
             const form = popup.querySelector('form');
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const email = form.querySelector('input').value;
-               
-              
+                // You can handle the email submission here
             });
-            
+
             function closePopup() {
                 popup.classList.remove('active');
-                
             }
-        });
+        }
+    });
     </script>
 
     <!-- Plugin JS File -->

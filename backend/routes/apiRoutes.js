@@ -30,7 +30,39 @@ router.put('/products/:id', upload.any(), productController.updateProduct);
 router.delete('/products/:id', productController.deleteProduct);
 router.patch('/products/:id/status', productController.toggleProductStatus);
 router.get('/product-type/:type', productController.getProductsByType);
+router.post('/products/:id/reviews', async (req, res) => {
+  try {
+    const { name, rating, review } = req.body;
 
+    if (!name || !rating || !review) {
+      return res.status(400).json({ success: false, message: 'All fields are required' });
+    }
+
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
+    }
+
+    const newReview = {
+      name,
+      rating: parseInt(rating, 10),
+      review,
+      createdAt: new Date()
+    };
+
+    product.reviews.push(newReview);
+    await product.save();
+
+    return res.json({
+      success: true,
+      message: 'Review added successfully',
+      review: newReview
+    });
+  } catch (error) {
+    console.error('Error adding review:', error);
+    return res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+});
 
 router.post('/admin-blogs', upload.single('image'), blogController.createBlog);
 router.get('/get-admin-blogs', blogController.getAllBlogs);

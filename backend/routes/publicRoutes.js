@@ -266,8 +266,6 @@ router.get('/store', async (req, res) => {
             currentPage = effectivePage;
         }
         
-        
-
         if (minPrice || maxPrice) {
             const priceFilter = {};
             if (minPrice) priceFilter.$gte = Number(minPrice);
@@ -276,7 +274,12 @@ router.get('/store', async (req, res) => {
             filter.$and = filter.$and || [];
             filter.$and.push({
                 $or: [
-                    { salePrice: priceFilter },
+                    { 
+                        $and: [
+                            { $or: [{ salePrice: { $gt: 0 } }, { salePrice: { $exists: true } }] },
+                            { salePrice: priceFilter }
+                        ]
+                    },
                     {
                         $and: [
                             { $or: [{ salePrice: 0 }, { salePrice: { $exists: false } }] },
@@ -292,26 +295,59 @@ router.get('/store', async (req, res) => {
 
         const totalProducts = await Product.countDocuments(filter);
 
-        let productsQuery = Product.find(filter)
-            .skip((effectivePage - 1) * Number(limit))
-            .limit(Number(limit))
-            .sort({ createdAt: -1 });
-
+        // Sorting logic for price-low and price-high
+        let sortObj = {};
         switch (sort) {
             case 'price-low':
-                productsQuery.sort({ salePrice: 1, basePrice: 1 });
+                // Sort by effective price: salePrice if > 0, else basePrice
+                // This requires aggregation, but for .find() we can sort by a computed field in-memory after fetching
+                sortObj = { };
                 break;
             case 'price-high':
-                productsQuery.sort({ salePrice: -1, basePrice: -1 });
+                sortObj = { };
                 break;
             case 'bestseller':
-                productsQuery.sort({ soldCount: -1 });
+                sortObj = { soldCount: -1 };
                 break;
             default:
-                productsQuery.sort({ createdAt: -1 });
+                sortObj = { createdAt: -1 };
         }
 
-        const products = await productsQuery.lean();
+        let products = [];
+        if (sort === 'price-low' || sort === 'price-high') {
+
+            let fetchedProducts = await Product.find(filter)
+                .skip((effectivePage - 1) * Number(limit))
+                .limit(Number(limit))
+                .lean();
+
+            if (fetchedProducts.length < Number(limit)) {
+                fetchedProducts = await Product.find(filter).lean();
+            }
+
+
+            fetchedProducts.forEach(p => {
+                p.effectivePrice = (p.salePrice && p.salePrice > 0) ? p.salePrice : p.basePrice;
+            });
+
+            fetchedProducts.sort((a, b) => {
+                if (sort === 'price-low') {
+                    return a.effectivePrice - b.effectivePrice;
+                } else {
+                    return b.effectivePrice - a.effectivePrice;
+                }
+            });
+
+            // Paginate after sort
+            products = fetchedProducts.slice((effectivePage - 1) * Number(limit), effectivePage * Number(limit));
+        } else {
+            products = await Product.find(filter)
+                .skip((effectivePage - 1) * Number(limit))
+                .limit(Number(limit))
+                .sort(sortObj)
+                .lean();
+        }
+
         const categories = await Category.find({}).lean();
         const cart = req.user ? await Cart.findOne({ user: req.user._id }).lean() : null;
 

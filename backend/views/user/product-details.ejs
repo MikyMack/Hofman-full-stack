@@ -941,11 +941,10 @@
                                         </ul>
                                     </div>
                                     <div class="tab-pane" id="product-tab-reviews">
-
                                         <div class="tab tab-nav-boxed tab-nav-outline tab-nav-center">
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="show-all">
-                                                    <ul class="comments list-style-none">
+                                                    <ul class="comments list-style-none" id="reviews-list">
                                                         <% if (product.reviews && product.reviews.length) { %>
                                                             <% product.reviews.forEach(function(review) { %>
                                                                 <li class="comment">
@@ -972,7 +971,7 @@
                                                                                 class="ratings-container comment-rating">
                                                                                 <div class="ratings-full">
                                                                                     <span class="ratings"
-                                                                                        style="width: <%= (review.rating/5)*100 %>%"></span>
+                                                                                        style="width: <%= (review.rating/5)*100 %>%;"></span>
                                                                                     <span
                                                                                         class="tooltiptext tooltip-top"></span>
                                                                                 </div>
@@ -980,21 +979,246 @@
                                                                             <p>
                                                                                 <%= review.review %>
                                                                             </p>
-                                                                            <% /* Optionally, you can add
-                                                                                helpful/unhelpful or images if you
-                                                                                extend the schema */ %>
                                                                         </div>
                                                                     </div>
                                                                 </li>
-                                                                <% }) %>
-                                                                    <% } else { %>
-                                                                        <li>No reviews yet.</li>
-                                                                        <% } %>
+                                                            <% }) %>
+                                                        <% } else { %>
+                                                            <li id="no-reviews-msg">No reviews yet. Be the first to review!</li>
+                                                        <% } %>
                                                     </ul>
+                                                    
+                                                    <!-- Add Review Form -->
+                                                    <div class="review-form-section">
+                                                        <h3 class="review-form-title">
+                                                            <i class="fas fa-star text-warning"></i>
+                                                            Share Your Experience
+                                                        </h3>
+                                                        <form id="review-form" action="/products/<%= product._id %>/reviews" method="POST" autocomplete="off">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-6">
+                                                                    <label for="review-name">
+                                                                        <i class="fas fa-user"></i> Your Name
+                                                                    </label>
+                                                                    <input type="text" id="review-name" name="name" class="form-control review-input" placeholder="Enter your name" required>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label>
+                                                                        <i class="fas fa-star"></i> Your Rating
+                                                                    </label>
+                                                                    <div class="rating-input">
+                                                                        <input type="radio" id="star5" name="rating" value="5" required>
+                                                                        <label for="star5" title="5 stars">&#9733;</label>
+                                                                        <input type="radio" id="star4" name="rating" value="4">
+                                                                        <label for="star4" title="4 stars">&#9733;</label>
+                                                                        <input type="radio" id="star3" name="rating" value="3">
+                                                                        <label for="star3" title="3 stars">&#9733;</label>
+                                                                        <input type="radio" id="star2" name="rating" value="2">
+                                                                        <label for="star2" title="2 stars">&#9733;</label>
+                                                                        <input type="radio" id="star1" name="rating" value="1">
+                                                                        <label for="star1" title="1 star">&#9733;</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="review-text">
+                                                                    <i class="fas fa-comment-dots"></i> Your Review
+                                                                </label>
+                                                                <textarea id="review-text" name="review" class="form-control review-input" rows="4" placeholder="Write your honest feedback here..." required></textarea>
+                                                            </div>
+                                                            <div class="form-group text-center">
+                                                                <button type="submit" class="btn btn-dark btn-lg review-submit-btn">
+                                                                    <i class="fas fa-paper-plane"></i> Submit Review
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                        <div id="review-success-message" style="display:none; margin-top: 15px;" class="alert alert-success text-center">
+                                                            Thank you for your review!
+                                                        </div>
+                                                        <div id="review-error-message" style="display:none; margin-top: 15px;" class="alert alert-danger text-center">
+                                                            Sorry, there was an error submitting your review. Please try again.
+                                                        </div>
+                                                    </div>
+                                                    <script>
+                                                        document.getElementById('review-form').addEventListener('submit', async function(e) {
+                                                          e.preventDefault();
+                                                          const form = e.target;
+                                                    const name = form.querySelector('[name="name"]').value.trim();
+                                                          const rating = form.querySelector('[name="rating"]:checked') ? form.querySelector('[name="rating"]:checked').value : '';
+                                                          const review = form.querySelector('[name="review"]').value.trim();
+                                                          const submitBtn = form.querySelector('button[type="submit"]');
+                                                          submitBtn.disabled = true;
+
+                                                          // Build URL-encoded body
+                                                          const params = new URLSearchParams();
+                                                          params.append('name', name);
+                                                          params.append('rating', rating);
+                                                          params.append('review', review);
+
+                                                          try {
+                                                            const res = await fetch(form.action, {
+                                                              method: 'POST',
+                                                              body: params,
+                                                              headers: {
+                                                                'Accept': 'application/json',
+                                                                'Content-Type': 'application/x-www-form-urlencoded'
+                                                              }
+                                                            });
+
+                                                            const data = await res.json();
+                                                            if (data.success) {
+                                                              const reviewList = document.getElementById('reviews-list');
+                                                              const noReviewsMsg = document.getElementById('no-reviews-msg');
+                                                              if (noReviewsMsg) noReviewsMsg.remove();
+                                                              const dateStr = data.review.createdAt
+                                                                ? new Date(data.review.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })
+                                                                : '';
+                                                              const li = document.createElement('li');
+                                                              li.className = 'comment';
+                                                              li.innerHTML = `
+                                                                <div class="comment-body">
+                                                                  <figure class="comment-avatar">
+                                                                    <img src="/images/hofmaan/dummy.jpg" alt="Commenter Avatar" width="90" height="90">
+                                                                  </figure>
+                                                                  <div class="comment-content">
+                                                                    <h4 class="comment-author">
+                                                                      <a href="#">${data.review.name}</a>
+                                                                      <span class="comment-date">${dateStr}</span>
+                                                                    </h4>
+                                                                    <div class="ratings-container comment-rating">
+                                                                      <div class="ratings-full">
+                                                                        <span class="ratings" style="width: ${(data.review.rating/5)*100}%;"></span>
+                                                                        <span class="tooltiptext tooltip-top"></span>
+                                                                      </div>
+                                                                    </div>
+                                                                    <p>${data.review.review}</p>
+                                                                  </div>
+                                                                </div>
+                                                              `;
+                                                              reviewList.appendChild(li);
+
+                                                              document.getElementById('review-success-message').style.display = 'block';
+                                                              document.getElementById('review-error-message').style.display = 'none';
+                                                              form.reset();
+                                                            } else {
+                                                              document.getElementById('review-success-message').style.display = 'none';
+                                                              document.getElementById('review-error-message').style.display = 'block';
+                                                            }
+                                                          } catch (err) {
+                                                            console.error(err);
+                                                            document.getElementById('review-success-message').style.display = 'none';
+                                                            document.getElementById('review-error-message').style.display = 'block';
+                                                          }
+
+                                                          submitBtn.disabled = false;
+                                                        });
+                                                    </script>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    <style>
+                                        /* Rating stars styling */
+                                        .rating-input {
+                                            display: flex;
+                                            margin: 10px 0;
+                                            flex-direction: row-reverse;
+                                            justify-content: flex-end;
+                                        }
+                                        .rating-input input {
+                                            display: none;
+                                        }
+                                        .rating-input label {
+                                            font-size: 2rem;
+                                            color: #ddd;
+                                            cursor: pointer;
+                                            margin-right: 5px;
+                                            transition: color 0.2s;
+                                        }
+                                        .rating-input input:checked ~ label,
+                                        .rating-input label:hover,
+                                        .rating-input label:hover ~ label {
+                                            color: #ffc107;
+                                        }
+                                        .review-form-section {
+                                            margin-top: 40px;
+                                            padding: 30px 25px 20px 25px;
+                                            background: linear-gradient(135deg, #f9f9f9 80%, #ffe9c7 100%);
+                                            border-radius: 10px;
+                                            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+                                            position: relative;
+                                            overflow: hidden;
+                                        }
+                                        .review-form-title {
+                                            margin-bottom: 25px;
+                                            font-size: 22px;
+                                            font-weight: 700;
+                                            color: #222;
+                                            text-align: center;
+                                            letter-spacing: 0.5px;
+                                        }
+                                        .form-row {
+                                            display: flex;
+                                            flex-wrap: wrap;
+                                            gap: 20px;
+                                        }
+                                        .form-group {
+                                            margin-bottom: 20px;
+                                            flex: 1 1 100%;
+                                        }
+                                        .form-group.col-md-6 {
+                                            flex: 1 1 45%;
+                                            min-width: 200px;
+                                        }
+                                        .form-group label {
+                                            display: block;
+                                            margin-bottom: 8px;
+                                            font-weight: 500;
+                                            color: #444;
+                                        }
+                                        .review-input {
+                                            border-radius: 6px;
+                                            border: 1px solid #e0e0e0;
+                                            padding: 10px 14px;
+                                            font-size: 1rem;
+                                            background: #fff;
+                                            transition: border-color 0.2s;
+                                        }
+                                        .review-input:focus {
+                                            border-color: #ffc107;
+                                            outline: none;
+                                            box-shadow: 0 0 0 2px #ffe9c7;
+                                        }
+                                        .review-submit-btn {
+                                            padding: 10px 32px;
+                                            font-size: 1.1rem;
+                                            border-radius: 25px;
+                                            background: linear-gradient(90deg, #222 60%, #ffc107 100%);
+                                            border: none;
+                                            color: #fff;
+                                            font-weight: 600;
+                                            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                                            transition: background 0.2s, box-shadow 0.2s;
+                                        }
+                                        .review-submit-btn:hover {
+                                            background: linear-gradient(90deg, #ffc107 60%, #222 100%);
+                                            color: #222;
+                                            box-shadow: 0 4px 16px rgba(255,193,7,0.12);
+                                        }
+                                        @media (max-width: 600px) {
+                                            .form-row {
+                                                flex-direction: column;
+                                                gap: 0;
+                                            }
+                                            .form-group.col-md-6 {
+                                                min-width: 100%;
+                                            }
+                                            .review-form-section {
+                                                padding: 18px 8px 10px 8px;
+                                            }
+                                        }
+                                    </style>
                                 </div>
                             </div>
                             <section class="related-product-section">

@@ -5,7 +5,7 @@ const crypto = require('crypto');
 require('dotenv').config();
 const shiprocketService = require('../services/shiprocketService');
 const { getOrdersWithTracking } = require('../services/orderService');
-
+const orderController = require('../controllers/orderController');
 const Category = require('../models/Category');
 const Product = require('../models/Product');
 const MainBanner = require('../models/MainBanner');
@@ -1212,5 +1212,10 @@ router.get('/blogs/:id', async (req, res) => {
         res.status(500).render('error', { message: 'Failed to load blog details' });
     }
 });
+
+router.post('/orders/:orderId/cancel', orderController.cancelOrder);
+
+// Replacement request
+router.post('/orders/replace', orderController.requestReplacement);
 
 module.exports = router;

@@ -403,57 +403,72 @@ exports.updateProduct = async (req, res) => {
       );
     }
 
-    // --- Process Color Variants ---
     let parsedColorVariants = [];
     if (req.body.colorVariants) {
-      let rawColorVariants;
-      try {
-        rawColorVariants = typeof req.body.colorVariants === 'string'
-          ? JSON.parse(req.body.colorVariants)
-          : req.body.colorVariants;
-      } catch (e) {
-        console.error('Error parsing color variants:', e);
-        rawColorVariants = {};
-      }
-
-      parsedColorVariants = Object.entries(rawColorVariants).map(([key, variant]) => {
-        const existing = product.colorVariants.find(cv =>
-          cv._id?.toString() === key || cv.color === variant.color
-        ) || {};
-
-        return {
-          _id: existing._id || key,
-          color: variant.color,
-          stock: variant.stock || 0,
-          image: colorVariantImages[key] !== undefined
-            ? colorVariantImages[key]
-            : (variant.existingImage || existing.image || variant.image || null)
-        };
-      });
+        let rawColorVariants;
+        try {
+            rawColorVariants = typeof req.body.colorVariants === 'string'
+                ? JSON.parse(req.body.colorVariants)
+                : req.body.colorVariants;
+        } catch (e) {
+            console.error('Error parsing color variants:', e);
+            rawColorVariants = {};
+        }
+    
+        // Get IDs of variants to delete
+        const deletedVariantIds = Array.isArray(req.body.deletedColorVariants) 
+            ? req.body.deletedColorVariants 
+            : req.body.deletedColorVariants ? [req.body.deletedColorVariants] : [];
+    
+        parsedColorVariants = Object.entries(rawColorVariants)
+            .filter(([key]) => !deletedVariantIds.includes(key))
+            .map(([key, variant]) => {
+                const existing = product.colorVariants.find(cv =>
+                    cv._id?.toString() === key || cv.color === variant.color
+                ) || {};
+    
+                return {
+                    _id: existing._id || key,
+                    color: variant.color,
+                    stock: variant.stock || 0,
+                    image: colorVariantImages[key] !== undefined
+                        ? colorVariantImages[key]
+                        : (variant.existingImage || existing.image || variant.image || null)
+                };
+            });
     } else {
-      parsedColorVariants = product.colorVariants || [];
+        // If no color variants in request but product had them, clear all
+        parsedColorVariants = [];
     }
 
     // --- Process Size Variants ---
-    let parsedSizeVariants = [];
-    if (req.body.sizeVariants) {
-      let rawSizeVariants;
-      try {
+let parsedSizeVariants = [];
+if (req.body.sizeVariants) {
+    let rawSizeVariants;
+    try {
         rawSizeVariants = typeof req.body.sizeVariants === 'string'
-          ? JSON.parse(req.body.sizeVariants)
-          : req.body.sizeVariants;
-      } catch (e) {
+            ? JSON.parse(req.body.sizeVariants)
+            : req.body.sizeVariants;
+    } catch (e) {
         console.error('Error parsing size variants:', e);
         rawSizeVariants = {};
-      }
-
-      parsedSizeVariants = Object.values(rawSizeVariants).map(variant => ({
-        size: variant.size,
-        stock: variant.stock || 0
-      }));
-    } else {
-      parsedSizeVariants = product.sizeVariants || [];
     }
+
+    // Get IDs of variants to delete
+    const deletedVariantIds = Array.isArray(req.body.deletedSizeVariants) 
+        ? req.body.deletedSizeVariants 
+        : req.body.deletedSizeVariants ? [req.body.deletedSizeVariants] : [];
+
+    parsedSizeVariants = Object.entries(rawSizeVariants)
+        .filter(([key]) => !deletedVariantIds.includes(key))
+        .map(([key, variant]) => ({
+            _id: key, // Preserve the ID if it exists
+            size: variant.size,
+            stock: variant.stock || 0
+        }));
+} else {
+    parsedSizeVariants = [];
+}
 
     // --- Process Reviews ---
     let parsedReviews = [];

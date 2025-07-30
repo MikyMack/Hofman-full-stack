@@ -78,7 +78,6 @@ app.use((req, res, next) => {
 });
 
 
-
 app.use(async (err, req, res, next) => {
   console.error(err.stack || err);
   let categories = [];

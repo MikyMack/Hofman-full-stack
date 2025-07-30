@@ -1,37 +1,7 @@
 const Product = require('../models/Product');
-const cloudinary = require('../utils/cloudinary');
 const fs = require('fs').promises;
 const mongoose = require('mongoose');
-
-// Helper function to upload images to Cloudinary
-async function uploadToCloudinary(file, folder = 'products') {
-  try {
-    const result = await cloudinary.uploader.upload(file.path, {
-      folder: `Hofmaan/${folder}`,
-      public_id: `${Date.now()}-${Math.round(Math.random() * 1E9)}`
-    });
-
-    // Only delete the file if it's a local temp file
-    if (file.path && file.path.startsWith('uploads/')) {
-      try {
-        await fs.unlink(file.path);
-      } catch (e) {
-        console.error('Error deleting temporary file:', e);
-      }
-    }
-
-    return result.secure_url;
-  } catch (error) {
-    if (file.path && file.path.startsWith('uploads/')) {
-      try {
-        await fs.unlink(file.path);
-      } catch (e) {
-        console.error('Error deleting temporary file:', e);
-      }
-    }
-    throw error;
-  }
-}
+const { uploadToS3 } = require('../middleware/uploadS3');
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -176,50 +146,27 @@ exports.createProduct = async (req, res) => {
     const colorVariantImages = {};
 
     if (req.files && req.files.length > 0) {
-
-      const mainImageFiles = [];
-      
-      let index = 0;
-      while (true) {
-        const file = req.files.find(f => 
-          f.fieldname === `mainImages[${index}]` || 
-          (index === 0 && f.fieldname === 'mainImages')
-        );
-        if (!file) break;
-        mainImageFiles.push(file);
-        index++;
-      }
-      
-      if (mainImageFiles.length === 0) {
-        mainImageFiles.push(...req.files.filter(f => f.fieldname === 'mainImages'));
-      }
-
-      if (mainImageFiles.length > 0) {
-        images = await Promise.all(
-          mainImageFiles.map(file => uploadToCloudinary(file, 'products'))
-        );
-      }
-
-      const colorVariantFiles = req.files.filter(file =>
-        file.fieldname.includes('colorVariants') &&
-        file.fieldname.includes('[image]')
+      const mainImageFiles = req.files.filter(f => f.fieldname === 'mainImages' || f.fieldname.startsWith('mainImages['));
+      images = await Promise.all(
+        mainImageFiles.map(file => uploadToS3(file, 'products'))
       );
-
-      if (colorVariantFiles.length > 0) {
-        await Promise.all(
-          colorVariantFiles.map(async (file) => {
-            const match = file.fieldname.match(/colorVariants\[([^\]]+)\]\[image\]/);
-            if (match && match[1]) {
-              const colorId = match[1];
-              const imageUrl = await uploadToCloudinary(file, 'products/color-variants');
-              colorVariantImages[colorId] = imageUrl;
-            }
-          })
-        );
-      }
+      
+    
+      const colorVariantFiles = req.files.filter(file =>
+        file.fieldname.includes('colorVariants') && file.fieldname.includes('[image]')
+      );
+    
+      await Promise.all(
+        colorVariantFiles.map(async file => {
+          const match = file.fieldname.match(/colorVariants\[([^\]]+)\]\[image\]/);
+          if (match && match[1]) {
+            const colorId = match[1];
+            colorVariantImages[colorId] = await uploadToS3(file, 'products/color-variants');
+          }
+        })
+      );
     }
 
-    // Process color variants
     if (colorVariants) {
       try {
         const raw = typeof colorVariants === 'string' ? JSON.parse(colorVariants) : colorVariants;
@@ -374,13 +321,13 @@ exports.updateProduct = async (req, res) => {
       // Remove duplicates (in case multer sends both 'mainImages' and 'mainImages[0]')
       mainImageFiles = Array.from(new Set(mainImageFiles));
 
-      // Upload new images in order and add to images array
       if (mainImageFiles.length > 0) {
         const uploadedImages = await Promise.all(
-          mainImageFiles.map(file => uploadToCloudinary(file, 'products'))
+          mainImageFiles.map(file => uploadToS3(file, 'products'))
         );
         images = [...images, ...uploadedImages];
       }
+      
     }
 
     // --- Handle Color Variant Images ---
@@ -396,8 +343,7 @@ exports.updateProduct = async (req, res) => {
           const match = file.fieldname.match(/colorVariants\[([^\]]+)\]\[image\]/);
           if (match && match[1]) {
             const colorId = match[1];
-            const imageUrl = await uploadToCloudinary(file, 'products/color-variants');
-            colorVariantImages[colorId] = imageUrl;
+            colorVariantImages[colorId] = file.location;
           }
         })
       );

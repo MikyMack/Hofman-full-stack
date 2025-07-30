@@ -1,57 +1,14 @@
 const MainBanner = require('../models/BannerTwo');
-const cloudinary = require('../utils/cloudinary');
-const fs = require('fs/promises');
-const path = require('path');
+const { uploadToS3 } = require('../middleware/uploadS3');
+const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 
-// Helper to extract Cloudinary public_id from image URL
-function extractCloudinaryPublicId(imageUrl, folder = 'main-banners') {
-  if (!imageUrl) return null;
-  try {
-    const url = new URL(imageUrl);
-    const parts = url.pathname.split('/');
-    const hofmaanIdx = parts.findIndex(p => p === 'Hofmaan');
-    if (hofmaanIdx === -1) return null;
-    const folderParts = [ 'Hofmaan', folder ];
-    const folderIdx = parts.findIndex((p, i) => parts.slice(i, i+2).join('/') === folderParts.join('/'));
-    if (folderIdx === -1) return null;
-    const filename = parts[folderIdx + 2];
-    if (!filename) return null;
-    const ext = path.extname(filename);
-    const basename = filename.slice(0, -ext.length);
-    return `Hofmaan/${folder}/${basename}`;
-  } catch (e) {
-    return null;
-  }
-}
-
-async function uploadToCloudinary(file, folder = 'mainbanners') {
-  try {
-    const result = await cloudinary.uploader.upload(file.path, {
-      folder: `Hofmaan/${folder}`,
-      public_id: `${Date.now()}-${Math.round(Math.random() * 1E9)}`
-    });
-
-    // Only delete the file if it's a local temp file
-    if (file.path && file.path.startsWith('uploads/')) {
-      try {
-        await fs.unlink(file.path);
-      } catch (e) {
-        console.error('Error deleting temporary file:', e);
-      }
-    }
-
-    return result.secure_url;
-  } catch (error) {
-    if (file.path && file.path.startsWith('uploads/')) {
-      try {
-        await fs.unlink(file.path);
-      } catch (e) {
-        console.error('Error deleting temporary file:', e);
-      }
-    }
-    throw error;
-  }
-}
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
 
 exports.create = async (req, res) => {
   try {
@@ -60,7 +17,15 @@ exports.create = async (req, res) => {
       return res.status(400).json({ message: 'Only 5 active banners allowed' });
     }
 
-    const image = req.file ? await uploadToCloudinary(req.file, 'main-banners') : null;
+    let image = null;
+    if (req.file) {
+      try {
+        image = await uploadToS3(req.file, 'main-banners'); 
+      } catch (uploadErr) {
+        console.error('S3 upload error:', uploadErr);
+        return res.status(500).json({ success: false, message: 'Image upload failed' });
+      }
+    }
 
     const banner = new MainBanner({
       title: req.body.title,
@@ -84,20 +49,9 @@ exports.update = async (req, res) => {
     if (!banner) return res.status(404).json({ message: 'Banner not found' });
 
     if (req.file) {
-      // Delete old image from cloudinary if exists
-      if (banner.image) {
-        const publicId = extractCloudinaryPublicId(banner.image, 'main-banners');
-        if (publicId) {
-          try {
-            await cloudinary.uploader.destroy(publicId);
-          } catch (e) {
-            console.error('Error deleting old image from Cloudinary:', e);
-          }
-        }
-      }
-      banner.image = await uploadToCloudinary(req.file, 'main-banners');
+      const newImageUrl = await uploadToS3(req.file, 'main-banners');
+      banner.image = newImageUrl; 
     }
-
     banner.title = req.body.title || banner.title;
     banner.subtitle = req.body.subtitle || banner.subtitle;
     banner.description = req.body.description || banner.description;
@@ -114,13 +68,22 @@ exports.delete = async (req, res) => {
   try {
     const banner = await MainBanner.findByIdAndDelete(req.params.id);
     if (!banner) return res.status(404).json({ message: 'Banner not found' });
+
     if (banner.image) {
-      const publicId = extractCloudinaryPublicId(banner.image, 'main-banners');
-      if (publicId) {
+      const imageUrl = banner.image;
+      const bucketName = process.env.S3_BUCKET;
+
+      // Extract the S3 object key from the image URL
+      const key = imageUrl.split(`.amazonaws.com/`)[1];
+
+      if (key) {
         try {
-          await cloudinary.uploader.destroy(publicId);
+          await s3.send(new DeleteObjectCommand({
+            Bucket: bucketName,
+            Key: key,
+          }));
         } catch (e) {
-          console.error('Error deleting image from Cloudinary:', e);
+          console.error('Error deleting image from S3:', e);
         }
       }
     }

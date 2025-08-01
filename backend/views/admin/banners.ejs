@@ -89,9 +89,10 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
         }
+
         .modal.active {
-    display: block;
-}
+            display: block;
+        }
 
         .modal-content {
             background-color: #fff;
@@ -286,23 +287,23 @@
                                             <div class="icon"><i class="icon-file-plus"></i></div>
                                             <div class="text">Product Management</div>
                                         </a>
-                                    
+
                                     </li>
                                     <li class="menu-item">
                                         <a href="/admin/category" class="menu-item-button">
                                             <div class="icon"><i class="icon-layers"></i></div>
                                             <div class="text">Category Management</div>
                                         </a>
-                                    
+
                                     </li>
                                     <li class="menu-item">
                                         <a href="/admin/coupons" class="menu-item-button">
                                             <div class="icon"><i class="icon-layers"></i></div>
                                             <div class="text">Coupons Management</div>
                                         </a>
-                                      
+
                                     </li>
-                                       <li class="menu-item ">
+                                    <li class="menu-item ">
                                         <a href="/admin/orders" class="menu-item-button">
                                             <div class="icon"><i class="icon-layers"></i></div>
                                             <div class="text">Orders Management</div>
@@ -327,7 +328,7 @@
                                             <div class="text">Banner Management</div>
                                         </a>
                                     </li>
-                                     <li class="menu-item">
+                                    <li class="menu-item">
                                         <a href="/admin-blogs" class="menu-item-button">
                                             <div class="icon"><i class="icon-book-open"></i></div>
                                             <div class="text">Blogs Management</div>
@@ -339,8 +340,8 @@
                                             <div class="text">Testimonials Management</div>
                                         </a>
                                     </li>
-                               
-                                   
+
+
                                     <li class="menu-item">
                                         <a href="/logout">
                                             <div class="icon">
@@ -367,9 +368,8 @@
                         <div class="wrap">
                             <div class="header-left">
                                 <a href="/admin/dashboard">
-                                    <img style="width: 50px;" id="logo_header_mobile" alt=""
-                                        src="/images/logo.png" data-light="/images/logo.png"
-                                        data-dark="/images/logo.png">
+                                    <img style="width: 50px;" id="logo_header_mobile" alt="" src="/images/logo.png"
+                                        data-light="/images/logo.png" data-dark="/images/logo.png">
                                 </a>
                                 <div class="button-show-hide">
                                     <i class="icon-chevron-left"></i>
@@ -449,151 +449,147 @@
                                     </ul>
                                 </div>
 
-                        <div class="wg-box">
-    <div class="flex items-center justify-between gap10 flex-wrap mb-20">
-        <div class="flex gap10">
-            <button class="tf-button style-1 w208" onclick="showAddBannerModal('main')">
-                <i class="icon-plus"></i> Add Main Banner
-            </button>
-            <button class="tf-button style-3 w208" onclick="showAddBannerModal('two')">
-                <i class="icon-plus"></i> Add Banner Two
-            </button>
-            <button class="tf-button style-3 w208" onclick="showAddBannerModal('three')">
-                <i class="icon-plus"></i> Add Banner Three
-            </button>
-            <button class="tf-button style-3 w208" onclick="showAddBannerModal('mobile')">
-                <i class="icon-plus"></i> Add mobile Banner 
-            </button>
-        </div>
-    </div>
+                                <div class="wg-box">
+                                    <div class="flex items-center justify-between gap10 flex-wrap mb-20">
+                                        <div class="flex gap10">
+                                            <button class="tf-button style-1 w208" onclick="showAddBannerModal('main')">
+                                                <i class="icon-plus"></i> Add Main Banner
+                                            </button>
+                                            <button class="tf-button style-3 w208" onclick="showAddBannerModal('two')">
+                                                <i class="icon-plus"></i> Add Banner Two
+                                            </button>
+                                            <button class="tf-button style-3 w208"
+                                                onclick="showAddBannerModal('three')">
+                                                <i class="icon-plus"></i> Add Banner Three
+                                            </button>
+                                            <button class="tf-button style-3 w208"
+                                                onclick="showAddBannerModal('mobile')">
+                                                <i class="icon-plus"></i> Add Mobile Banner
+                                            </button>
+                                        </div>
+                                    </div>
 
-    <div class="tabs mb-20">
-        <button class="tab-btn active" onclick="showBannerTab('main', this)">Main Banners</button>
-        <button class="tab-btn" onclick="showBannerTab('two', this)">Banner Two</button>
-        <button class="tab-btn" onclick="showBannerTab('three', this)">Banner Three</button>
-        <button class="tab-btn" onclick="showBannerTab('mobile', this)">Mobile Banner</button>
-    </div>
+                                    <div class="tabs mb-20">
+                                        <button class="tab-btn active" onclick="showBannerTab('main', this)">Main
+                                            Banners</button>
+                                        <button class="tab-btn" onclick="showBannerTab('two', this)">Banner Two</button>
+                                        <button class="tab-btn" onclick="showBannerTab('three', this)">Banner
+                                            Three</button>
+                                        <button class="tab-btn" onclick="showBannerTab('mobile', this)">Mobile
+                                            Banner</button>
+                                    </div>
 
-    <div class="wg-table table-all-banner">
-        <!-- Main Banners Table -->
-        <div class="banner-table" id="banner-table-main">
-            <ul class="table-title flex gap20 mb-14">
-                <li style="width: 140px;">
-                    <div class="body-title">Image</div>
-                </li>
-                <li>
-                    <div class="body-title">Title</div>
-                </li>
-                <li>
-                    <div class="body-title">Subtitle</div>
-                </li>
-                <li>
-                    <div class="body-title">Description</div>
-                </li>
-                <li>
-                    <div class="body-title">Link</div>
-                </li>
-                <li>
-                    <div class="body-title">Status</div>
-                </li>
-                <li>
-                    <div class="body-title">Actions</div>
-                </li>
-            </ul>
-            <ul class="flex flex-column" id="main-banner-list">
-                <!-- Main banners will be injected here -->
-            </ul>
-        </div>
-        <!-- Banner Two Table -->
-        <div class="banner-table" id="banner-table-two" style="display:none;">
-            <ul class="table-title flex gap20 mb-14">
-                <li style="width: 140px;">
-                    <div class="body-title">Image</div>
-                </li>
-                <li>
-                    <div class="body-title">Title</div>
-                </li>
-                <li>
-                    <div class="body-title">Subtitle</div>
-                </li>
-                <li>
-                    <div class="body-title">Description</div>
-                </li>
-                <li>
-                    <div class="body-title">Link</div>
-                </li>
-                <li>
-                    <div class="body-title">Status</div>
-                </li>
-                <li>
-                    <div class="body-title">Actions</div>
-                </li>
-            </ul>
-            <ul class="flex flex-column" id="two-banner-list">
-                <!-- Banner two will be injected here -->
-            </ul>
-        </div>
-        <!-- Banner Three Table -->
-        <div class="banner-table" id="banner-table-three" style="display:none;">
-            <ul class="table-title flex gap20 mb-14">
-                <li style="width: 140px;">
-                    <div class="body-title">Image</div>
-                </li>
-                <li>
-                    <div class="body-title">Title</div>
-                </li>
-                <li>
-                    <div class="body-title">Subtitle</div>
-                </li>
-                <li>
-                    <div class="body-title">Description</div>
-                </li>
-                <li>
-                    <div class="body-title">Link</div>
-                </li>
-                <li>
-                    <div class="body-title">Status</div>
-                </li>
-                <li>
-                    <div class="body-title">Actions</div>
-                </li>
-            </ul>
-            <ul class="flex flex-column" id="three-banner-list">
-                <!-- Banner three will be injected here -->
-            </ul>
-        </div>
-        <!-- Mobile Banner Table -->
-        <div class="banner-table" id="banner-table-mobile" style="display:none;">
-            <ul class="table-title flex gap20 mb-14">
-                <li style="width: 140px;">
-                    <div class="body-title">Image</div>
-                </li>
-                <li>
-                    <div class="body-title">Title</div>
-                </li>
-                <li>
-                    <div class="body-title">Subtitle</div>
-                </li>
-                <li>
-                    <div class="body-title">Description</div>
-                </li>
-                <li>
-                    <div class="body-title">Link</div>
-                </li>
-                <li>
-                    <div class="body-title">Status</div>
-                </li>
-                <li>
-                    <div class="body-title">Actions</div>
-                </li>
-            </ul>
-            <ul class="flex flex-column" id="mobile-banner-list">
-                <!-- Mobile banners will be injected here -->
-            </ul>
-        </div>
-    </div>
-    <div class="divider"></div>
-</div>
+                                    <div class="wg-table table-all-banner">
+                                        <!-- Main Banners Table -->
+                                        <div class="banner-table" id="banner-table-main">
+                                            <ul class="table-title flex gap20 mb-14">
+                                                <li style="width: 140px;">
+                                                    <div class="body-title">Image</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Title</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Subtitle</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Description</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Link</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Status</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Actions</div>
+                                                </li>
+                                            </ul>
+                                            <ul class="flex flex-column" id="main-banner-list">
+                                                <!-- Main banners will be injected here -->
+                                            </ul>
+                                        </div>
+                                        <!-- Banner Two Table -->
+                                        <div class="banner-table" id="banner-table-two" style="display:none;">
+                                            <ul class="table-title flex gap20 mb-14">
+                                                <li style="width: 140px;">
+                                                    <div class="body-title">Image</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Title</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Subtitle</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Description</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Link</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Status</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Actions</div>
+                                                </li>
+                                            </ul>
+                                            <ul class="flex flex-column" id="two-banner-list">
+                                                <!-- Banner two will be injected here -->
+                                            </ul>
+                                        </div>
+                                        <!-- Banner Three Table -->
+                                        <div class="banner-table" id="banner-table-three" style="display:none;">
+                                            <ul class="table-title flex gap20 mb-14">
+                                                <li style="width: 140px;">
+                                                    <div class="body-title">Image</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Title</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Subtitle</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Description</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Link</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Status</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Actions</div>
+                                                </li>
+                                            </ul>
+                                            <ul class="flex flex-column" id="three-banner-list">
+                                                <!-- Banner three will be injected here -->
+                                            </ul>
+                                        </div>
+                                        <!-- Mobile Banner Table -->
+                                        <div class="banner-table" id="banner-table-mobile" style="display:none;">
+                                            <ul class="table-title flex gap20 mb-14">
+                                                <li style="width: 140px;">
+                                                    <div class="body-title">Image</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Link</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Status</div>
+                                                </li>
+                                                <li>
+                                                    <div class="body-title">Actions</div>
+                                                </li>
+                                            </ul>
+                                            <ul class="flex flex-column" id="mobile-banner-list">
+                                                <!-- Mobile banners will be injected here -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="divider"></div>
+                                </div>
                             </div>
 
                             <!-- Add/Edit Banner Modal -->
@@ -601,37 +597,55 @@
                                 <div class="modal-content" style="max-width: 540px;">
                                     <span class="close" onclick="closeBannerModal()">&times;</span>
                                     <h4 id="bannerModalTitle">Add Banner</h4>
-                                    <form id="bannerForm" enctype="multipart/form-data">
+                                    <form id="bannerForm" enctype="multipart/form-data" novalidate>
                                         <input type="hidden" id="bannerType" name="bannerType">
                                         <input type="hidden" id="bannerId" name="bannerId">
-                                        <div class="form-group">
-                                            <label for="bannerTitle">Title</label>
-                                            <input type="text" id="bannerTitle" name="title" required>
+                                        <div id="mainFields">
+                                            <div class="form-group">
+                                                <label for="bannerTitle">Title</label>
+                                                <input type="text" id="bannerTitle" name="title" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="bannerSubtitle">Subtitle</label>
+                                                <input type="text" id="bannerSubtitle" name="subtitle">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="bannerDescription">Description</label>
+                                                <textarea id="bannerDescription" name="description" rows="2"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="bannerLink">Link</label>
+                                                <input type="text" id="bannerLink" name="link">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="bannerImage">Image</label>
+                                                <input type="file" id="bannerImage" name="image" accept="image/*">
+                                                <div id="bannerImagePreview" style="margin-top:10px;"></div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="bannerSubtitle">Subtitle</label>
-                                            <input type="text" id="bannerSubtitle" name="subtitle">
+                                        <div id="mobileFields" style="display:none;">
+                                            <div class="form-group">
+                                                <label for="mobileBannerLink">Link</label>
+                                                <input type="text" id="mobileBannerLink" name="mobileLink">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="mobileBannerImage">Image</label>
+                                                <input type="file" id="mobileBannerImage" name="mobileImage" accept="image/*">
+                                                <div id="mobileBannerImagePreview" style="margin-top:10px;"></div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="bannerDescription">Description</label>
-                                            <textarea id="bannerDescription" name="description" rows="2"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="bannerLink">Link</label>
-                                            <input type="text" id="bannerLink" name="link">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="bannerImage">Image</label>
-                                            <input type="file" id="bannerImage" name="image" accept="image/*">
-                                            <div id="bannerImagePreview" style="margin-top:10px;"></div>
-                                        </div>
-                                        <button type="submit" class="tf-button style-1" id="bannerFormSubmitBtn">Save</button>
+                                        <button type="submit" class="tf-button style-1"
+                                            id="bannerFormSubmitBtn">Save</button>
                                     </form>
                                 </div>
                             </div>
 
                             <style>
-                                .tabs { display: flex; gap: 10px; }
+                                .tabs {
+                                    display: flex;
+                                    gap: 10px;
+                                }
+
                                 .tab-btn {
                                     padding: 8px 20px;
                                     border: none;
@@ -641,53 +655,164 @@
                                     cursor: pointer;
                                     font-weight: 500;
                                 }
+
                                 .tab-btn.active {
                                     background: #fff;
                                     border-bottom: 2px solid #007bff;
                                     color: #007bff;
                                 }
-                                .banner-table { margin-bottom: 20px; }
-                                .banner-row { background: #fff; border-radius: 6px; box-shadow: 0 1px 4px #0001; margin-bottom: 10px; padding: 10px 0; align-items: center; }
-                                .banner-row img { border-radius: 4px; object-fit: cover; width: 120px; height: 50px; }
-                                .banner-actions button { margin-right: 8px; }
-                                .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100vw; height: 100vh; overflow: auto; background: rgba(0,0,0,0.3); }
-                                .modal-content { background: #fff; margin: 5% auto; padding: 30px; border-radius: 8px; position: relative; }
-                                .modal .close { position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; }
-                                .form-group { margin-bottom: 16px; }
-                                .form-group label { display: block; margin-bottom: 6px; font-weight: 500; }
-                                .form-group input, .form-group textarea { width: 100%; padding: 7px 10px; border: 1px solid #ddd; border-radius: 4px; }
-                                .switch { position: relative; display: inline-block; width: 38px; height: 22px; }
-                                .switch input { opacity: 0; width: 0; height: 0; }
-                                .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 22px; }
-                                .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-                                input:checked + .slider { background-color: #007bff; }
-                                input:checked + .slider:before { transform: translateX(16px); }
+
+                                .banner-table {
+                                    margin-bottom: 20px;
+                                }
+
+                                .banner-row {
+                                    background: #fff;
+                                    border-radius: 6px;
+                                    box-shadow: 0 1px 4px #0001;
+                                    margin-bottom: 10px;
+                                    padding: 10px 0;
+                                    align-items: center;
+                                }
+
+                                .banner-row img {
+                                    border-radius: 4px;
+                                    object-fit: cover;
+                                    width: 120px;
+                                    height: 50px;
+                                }
+
+                                .banner-actions button {
+                                    margin-right: 8px;
+                                }
+
+                                .modal {
+                                    display: none;
+                                    position: fixed;
+                                    z-index: 1000;
+                                    left: 0;
+                                    top: 0;
+                                    width: 100vw;
+                                    height: 100vh;
+                                    overflow: auto;
+                                    background: rgba(0, 0, 0, 0.3);
+                                }
+
+                                .modal-content {
+                                    background: #fff;
+                                    margin: 5% auto;
+                                    padding: 30px;
+                                    border-radius: 8px;
+                                    position: relative;
+                                }
+
+                                .modal .close {
+                                    position: absolute;
+                                    right: 20px;
+                                    top: 15px;
+                                    font-size: 28px;
+                                    cursor: pointer;
+                                }
+
+                                .form-group {
+                                    margin-bottom: 16px;
+                                }
+
+                                .form-group label {
+                                    display: block;
+                                    margin-bottom: 6px;
+                                    font-weight: 500;
+                                }
+
+                                .form-group input,
+                                .form-group textarea {
+                                    width: 100%;
+                                    padding: 7px 10px;
+                                    border: 1px solid #ddd;
+                                    border-radius: 4px;
+                                }
+
+                                .switch {
+                                    position: relative;
+                                    display: inline-block;
+                                    width: 38px;
+                                    height: 22px;
+                                }
+
+                                .switch input {
+                                    opacity: 0;
+                                    width: 0;
+                                    height: 0;
+                                }
+
+                                .slider {
+                                    position: absolute;
+                                    cursor: pointer;
+                                    top: 0;
+                                    left: 0;
+                                    right: 0;
+                                    bottom: 0;
+                                    background-color: #ccc;
+                                    transition: .4s;
+                                    border-radius: 22px;
+                                }
+
+                                .slider:before {
+                                    position: absolute;
+                                    content: "";
+                                    height: 16px;
+                                    width: 16px;
+                                    left: 3px;
+                                    bottom: 3px;
+                                    background-color: white;
+                                    transition: .4s;
+                                    border-radius: 50%;
+                                }
+
+                                input:checked+.slider {
+                                    background-color: #007bff;
+                                }
+
+                                input:checked+.slider:before {
+                                    transform: translateX(16px);
+                                }
                             </style>
 
                             <script>
                                 // Tab switching
-                        function showBannerTab(type, btn) {
-    ['main', 'two', 'three', 'mobile'].forEach(function(t) {
-        document.getElementById('banner-table-' + t).style.display = (t === type) ? '' : 'none';
-    });
-    // Set active tab
-    var tabBtns = document.querySelectorAll('.tab-btn');
-    tabBtns.forEach(function(b) { b.classList.remove('active'); });
-    if (btn) btn.classList.add('active');
-}
+                                function showBannerTab(type, btn) {
+                                    ['main', 'two', 'three', 'mobile'].forEach(function (t) {
+                                        document.getElementById('banner-table-' + t).style.display = (t === type) ? '' : 'none';
+                                    });
+                                    // Set active tab
+                                    var tabBtns = document.querySelectorAll('.tab-btn');
+                                    tabBtns.forEach(function (b) { b.classList.remove('active'); });
+                                    if (btn) btn.classList.add('active');
+                                }
 
                                 // Modal logic
                                 function showAddBannerModal(type) {
-                                    document.getElementById('bannerModalTitle').innerText = 'Add ' + (type === 'main' ? 'Main Banner' : type === 'two' ? 'Banner Two' :type === 'three' ? 'Banner Three': 'Mobile Banner');
+                                    document.getElementById('bannerModalTitle').innerText = 'Add ' + (type === 'main' ? 'Main Banner' : type === 'two' ? 'Banner Two' : type === 'three' ? 'Banner Three' : 'Mobile Banner');
                                     document.getElementById('bannerType').value = type;
                                     document.getElementById('bannerId').value = '';
-                                    document.getElementById('bannerTitle').value = '';
-                                    document.getElementById('bannerSubtitle').value = '';
-                                    document.getElementById('bannerDescription').value = '';
-                                    document.getElementById('bannerLink').value = '';
-                                    document.getElementById('bannerImage').value = '';
-                                    document.getElementById('bannerImagePreview').innerHTML = '';
                                     document.getElementById('bannerFormSubmitBtn').innerText = 'Save';
+
+                                    if (type === 'mobile') {
+                                        document.getElementById('mainFields').style.display = 'none';
+                                        document.getElementById('mobileFields').style.display = '';
+                                        document.getElementById('mobileBannerLink').value = '';
+                                        document.getElementById('mobileBannerImage').value = '';
+                                        document.getElementById('mobileBannerImagePreview').innerHTML = '';
+                                    } else {
+                                        document.getElementById('mainFields').style.display = '';
+                                        document.getElementById('mobileFields').style.display = 'none';
+                                        document.getElementById('bannerTitle').value = '';
+                                        document.getElementById('bannerSubtitle').value = '';
+                                        document.getElementById('bannerDescription').value = '';
+                                        document.getElementById('bannerLink').value = '';
+                                        document.getElementById('bannerImage').value = '';
+                                        document.getElementById('bannerImagePreview').innerHTML = '';
+                                    }
                                     document.getElementById('bannerModal').style.display = 'block';
                                 }
 
@@ -701,23 +826,34 @@
                                             return;
                                         }
                                     }
-                                    document.getElementById('bannerModalTitle').innerText = 'Edit ' + (type === 'main' ? 'Main Banner' : type === 'two' ? 'Banner Two' : 'Banner Three');
+                                    document.getElementById('bannerModalTitle').innerText = 'Edit ' + (type === 'main' ? 'Main Banner' : type === 'two' ? 'Banner Two' : type === 'three' ? 'Banner Three' : 'Mobile Banner');
                                     document.getElementById('bannerType').value = type;
                                     document.getElementById('bannerId').value = banner._id || '';
-                                    document.getElementById('bannerTitle').value = banner.title || '';
-                                    document.getElementById('bannerSubtitle').value = banner.subtitle || '';
-                                    document.getElementById('bannerDescription').value = banner.description || '';
-                                    document.getElementById('bannerLink').value = banner.link || '';
-                                    document.getElementById('bannerImage').value = '';
-                                    document.getElementById('bannerImagePreview').innerHTML = banner.image ? '<img src="' + banner.image.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '" style="width:120px;height:50px;object-fit:cover;border-radius:4px;">' : '';
                                     document.getElementById('bannerFormSubmitBtn').innerText = 'Update';
+
+                                    if (type === 'mobile') {
+                                        document.getElementById('mainFields').style.display = 'none';
+                                        document.getElementById('mobileFields').style.display = '';
+                                        document.getElementById('mobileBannerLink').value = banner.link || '';
+                                        document.getElementById('mobileBannerImage').value = '';
+                                        document.getElementById('mobileBannerImagePreview').innerHTML = banner.image ? '<img src="' + banner.image.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '" style="width:120px;height:50px;object-fit:cover;border-radius:4px;">' : '';
+                                    } else {
+                                        document.getElementById('mainFields').style.display = '';
+                                        document.getElementById('mobileFields').style.display = 'none';
+                                        document.getElementById('bannerTitle').value = banner.title || '';
+                                        document.getElementById('bannerSubtitle').value = banner.subtitle || '';
+                                        document.getElementById('bannerDescription').value = banner.description || '';
+                                        document.getElementById('bannerLink').value = banner.link || '';
+                                        document.getElementById('bannerImage').value = '';
+                                        document.getElementById('bannerImagePreview').innerHTML = banner.image ? '<img src="' + banner.image.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '" style="width:120px;height:50px;object-fit:cover;border-radius:4px;">' : '';
+                                    }
                                     document.getElementById('bannerModal').style.display = 'block';
                                 }
 
                                 function closeBannerModal() {
                                     document.getElementById('bannerModal').style.display = 'none';
                                 }
-                                window.onclick = function(event) {
+                                window.onclick = function (event) {
                                     if (event.target == document.getElementById('bannerModal')) {
                                         closeBannerModal();
                                     }
@@ -725,9 +861,10 @@
 
                                 // Banner API endpoints (no /api prefix)
                                 const bannerApi = {
-                                    main:   { get: '/main',   post: '/main',   put: '/main/',   del: '/main/',   toggle: '/main/' },
-                                    two:    { get: '/two',    post: '/two',    put: '/two/',    del: '/two/',    toggle: '/two/' },
-                                    three:  { get: '/three',  post: '/three',  put: '/three/',  del: '/three/',  toggle: '/three/' }
+                                    main: { get: '/main', post: '/main', put: '/main/', del: '/main/', toggle: '/main/' },
+                                    two: { get: '/two', post: '/two', put: '/two/', del: '/two/', toggle: '/two/' },
+                                    three: { get: '/three', post: '/three', put: '/three/', del: '/three/', toggle: '/three/' },
+                                    mobile: { get: '/mobile', post: '/mobile', put: '/mobile/', del: '/mobile/', toggle: '/mobile/' }
                                 };
 
                                 // Fetch and render banners
@@ -764,44 +901,63 @@
                                         const li = document.createElement('li');
                                         li.className = 'flex gap20 align-center banner-row';
 
-                                        // Instead of inlining JSON.stringify(banner) in HTML, attach data to DOM and use event handler
-                                        // We'll use a data attribute to store the banner index and keep a global map
                                         if (!window._bannerDataMap) window._bannerDataMap = {};
                                         const bannerId = banner._id || Math.random().toString(36).substr(2, 9);
                                         window._bannerDataMap[bannerId] = banner;
 
-                                        li.innerHTML = `
-                                            <div style="width:140px;">
-                                                <img src="${escapeAttr(banner.image ? banner.image : '/images/no-image.png')}" alt="Banner" />
-                                            </div>
-                                            <div style="flex:1;">
-                                                <span class="body-text">${escapeAttr(banner.title || '')}</span>
-                                            </div>
-                                            <div style="flex:1;">
-                                                <span class="body-text">${escapeAttr(banner.subtitle || '')}</span>
-                                            </div>
-                                            <div style="flex:2;">
-                                                <span class="body-text">${escapeAttr(banner.description || '')}</span>
-                                            </div>
-                                            <div style="flex:1;">
-                                                <span class="body-text">${banner.link ? `<a href="${escapeAttr(banner.link)}" target="_blank">${escapeAttr(banner.link)}</a>` : ''}</span>
-                                            </div>
-                                            <div>
-                                                <label class="switch">
-                                                    <input type="checkbox" ${banner.isActive ? 'checked' : ''} onchange="toggleBannerStatus('${type}','${escapeAttr(banner._id)}',this)">
-                                                    <span class="slider"></span>
-                                                </label>
-                                            </div>
-                                            <div class="banner-actions">
-                                                <button class="btn btn-sm btn-primary" data-banner-id="${escapeAttr(bannerId)}" data-banner-type="${escapeAttr(type)}"><i class="icon-edit"></i></button>
-                                                <button class="btn btn-sm btn-danger" onclick="deleteBanner('${type}','${escapeAttr(banner._id)}')"><i class="icon-trash"></i></button>
-                                            </div>
-                                        `;
+                                        if (type === 'mobile') {
+                                            li.innerHTML = `
+                                                <div style="width:140px;">
+                                                    <img src="${escapeAttr(banner.image ? banner.image : '/images/no-image.png')}" alt="Banner" />
+                                                </div>
+                                                <div style="flex:1;">
+                                                    <span class="body-text">${banner.link ? `<a href="${escapeAttr(banner.link)}" target="_blank">${escapeAttr(banner.link)}</a>` : ''}</span>
+                                                </div>
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox" ${banner.isActive ? 'checked' : ''} onchange="toggleBannerStatus('${type}','${escapeAttr(banner._id)}',this)">
+                                                        <span class="slider"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="banner-actions">
+                                                    <button class="btn btn-sm btn-primary" data-banner-id="${escapeAttr(bannerId)}" data-banner-type="${escapeAttr(type)}"><i class="icon-edit"></i></button>
+                                                    <button class="btn btn-sm btn-danger" onclick="deleteBanner('${type}','${escapeAttr(banner._id)}')"><i class="icon-trash"></i></button>
+                                                </div>
+                                            `;
+                                        } else {
+                                            li.innerHTML = `
+                                                <div style="width:140px;">
+                                                    <img src="${escapeAttr(banner.image ? banner.image : '/images/no-image.png')}" alt="Banner" />
+                                                </div>
+                                                <div style="flex:1;">
+                                                    <span class="body-text">${escapeAttr(banner.title || '')}</span>
+                                                </div>
+                                                <div style="flex:1;">
+                                                    <span class="body-text">${escapeAttr(banner.subtitle || '')}</span>
+                                                </div>
+                                                <div style="flex:2;">
+                                                    <span class="body-text">${escapeAttr(banner.description || '')}</span>
+                                                </div>
+                                                <div style="flex:1;">
+                                                    <span class="body-text">${banner.link ? `<a href="${escapeAttr(banner.link)}" target="_blank">${escapeAttr(banner.link)}</a>` : ''}</span>
+                                                </div>
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox" ${banner.isActive ? 'checked' : ''} onchange="toggleBannerStatus('${type}','${escapeAttr(banner._id)}',this)">
+                                                        <span class="slider"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="banner-actions">
+                                                    <button class="btn btn-sm btn-primary" data-banner-id="${escapeAttr(bannerId)}" data-banner-type="${escapeAttr(type)}"><i class="icon-edit"></i></button>
+                                                    <button class="btn btn-sm btn-danger" onclick="deleteBanner('${type}','${escapeAttr(banner._id)}')"><i class="icon-trash"></i></button>
+                                                </div>
+                                            `;
+                                        }
                                         // Attach edit event handler after element is in DOM
                                         setTimeout(() => {
                                             const editBtn = li.querySelector('.btn-primary[data-banner-id]');
                                             if (editBtn) {
-                                                editBtn.onclick = function() {
+                                                editBtn.onclick = function () {
                                                     const id = this.getAttribute('data-banner-id');
                                                     const t = this.getAttribute('data-banner-type');
                                                     if (window._bannerDataMap && window._bannerDataMap[id]) {
@@ -816,27 +972,54 @@
                                 }
 
                                 // On page load, fetch all banners
-                                ['main','two','three'].forEach(fetchBanners);
+                                ['main', 'two', 'three', 'mobile'].forEach(fetchBanners);
 
                                 // Banner form submit
-                                document.getElementById('bannerForm').onsubmit = async function(e) {
+                                document.getElementById('bannerForm').onsubmit = async function (e) {
                                     e.preventDefault();
                                     const type = document.getElementById('bannerType').value;
                                     const id = document.getElementById('bannerId').value;
-                                    const title = document.getElementById('bannerTitle').value;
-                                    const subtitle = document.getElementById('bannerSubtitle').value;
-                                    const description = document.getElementById('bannerDescription').value;
-                                    const link = document.getElementById('bannerLink').value;
-                                    const image = document.getElementById('bannerImage').files[0];
 
-                                    const formData = new FormData();
-                                    formData.append('title', title);
-                                    formData.append('subtitle', subtitle);
-                                    formData.append('description', description);
-                                    formData.append('link', link);
-                                    if (image) formData.append('image', image);
+                                    // Hide all fields not relevant to the current type to avoid "not focusable" errors
+                                    if (type === 'mobile') {
+                                        document.getElementById('mainFields').querySelectorAll('input,textarea').forEach(function(el) {
+                                            el.disabled = true;
+                                            el.removeAttribute('required');
+                                        });
+                                        document.getElementById('mobileFields').querySelectorAll('input,textarea').forEach(function(el) {
+                                            el.disabled = false;
+                                        });
+                                    } else {
+                                        document.getElementById('mainFields').querySelectorAll('input,textarea').forEach(function(el) {
+                                            el.disabled = false;
+                                        });
+                                        document.getElementById('bannerTitle').setAttribute('required', 'required');
+                                        document.getElementById('mobileFields').querySelectorAll('input,textarea').forEach(function(el) {
+                                            el.disabled = true;
+                                        });
+                                    }
 
+                                    let formData = new FormData();
                                     let url, method;
+
+                                    if (type === 'mobile') {
+                                        const link = document.getElementById('mobileBannerLink').value;
+                                        const image = document.getElementById('mobileBannerImage').files[0];
+                                        formData.append('link', link);
+                                        if (image) formData.append('image', image);
+                                    } else {
+                                        const title = document.getElementById('bannerTitle').value;
+                                        const subtitle = document.getElementById('bannerSubtitle').value;
+                                        const description = document.getElementById('bannerDescription').value;
+                                        const link = document.getElementById('bannerLink').value;
+                                        const image = document.getElementById('bannerImage').files[0];
+                                        formData.append('title', title);
+                                        formData.append('subtitle', subtitle);
+                                        formData.append('description', description);
+                                        formData.append('link', link);
+                                        if (image) formData.append('image', image);
+                                    }
+
                                     if (id) {
                                         url = bannerApi[type].put + id;
                                         method = 'PUT';
@@ -881,13 +1064,28 @@
                                     }
                                 }
 
-                                // Image preview
-                                document.getElementById('bannerImage').addEventListener('change', function() {
+                                // Image preview for main/other banners
+                                document.getElementById('bannerImage').addEventListener('change', function () {
                                     const file = this.files[0];
                                     const preview = document.getElementById('bannerImagePreview');
                                     if (file) {
                                         const reader = new FileReader();
-                                        reader.onload = function(e) {
+                                        reader.onload = function (e) {
+                                            preview.innerHTML = '<img src="' + e.target.result + '" style="width:120px;height:50px;object-fit:cover;border-radius:4px;">';
+                                        };
+                                        reader.readAsDataURL(file);
+                                    } else {
+                                        preview.innerHTML = '';
+                                    }
+                                });
+
+                                // Image preview for mobile banner
+                                document.getElementById('mobileBannerImage').addEventListener('change', function () {
+                                    const file = this.files[0];
+                                    const preview = document.getElementById('mobileBannerImagePreview');
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.onload = function (e) {
                                             preview.innerHTML = '<img src="' + e.target.result + '" style="width:120px;height:50px;object-fit:cover;border-radius:4px;">';
                                         };
                                         reader.readAsDataURL(file);
@@ -916,7 +1114,7 @@
         <!-- /#page -->
     </div>
     <!-- /#wrapper -->
-   
+
     <!-- Javascript -->
     <script src="/admin-js/jquery.min.js"></script>
     <script src="/admin-js/bootstrap.min.js"></script>

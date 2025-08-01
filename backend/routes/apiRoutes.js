@@ -8,6 +8,7 @@ const testimonialController = require('../controllers/testimonialController');
 const mainBannerCtrl = require('../controllers/mainBannerController');
 const bannerTwoCtrl = require('../controllers/bannerTwoController');
 const bannerThreeCtrl = require('../controllers/bannerThreeController');
+const bannerMobileCtrl = require('../controllers/mobileBannerController');
 const Product = require("../models/Product")
 const Category = require("../models/Category")
 
@@ -107,6 +108,12 @@ router.post('/three', multerUpload.single('image'), bannerThreeCtrl.create);
 router.put('/three/:id', multerUpload.single('image'), bannerThreeCtrl.update);
 router.delete('/three/:id', bannerThreeCtrl.delete);
 router.patch('/three/:id/toggle', bannerThreeCtrl.toggleStatus);
+
+router.get('/mobile', bannerMobileCtrl.getAll);
+router.post('/mobile', multerUpload.single('image'), bannerMobileCtrl.create);
+router.put('/mobile/:id', multerUpload.single('image'), bannerMobileCtrl.update);
+router.delete('/mobile/:id', bannerMobileCtrl.delete);
+router.patch('/mobile/:id/toggle', bannerMobileCtrl.toggleStatus);
 
 router.get('/search/suggestions', async (req, res) => {
     try {

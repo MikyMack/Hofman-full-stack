@@ -609,129 +609,121 @@
 
                 <!-- Main Banner Full Width -->
               <div class="intro-section mb-2">
-                    <div class="row">
-                        <div class="col-12 mt-4 mb-4">
-                            <div>
-                                      <div class="swiper-container swiper-theme pg-inner pg-white animation-slider desk-banner"
-                                data-swiper-options="{
-                                    'spaceBetween': 0,
-                                    'slidesPerView': 1,
-                                    'autoplay': {
-                                        'delay': 4500,
-                                        'disableOnInteraction': false
-                                    },
-                                    'loop': true,
-                                    'effect': 'fade',
-                                    'fadeEffect': { 'crossFade': true },
-                                    'speed': 1500
-                                }">
-                                <div class="swiper-wrapper row gutter-no cols-1">
-                                    <% if (mainBanner && mainBanner.length> 0) { %>
-                                        <% mainBanner.forEach((banner, index)=> { %>
-                                            <div class="swiper-slide banner banner-fixed intro-slide br-sm "
-                                                style="background-image: url(<%= banner.image %>); background-color: #EAEAEA; position: relative; height: 400px; background-size: cover; background-position: center;">
-                                                <div class="main-banner-content-wrapper" style="
-                                                        position: absolute;
-                                                        top: 50%;
-                                                        transform: translateY(-50%);
-                                                        width: 100%;
-                                                        padding: 0 60px;
-                                                        display: flex;
-                                                        justify-content: <%= index % 2 === 0 ? 'flex-start' : 'flex-end' %>;
-                                                    ">
-                                                    <div class="banner-content text-<%= index % 2 === 0 ? 'left' : 'right' %>"
-                                                        style="max-width: 600px;">
-                                                        <% if (banner.subtitle) { %>
-                                                            <h3 class="banner-subtitle text-uppercase font-secondary font-weight-bolder slide-animate text-black"
-                                                                data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '.5s', 'delay': '.2s'}">
-                                                                <%= banner.subtitle %>
-                                                            </h3>
-                                                            <% } %>
-                                                                <% if (banner.title) { %>
-                                                                    <h2 class="banner-title font-secondary text-capitalize text-black slide-animate"
-                                                                        data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
-                                                                        <%= banner.title %>
-                                                                    </h2>
-                                                                    <% } %>
-                                                                        <% if (banner.description) { %>
-                                                                            <h4 class="banner-price-info font-weight-normal text-black ls-25 slide-animate"
-                                                                                data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
-                                                                                <% const
-                                                                                    words=banner.description.split(' ');
-                                                                    if (words.length > 6) {
-                                                                        const firstSix = words.slice(0, 6).join(' ');
-                                                                        const rest = words.slice(6).join(' ');
-                                                                %>
-                                                                    <%= firstSix %><br><%= rest %>
-                                                                <% 
-                                                                    } else { 
-                                                                %>
-                                                                    <%= banner.description %>
-                                                                <% 
-                                                                    }
-                                                                %>
-                                                            </h4>
-                                                        <% } %>
-                                                        <% if (banner.link) { %>
-                                                            <a href="<%= banner.link %>"
-                                                                class="btn btn-outline btn-black bnr-btn btn-rounded btn-icon-right slide-animate"
-                                                                data-animation-options="{' name': 'fadeInUpShorter'
-                                                                                    , 'duration' : '.5s' , 'delay'
-                                                                                    : '.6s' }">
-                                                                                    Shop Now
-                                                                                    <i
-                                                                                        class="w-icon-long-arrow-right"></i>
-                                                                                    </a>
-                                                                                    <% } %>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <% }) %>
-                                                <% } %>
+                <div class="row">
+                  <div class="col-12 mt-4 mb-4">
+                    <div>
+                      <!-- Desktop Banner Swiper -->
+                      <div class="swiper-container swiper-theme pg-inner pg-white animation-slider desk-banner d-none d-md-block"
+                        data-swiper-options="{
+                          'spaceBetween': 0,
+                          'slidesPerView': 1,
+                          'autoplay': {
+                            'delay': 4500,
+                            'disableOnInteraction': false
+                          },
+                          'loop': true,
+                          'effect': 'fade',
+                          'fadeEffect': { 'crossFade': true },
+                          'speed': 1500
+                        }">
+                        <div class="swiper-wrapper row gutter-no cols-1">
+                          <% if (mainBanner && mainBanner.length > 0) { %>
+                            <% mainBanner.forEach((banner, index) => { %>
+                              <div class="swiper-slide banner banner-fixed intro-slide br-sm"
+                                style="background-image: url(<%= banner.image %>); background-color: #EAEAEA; position: relative; height: 400px; background-size: cover; background-position: center;">
+                                <div class="main-banner-content-wrapper" style="
+                                  position: absolute;
+                                  top: 50%;
+                                  transform: translateY(-50%);
+                                  width: 100%;
+                                  padding: 0 60px;
+                                  display: flex;
+                                  justify-content: <%= index % 2 === 0 ? 'flex-start' : 'flex-end' %>;
+                                ">
+                                  <div class="banner-content text-<%= index % 2 === 0 ? 'left' : 'right' %>"
+                                    style="max-width: 600px;">
+                                    <% if (banner.subtitle) { %>
+                                      <h3 class="banner-subtitle text-uppercase font-secondary font-weight-bolder slide-animate text-black"
+                                        data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '.5s', 'delay': '.2s'}">
+                                        <%= banner.subtitle %>
+                                      </h3>
+                                    <% } %>
+                                    <% if (banner.title) { %>
+                                      <h2 class="banner-title font-secondary text-capitalize text-black slide-animate"
+                                        data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
+                                        <%= banner.title %>
+                                      </h2>
+                                    <% } %>
+                                    <% if (banner.description) { %>
+                                      <h4 class="banner-price-info font-weight-normal text-black ls-25 slide-animate"
+                                        data-animation-options="{'name': 'fadeInRightShorter', 'duration': '.5s', 'delay': '.4s'}">
+                                        <% 
+                                          const words = banner.description.split(' ');
+                                          if (words.length > 6) {
+                                            const firstSix = words.slice(0, 6).join(' ');
+                                            const rest = words.slice(6).join(' ');
+                                        %>
+                                          <%= firstSix %><br><%= rest %>
+                                        <% 
+                                          } else { 
+                                        %>
+                                          <%= banner.description %>
+                                        <% 
+                                          }
+                                        %>
+                                      </h4>
+                                    <% } %>
+                                    <% if (banner.link) { %>
+                                      <a href="<%= banner.link %>"
+                                        class="btn btn-outline btn-black bnr-btn btn-rounded btn-icon-right slide-animate"
+                                        data-animation-options="{'name': 'fadeInUpShorter', 'duration': '.5s', 'delay': '.6s'}">
+                                        Shop Now
+                                        <i class="w-icon-long-arrow-right"></i>
+                                      </a>
+                                    <% } %>
+                                  </div>
                                 </div>
-                                <div class="swiper-pagination"></div>
-                            </div>
-                                          <div class="swiper-container swiper-theme pg-inner pg-white animation-slider mobile-banner"
-                                data-swiper-options="{
-                                    'spaceBetween': 0,
-                                    'slidesPerView': 1,
-                                    'autoplay': {
-                                        'delay': 4500,
-                                        'disableOnInteraction': false
-                                    },
-                                    'loop': true,
-                                    'effect': 'fade',
-                                    'fadeEffect': { 'crossFade': true },
-                                    'speed': 1500
-                                }">
-                                <div class="swiper-wrapper row gutter-no cols-1">
-                                    <% if (mainBanner && mainBanner.length> 0) { %>
-                                        <% mainBanner.forEach((banner, index)=> { %>
-                                            <div class="swiper-slide banner banner-fixed intro-slide br-sm "
-                                                style="background-image: url(<%= banner.image %>); background-color: #EAEAEA; position: relative; height: 400px; background-size: cover; background-position: center;">
-                                                <div class="main-banner-content-wrapper" style="
-                                                        position: absolute;
-                                                        top: 50%;
-                                                        transform: translateY(-50%);
-                                                        width: 100%;
-                                                        padding: 0 60px;
-                                                        display: flex;
-                                                        justify-content: <%= index % 2 === 0 ? 'flex-start' : 'flex-end' %>;
-                                                    ">
-                                                
-                                                </div>
-                                            </div>
-                                            <% }) %>
-                                                <% } %>
-                                </div>
-                                <div class="swiper-pagination"></div>
-                            </div>
-
-                            </div>
-                      
+                              </div>
+                            <% }) %>
+                          <% } %>
                         </div>
+                        <div class="swiper-pagination"></div>
+                      </div>
+                      <!-- Mobile Banner Swiper -->
+                      <div class="swiper-container swiper-theme pg-inner pg-white animation-slider mobile-banner d-block d-md-none"
+                        data-swiper-options="{
+                          'spaceBetween': 0,
+                          'slidesPerView': 1,
+                          'autoplay': {
+                            'delay': 4500,
+                            'disableOnInteraction': false
+                          },
+                          'loop': true,
+                          'effect': 'fade',
+                          'fadeEffect': { 'crossFade': true },
+                          'speed': 1500
+                        }">
+                        <div class="swiper-wrapper row gutter-no cols-1">
+                          <% if (mobileBanner && mobileBanner.length > 0) { %>
+                            <% mobileBanner.forEach((banner, index) => { %>
+                              <div class="swiper-slide banner banner-fixed intro-slide br-sm" style="padding:0; margin:0;">
+                                <% if (banner.link) { %>
+                                  <a href="<%= banner.link %>" style="display:block;width:100%;height:100%;">
+                                    <img src="<%= banner.image %>" alt="Mobile Banner" style="width:100vw;max-width:100%;height:100vw;max-height:100vw;object-fit:cover;display:block;">
+                                  </a>
+                                <% } else { %>
+                                  <img src="<%= banner.image %>" alt="Mobile Banner" style="width:100vw;max-width:100%;height:100vw;max-height:100vw;object-fit:cover;display:block;">
+                                <% } %>
+                              </div>
+                            <% }) %>
+                          <% } %>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                      </div>
                     </div>
+                  </div>
                 </div>
+              </div>
 
                 <!-- Banner Two Row Below Main Banner -->
                 <div class=" container intro-banner-row mb-2">
@@ -2175,7 +2167,28 @@
         <div class="lws-popup-container">
             <button class="lws-popup-close" id="popupClose"></button>
             
-            <div style="background-image: url('/images/pop.jpg');" class="lws-popup-image"></div>
+            <% 
+                // Show the first active image from mobileBanner array, or fallback
+                var bannerImg = '/images/pop.jpg';
+                var bannerLink = '/store';
+                if (mobileBanner && mobileBanner.length) {
+                    for (var i = 0; i < mobileBanner.length; i++) {
+                        if (mobileBanner[i].isActive && mobileBanner[i].image) {
+                            bannerImg = mobileBanner[i].image;
+                            bannerLink = mobileBanner[i].link || '/store';
+                            break;
+                        }
+                    }
+                }
+            %>
+            <a href="<%= bannerLink %>" target="_blank" rel="noopener" style="display:block;">
+                <img 
+                    src="<%= bannerImg %>" 
+                    alt="Mobile Banner" 
+                    class="lws-popup-image"
+                    style="width:100%;height:100%;object-fit:contain;display:block;border-radius:10px;"
+                />
+            </a>
             
             <div class="lws-popup-content">
                 <div class="lws-popup-header">
@@ -2193,6 +2206,32 @@
             </div>
         </div>
     </div>
+    <style>
+        .lws-popup-image {
+            width: 100%;
+            height: 260px;
+            min-height: 180px;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+        @media (max-width: 991px) {
+            .lws-popup-image {
+                height: 180px;
+                min-height: 120px;
+                max-height: 220px;
+            }
+        }
+        @media (max-width: 600px) {
+            .lws-popup-image {
+                height: 220px;
+                min-height: 200px;
+                object-fit: contain;
+     
+            }
+        }
+    </style>
     </div>
     <!-- End of Page-wrapper -->
 

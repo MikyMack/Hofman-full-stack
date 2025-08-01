@@ -295,7 +295,7 @@
         /* Buttons */
         .btn {
             display: inline-block;
-            padding: 20px 1.5rem;
+            padding: 10px 5px;
             border-radius: var(--radius);
             font-weight: 500;
             text-align: center;
@@ -597,261 +597,262 @@
                 <div class="container">
                     <h1 class="title">Checkout</h1>
 
-                    <div class="checkout-layout">
-                        <!-- Left Column - Address and Payment -->
-                        <div class="checkout-left">
-                            <!-- Address Section -->
-                            <section class="address-selection">
-                                <h2 class="title-sub">Address Details</h2>
+                    <!-- Responsive wrapper for checkout layout -->
+                    <div class="checkout-layout-responsive">
+                        <div class="checkout-layout">
+                            <!-- Left Column - Address and Payment -->
+                            <div class="checkout-left">
+                                <!-- Address Section -->
+                                <section class="address-selection">
+                                    <h2 class="title-sub">Address Details</h2>
 
-                                <!-- Show this when no addresses exist -->
-                                <% if (!addresses || addresses.length===0) { %>
-                                    <div class="no-addresses">
-                                        <p>You don't have any saved addresses. Please add one to continue.</p>
-                                        <button class="btn btn-primary" id="show-address-form">+ Add New
-                                            Address</button>
-                                    </div>
+                                    <!-- Show this when no addresses exist -->
+                                    <% if (!addresses || addresses.length===0) { %>
+                                        <div class="no-addresses">
+                                            <p>You don't have any saved addresses. Please add one to continue.</p>
+                                            <button class="btn btn-primary" id="show-address-form">+ Add New
+                                                Address</button>
+                                        </div>
                                     <% } %>
 
-                                        <!-- Show this when addresses exist -->
-                                        <% if (addresses && addresses.length> 0) { %>
-                                            <div class="address-options">
-                                                <h3 class="title-sub mb-3">Select Billing Address</h3>
-                                                <div class="address-grid">
+                                    <!-- Show this when addresses exist -->
+                                    <% if (addresses && addresses.length> 0) { %>
+                                        <div class="address-options">
+                                            <h3 class="title-sub mb-3">Select Billing Address</h3>
+                                            <!-- Responsive horizontal scroll for address cards on small screens -->
+                                            <div class="address-grid address-grid-scroll">
+                                                <% addresses.forEach(address=> { %>
+                                                    <div class="address-card <%= selectedBillingAddress === address._id.toString() ? 'selected' : '' %>"
+                                                        data-address-id="<%= address._id %>"
+                                                        data-address-type="billing">
+                                                        <% if (address.isDefault) { %>
+                                                            <span class="address-badge">Default</span>
+                                                        <% } %>
+                                                        <h5>
+                                                            <%= address.name %>
+                                                        </h5>
+                                                        <p>
+                                                            <%= address.addressLine1 %>
+                                                        </p>
+                                                        <% if (address.addressLine2) { %>
+                                                            <p>
+                                                                <%= address.addressLine2 %>
+                                                            </p>
+                                                        <% } %>
+                                                        <p>
+                                                            <%= address.city %>, <%= address.state %> - <%= address.pincode %>
+                                                        </p>
+                                                        <p>Phone: <%= address.phone %>
+                                                        </p>
+                                                        <button class="use-address-btn">
+                                                            Use for Billing
+                                                        </button>
+                                                    </div>
+                                                <% }); %>
+                                            </div>
+
+                                            <div class="form-group mt-3">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" class="checkbox-input"
+                                                        id="same-as-billing" checked>
+                                                    Shipping address same as billing
+                                                </label>
+                                            </div>
+
+                                            <div id="shipping-address-section" class="hidden">
+                                                <h3 class="title-sub mb-3">Select Shipping Address</h3>
+                                                <div class="address-grid address-grid-scroll">
                                                     <% addresses.forEach(address=> { %>
-                                                        <div class="address-card <%= selectedBillingAddress === address._id.toString() ? 'selected' : '' %>"
+                                                        <div class="address-card <%= selectedShippingAddress === address._id.toString() ? 'selected' : '' %>"
                                                             data-address-id="<%= address._id %>"
-                                                            data-address-type="billing">
+                                                            data-address-type="shipping">
                                                             <% if (address.isDefault) { %>
                                                                 <span class="address-badge">Default</span>
-                                                                <% } %>
-                                                                    <h5>
-                                                                        <%= address.name %>
-                                                                    </h5>
-                                                                    <p>
-                                                                        <%= address.addressLine1 %>
-                                                                    </p>
-                                                                    <% if (address.addressLine2) { %>
-                                                                        <p>
-                                                                            <%= address.addressLine2 %>
-                                                                        </p>
-                                                                        <% } %>
-                                                                            <p>
-                                                                                <%= address.city %>, <%= address.state
-                                                                                        %> - <%= address.pincode %>
-                                                                            </p>
-                                                                            <p>Phone: <%= address.phone %>
-                                                                            </p>
-                                                                            <button class="use-address-btn">
-                                                                                Use for Billing
-                                                                            </button>
+                                                            <% } %>
+                                                            <h5>
+                                                                <%= address.name %>
+                                                            </h5>
+                                                            <p>
+                                                                <%= address.addressLine1 %>
+                                                            </p>
+                                                            <% if (address.addressLine2) { %>
+                                                                <p>
+                                                                    <%= address.addressLine2 %>
+                                                                </p>
+                                                            <% } %>
+                                                            <p>
+                                                                <%= address.city %>, <%= address.state %> - <%= address.pincode %>
+                                                            </p>
+                                                            <p>Phone: <%= address.phone %>
+                                                            </p>
+                                                            <button class="use-address-btn">
+                                                                Use for Shipping
+                                                            </button>
                                                         </div>
-                                                        <% }); %>
-                                                </div>
-
-                                                <div class="form-group mt-3">
-                                                    <label class="checkbox-label">
-                                                        <input type="checkbox" class="checkbox-input"
-                                                            id="same-as-billing" checked>
-                                                        Shipping address same as billing
-                                                    </label>
-                                                </div>
-
-                                                <div id="shipping-address-section" class="hidden">
-                                                    <h3 class="title-sub mb-3">Select Shipping Address</h3>
-                                                    <div class="address-grid">
-                                                        <% addresses.forEach(address=> { %>
-                                                            <div class="address-card <%= selectedShippingAddress === address._id.toString() ? 'selected' : '' %>"
-                                                                data-address-id="<%= address._id %>"
-                                                                data-address-type="shipping">
-                                                                <% if (address.isDefault) { %>
-                                                                    <span class="address-badge">Default</span>
-                                                                    <% } %>
-                                                                        <h5>
-                                                                            <%= address.name %>
-                                                                        </h5>
-                                                                        <p>
-                                                                            <%= address.addressLine1 %>
-                                                                        </p>
-                                                                        <% if (address.addressLine2) { %>
-                                                                            <p>
-                                                                                <%= address.addressLine2 %>
-                                                                            </p>
-                                                                            <% } %>
-                                                                                <p>
-                                                                                    <%= address.city %>, <%=
-                                                                                            address.state %> - <%=
-                                                                                                address.pincode %>
-                                                                                </p>
-                                                                                <p>Phone: <%= address.phone %>
-                                                                                </p>
-                                                                                <button class="use-address-btn">
-                                                                                    Use for Shipping
-                                                                                </button>
-                                                            </div>
-                                                            <% }); %>
-                                                    </div>
-                                                </div>
-
-                                                <div class="text-center mt-4">
-                                                    <button class="btn btn-primary" id="add-new-address-btn">+ Add New
-                                                        Address</button>
+                                                    <% }); %>
                                                 </div>
                                             </div>
-                                            <% } %>
-                            </section>
 
-                            <!-- Coupon Section -->
-                            <section class="coupon-toggle mb-3">
-                                Have a coupon? <button class="btn-link" id="show-coupon">Enter your code</button>
-                            </section>
+                                            <div class="text-center mt-4">
+                                                <button class="btn btn-primary" id="add-new-address-btn">+ Add New
+                                                    Address</button>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                </section>
 
-                            <section class="coupon-content hidden" id="coupon-section">
-                                <p class="mb-3">If you have a coupon code, please apply it below.</p>
-                                <div class="input-wrapper-inline">
-                                    <input type="text" name="coupon_code" class="form-control" placeholder="Coupon code"
-                                        id="coupon_code">
-                                    <button type="button" class="btn btn-primary" id="apply_coupon">
-                                        Apply
-                                    </button>
-                                </div>
-                                <div id="coupon_message" class="mt-2"></div>
-                            </section>
+                                <!-- Coupon Section -->
+                                <section class="coupon-toggle mb-3">
+                                    Have a coupon? <button class="btn-link" id="show-coupon">Enter your code</button>
+                                </section>
 
-                            <!-- Order Notes -->
-                            <section class="form-group mt-4">
-                                <label for="order-notes" class="form-label">Order notes (optional)</label>
-                                <textarea class="form-control" id="order-notes" name="order-notes" rows="4"
-                                    placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
-                            </section>
-                        </div>
+                                <section class="coupon-content hidden" id="coupon-section">
+                                    <p class="mb-3">If you have a coupon code, please apply it below.</p>
+                                    <div class="input-wrapper-inline">
+                                        <input type="text" name="coupon_code" class="form-control" placeholder="Coupon code"
+                                            id="coupon_code">
+                                        <button type="button" class="btn btn-primary" id="apply_coupon">
+                                            Apply
+                                        </button>
+                                    </div>
+                                    <div id="coupon_message" class="mt-2"></div>
+                                </section>
 
-                        <!-- Right Column - Order Summary -->
-                        <div class="checkout-right">
-                            <section class="order-summary">
-                                <h2 class="title-sub">Your Order</h2>
+                                <!-- Order Notes -->
+                                <section class="form-group mt-4">
+                                    <label for="order-notes" class="form-label">Order notes (optional)</label>
+                                    <textarea class="form-control" id="order-notes" name="order-notes" rows="4"
+                                        placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+                                </section>
+                            </div>
 
-                                <table class="order-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Subtotal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% if (cart.items && cart.items.length > 0) { %>
-                                            <% cart.items.forEach(item => { %>
-                                                <tr>
-                                                    <td class="product-name" style="position:relative;">
-                                                        <%= item.productName %>
-                                                        <% if (item.selectedColor) { %>
-                                                            <br><small>Color: <%= item.selectedColor %></small>
-                                                        <% } %>
-                                                        <% if (item.selectedSize) { %>
-                                                            <br><small>Size: <%= item.selectedSize %></small>
-                                                        <% } %>
-                                                        <br><small>Qty: <%= item.quantity %></small>
-                                                        <br>
-                                                        <% if (item.basePrice && item.salePrice && item.basePrice > item.salePrice) { %>
-                                                            <span style="color:#888;text-decoration:line-through;">
-                                                                ₹<%= item.basePrice.toFixed(2) %>
-                                                            </span>
-                                                            <span style="color:#e53935;font-weight:bold;">
-                                                                ₹<%= item.salePrice.toFixed(2) %>
-                                                            </span>
-                                                            <% if (item.discountPercent && item.discountPercent > 0) { %>
-                                                                <span style="display:inline-block;vertical-align:middle;margin-left:8px;position:relative;top:-2px;">
-                                                                    <span style="background:linear-gradient(90deg,#ff512f,#dd2476);color:#fff;padding:4px 10px;border-radius:30px;font-weight:bold;font-size:0.98em;box-shadow:0 2px 8px #ffb3b3;display:inline-block;">
-                                                                        <%= item.discountPercent %>% OFF
-                                                                    </span>
+                            <!-- Right Column - Order Summary -->
+                            <div class="checkout-right">
+                                <section class="order-summary">
+                                    <h2 class="title-sub">Your Order</h2>
+
+                                    <table class="order-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if (cart.items && cart.items.length > 0) { %>
+                                                <% cart.items.forEach(item => { %>
+                                                    <tr>
+                                                        <td class="product-name" style="position:relative;">
+                                                            <%= item.productName %>
+                                                            <% if (item.selectedColor) { %>
+                                                                <br><small>Color: <%= item.selectedColor %></small>
+                                                            <% } %>
+                                                            <% if (item.selectedSize) { %>
+                                                                <br><small>Size: <%= item.selectedSize %></small>
+                                                            <% } %>
+                                                            <br><small>Qty: <%= item.quantity %></small>
+                                                            <br>
+                                                            <% if (item.basePrice && item.salePrice && item.basePrice > item.salePrice) { %>
+                                                                <span style="color:#888;text-decoration:line-through;">
+                                                                    ₹<%= item.basePrice.toFixed(2) %>
                                                                 </span>
-                                                                <br>
-                                                                <span style="color:#388e3c;font-size:0.97em;display:inline-block;margin-top:2px;">
-                                                                    You’re saving <b>₹<%= item.discountAmount.toFixed(2) %></b> on this item! 🎉
+                                                                <span style="color:#e53935;font-weight:bold;">
+                                                                    ₹<%= item.salePrice.toFixed(2) %>
+                                                                </span>
+                                                                <% if (item.discountPercent && item.discountPercent > 0) { %>
+                                                                    <span style="display:inline-block;vertical-align:middle;margin-left:8px;position:relative;top:-2px;">
+                                                                        <span style="background:linear-gradient(90deg,#ff512f,#dd2476);color:#fff;padding:4px 10px;border-radius:30px;font-weight:bold;font-size:0.98em;box-shadow:0 2px 8px #ffb3b3;display:inline-block;">
+                                                                            <%= item.discountPercent %>% OFF
+                                                                        </span>
+                                                                    </span>
+                                                                    <br>
+                                                                    <span style="color:#388e3c;font-size:0.97em;display:inline-block;margin-top:2px;">
+                                                                        You’re saving <b>₹<%= item.discountAmount.toFixed(2) %></b> on this item! 🎉
+                                                                    </span>
+                                                                <% } %>
+                                                            <% } else { %>
+                                                                <span style="color:#222;font-weight:bold;">
+                                                                    ₹<%= (item.salePrice || item.basePrice || item.price).toFixed(2) %>
                                                                 </span>
                                                             <% } %>
-                                                        <% } else { %>
-                                                            <span style="color:#222;font-weight:bold;">
-                                                                ₹<%= (item.salePrice || item.basePrice || item.price).toFixed(2) %>
-                                                            </span>
-                                                        <% } %>
-                                                    </td>
-                                                    <td>
-                                                        <% 
-                                                            let unitPrice = (item.salePrice && item.salePrice < item.basePrice) ? item.salePrice : (item.basePrice || item.price);
-                                                            let subtotal = unitPrice * item.quantity;
-                                                        %>
-                                                        ₹<%= subtotal.toFixed(2) %>
-                                                    </td>
+                                                        </td>
+                                                        <td>
+                                                            <% 
+                                                                let unitPrice = (item.salePrice && item.salePrice < item.basePrice) ? item.salePrice : (item.basePrice || item.price);
+                                                                let subtotal = unitPrice * item.quantity;
+                                                            %>
+                                                            ₹<%= subtotal.toFixed(2) %>
+                                                        </td>
+                                                    </tr>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="2">Your cart is empty</td>
                                                 </tr>
-                                            <% }); %>
-                                        <% } else { %>
+                                            <% } %>
+                                        </tbody>
+                                        <tfoot>
                                             <tr>
-                                                <td colspan="2">Your cart is empty</td>
+                                                <th>Subtotal</th>
+                                                <td id="cart-subtotal">₹<%= cart.subtotal.toFixed(2) %></td>
                                             </tr>
-                                        <% } %>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Subtotal</th>
-                                            <td id="cart-subtotal">₹<%= cart.subtotal.toFixed(2) %></td>
-                                        </tr>
 
-                                        <% if (cart.couponInfo && cart.couponInfo.validated) { %>
-                                            <tr id="discount-row">
-                                                <th>Discount (<%= cart.couponInfo.code %>)</th>
-                                                <td id="cart-discount">-₹<%= cart.discountAmount.toFixed(2) %></td>
+                                            <% if (cart.couponInfo && cart.couponInfo.validated) { %>
+                                                <tr id="discount-row">
+                                                    <th>Discount (<%= cart.couponInfo.code %>)</th>
+                                                    <td id="cart-discount">-₹<%= cart.discountAmount.toFixed(2) %></td>
+                                                </tr>
+                                            <% } else { %>
+                                                <tr id="discount-row" style="display: none;">
+                                                    <th>Discount</th>
+                                                    <td id="cart-discount">-₹0.00</td>
+                                                </tr>
+                                            <% } %>
+
+                                            <tr>
+                                                <th>Shipping</th>
+                                                <td>Free</td>
                                             </tr>
-                                        <% } else { %>
-                                            <tr id="discount-row" style="display: none;">
-                                                <th>Discount</th>
-                                                <td id="cart-discount">-₹0.00</td>
+
+                                            <tr>
+                                                <th>Total</th>
+                                                <td id="cart-total">₹<%= cart.total.toFixed(2) %></td>
                                             </tr>
-                                        <% } %>
+                                        </tfoot>
+                                    </table>
 
-                                        <tr>
-                                            <th>Shipping</th>
-                                            <td>Free</td>
-                                        </tr>
+                                    <!-- Payment Methods -->
+                                    <div class="payment-methods">
+                                        <h3 class="title-sub mb-3">Payment Method</h3>
 
-                                        <tr>
-                                            <th>Total</th>
-                                            <td id="cart-total">₹<%= cart.total.toFixed(2) %></td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-
-                                <!-- Payment Methods -->
-                                <div class="payment-methods">
-                                    <h3 class="title-sub mb-3">Payment Method</h3>
-
-                                    <div class="payment-card">
-                                        <div class="payment-header" data-target="credit-card">
-                                            <span>Credit/Debit Card</span>
-                                            <span>→</span>
+                                        <div class="payment-card">
+                                            <div class="payment-header" data-target="credit-card">
+                                                <span>Credit/Debit Card</span>
+                                                <span>→</span>
+                                            </div>
+                                            <div class="payment-body" id="credit-card">
+                                                <p>Pay securely using Visa, Mastercard, or RuPay cards.</p>
+                                            </div>
                                         </div>
-                                        <div class="payment-body" id="credit-card">
-                                            <p>Pay securely using Visa, Mastercard, or RuPay cards.</p>
+
+                                        <div class="payment-card">
+                                            <div class="payment-header" data-target="upi">
+                                                <span>UPI/Net Banking</span>
+                                                <span>→</span>
+                                            </div>
+                                            <div class="payment-body" id="upi">
+                                                <p>Quick payments through Google Pay, PhonePe, Paytm, or net banking.</p>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="payment-card">
-                                        <div class="payment-header" data-target="upi">
-                                            <span>UPI/Net Banking</span>
-                                            <span>→</span>
-                                        </div>
-                                        <div class="payment-body" id="upi">
-                                            <p>Quick payments through Google Pay, PhonePe, Paytm, or net banking.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Place Order Button -->
-                                <button class="btn btn-primary btn-block mt-4" id="placeOrderBtn" <%=cart.items &&
-                                    cart.items.length===0 ? 'disabled' : '' %>>
-                                    Place Order
-                                </button>
-                            </section>
+                                    <!-- Place Order Button -->
+                                    <button class="btn btn-primary btn-block mt-4" id="placeOrderBtn" <%=cart.items &&
+                                        cart.items.length===0 ? 'disabled' : '' %>>
+                                        Place Order
+                                    </button>
+                                </section>
+                            </div>
                         </div>
                     </div>
 
@@ -862,6 +863,52 @@
                         value="<%= defaultAddress ? defaultAddress._id : '' %>">
                 </div>
             </main>
+
+            <style>
+                /* Responsive checkout layout for mobile */
+                .checkout-layout {
+                    display: flex;
+                    gap: 32px;
+                }
+                .checkout-left, .checkout-right {
+                    flex: 1 1 0;
+                    min-width: 0;
+                }
+                /* Address grid scroll for mobile */
+                .address-grid.address-grid-scroll {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 16px;
+                }
+                @media (max-width: 991.98px) {
+                    .checkout-layout {
+                        flex-direction: column;
+                        gap: 24px;
+                    }
+                    .checkout-left, .checkout-right {
+                        width: 100%;
+                        min-width: 0;
+                    }
+                    .address-grid.address-grid-scroll {
+                        flex-wrap: nowrap;
+                        overflow-x: auto;
+                        -webkit-overflow-scrolling: touch;
+                        gap: 12px;
+                        padding-bottom: 8px;
+                    }
+                    .address-card {
+                        min-width: 260px;
+                        max-width: 90vw;
+                        flex: 0 0 auto;
+                    }
+                }
+                @media (max-width: 575.98px) {
+                    .address-card {
+                        min-width: 220px;
+                        max-width: 95vw;
+                    }
+                }
+            </style>
 
             <!-- Address Modal -->
             <div id="address-modal" class="modal">

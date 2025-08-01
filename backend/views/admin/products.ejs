@@ -1600,10 +1600,18 @@
                                         });
                                     }
                                     function removeColorVariantOption(btn) {
-                                        if (confirm('Remove this color variant?')) {
-                                            btn.closest('.color-variant-option').remove();
-                                        }
-                                    }
+    if (confirm('Remove this color variant?')) {
+        const variantDiv = btn.closest('.color-variant-option');
+        // Add a hidden input to mark this variant for deletion
+        const deleteInput = document.createElement('input');
+        deleteInput.type = 'hidden';
+        deleteInput.name = `deletedColorVariants[]`;
+        deleteInput.value = variantDiv.dataset.colorId;
+        document.getElementById('productForm').appendChild(deleteInput);
+        // Remove the variant
+        variantDiv.remove();
+    }
+}
 
                                     function addSizeVariantOption() {
                                         const container = document.getElementById('sizeVariantOptions');
@@ -1629,11 +1637,18 @@
                                         container.appendChild(sizeDiv);
                                     }
                                     function removeSizeVariantOption(btn) {
-                                        if (confirm('Remove this size variant?')) {
-                                            btn.closest('.size-variant-option').remove();
-                                        }
-                                    }
-
+    if (confirm('Remove this size variant?')) {
+        const variantDiv = btn.closest('.size-variant-option');
+        // Add a hidden input to mark this variant for deletion
+        const deleteInput = document.createElement('input');
+        deleteInput.type = 'hidden';
+        deleteInput.name = `deletedSizeVariants[]`;
+        deleteInput.value = variantDiv.dataset.sizeId;
+        document.getElementById('productForm').appendChild(deleteInput);
+        // Remove the variant
+        variantDiv.remove();
+    }
+}
                                     function addReviewInput(review = {}) {
                                         const container = document.getElementById('reviewInputs');
                                         const reviewId = Date.now() + Math.floor(Math.random() * 1000);

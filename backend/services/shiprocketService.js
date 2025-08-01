@@ -234,7 +234,87 @@ async function generateLabel(shipmentId) {
         throw error;
     }
 }
+// Robust shipment cancellation
+async function cancelShipment(shipmentId) {
+    try {
+        const authToken = await getToken();
+        
+        // 1. First verify the shipment exists
+        try {
+            const shipment = await axios.get(
+                `${BASE_URL}/v1/external/shipments/${shipmentId}`,
+                {
+                    headers: { 'Authorization': `Bearer ${authToken}` },
+                    timeout: 5000
+                }
+            );
+            
+            if (!shipment.data?.data) {
+                return {
+                    success: false,
+                    code: 'NOT_FOUND',
+                    message: 'Shipment not found in Shiprocket - may have been already cancelled'
+                };
+            }
 
+            // Check if already cancelled
+            if (shipment.data.data.status === 'Cancelled') {
+                return {
+                    success: true,
+                    code: 'ALREADY_CANCELLED',
+                    message: 'Shipment was already cancelled'
+                };
+            }
+        } catch (error) {
+            // Handle 404 specifically
+            if (error.response?.status === 404) {
+                return {
+                    success: false,
+                    code: 'NOT_FOUND',
+                    message: 'Shipment not found in Shiprocket'
+                };
+            }
+            throw error;
+        }
+
+        // 2. Proceed with cancellation if shipment exists
+        const response = await axios.post(
+            `${BASE_URL}/v1/external/orders/cancel`,
+            { ids: [shipmentId] },
+            {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                    'Content-Type': 'application/json'
+                },
+                timeout: 10000
+            }
+        );
+
+        return {
+            success: true,
+            data: response.data,
+            message: 'Shipment cancelled successfully'
+        };
+
+    } catch (error) {
+        console.error('Shiprocket cancellation error:', {
+            shipmentId,
+            error: error.response?.data || error.message,
+            timestamp: new Date().toISOString()
+        });
+        
+        // Handle specific error cases
+        if (error.response?.data?.message?.includes('does not exist')) {
+            return {
+                success: false,
+                code: 'NOT_FOUND',
+                message: 'Shipment not found in Shiprocket'
+            };
+        }
+        
+        throw new Error(`Shiprocket cancellation failed: ${error.message}`);
+    }
+}
 async function getShipmentStatus(shipmentId) {
     if (!shipmentId) throw new Error(`Invalid shipmentId: ${shipmentId}`);
     const authToken = await getToken();
@@ -320,5 +400,8 @@ module.exports = {
     generateLabel,
     getShipmentStatus,
     trackShipment,
-    parseShiprocketDate
+    parseShiprocketDate,
+    getToken,
+    authenticate,
+    cancelShipment
 };

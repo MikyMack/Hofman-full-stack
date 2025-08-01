@@ -553,14 +553,113 @@
                             <div class="order-actions">
                                 <% if (tab === 'current' && order.canCancel) { %>
                                     <button class="btn btn-danger cancel-order" data-order-id="<%= order._id %>">
-                                        Cancel Order
+                                      Cancel Order
                                     </button>
-                                <% } %>
-                                <% if (tab === 'delivered' && order.canReturn) { %>
+                                  <% } %>
+                                  <% if (tab === 'delivered' && order.canReturn) { %>
                                     <button class="btn btn-warning return-order" data-order-id="<%= order._id %>">
-                                        Return Item
+                                      Return/Replace Item
                                     </button>
-                                <% } %>
+                                    
+                                    <!-- Replacement Modal -->
+                                    <div class="modal fade" id="replacementModal" tabindex="-1" aria-hidden="true">
+                                      <div class="modal-dialog">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title">Request Replacement</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <form id="replacementForm">
+                                              <input type="hidden" name="orderId" value="<%= order._id %>">
+                                              <div class="mb-3">
+                                                <label class="form-label">Select Item</label>
+                                                <select name="itemId" class="form-select" required>
+                                                  <% order.items.forEach(item => { %>
+                                                    <option value="<%= item._id %>"><%= item.name %></option>
+                                                  <% }); %>
+                                                </select>
+                                              </div>
+                                              <div class="mb-3">
+                                                <label class="form-label">Reason for Replacement</label>
+                                                <select name="reason" class="form-select" required>
+                                                  <option value="">Select a reason</option>
+                                                  <option value="Damaged">Damaged Product</option>
+                                                  <option value="WrongItem">Wrong Item Received</option>
+                                                  <option value="Defective">Defective Product</option>
+                                                  <option value="Other">Other</option>
+                                                </select>
+                                              </div>
+                                              <div class="mb-3" id="otherReasonContainer" style="display:none;">
+                                                <label class="form-label">Please specify</label>
+                                                <textarea name="otherReason" class="form-control"></textarea>
+                                              </div>
+                                            </form>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="submitReplacement">Submit Request</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  <% } %>
+                                  
+                                  <script>
+                                  document.addEventListener('DOMContentLoaded', function() {
+                                    // Replacement request
+                                    document.querySelectorAll('.return-order').forEach(button => {
+                                      button.addEventListener('click', function() {
+                                        const modal = new bootstrap.Modal(document.getElementById('replacementModal'));
+                                        modal.show();
+                                      });
+                                    });
+                                  
+                                    // Show/hide other reason field
+                                    document.querySelector('select[name="reason"]').addEventListener('change', function() {
+                                      document.getElementById('otherReasonContainer').style.display = 
+                                        this.value === 'Other' ? 'block' : 'none';
+                                    });
+                                  
+                                    // Submit replacement request
+                                    document.getElementById('submitReplacement').addEventListener('click', async function() {
+                                      const form = document.getElementById('replacementForm');
+                                      const formData = new FormData(form);
+                                      const data = Object.fromEntries(formData.entries());
+                                      
+                                      if (data.reason === 'Other' && !data.otherReason) {
+                                        alert('Please specify the reason for replacement');
+                                        return;
+                                      }
+                                  
+                                      this.disabled = true;
+                                      this.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Processing...';
+                                  
+                                      try {
+                                        const response = await fetch('/orders/replace', {
+                                          method: 'POST',
+                                          headers: {
+                                            'Content-Type': 'application/json'
+                                          },
+                                          body: JSON.stringify(data)
+                                        });
+                                  
+                                        const result = await response.json();
+                                        
+                                        if (result.success) {
+                                          alert('Replacement request submitted successfully!');
+                                          window.location.reload();
+                                        } else {
+                                          throw new Error(result.message || 'Failed to submit replacement request');
+                                        }
+                                      } catch (error) {
+                                        alert(error.message);
+                                        this.disabled = false;
+                                        this.innerHTML = 'Submit Request';
+                                      }
+                                    });
+                                  });
+                                  </script>
                                 <a href="/store" class="btn" style="background-color: #111827;color: white;">
                                     Buy Again
                                 </a>
@@ -569,7 +668,43 @@
                     </div>
                     <% }); %>
                 </div>
-
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                      // Order cancellation
+                      document.querySelectorAll('.cancel-order').forEach(button => {
+                        button.addEventListener('click', async function() {
+                          if (!confirm('Are you sure you want to cancel this order?')) return;
+                          
+                          const orderId = this.dataset.orderId;
+                          const spinner = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+                          this.innerHTML = spinner;
+                          this.disabled = true;
+                          
+                          try {
+                            const response = await fetch(`/orders/${orderId}/cancel`, {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json'
+                              }
+                            });
+                            
+                            const result = await response.json();
+                            
+                            if (result.success) {
+                              alert('Order cancelled successfully. Refund will be processed shortly.');
+                              window.location.reload();
+                            } else {
+                              throw new Error(result.message || 'Failed to cancel order');
+                            }
+                          } catch (error) {
+                            alert(error.message);
+                            this.innerHTML = 'Cancel Order';
+                            this.disabled = false;
+                          }
+                        });
+                      });
+                    });
+                    </script>
                 <!-- Pagination -->
                 <% if (totalPages > 1) { %>
                 <ul class="pagination">

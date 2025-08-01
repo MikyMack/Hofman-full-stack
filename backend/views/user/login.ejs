@@ -3,11 +3,14 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 <head>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-KTMNTPV3');</script>
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KTMNTPV3');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
@@ -71,11 +74,11 @@
                             <a href="/profile" class="d-lg-show"><i class="w-icon-account"></i>Profile</a>
                             <span class="delimiter d-lg-show">/</span>
                             <a href="/orders" class="ml-0 d-lg-show">My Orders</a>
-                        <% } else { %>
-                            <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
-                            <span class="delimiter d-lg-show">/</span>
-                            <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
-                        <% } %>
+                            <% } else { %>
+                                <a href="/auth/login" class="d-lg-show"><i class="w-icon-account"></i>Sign In</a>
+                                <span class="delimiter d-lg-show">/</span>
+                                <a href="/auth/login" class="ml-0 d-lg-show">Register</a>
+                                <% } %>
                     </div>
                 </div>
             </div>
@@ -86,7 +89,7 @@
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger"></a>
                         <a href="/" class="logo">
                             <img src="/images/logo.png" alt="logo" width="200">
-                        </a>                      
+                        </a>
                     </div>
                     <div class="header-right ml-4">
                         <div class="header-call d-xs-show d-lg-flex align-items-center">
@@ -96,13 +99,14 @@
                                     <a href="tel:+919400947122"
                                         class="text-capitalize text-primary font-weight-normal">Customer care</a>
                                 </h4>
-                                <a href="tel:+919400947122" class="phone-number font-weight-bolder ls-50">+91 9400947122</a>
+                                <a href="tel:+919400947122" class="phone-number font-weight-bolder ls-50">+91
+                                    9400947122</a>
                             </div>
                         </div>
                         <a class="wishlist label-down link d-xs-show" href="/wishlist">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
-                        </a>                     
+                        </a>
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                             <div class="cart-overlay"></div>
                             <a href="/cart" class=" label-down link">
@@ -111,7 +115,7 @@
                                 </i>
                                 <span class="cart-label">Cart</span>
                             </a>
-                         
+
                             <!-- End of Dropdown Box -->
                         </div>
                     </div>
@@ -143,7 +147,7 @@
             <!-- End of Breadcrumb -->
             <div class="page-content">
                 <div class="container">
-                    <div class="login-popup">
+                    <div class="login-popup position-relative">
                         <div class="tab tab-nav-boxed tab-nav-center tab-nav-underline">
                             <ul class="nav nav-tabs text-uppercase" role="tablist">
                                 <li class="nav-item">
@@ -166,6 +170,10 @@
                                             <input type="password" class="form-control" name="password"
                                                 id="loginPassword" required>
                                         </div>
+                                        <div class="text-end mt-2">
+                                            <a href="#" class="text-primary"
+                                                onclick="showForgotPasswordModal(event)">Forgot password?</a>
+                                        </div>
                                         <button type="submit" class="btn btn-primary mt-4">Sign In</button>
                                     </form>
                                 </div>
@@ -179,6 +187,130 @@
                                             <label>Email address *</label>
                                             <input type="email" class="form-control" name="email" id="registerEmail"
                                                 required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Country Code *</label>
+                                            <select class="form-control" id="countryCode" name="countryCode" required>
+                                                <option value="">Select</option>
+                                                <option value="+91">+91 (India)</option>
+                                                <option value="+1">+1 (USA)</option>
+                                                <option value="+44">+44 (UK)</option>
+                                                <option value="+971">+971 (UAE)</option>
+                                                <option value="+61">+61 (Australia)</option>
+                                                <option value="+880">+880 (Bangladesh)</option>
+                                                <option value="+92">+92 (Pakistan)</option>
+                                                <option value="+974">+974 (Qatar)</option>
+                                                <option value="+966">+966 (Saudi Arabia)</option>
+                                                <option value="+20">+20 (Egypt)</option>
+                                                <option value="+212">+212 (Morocco)</option>
+                                                <option value="+213">+213 (Algeria)</option>
+                                                <option value="+254">+254 (Kenya)</option>
+                                                <option value="+27">+27 (South Africa)</option>
+                                                <option value="+234">+234 (Nigeria)</option>
+                                                <option value="+60">+60 (Malaysia)</option>
+                                                <option value="+63">+63 (Philippines)</option>
+                                                <option value="+62">+62 (Indonesia)</option>
+                                                <option value="+81">+81 (Japan)</option>
+                                                <option value="+86">+86 (China)</option>
+                                                <option value="+7">+7 (Russia)</option>
+                                                <option value="+49">+49 (Germany)</option>
+                                                <option value="+33">+33 (France)</option>
+                                                <option value="+39">+39 (Italy)</option>
+                                                <option value="+34">+34 (Spain)</option>
+                                                <option value="+55">+55 (Brazil)</option>
+                                                <option value="+52">+52 (Mexico)</option>
+                                                <option value="+351">+351 (Portugal)</option>
+                                                <option value="+64">+64 (New Zealand)</option>
+                                                <option value="+82">+82 (South Korea)</option>
+                                                <option value="+90">+90 (Turkey)</option>
+                                                <option value="+48">+48 (Poland)</option>
+                                                <option value="+31">+31 (Netherlands)</option>
+                                                <option value="+46">+46 (Sweden)</option>
+                                                <option value="+41">+41 (Switzerland)</option>
+                                                <option value="+358">+358 (Finland)</option>
+                                                <option value="+47">+47 (Norway)</option>
+                                                <option value="+45">+45 (Denmark)</option>
+                                                <option value="+43">+43 (Austria)</option>
+                                                <option value="+420">+420 (Czech Republic)</option>
+                                                <option value="+36">+36 (Hungary)</option>
+                                                <option value="+40">+40 (Romania)</option>
+                                                <option value="+380">+380 (Ukraine)</option>
+                                                <option value="+48">+48 (Poland)</option>
+                                                <option value="+386">+386 (Slovenia)</option>
+                                                <option value="+421">+421 (Slovakia)</option>
+                                                <option value="+386">+386 (Slovenia)</option>
+                                                <option value="+420">+420 (Czech Republic)</option>
+                                                <option value="+32">+32 (Belgium)</option>
+                                                <option value="+353">+353 (Ireland)</option>
+                                                <option value="+372">+372 (Estonia)</option>
+                                                <option value="+371">+371 (Latvia)</option>
+                                                <option value="+370">+370 (Lithuania)</option>
+                                                <option value="+48">+48 (Poland)</option>
+                                                <option value="+30">+30 (Greece)</option>
+                                                <option value="+386">+386 (Slovenia)</option>
+                                                <option value="+420">+420 (Czech Republic)</option>
+                                                <option value="+358">+358 (Finland)</option>
+                                                <option value="+47">+47 (Norway)</option>
+                                                <option value="+45">+45 (Denmark)</option>
+                                                <option value="+43">+43 (Austria)</option>
+                                                <option value="+420">+420 (Czech Republic)</option>
+                                                <option value="+36">+36 (Hungary)</option>
+                                                <option value="+40">+40 (Romania)</option>
+                                                <option value="+380">+380 (Ukraine)</option>
+                                                <option value="+48">+48 (Poland)</option>
+                                                <option value="+386">+386 (Slovenia)</option>
+                                                <option value="+421">+421 (Slovakia)</option>
+                                                <option value="+386">+386 (Slovenia)</option>
+                                                <option value="+420">+420 (Czech Republic)</option>
+                                                <option value="+32">+32 (Belgium)</option>
+                                                <option value="+353">+353 (Ireland)</option>
+                                                <option value="+372">+372 (Estonia)</option>
+                                                <option value="+371">+371 (Latvia)</option>
+                                                <option value="+370">+370 (Lithuania)</option>
+                                                <option value="+30">+30 (Greece)</option>
+                                                <option value="+7">+7 (Kazakhstan)</option>
+                                                <option value="+998">+998 (Uzbekistan)</option>
+                                                <option value="+994">+994 (Azerbaijan)</option>
+                                                <option value="+996">+996 (Kyrgyzstan)</option>
+                                                <option value="+993">+993 (Turkmenistan)</option>
+                                                <option value="+374">+374 (Armenia)</option>
+                                                <option value="+995">+995 (Georgia)</option>
+                                                <option value="+375">+375 (Belarus)</option>
+                                                <option value="+373">+373 (Moldova)</option>
+                                                <option value="+380">+380 (Ukraine)</option>
+                                                <option value="+48">+48 (Poland)</option>
+                                                <option value="+420">+420 (Czech Republic)</option>
+                                                <option value="+36">+36 (Hungary)</option>
+                                                <option value="+40">+40 (Romania)</option>
+                                                <option value="+380">+380 (Ukraine)</option>
+                                                <option value="+48">+48 (Poland)</option>
+                                                <option value="+386">+386 (Slovenia)</option>
+                                                <option value="+421">+421 (Slovakia)</option>
+                                                <option value="+386">+386 (Slovenia)</option>
+                                                <option value="+420">+420 (Czech Republic)</option>
+                                                <option value="+32">+32 (Belgium)</option>
+                                                <option value="+353">+353 (Ireland)</option>
+                                                <option value="+372">+372 (Estonia)</option>
+                                                <option value="+371">+371 (Latvia)</option>
+                                                <option value="+370">+370 (Lithuania)</option>
+                                                <option value="+30">+30 (Greece)</option>
+                                                <option value="+7">+7 (Kazakhstan)</option>
+                                                <option value="+998">+998 (Uzbekistan)</option>
+                                                <option value="+994">+994 (Azerbaijan)</option>
+                                                <option value="+996">+996 (Kyrgyzstan)</option>
+                                                <option value="+993">+993 (Turkmenistan)</option>
+                                                <option value="+374">+374 (Armenia)</option>
+                                                <option value="+995">+995 (Georgia)</option>
+                                                <option value="+375">+375 (Belarus)</option>
+                                                <option value="+373">+373 (Moldova)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Mobile Number *</label>
+                                            <input type="tel" class="form-control" name="mobile" id="registerMobile"
+                                                pattern="[0-9]{10,11}" maxlength="11" minlength="10" required
+                                                placeholder="Enter 10 or 11 digit number">
+                                            <small class="form-text text-muted">Enter your mobile number (10 or 11 digits, without country code)</small>
                                         </div>
                                         <div class="form-group mb-5">
                                             <label>Password *</label>
@@ -205,165 +337,243 @@
                                     onclick="handleGoogleLogin(event)"></a>
                             </div>
                         </div>
+
+                        <!-- Forgot Password Modal (true modal, overlays the login form) -->
+                        <div id="forgotPasswordModal"
+                            style="display:none; position:fixed; z-index:1050; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35);">
+                            <div
+                                style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); max-width:400px; width:100%; background:#fff; border-radius:8px; box-shadow:0 2px 16px rgba(0,0,0,0.15); padding:32px;">
+                                <button type="button" onclick="closeForgotPasswordModal()"
+                                    style="position:absolute; right:12px; top:12px; background:none; border:none; font-size:22px; color:#888; z-index:2;">&times;</button>
+                                <div id="forgotPasswordStepEmail">
+                                    <h4 class="mb-3">Forgot Password</h4>
+                                    <form id="forgotEmailForm" onsubmit="return sendForgotPasswordOtp(event)">
+                                        <div class="form-group">
+                                            <label>Enter your email address *</label>
+                                            <input type="email" class="form-control" id="forgotEmail" required>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <button type="button" class="btn btn-link"
+                                                onclick="closeForgotPasswordModal()">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Send OTP</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div id="forgotPasswordStepOtp" style="display:none;">
+                                    <h4 class="mb-3">Enter OTP</h4>
+                                    <form id="forgotOtpForm" onsubmit="return verifyForgotPasswordOtp(event)">
+                                        <div class="form-group">
+                                            <label>Enter the OTP sent to your email *</label>
+                                            <input type="text" class="form-control" id="forgotOtp" required>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <button type="button" class="btn btn-link"
+                                                onclick="resendForgotPasswordOtp()">Resend OTP</button>
+                                            <span id="forgotCountdown" class="text-muted"></span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <button type="button" class="btn btn-link"
+                                                onclick="closeForgotPasswordModal()">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Verify OTP</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div id="forgotPasswordStepReset" style="display:none;">
+                                    <h4 class="mb-3">Reset Password</h4>
+                                    <form id="forgotResetForm" onsubmit="return resetForgotPassword(event)">
+                                        <div class="form-group">
+                                            <label>New Password *</label>
+                                            <input type="password" class="form-control" id="forgotNewPassword" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Confirm New Password *</label>
+                                            <input type="password" class="form-control" id="forgotConfirmPassword"
+                                                required>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <button type="button" class="btn btn-link"
+                                                onclick="closeForgotPasswordModal()">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Reset Password</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Forgot Password Modal -->
                     </div>
+                </div>
+            </div>
 
-                    <script>
-                        // Helper function to show toast messages using Toastify
-                        function showToast(message, type) {
-                            Toastify({
-                                text: message,
-                                duration: 3000,
-                                gravity: "top",
-                                position: "right",
-                                backgroundColor: type === "success" ? "#4CAF50" : "#ff0000",
-                            }).showToast();
+            <script>
+                // Helper function to show toast messages using Toastify
+                function showToast(message, type) {
+                    Toastify({
+                        text: message,
+                        duration: 3000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: type === "success" ? "#4CAF50" : "#ff0000",
+                    }).showToast();
+                }
+
+                // Show toast for Google login result or error on page load
+                window.addEventListener('DOMContentLoaded', () => {
+                    const params = new URLSearchParams(window.location.search);
+
+                    // If the server returned a JSON error message in the query string, show it
+                    if (params.get('errorMsg')) {
+                        // Try to parse as JSON, fallback to plain string
+                        let msg = params.get('errorMsg');
+                        try {
+                            const parsed = JSON.parse(msg);
+                            if (parsed && parsed.message) {
+                                showToast(parsed.message, "error");
+                            } else {
+                                showToast(msg, "error");
+                            }
+                        } catch (e) {
+                            showToast(msg, "error");
                         }
+                    }
 
-                        // Show toast for Google login result or error on page load
-                        window.addEventListener('DOMContentLoaded', () => {
-                            const params = new URLSearchParams(window.location.search);
+                    if (params.get('error') === 'google_failed') {
+                        showToast("Google login failed. Please try again.", "error");
+                    }
 
-                            // If the server returned a JSON error message in the query string, show it
-                            if (params.get('errorMsg')) {
-                                // Try to parse as JSON, fallback to plain string
-                                let msg = params.get('errorMsg');
-                                try {
-                                    const parsed = JSON.parse(msg);
-                                    if (parsed && parsed.message) {
-                                        showToast(parsed.message, "error");
-                                    } else {
-                                        showToast(msg, "error");
-                                    }
-                                } catch (e) {
-                                    showToast(msg, "error");
-                                }
-                            }
+                    // Show blocked user error for Google login (legacy, fallback)
+                    if (params.get('error') === 'blocked') {
+                        showToast("Your account has been blocked. Please contact support.", "error");
+                    }
 
-                            if (params.get('error') === 'google_failed') {
-                                showToast("Google login failed. Please try again.", "error");
-                            }
+                    if (params.get('googleLogin') === 'true') {
+                        showToast("Logged in with Google!", "success");
+                    }
+                });
 
-                            // Show blocked user error for Google login (legacy, fallback)
-                            if (params.get('error') === 'blocked') {
-                                showToast("Your account has been blocked. Please contact support.", "error");
-                            }
+                let registrationData = {};
+                let otpCountdown;
+                async function handleLogin(event) {
+                    event.preventDefault();
 
-                            if (params.get('googleLogin') === 'true') {
-                                showToast("Logged in with Google!", "success");
-                            }
+                    const email = document.getElementById('loginEmail').value;
+                    const password = document.getElementById('loginPassword').value;
+
+                    // Get guestCart from localStorage
+                    const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+
+                    try {
+                        const response = await fetch('/auth/login', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                email,
+                                password,
+                                guestCart // Send guest cart to server
+                            })
                         });
 
-                        let registrationData = {};
-                        let otpCountdown;
-                        async function handleLogin(event) {
-                            event.preventDefault();
+                        // Always try to parse the response as JSON
+                        let result = {};
+                        try {
+                            result = await response.json();
+                        } catch (e) {
+                            // If not JSON, fallback to text
+                            result = { message: await response.text() };
+                        }
 
-                            const email = document.getElementById('loginEmail').value;
-                            const password = document.getElementById('loginPassword').value;
-
-                            // Get guestCart from localStorage
-                            const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
-
-                            try {
-                                const response = await fetch('/auth/login', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                        email,
-                                        password,
-                                        guestCart // Send guest cart to server
-                                    })
-                                });
-
-                                // Always try to parse the response as JSON
-                                let result = {};
-                                try {
-                                    result = await response.json();
-                                } catch (e) {
-                                    // If not JSON, fallback to text
-                                    result = { message: await response.text() };
-                                }
-
-                                if (!response.ok) {
-                                    // Display error from server in Toastify
-                                    showToast(result.message || 'Login failed', "error");
-                                    return false;
-                                }
-
-                                // Clear guest cart on successful login
-                                localStorage.removeItem('guestCart');
-
-                                showToast("Login successful!", "success");
-                                // Redirect based on server response (if provided)
-                                if (result.redirect) {
-                                    window.location.href = result.redirect;
-                                } else {
-                                    window.location.href = '/auth/login';
-                                }
-                            } catch (err) {
-                                showToast(err.message, "error");
-                            }
+                        if (!response.ok) {
+                            // Display error from server in Toastify
+                            showToast(result.message || 'Login failed', "error");
                             return false;
                         }
 
-                        function handleGoogleLogin(event) {
-                            event.preventDefault();
+                        // Clear guest cart on successful login
+                        localStorage.removeItem('guestCart');
 
-                            const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
-                            const encodedCart = encodeURIComponent(JSON.stringify(guestCart));
+                        showToast("Login successful!", "success");
+                        // Redirect based on server response (if provided)
+                        if (result.redirect) {
+                            window.location.href = result.redirect;
+                        } else {
+                            window.location.href = '/auth/login';
+                        }
+                    } catch (err) {
+                        showToast(err.message, "error");
+                    }
+                    return false;
+                }
 
-                            fetch('/auth/store-guest-cart', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({ guestCart })
-                            }).then(() => {
-                                window.location.href = `/auth/google?guestCart=${encodedCart}`;
-                            });
+                function handleGoogleLogin(event) {
+                    event.preventDefault();
+
+                    const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+                    const encodedCart = encodeURIComponent(JSON.stringify(guestCart));
+
+                    fetch('/auth/store-guest-cart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ guestCart })
+                    }).then(() => {
+                        window.location.href = `/auth/google?guestCart=${encodedCart}`;
+                    });
+                }
+
+                async function handleRegistration(event) {
+                    event.preventDefault();
+
+                    // Validate mobile number
+                    const mobile = document.getElementById('registerMobile').value.trim();
+                    const countryCode = document.getElementById('countryCode').value.trim();
+                    if (!countryCode) {
+                        showToast('Please select your country code.', "error");
+                        return false;
+                    }
+                    if (!/^\d{10,11}$/.test(mobile)) {
+                        showToast('Mobile number must be 10 or 11 digits.', "error");
+                        return false;
+                    }
+
+                    registrationData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('registerEmail').value,
+                        password: document.getElementById('registerPassword').value,
+                        mobile: countryCode + mobile // Combine country code and mobile
+                    };
+
+                    try {
+                        // First check if email is available
+                        const checkResponse = await fetch('/auth/check-email', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: registrationData.email })
+                        });
+
+                        const checkResult = await checkResponse.json();
+                        if (!checkResponse.ok || !checkResult.available) {
+                            showToast('Email already registered', "error");
+                            return false;
                         }
 
-                        async function handleRegistration(event) {
-                            event.preventDefault();
+                        // Then send OTP
+                        const otpResponse = await fetch('/auth/send-otp', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: registrationData.email })
+                        });
 
-                            registrationData = {
-                                name: document.getElementById('name').value,
-                                email: document.getElementById('registerEmail').value,
-                                password: document.getElementById('registerPassword').value
-                            };
+                        if (!otpResponse.ok) {
+                            const error = await otpResponse.json();
+                            showToast(error.message || 'Failed to send OTP', "error");
+                            return false;
+                        }
 
-                            try {
-                                // First check if email is available
-                                const checkResponse = await fetch('/auth/check-email', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ email: registrationData.email })
-                                });
-
-                                const checkResult = await checkResponse.json();
-                                if (!checkResponse.ok || !checkResult.available) {
-                                    showToast('Email already registered', "error");
-                                    return false;
-                                }
-
-                                // Then send OTP
-                                const otpResponse = await fetch('/auth/send-otp', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ email: registrationData.email })
-                                });
-
-                                if (!otpResponse.ok) {
-                                    const error = await otpResponse.json();
-                                    showToast(error.message || 'Failed to send OTP', "error");
-                                    return false;
-                                }
-
-                                // Replace form with OTP form
-                                const signUpTab = document.getElementById('sign-up');
-                                signUpTab.innerHTML = `
+                        // Replace form with OTP form
+                        const signUpTab = document.getElementById('sign-up');
+                        signUpTab.innerHTML = `
       <form id="otpForm" onsubmit="return verifyOtp(event)">
         <div class="form-group">
           <label>Enter OTP *</label>
@@ -376,272 +586,443 @@
         <button type="submit" class="btn btn-primary">Verify & Complete Registration</button>
       </form>
     `;
-                                startCountdown();
-                            } catch (err) {
-                                showToast(err.message, "error");
-                            }
+                        startCountdown();
+                    } catch (err) {
+                        showToast(err.message, "error");
+                    }
+                    return false;
+                }
+
+                async function verifyOtp(event) {
+                    event.preventDefault();
+                    const otp = document.getElementById('registerOtp').value;
+
+                    try {
+                        // Verify OTP
+                        const verifyResponse = await fetch('/auth/verify-otp', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                email: registrationData.email,
+                                otp: otp
+                            })
+                        });
+
+                        const verifyResult = await verifyResponse.json();
+                        if (!verifyResponse.ok || !verifyResult.success) {
+                            showToast(verifyResult.message || 'OTP verification failed', "error");
                             return false;
                         }
 
-                        async function verifyOtp(event) {
-                            event.preventDefault();
-                            const otp = document.getElementById('registerOtp').value;
+                        // Complete registration
+                        const registerResponse = await fetch('/auth/register', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(registrationData)
+                        });
 
+                        const registerResult = await registerResponse.json();
+                        if (!registerResponse.ok || !registerResult.success) {
+                            showToast(registerResult.message || 'Registration failed', "error");
+                            return false;
+                        }
+
+                        showToast("Registration successful!", "success");
+                        window.location.href = '/auth/login';
+                    } catch (err) {
+                        showToast(err.message, "error");
+                    }
+                    return false;
+                }
+
+                async function resendOtp() {
+                    clearInterval(otpCountdown);
+
+                    try {
+                        const response = await fetch('/auth/send-otp', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ email: registrationData.email })
+                        });
+
+                        if (response.ok) {
+                            showToast("OTP resent successfully", "success");
+                            startCountdown();
+                        } else {
+                            let errorMsg = 'Failed to resend OTP';
                             try {
-                                // Verify OTP
-                                const verifyResponse = await fetch('/auth/verify-otp', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({
-                                        email: registrationData.email,
-                                        otp: otp
-                                    })
-                                });
-
-                                const verifyResult = await verifyResponse.json();
-                                if (!verifyResponse.ok || !verifyResult.success) {
-                                    showToast(verifyResult.message || 'OTP verification failed', "error");
-                                    return false;
-                                }
-
-                                // Complete registration
-                                const registerResponse = await fetch('/auth/register', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify(registrationData)
-                                });
-
-                                const registerResult = await registerResponse.json();
-                                if (!registerResponse.ok || !registerResult.success) {
-                                    showToast(registerResult.message || 'Registration failed', "error");
-                                    return false;
-                                }
-
-                                showToast("Registration successful!", "success");
-                                window.location.href = '/auth/login';
-                            } catch (err) {
-                                showToast(err.message, "error");
+                                const error = await response.json();
+                                errorMsg = error.message || errorMsg;
+                            } catch (e) {
+                                // fallback to text
+                                errorMsg = (await response.text()) || errorMsg;
                             }
-                            return false;
+                            showToast(errorMsg, "error");
                         }
+                    } catch (err) {
+                        showToast("Failed to resend OTP", "error");
+                    }
+                }
 
-                        async function resendOtp() {
+                function startCountdown() {
+                    let timeLeft = 60;
+                    const countdownElement = document.getElementById('countdown');
+
+                    countdownElement.textContent = `Resend in ${timeLeft}s`;
+
+                    otpCountdown = setInterval(() => {
+                        timeLeft--;
+                        countdownElement.textContent = `Resend in ${timeLeft}s`;
+
+                        if (timeLeft <= 0) {
                             clearInterval(otpCountdown);
+                            countdownElement.textContent = '';
+                        }
+                    }, 1000);
+                }
 
-                            try {
-                                const response = await fetch('/auth/send-otp', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({ email: registrationData.email })
-                                });
+                // --- Forgot Password Logic (updated for new backend) ---
+                let forgotPassword = {
+                    email: "",
+                    token: "",
+                    verified: false
+                };
+                let forgotOtpCountdown;
 
-                                if (response.ok) {
-                                    showToast("OTP resent successfully", "success");
-                                    startCountdown();
-                                } else {
-                                    let errorMsg = 'Failed to resend OTP';
-                                    try {
-                                        const error = await response.json();
-                                        errorMsg = error.message || errorMsg;
-                                    } catch (e) {
-                                        // fallback to text
-                                        errorMsg = (await response.text()) || errorMsg;
-                                    }
-                                    showToast(errorMsg, "error");
-                                }
-                            } catch (err) {
-                                showToast("Failed to resend OTP", "error");
-                            }
+                function showForgotPasswordModal(event) {
+                    if (event) event.preventDefault();
+                    document.getElementById('forgotPasswordModal').style.display = 'block';
+                    document.getElementById('forgotPasswordStepEmail').style.display = '';
+                    document.getElementById('forgotPasswordStepOtp').style.display = 'none';
+                    document.getElementById('forgotPasswordStepReset').style.display = 'none';
+                    document.getElementById('forgotEmail').value = '';
+                    forgotPassword = { email: "", token: "", verified: false };
+                    clearInterval(forgotOtpCountdown);
+                    document.getElementById('forgotCountdown').textContent = '';
+                    // Prevent background scroll when modal is open
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeForgotPasswordModal() {
+                    document.getElementById('forgotPasswordModal').style.display = 'none';
+                    clearInterval(forgotOtpCountdown);
+                    // Restore background scroll
+                    document.body.style.overflow = '';
+                }
+
+                async function sendForgotPasswordOtp(event) {
+                    event.preventDefault();
+                    const email = document.getElementById('forgotEmail').value.trim();
+                    if (!email) {
+                        showToast("Please enter your email address.", "error");
+                        return false;
+                    }
+                    try {
+                        const response = await fetch('/forgot-password', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email })
+                        });
+                        const result = await response.json();
+                        if (!response.ok) {
+                            showToast(result.message || "Failed to send OTP", "error");
+                            return false;
+                        }
+                        forgotPassword.email = email;
+                        showToast("OTP sent to your email.", "success");
+                        document.getElementById('forgotPasswordStepEmail').style.display = 'none';
+                        document.getElementById('forgotPasswordStepOtp').style.display = '';
+                        document.getElementById('forgotPasswordStepReset').style.display = 'none';
+                        startForgotCountdown();
+                    } catch (err) {
+                        showToast("Failed to send OTP", "error");
+                    }
+                    return false;
+                }
+                async function verifyForgotPasswordOtp(event) {
+                    event.preventDefault();
+                    const otp = document.getElementById('forgotOtp').value.trim();
+
+                    try {
+                        const response = await fetch('/verify-forgot-password-otp', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                email: forgotPassword.email,
+                                otp
+                            })
+                        });
+
+                        const result = await response.json();
+
+                        if (!response.ok) {
+                            showToast(result.message || "OTP verification failed", "error");
+                            return false;
                         }
 
-                        function startCountdown() {
-                            let timeLeft = 60;
-                            const countdownElement = document.getElementById('countdown');
+                        // Store the verified OTP for the reset step
+                        forgotPassword.otp = otp;
 
-                            countdownElement.textContent = `Resend in ${timeLeft}s`;
+                        // Show reset form
+                        document.getElementById('forgotPasswordStepOtp').style.display = 'none';
+                        document.getElementById('forgotPasswordStepReset').style.display = '';
 
-                            otpCountdown = setInterval(() => {
-                                timeLeft--;
-                                countdownElement.textContent = `Resend in ${timeLeft}s`;
+                    } catch (err) {
+                        showToast("OTP verification failed", "error");
+                    }
+                    return false;
+                } async function resetForgotPassword(event) {
+                    event.preventDefault();
+                    const newPassword = document.getElementById('forgotNewPassword').value;
+                    const confirmPassword = document.getElementById('forgotConfirmPassword').value;
 
-                                if (timeLeft <= 0) {
-                                    clearInterval(otpCountdown);
-                                    countdownElement.textContent = '';
-                                }
-                            }, 1000);
+                    if (!newPassword || !confirmPassword) {
+                        showToast("Please fill all password fields", "error");
+                        return false;
+                    }
+
+                    if (newPassword !== confirmPassword) {
+                        showToast("Passwords don't match", "error");
+                        return false;
+                    }
+
+                    try {
+                        const response = await fetch('/reset-password', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                email: forgotPassword.email,
+                                otp: forgotPassword.otp, // Make sure this is set from the verification step
+                                newPassword
+                            })
+                        });
+
+                        const result = await response.json();
+
+                        if (!response.ok) {
+                            showToast(result.message || "Failed to reset password", "error");
+                            return false;
                         }
-                    </script>
-                </div>
-            </div>
-        </main>
-        <!-- End of Main -->
 
-        <!-- Start of Footer -->
-        <footer class="footer appear-animate" data-animation-options="{
+                        showToast("Password reset successfully! Please login.", "success");
+                        closeForgotPasswordModal();
+
+                    } catch (err) {
+                        console.error('Reset error:', err);
+                        showToast("Failed to reset password", "error");
+                    }
+                    return false;
+                }
+
+                async function resendForgotPasswordOtp() {
+                    clearInterval(forgotOtpCountdown);
+                    if (!forgotPassword.email) {
+                        showToast("No email found. Please start again.", "error");
+                        return;
+                    }
+                    try {
+                        const response = await fetch('/forgot-password', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: forgotPassword.email })
+                        });
+                        const result = await response.json();
+                        if (!response.ok) {
+                            showToast(result.message || "Failed to resend OTP", "error");
+                            return;
+                        }
+                        showToast("OTP resent to your email.", "success");
+                        startForgotCountdown();
+                    } catch (err) {
+                        showToast("Failed to resend OTP", "error");
+                    }
+                }
+
+                function startForgotCountdown() {
+                    let timeLeft = 60;
+                    const countdownElement = document.getElementById('forgotCountdown');
+                    countdownElement.textContent = `Resend in ${timeLeft}s`;
+                    forgotOtpCountdown = setInterval(() => {
+                        timeLeft--;
+                        countdownElement.textContent = `Resend in ${timeLeft}s`;
+                        if (timeLeft <= 0) {
+                            clearInterval(forgotOtpCountdown);
+                            countdownElement.textContent = '';
+                        }
+                    }, 1000);
+                }
+            </script>
+            <!-- End of Main -->
+
+            <!-- Start of Footer -->
+            <footer class="footer appear-animate" data-animation-options="{
             'name': 'fadeIn'
         }">
-            <div class="footer-newsletter bg-primary">
-                <div class="container">
-                    <div class="row justify-content-center align-items-center">
-                        <div class="col-xl-5 col-lg-6">
-                            <div class="icon-box icon-box-side text-white">
-                                <div class="icon-box-icon d-inline-flex">
-                                    <i class="w-icon-envelop3"></i>
-                                </div>
-                                <div class="icon-box-content">
-                                    <h4 class="icon-box-title text-white text-uppercase font-weight-bold">Subscribe To
-                                        Our Newsletter</h4>
-                                    <p class="text-white">Get all the latest information on Events, Sales and Offers.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-7 col-lg-6 col-md-9 mt-4 mt-lg-0 ">
-                            <form action="#" method="get"
-                                class="input-wrapper input-wrapper-inline input-wrapper-rounded">
-                                <input type="email" class="form-control mr-2 bg-white" name="email" id="email"
-                                    placeholder="Your E-mail Address" />
-                                <button class="btn btn-dark btn-rounded" type="submit">Subscribe<i
-                                        class="w-icon-long-arrow-right"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="footer-top">
-                    <div class="row">
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="widget widget-about mt-0 mb-4">
-                                <a href="/" class="logo-footer">
-                                    <img src="/images/logo.png" alt="logo-footer" width="200" height="45" />
-                                </a>
-                                <div class="widget-body">
-                                    <p class="widget-about-title">Got Question? Call us 24/7</p>
-                                    <a href="tel:18005707777" class="widget-about-call">+91 9400947122</a>
-                                     <p>Follow Us In :</p>
-                               <div class="social-icons social-icons-colored">
-                                        <a    target="_blank"  href="https://www.facebook.com/profile.php?id=61577041363849#"
-                                            class="social-icon social-facebook w-icon-facebook"></a>
-                                        <a    target="_blank"  href="https://www.instagram.com/hofmaan.official/?fbclid=IwY2xjawLJwfRleHRuA2FlbQIxMQBicmlkETFtbmQ0UnlRc3gyNDAwaU44AR5ZqTiWzEixcnjCAnjWdJJKxyOo1SDmgvhwN8_53T5gbWCz_nWAy3l3UTZALw_aem_icwl_UgQrgnfthtQ81Mmyw"
-                                            class="social-icon social-instagram w-icon-instagram"></a>
-                                        <a    target="_blank"  href="https://www.youtube.com/@hofmaanofficial"
-                                            class="social-icon social-youtube w-icon-youtube"></a>
-                                                <a    target="_blank"  href="https://in.pinterest.com/hofmaan_official/"
-                                            class="social-icon social-pinterest w-icon-pinterest"></a>
-                            <a href="https://www.linkedin.com/company/107658144/admin/page-posts/published/" 
-   class="social-icon" 
-   target="_blank" 
-   rel="noopener noreferrer">
-   <i style="color: blue;" class="fab fa-linkedin-in"></i> 
-</a>
+                <div class="footer-newsletter bg-primary">
+                    <div class="container">
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-xl-5 col-lg-6">
+                                <div class="icon-box icon-box-side text-white">
+                                    <div class="icon-box-icon d-inline-flex">
+                                        <i class="w-icon-envelop3"></i>
+                                    </div>
+                                    <div class="icon-box-content">
+                                        <h4 class="icon-box-title text-white text-uppercase font-weight-bold">Subscribe
+                                            To
+                                            Our Newsletter</h4>
+                                        <p class="text-white">Get all the latest information on Events, Sales and
+                                            Offers.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-xl-7 col-lg-6 col-md-9 mt-4 mt-lg-0 ">
+                                <form action="#" method="get"
+                                    class="input-wrapper input-wrapper-inline input-wrapper-rounded">
+                                    <input type="email" class="form-control mr-2 bg-white" name="email" id="email"
+                                        placeholder="Your E-mail Address" />
+                                    <button class="btn btn-dark btn-rounded" type="submit">Subscribe<i
+                                            class="w-icon-long-arrow-right"></i></button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="widget">
-                                <h3 class="widget-title">Company</h3>
-                                <ul class="widget-body">
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="footer-top">
+                        <div class="row">
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="widget widget-about mt-0 mb-4">
+                                    <a href="/" class="logo-footer">
+                                        <img src="/images/logo.png" alt="logo-footer" width="200" height="45" />
+                                    </a>
+                                    <div class="widget-body">
+                                        <p class="widget-about-title">Got Question? Call us 24/7</p>
+                                        <a href="tel:18005707777" class="widget-about-call">+91 9400947122</a>
+                                        <p>Follow Us In :</p>
+                                        <div class="social-icons social-icons-colored">
+                                            <a target="_blank"
+                                                href="https://www.facebook.com/profile.php?id=61577041363849#"
+                                                class="social-icon social-facebook w-icon-facebook"></a>
+                                            <a target="_blank"
+                                                href="https://www.instagram.com/hofmaan.official/?fbclid=IwY2xjawLJwfRleHRuA2FlbQIxMQBicmlkETFtbmQ0UnlRc3gyNDAwaU44AR5ZqTiWzEixcnjCAnjWdJJKxyOo1SDmgvhwN8_53T5gbWCz_nWAy3l3UTZALw_aem_icwl_UgQrgnfthtQ81Mmyw"
+                                                class="social-icon social-instagram w-icon-instagram"></a>
+                                            <a target="_blank" href="https://www.youtube.com/@hofmaanofficial"
+                                                class="social-icon social-youtube w-icon-youtube"></a>
+                                            <a target="_blank" href="https://in.pinterest.com/hofmaan_official/"
+                                                class="social-icon social-pinterest w-icon-pinterest"></a>
+                                            <a href="https://www.linkedin.com/company/107658144/admin/page-posts/published/"
+                                                class="social-icon" target="_blank" rel="noopener noreferrer">
+                                                <i style="color: blue;" class="fab fa-linkedin-in"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="widget">
+                                    <h3 class="widget-title">Company</h3>
+                                    <ul class="widget-body">
                                         <li><a href="/">Home</a></li>
                                         <li><a href="/store">Store</a></li>
-                                    <li><a href="/about">About Us</a></li>
-                                    <li><a href="/blogs">Blogs</a></li>
-                                    <li><a href="/contact">Contact Us</a></li>                              
-                                </ul>
+                                        <li><a href="/about">About Us</a></li>
+                                        <li><a href="/blogs">Blogs</a></li>
+                                        <li><a href="/contact">Contact Us</a></li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="widget">
-                                <h4 class="widget-title">My Account</h4>
-                                <ul class="widget-body">
-                                    <li><a href="/orders">Track My Order</a></li>
-                                    <li><a href="/cart">View Cart</a></li>
-                                    <% if (user) { %>
-                                        <li><a href="/account">Account</a></li>
-                                        <% } else { %>
-                                            <li><a href="/auth/login">Sign In</a></li>
-                                            <% } %>
-                                    <li><a href="/wishlist">My Wishlist</a></li>
-                                </ul>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="widget">
+                                    <h4 class="widget-title">My Account</h4>
+                                    <ul class="widget-body">
+                                        <li><a href="/orders">Track My Order</a></li>
+                                        <li><a href="/cart">View Cart</a></li>
+                                        <% if (user) { %>
+                                            <li><a href="/account">Account</a></li>
+                                            <% } else { %>
+                                                <li><a href="/auth/login">Sign In</a></li>
+                                                <% } %>
+                                                    <li><a href="/wishlist">My Wishlist</a></li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="widget">
-                                <h4 class="widget-title">Customer Service</h4>
-                                <ul class="widget-body">
-                                    <li><a href="/terms_and_conditions">Terms and Conditions</a></li>
-                                    <li><a href="/Cancellation_Refund">Cancellation Refund</a></li>
-                                    <li><a href="/shipping_policy">Shipping Policy</a></li>
-                                    <li><a href="/privacy_policy">Privacy Policy</a></li>
-                           
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="widget">
+                                    <h4 class="widget-title">Customer Service</h4>
+                                    <ul class="widget-body">
+                                        <li><a href="/terms_and_conditions">Terms and Conditions</a></li>
+                                        <li><a href="/Cancellation_Refund">Cancellation Refund</a></li>
+                                        <li><a href="/shipping_policy">Shipping Policy</a></li>
+                                        <li><a href="/privacy_policy">Privacy Policy</a></li>
 
-                <div class="footer-bottom">
-                    <div class="footer-left">
-                        <p class="copyright">
-                            Copyright © 2025 Hofmaan. All Rights Reserved. &nbsp;|&nbsp;
-                            developed by <a href="https://trivlogic.com/" target="_blank" rel="noopener" style="color:#888;text-decoration:none;">Trivlogic Pvt Ltd</a>
-                        </p>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="footer-right">
-                        <span class="payment-label mr-lg-8">We're using safe payment for</span>
-                        <figure class="payment">
-                            <img src="/images/payment.png" alt="payment" width="159" height="25" />
-                        </figure>
+
+                    <div class="footer-bottom">
+                        <div class="footer-left">
+                            <p class="copyright">
+                                Copyright © 2025 Hofmaan. All Rights Reserved. &nbsp;|&nbsp;
+                                developed by <a href="https://trivlogic.com/" target="_blank" rel="noopener"
+                                    style="color:#888;text-decoration:none;">Trivlogic Pvt Ltd</a>
+                            </p>
+                        </div>
+                        <div class="footer-right">
+                            <span class="payment-label mr-lg-8">We're using safe payment for</span>
+                            <figure class="payment">
+                                <img src="/images/payment.png" alt="payment" width="159" height="25" />
+                            </figure>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </footer>
-        <!-- End of Footer -->
+            </footer>
+            <!-- End of Footer -->
     </div>
     <!-- End of Page Wrapper -->
 
     <!-- Start of Sticky Footer -->
-   <div class="btm-main">
-    <a href="#" id="mobileSearchRedirect" class="search-bar-link">
-        <div class="search-bar" id="searchBar">
-            <div class="search-container">
-                <div class="search-input-wrapper">
-                    <i class="fas fa-search search-input-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search products..." id="mobileSearchInput">
+    <div class="btm-main">
+        <a href="#" id="mobileSearchRedirect" class="search-bar-link">
+            <div class="search-bar" id="searchBar">
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-input-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search products..." id="mobileSearchInput">
+                    </div>
+                    <button class="search-btn" id="mobileSearchButton">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
-                <button class="search-btn" id="mobileSearchButton">
-                    <i class="fas fa-search"></i>
-                </button>
             </div>
-        </div>
-    </a>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const input = document.getElementById('mobileSearchInput');
-            const btn = document.getElementById('mobileSearchButton');
-            const link = document.getElementById('mobileSearchRedirect');
-            function doSearch(e) {
-                e.preventDefault();
-                const q = input.value.trim();
-                if (q.length > 0) {
-                    window.location.href = '/store?q=' + encodeURIComponent(q);
+        </a>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const input = document.getElementById('mobileSearchInput');
+                const btn = document.getElementById('mobileSearchButton');
+                const link = document.getElementById('mobileSearchRedirect');
+                function doSearch(e) {
+                    e.preventDefault();
+                    const q = input.value.trim();
+                    if (q.length > 0) {
+                        window.location.href = '/store?q=' + encodeURIComponent(q);
+                    }
                 }
-            }
-            btn.addEventListener('click', doSearch);
-            input.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    doSearch(e);
-                }
+                btn.addEventListener('click', doSearch);
+                input.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        doSearch(e);
+                    }
+                });
+                link.addEventListener('click', function (e) {
+                    // Prevent default link if not searching
+                    if (input.value.trim().length === 0) e.preventDefault();
+                });
             });
-            link.addEventListener('click', function(e) {
-                // Prevent default link if not searching
-                if (input.value.trim().length === 0) e.preventDefault();
-            });
-        });
-    </script>
+        </script>
 
         <nav class="mobile-bottom-nav">
 
@@ -723,7 +1104,7 @@
         <!-- End of .mobile-menu-close -->
 
         <div class="mobile-menu-container scrollable">
-         <img class="side-logo" src="/images/logo.png" alt="logo">
+            <img class="side-logo" src="/images/logo.png" alt="logo">
             <!-- End of Search Form -->
             <div class="tab">
                 <ul class="nav nav-tabs" role="tablist">
@@ -741,15 +1122,15 @@
                         <li><a href="/">Home</a></li>
                         <li><a href="/store">Store</a></li>
                         <% if (user) { %>
-                        <li><a href="/account">Profile</a></li>
-                        <% } else { %>
-                        <li><a href="/auth/login">Login</a></li>
-                        <% } %>
-                        <li><a href="/wishlist">Wishlist</a></li>
-                        <li><a href="/cart">Cart</a></li>
-                        <li><a href="/about">About Us</a></li>
-                        <li><a href="/blogs">Blogs</a></li>
-                        <li><a href="/contact">Contact Us</a></li>
+                            <li><a href="/account">Profile</a></li>
+                            <% } else { %>
+                                <li><a href="/auth/login">Login</a></li>
+                                <% } %>
+                                    <li><a href="/wishlist">Wishlist</a></li>
+                                    <li><a href="/cart">Cart</a></li>
+                                    <li><a href="/about">About Us</a></li>
+                                    <li><a href="/blogs">Blogs</a></li>
+                                    <li><a href="/contact">Contact Us</a></li>
 
                     </ul>
                 </div>
@@ -757,7 +1138,8 @@
                     <ul class="mobile-menu">
                         <% categories.forEach(category=> { %>
                             <li>
-                                <a style="gap: 10px!important; display: flex;" href="/store?category=<%= category._id %>">
+                                <a style="gap: 10px!important; display: flex;"
+                                    href="/store?category=<%= category._id %>">
                                     <img style="height: 30px; width: 30px; border-radius: 50px;"
                                         src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt="">
                                     <%= category.name %>
@@ -783,8 +1165,8 @@
         </div>
     </div>
     <!-- End of Mobile Menu -->
-  
-      
+
+
     <!-- Plugin JS File -->
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>

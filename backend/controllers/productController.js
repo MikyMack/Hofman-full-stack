@@ -1,37 +1,7 @@
 const Product = require('../models/Product');
-const cloudinary = require('../utils/cloudinary');
 const fs = require('fs').promises;
 const mongoose = require('mongoose');
-
-// Helper function to upload images to Cloudinary
-async function uploadToCloudinary(file, folder = 'products') {
-  try {
-    const result = await cloudinary.uploader.upload(file.path, {
-      folder: `Hofmaan/${folder}`,
-      public_id: `${Date.now()}-${Math.round(Math.random() * 1E9)}`
-    });
-
-    // Only delete the file if it's a local temp file
-    if (file.path && file.path.startsWith('uploads/')) {
-      try {
-        await fs.unlink(file.path);
-      } catch (e) {
-        console.error('Error deleting temporary file:', e);
-      }
-    }
-
-    return result.secure_url;
-  } catch (error) {
-    if (file.path && file.path.startsWith('uploads/')) {
-      try {
-        await fs.unlink(file.path);
-      } catch (e) {
-        console.error('Error deleting temporary file:', e);
-      }
-    }
-    throw error;
-  }
-}
+const { uploadToS3 } = require('../middleware/uploadS3');
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -176,50 +146,27 @@ exports.createProduct = async (req, res) => {
     const colorVariantImages = {};
 
     if (req.files && req.files.length > 0) {
-
-      const mainImageFiles = [];
-      
-      let index = 0;
-      while (true) {
-        const file = req.files.find(f => 
-          f.fieldname === `mainImages[${index}]` || 
-          (index === 0 && f.fieldname === 'mainImages')
-        );
-        if (!file) break;
-        mainImageFiles.push(file);
-        index++;
-      }
-      
-      if (mainImageFiles.length === 0) {
-        mainImageFiles.push(...req.files.filter(f => f.fieldname === 'mainImages'));
-      }
-
-      if (mainImageFiles.length > 0) {
-        images = await Promise.all(
-          mainImageFiles.map(file => uploadToCloudinary(file, 'products'))
-        );
-      }
-
-      const colorVariantFiles = req.files.filter(file =>
-        file.fieldname.includes('colorVariants') &&
-        file.fieldname.includes('[image]')
+      const mainImageFiles = req.files.filter(f => f.fieldname === 'mainImages' || f.fieldname.startsWith('mainImages['));
+      images = await Promise.all(
+        mainImageFiles.map(file => uploadToS3(file, 'products'))
       );
-
-      if (colorVariantFiles.length > 0) {
-        await Promise.all(
-          colorVariantFiles.map(async (file) => {
-            const match = file.fieldname.match(/colorVariants\[([^\]]+)\]\[image\]/);
-            if (match && match[1]) {
-              const colorId = match[1];
-              const imageUrl = await uploadToCloudinary(file, 'products/color-variants');
-              colorVariantImages[colorId] = imageUrl;
-            }
-          })
-        );
-      }
+      
+    
+      const colorVariantFiles = req.files.filter(file =>
+        file.fieldname.includes('colorVariants') && file.fieldname.includes('[image]')
+      );
+    
+      await Promise.all(
+        colorVariantFiles.map(async file => {
+          const match = file.fieldname.match(/colorVariants\[([^\]]+)\]\[image\]/);
+          if (match && match[1]) {
+            const colorId = match[1];
+            colorVariantImages[colorId] = await uploadToS3(file, 'products/color-variants');
+          }
+        })
+      );
     }
 
-    // Process color variants
     if (colorVariants) {
       try {
         const raw = typeof colorVariants === 'string' ? JSON.parse(colorVariants) : colorVariants;
@@ -374,13 +321,13 @@ exports.updateProduct = async (req, res) => {
       // Remove duplicates (in case multer sends both 'mainImages' and 'mainImages[0]')
       mainImageFiles = Array.from(new Set(mainImageFiles));
 
-      // Upload new images in order and add to images array
       if (mainImageFiles.length > 0) {
         const uploadedImages = await Promise.all(
-          mainImageFiles.map(file => uploadToCloudinary(file, 'products'))
+          mainImageFiles.map(file => uploadToS3(file, 'products'))
         );
         images = [...images, ...uploadedImages];
       }
+      
     }
 
     // --- Handle Color Variant Images ---
@@ -396,64 +343,78 @@ exports.updateProduct = async (req, res) => {
           const match = file.fieldname.match(/colorVariants\[([^\]]+)\]\[image\]/);
           if (match && match[1]) {
             const colorId = match[1];
-            const imageUrl = await uploadToCloudinary(file, 'products/color-variants');
-            colorVariantImages[colorId] = imageUrl;
+            colorVariantImages[colorId] = file.location;
           }
         })
       );
     }
 
-    // --- Process Color Variants ---
     let parsedColorVariants = [];
     if (req.body.colorVariants) {
-      let rawColorVariants;
-      try {
-        rawColorVariants = typeof req.body.colorVariants === 'string'
-          ? JSON.parse(req.body.colorVariants)
-          : req.body.colorVariants;
-      } catch (e) {
-        console.error('Error parsing color variants:', e);
-        rawColorVariants = {};
-      }
-
-      parsedColorVariants = Object.entries(rawColorVariants).map(([key, variant]) => {
-        const existing = product.colorVariants.find(cv =>
-          cv._id?.toString() === key || cv.color === variant.color
-        ) || {};
-
-        return {
-          _id: existing._id || key,
-          color: variant.color,
-          stock: variant.stock || 0,
-          image: colorVariantImages[key] !== undefined
-            ? colorVariantImages[key]
-            : (variant.existingImage || existing.image || variant.image || null)
-        };
-      });
+        let rawColorVariants;
+        try {
+            rawColorVariants = typeof req.body.colorVariants === 'string'
+                ? JSON.parse(req.body.colorVariants)
+                : req.body.colorVariants;
+        } catch (e) {
+            console.error('Error parsing color variants:', e);
+            rawColorVariants = {};
+        }
+    
+        // Get IDs of variants to delete
+        const deletedVariantIds = Array.isArray(req.body.deletedColorVariants) 
+            ? req.body.deletedColorVariants 
+            : req.body.deletedColorVariants ? [req.body.deletedColorVariants] : [];
+    
+        parsedColorVariants = Object.entries(rawColorVariants)
+            .filter(([key]) => !deletedVariantIds.includes(key))
+            .map(([key, variant]) => {
+                const existing = product.colorVariants.find(cv =>
+                    cv._id?.toString() === key || cv.color === variant.color
+                ) || {};
+    
+                return {
+                    _id: existing._id || key,
+                    color: variant.color,
+                    stock: variant.stock || 0,
+                    image: colorVariantImages[key] !== undefined
+                        ? colorVariantImages[key]
+                        : (variant.existingImage || existing.image || variant.image || null)
+                };
+            });
     } else {
-      parsedColorVariants = product.colorVariants || [];
+        // If no color variants in request but product had them, clear all
+        parsedColorVariants = [];
     }
 
     // --- Process Size Variants ---
-    let parsedSizeVariants = [];
-    if (req.body.sizeVariants) {
-      let rawSizeVariants;
-      try {
+let parsedSizeVariants = [];
+if (req.body.sizeVariants) {
+    let rawSizeVariants;
+    try {
         rawSizeVariants = typeof req.body.sizeVariants === 'string'
-          ? JSON.parse(req.body.sizeVariants)
-          : req.body.sizeVariants;
-      } catch (e) {
+            ? JSON.parse(req.body.sizeVariants)
+            : req.body.sizeVariants;
+    } catch (e) {
         console.error('Error parsing size variants:', e);
         rawSizeVariants = {};
-      }
-
-      parsedSizeVariants = Object.values(rawSizeVariants).map(variant => ({
-        size: variant.size,
-        stock: variant.stock || 0
-      }));
-    } else {
-      parsedSizeVariants = product.sizeVariants || [];
     }
+
+    // Get IDs of variants to delete
+    const deletedVariantIds = Array.isArray(req.body.deletedSizeVariants) 
+        ? req.body.deletedSizeVariants 
+        : req.body.deletedSizeVariants ? [req.body.deletedSizeVariants] : [];
+
+    parsedSizeVariants = Object.entries(rawSizeVariants)
+        .filter(([key]) => !deletedVariantIds.includes(key))
+        .map(([key, variant]) => ({
+            _id: key, // Preserve the ID if it exists
+            size: variant.size,
+            stock: variant.stock || 0
+        }));
+} else {
+    parsedSizeVariants = [];
+}
 
     // --- Process Reviews ---
     let parsedReviews = [];

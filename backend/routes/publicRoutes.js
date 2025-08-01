@@ -5,7 +5,7 @@ const crypto = require('crypto');
 require('dotenv').config();
 const shiprocketService = require('../services/shiprocketService');
 const { getOrdersWithTracking } = require('../services/orderService');
-
+const orderController = require('../controllers/orderController');
 const Category = require('../models/Category');
 const Product = require('../models/Product');
 const MainBanner = require('../models/MainBanner');
@@ -32,94 +32,99 @@ const shuffleArray = (arr) => {
     return arr;
 };
 
-router.get('/', async (req, res) => {
-    try {
-        const categories = await Category.find({ isActive: true })
-            .select('name imageUrl isActive subCategories')
-            .lean();
+// router.get('/', async (req, res) => {
+//     try {
+//         const categories = await Category.find({ isActive: true })
+//             .select('name imageUrl isActive subCategories')
+//             .lean();
 
-        const mainBanner = await MainBanner.find({ isActive: true });
-        const bannerTwo = await BannerTwo.find({ isActive: true });
-        const bannerThree = await BannerThree.find({ isActive: true });
+//         const mainBanner = await MainBanner.find({ isActive: true });
+//         const bannerTwo = await BannerTwo.find({ isActive: true });
+//         const bannerThree = await BannerThree.find({ isActive: true });
 
-        const allProducts = await Product.find({ isActive: true })
-            .limit(20)
-            .sort({ createdAt: -1 })
-            .lean();
+//         const allProducts = await Product.find({ isActive: true })
+//             .limit(20)
+//             .sort({ createdAt: -1 })
+//             .lean();
 
-        // Randomize sections
-        const bestDealsRaw = await Product.find({ isActive: true, bestDeals: true }).lean();
-        const newArrivalsRaw = await Product.find({ isActive: true, newArrivals: true }).lean();
-        const bestSellerRaw = await Product.find({ isActive: true, bestSeller: true }).lean();
-        const topRatedRaw = await Product.find({ isActive: true, topRated: true }).lean();
-        const dealsOfTheDayRaw = await Product.find({ isActive: true, dealsOfTheDay: true }).lean();
+//         // Randomize sections
+//         const bestDealsRaw = await Product.find({ isActive: true, bestDeals: true }).lean();
+//         const newArrivalsRaw = await Product.find({ isActive: true, newArrivals: true }).lean();
+//         const bestSellerRaw = await Product.find({ isActive: true, bestSeller: true }).lean();
+//         const topRatedRaw = await Product.find({ isActive: true, topRated: true }).lean();
+//         const dealsOfTheDayRaw = await Product.find({ isActive: true, dealsOfTheDay: true }).lean();
 
-        const bestDeals = shuffleArray(bestDealsRaw).slice(0, 10);
-        const newArrivals = shuffleArray(newArrivalsRaw).slice(0, 10);
-        const bestSeller = shuffleArray(bestSellerRaw).slice(0, 10);
-        const topRated = shuffleArray(topRatedRaw).slice(0, 10);
-        const dealsOfTheDay = shuffleArray(dealsOfTheDayRaw).slice(0, 2); // You confirmed this works
+//         const bestDeals = shuffleArray(bestDealsRaw).slice(0, 10);
+//         const newArrivals = shuffleArray(newArrivalsRaw).slice(0, 10);
+//         const bestSeller = shuffleArray(bestSellerRaw).slice(0, 10);
+//         const topRated = shuffleArray(topRatedRaw).slice(0, 10);
+//         const dealsOfTheDay = shuffleArray(dealsOfTheDayRaw).slice(0, 2); // You confirmed this works
 
-        const blogs = await Blog.find().sort({ createdAt: -1 }).limit(5).lean().catch(() => []);
+//         const blogs = await Blog.find().sort({ createdAt: -1 }).limit(5).lean().catch(() => []);
 
-        const activeCoupons = await Coupon.find({
-            isActive: true,
-            validUntil: { $gte: new Date() }
-        }).select('code description').lean();
+//         const activeCoupons = await Coupon.find({
+//             isActive: true,
+//             validUntil: { $gte: new Date() }
+//         }).select('code description').lean();
 
-        let cart = null;
-        if (req.user) {
-            cart = await Cart.findOne({ user: req.user._id }).lean();
-        }
+//         let cart = null;
+//         if (req.user) {
+//             cart = await Cart.findOne({ user: req.user._id }).lean();
+//         }
 
-        let wishlistCount = 0;
-        if (req.user) {
-            const wishlist = await Wishlist.findOne({ user: req.user._id }).lean();
-            wishlistCount = wishlist?.items?.length || 0;
-        }
+//         let wishlistCount = 0;
+//         if (req.user) {
+//             const wishlist = await Wishlist.findOne({ user: req.user._id }).lean();
+//             wishlistCount = wishlist?.items?.length || 0;
+//         }
 
-        res.render('user/home', {
-            user: req.user || null,
-            categories,
-            mainBanner,
-            bannerTwo,
-            bannerThree,
-            allProducts,
-            bestDeals,
-            dealsOfTheDay,
-            newArrivals,
-            bestSeller,
-            topRated,
-            cartItems: cart?.items || [],
-            cartSubtotal: cart?.subtotal || 0,
-            activeCoupons,
-            blogs,
-            wishlistCount
-        });
+//         res.render('user/home', {
+//             user: req.user || null,
+//             categories,
+//             mainBanner,
+//             bannerTwo,
+//             bannerThree,
+//             allProducts,
+//             bestDeals,
+//             dealsOfTheDay,
+//             newArrivals,
+//             bestSeller,
+//             topRated,
+//             cartItems: cart?.items || [],
+//             cartSubtotal: cart?.subtotal || 0,
+//             activeCoupons,
+//             blogs,
+//             wishlistCount
+//         });
 
-    } catch (err) {
-        console.error('Error fetching homepage data:', err);
-        res.render('user/home', {
-            user: req.user || null,
-            categories: [],
-            mainBanner: [],
-            bannerTwo: [],
-            bannerThree: [],
-            allProducts: [],
-            bestDeals: [],
-            dealsOfTheDay: [],
-            newArrivals: [],
-            bestSeller: [],
-            topRated: [],
-            cartItems: [],
-            cartSubtotal: 0,
-            activeCoupons: [],
-            blogs: [],
-            wishlistCount: 0
-        });
-    }
+//     } catch (err) {
+//         console.error('Error fetching homepage data:', err);
+//         res.render('user/home', {
+//             user: req.user || null,
+//             categories: [],
+//             mainBanner: [],
+//             bannerTwo: [],
+//             bannerThree: [],
+//             allProducts: [],
+//             bestDeals: [],
+//             dealsOfTheDay: [],
+//             newArrivals: [],
+//             bestSeller: [],
+//             topRated: [],
+//             cartItems: [],
+//             cartSubtotal: 0,
+//             activeCoupons: [],
+//             blogs: [],
+//             wishlistCount: 0
+//         });
+//     }
+// });
+
+router.get('/', (req, res) => {
+    res.render('user/maintenance', {
+        user: req.user || null
+    });
 });
-
 
 
 router.get('/about', async (req, res) => {
@@ -266,8 +271,6 @@ router.get('/store', async (req, res) => {
             currentPage = effectivePage;
         }
         
-        
-
         if (minPrice || maxPrice) {
             const priceFilter = {};
             if (minPrice) priceFilter.$gte = Number(minPrice);
@@ -276,7 +279,12 @@ router.get('/store', async (req, res) => {
             filter.$and = filter.$and || [];
             filter.$and.push({
                 $or: [
-                    { salePrice: priceFilter },
+                    { 
+                        $and: [
+                            { $or: [{ salePrice: { $gt: 0 } }, { salePrice: { $exists: true } }] },
+                            { salePrice: priceFilter }
+                        ]
+                    },
                     {
                         $and: [
                             { $or: [{ salePrice: 0 }, { salePrice: { $exists: false } }] },
@@ -292,26 +300,59 @@ router.get('/store', async (req, res) => {
 
         const totalProducts = await Product.countDocuments(filter);
 
-        let productsQuery = Product.find(filter)
-            .skip((effectivePage - 1) * Number(limit))
-            .limit(Number(limit))
-            .sort({ createdAt: -1 });
-
+        // Sorting logic for price-low and price-high
+        let sortObj = {};
         switch (sort) {
             case 'price-low':
-                productsQuery.sort({ salePrice: 1, basePrice: 1 });
+                // Sort by effective price: salePrice if > 0, else basePrice
+                // This requires aggregation, but for .find() we can sort by a computed field in-memory after fetching
+                sortObj = { };
                 break;
             case 'price-high':
-                productsQuery.sort({ salePrice: -1, basePrice: -1 });
+                sortObj = { };
                 break;
             case 'bestseller':
-                productsQuery.sort({ soldCount: -1 });
+                sortObj = { soldCount: -1 };
                 break;
             default:
-                productsQuery.sort({ createdAt: -1 });
+                sortObj = { createdAt: -1 };
         }
 
-        const products = await productsQuery.lean();
+        let products = [];
+        if (sort === 'price-low' || sort === 'price-high') {
+
+            let fetchedProducts = await Product.find(filter)
+                .skip((effectivePage - 1) * Number(limit))
+                .limit(Number(limit))
+                .lean();
+
+            if (fetchedProducts.length < Number(limit)) {
+                fetchedProducts = await Product.find(filter).lean();
+            }
+
+
+            fetchedProducts.forEach(p => {
+                p.effectivePrice = (p.salePrice && p.salePrice > 0) ? p.salePrice : p.basePrice;
+            });
+
+            fetchedProducts.sort((a, b) => {
+                if (sort === 'price-low') {
+                    return a.effectivePrice - b.effectivePrice;
+                } else {
+                    return b.effectivePrice - a.effectivePrice;
+                }
+            });
+
+            // Paginate after sort
+            products = fetchedProducts.slice((effectivePage - 1) * Number(limit), effectivePage * Number(limit));
+        } else {
+            products = await Product.find(filter)
+                .skip((effectivePage - 1) * Number(limit))
+                .limit(Number(limit))
+                .sort(sortObj)
+                .lean();
+        }
+
         const categories = await Category.find({}).lean();
         const cart = req.user ? await Cart.findOne({ user: req.user._id }).lean() : null;
 
@@ -1176,5 +1217,10 @@ router.get('/blogs/:id', async (req, res) => {
         res.status(500).render('error', { message: 'Failed to load blog details' });
     }
 });
+
+router.post('/orders/:orderId/cancel', orderController.cancelOrder);
+
+// Replacement request
+router.post('/orders/replace', orderController.requestReplacement);
 
 module.exports = router;

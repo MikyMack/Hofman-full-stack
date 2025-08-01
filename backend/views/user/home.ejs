@@ -2179,19 +2179,17 @@
             
             <div class="lws-popup-content">
                 <div class="lws-popup-header">
-                    <div class="lws-popup-sale">Exclusive Member Offer</div>
-                    <div class="lws-popup-title">We're Offering Up To 10% Off!</div>
+                    <div class="lws-popup-sale">Get 10% OFF Your First Order!</div>
+                    <div class="lws-popup-title">Sign Up or Log In &amp; Save Instantly</div>
                     <div class="lws-popup-subtitle">
-                       Sign in to unlock your exclusive discount. Enjoy 10% off your  purchase and access to member-only deals and early sales.
+                        Create an account or log in now and unlock an exclusive 10% discount on your very first purchase! Simply add the coupon at checkout and start shopping your favorites for less. Don’t wait—your savings are just a click away!
                     </div>
                 </div>
-                
-                <form class="lws-popup-form">
-                   
-                 <a style="width: 100%!important; text-align: center;" href="/auth/login" class="lws-popup-btn"> Sign up Now  </a>
-                </form>
-                
-                <a href="/store" class="lws-popup-shop">Shop now</a>
+
+                <div class="lws-popup-form">
+                    <a style="width: 100%!important; display: block;" href="/auth/login" class="lws-popup-btn">Login / Register &amp; Get 10% Off</a>
+                </div>
+                <a href="/store" class="lws-popup-shop">Shop Now</a>
             </div>
         </div>
     </div>
@@ -2761,38 +2759,35 @@
     </script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Only show the popup if the user is NOT logged in
+        if (!window.isLoggedIn) {
             const popup = document.getElementById('newsletterPopup');
             const closeBtn = document.getElementById('popupClose');
-            
-       
+
             setTimeout(() => {
                 popup.classList.add('active');
             }, 1000);
-            
-    
+
             popup.addEventListener('click', function(e) {
                 if (e.target === popup) {
                     closePopup();
                 }
             });
-            
-        
+
             closeBtn.addEventListener('click', closePopup);
-            
-   
+
             const form = popup.querySelector('form');
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const email = form.querySelector('input').value;
-               
-              
+                // You can handle the email submission here
             });
-            
+
             function closePopup() {
                 popup.classList.remove('active');
-                
             }
-        });
+        }
+    });
     </script>
 
     <!-- Plugin JS File -->

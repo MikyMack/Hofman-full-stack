@@ -60,35 +60,35 @@ exports.storeGuestCart = (req, res) => {
 
 // Register user
 exports.register = async (req, res) => {
-    const { name, email, password } = req.body;
-  
-    try {
-      // Check if OTP was verified
-      if (!req.session.otpVerified || req.session.otpEmail !== email) {
-        return res.status(403).json({ success: false, message: 'OTP verification required' });
-      }
-  
-      // Check if email is already registered (final check)
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return res.status(400).json({ success: false, message: 'Email already registered' });
-      }
-  
-      const hashedPassword = await bcrypt.hash(password, 10);
-      await User.create({ name, email, password: hashedPassword });
-  
-      // Clear session OTP data
-      req.session.otp = null;
-      req.session.otpEmail = null;
-      req.session.otpVerified = false;
-      req.session.otpExpires = null;
-  
-      res.json({ success: true, message: 'Registration successful' });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ success: false, message: 'Registration failed' });
+  const { name, email, password, mobile } = req.body;
+
+  try {
+    // Check if OTP was verified
+    if (!req.session.otpVerified || req.session.otpEmail !== email) {
+      return res.status(403).json({ success: false, message: 'OTP verification required' });
     }
-  };
+
+    // Check if email is already registered (final check)
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: 'Email already registered' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await User.create({ name, email, password: hashedPassword, mobile });
+
+    // Clear session OTP data
+    req.session.otp = null;
+    req.session.otpEmail = null;
+    req.session.otpVerified = false;
+    req.session.otpExpires = null;
+
+    res.json({ success: true, message: 'Registration successful' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Registration failed' });
+  }
+};
   
 
   exports.login = async (req, res) => {

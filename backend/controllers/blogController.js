@@ -1,5 +1,22 @@
 const Blog = require('../models/Blog');
-const cloudinary = require('../utils/cloudinary');
+const { uploadToS3 } = require('../middleware/uploadS3');
+const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
+
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
+
+// Helper to extract S3 key from URL
+function getS3KeyFromUrl(url) {
+  if (!url) return null;
+  const idx = url.indexOf('.amazonaws.com/');
+  if (idx === -1) return null;
+  return url.substring(idx + '.amazonaws.com/'.length);
+}
 
 exports.createBlog = async (req, res) => {
     try {
@@ -11,7 +28,13 @@ exports.createBlog = async (req, res) => {
 
         if (!req.file) return res.status(400).json({ message: "Blog image is required" });
 
-        const result = await cloudinary.uploader.upload(req.file.path);
+        let imageUrl = null;
+        try {
+            imageUrl = await uploadToS3(req.file, 'blogs');
+        } catch (err) {
+            return res.status(500).json({ message: "Image upload failed" });
+        }
+
         const newBlog = new Blog({
             title,
             metaTitle,
@@ -19,8 +42,7 @@ exports.createBlog = async (req, res) => {
             metaKeywords: metaKeywords.split(','),
             content,
             author,
-            imageUrl: result.secure_url,
-            cloudinary_id: result.public_id
+            imageUrl
         });
 
         await newBlog.save();
@@ -56,10 +78,26 @@ exports.updateBlog = async (req, res) => {
         if (!blog) return res.status(404).json({ message: "Blog not found" });
 
         if (req.file) {
-            await cloudinary.uploader.destroy(blog.cloudinary_id);
-            const result = await cloudinary.uploader.upload(req.file.path);
-            blog.imageUrl = result.secure_url;
-            blog.cloudinary_id = result.public_id;
+            // Delete old image from S3 if exists
+            if (blog.imageUrl) {
+                const key = getS3KeyFromUrl(blog.imageUrl);
+                if (key) {
+                    try {
+                        await s3.send(new DeleteObjectCommand({
+                            Bucket: process.env.S3_BUCKET,
+                            Key: key,
+                        }));
+                    } catch (e) {
+                        console.error('Failed to delete old blog image from S3:', e);
+                    }
+                }
+            }
+            // Upload new image
+            try {
+                blog.imageUrl = await uploadToS3(req.file, 'blogs');
+            } catch (err) {
+                return res.status(500).json({ message: "Image upload failed" });
+            }
         }
 
         blog.title = title || blog.title;
@@ -82,14 +120,19 @@ exports.deleteBlog = async (req, res) => {
         if (!blog) {
             return res.status(404).json({ message: "Blog not found" });
         }
-        if (blog.cloudinary_id) {
-            try {
-                await cloudinary.uploader.destroy(blog.cloudinary_id);
-            } catch (cloudErr) {
-                console.error(`Error deleting image from Cloudinary for blog ${req.params.id}:`, cloudErr);
+        // Delete image from S3 if exists
+        if (blog.imageUrl) {
+            const key = getS3KeyFromUrl(blog.imageUrl);
+            if (key) {
+                try {
+                    await s3.send(new DeleteObjectCommand({
+                        Bucket: process.env.S3_BUCKET,
+                        Key: key,
+                    }));
+                } catch (e) {
+                    console.error(`Error deleting image from S3 for blog ${req.params.id}:`, e);
+                }
             }
-        } else {
-            console.warn(`No cloudinary_id found for blog ${req.params.id}`);
         }
         await Blog.deleteOne({ _id: blog._id });
         res.status(200).json({ message: "Blog deleted successfully" });

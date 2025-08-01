@@ -449,118 +449,151 @@
                                     </ul>
                                 </div>
 
-                                <div class="wg-box">
-                                    <div class="flex items-center justify-between gap10 flex-wrap mb-20">
-                                        <div class="flex gap10">
-                                            <button class="tf-button style-1 w208" onclick="showAddBannerModal('main')">
-                                                <i class="icon-plus"></i> Add Main Banner
-                                            </button>
-                                            <button class="tf-button style-3 w208" onclick="showAddBannerModal('two')">
-                                                <i class="icon-plus"></i> Add Banner Two
-                                            </button>
-                                            <button class="tf-button style-3 w208" onclick="showAddBannerModal('three')">
-                                                <i class="icon-plus"></i> Add Banner Three
-                                            </button>
-                                        </div>
-                                    </div>
+                        <div class="wg-box">
+    <div class="flex items-center justify-between gap10 flex-wrap mb-20">
+        <div class="flex gap10">
+            <button class="tf-button style-1 w208" onclick="showAddBannerModal('main')">
+                <i class="icon-plus"></i> Add Main Banner
+            </button>
+            <button class="tf-button style-3 w208" onclick="showAddBannerModal('two')">
+                <i class="icon-plus"></i> Add Banner Two
+            </button>
+            <button class="tf-button style-3 w208" onclick="showAddBannerModal('three')">
+                <i class="icon-plus"></i> Add Banner Three
+            </button>
+            <button class="tf-button style-3 w208" onclick="showAddBannerModal('mobile')">
+                <i class="icon-plus"></i> Add mobile Banner 
+            </button>
+        </div>
+    </div>
 
-                                    <div class="tabs mb-20">
-                                        <button class="tab-btn active" onclick="showBannerTab('main', this)">Main Banners</button>
-                                        <button class="tab-btn" onclick="showBannerTab('two', this)">Banner Two</button>
-                                        <button class="tab-btn" onclick="showBannerTab('three', this)">Banner Three</button>
-                                    </div>
+    <div class="tabs mb-20">
+        <button class="tab-btn active" onclick="showBannerTab('main', this)">Main Banners</button>
+        <button class="tab-btn" onclick="showBannerTab('two', this)">Banner Two</button>
+        <button class="tab-btn" onclick="showBannerTab('three', this)">Banner Three</button>
+        <button class="tab-btn" onclick="showBannerTab('mobile', this)">Mobile Banner</button>
+    </div>
 
-                                    <div class="wg-table table-all-banner">
-                                        <!-- Main Banners Table -->
-                                        <div class="banner-table" id="banner-table-main">
-                                            <ul class="table-title flex gap20 mb-14">
-                                                <li style="width: 140px;">
-                                                    <div class="body-title">Image</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Title</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Subtitle</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Description</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Link</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Status</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Actions</div>
-                                                </li>
-                                            </ul>
-                                            <ul class="flex flex-column" id="main-banner-list">
-                                                <!-- Main banners will be injected here -->
-                                            </ul>
-                                        </div>
-                                        <!-- Banner Two Table -->
-                                        <div class="banner-table" id="banner-table-two" style="display:none;">
-                                            <ul class="table-title flex gap20 mb-14">
-                                                <li style="width: 140px;">
-                                                    <div class="body-title">Image</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Title</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Subtitle</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Description</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Link</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Status</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Actions</div>
-                                                </li>
-                                            </ul>
-                                            <ul class="flex flex-column" id="two-banner-list">
-                                                <!-- Banner two will be injected here -->
-                                            </ul>
-                                        </div>
-                                        <!-- Banner Three Table -->
-                                        <div class="banner-table" id="banner-table-three" style="display:none;">
-                                            <ul class="table-title flex gap20 mb-14">
-                                                <li style="width: 140px;">
-                                                    <div class="body-title">Image</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Title</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Subtitle</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Description</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Link</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Status</div>
-                                                </li>
-                                                <li>
-                                                    <div class="body-title">Actions</div>
-                                                </li>
-                                            </ul>
-                                            <ul class="flex flex-column" id="three-banner-list">
-                                                <!-- Banner three will be injected here -->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="divider"></div>
-                                </div>
+    <div class="wg-table table-all-banner">
+        <!-- Main Banners Table -->
+        <div class="banner-table" id="banner-table-main">
+            <ul class="table-title flex gap20 mb-14">
+                <li style="width: 140px;">
+                    <div class="body-title">Image</div>
+                </li>
+                <li>
+                    <div class="body-title">Title</div>
+                </li>
+                <li>
+                    <div class="body-title">Subtitle</div>
+                </li>
+                <li>
+                    <div class="body-title">Description</div>
+                </li>
+                <li>
+                    <div class="body-title">Link</div>
+                </li>
+                <li>
+                    <div class="body-title">Status</div>
+                </li>
+                <li>
+                    <div class="body-title">Actions</div>
+                </li>
+            </ul>
+            <ul class="flex flex-column" id="main-banner-list">
+                <!-- Main banners will be injected here -->
+            </ul>
+        </div>
+        <!-- Banner Two Table -->
+        <div class="banner-table" id="banner-table-two" style="display:none;">
+            <ul class="table-title flex gap20 mb-14">
+                <li style="width: 140px;">
+                    <div class="body-title">Image</div>
+                </li>
+                <li>
+                    <div class="body-title">Title</div>
+                </li>
+                <li>
+                    <div class="body-title">Subtitle</div>
+                </li>
+                <li>
+                    <div class="body-title">Description</div>
+                </li>
+                <li>
+                    <div class="body-title">Link</div>
+                </li>
+                <li>
+                    <div class="body-title">Status</div>
+                </li>
+                <li>
+                    <div class="body-title">Actions</div>
+                </li>
+            </ul>
+            <ul class="flex flex-column" id="two-banner-list">
+                <!-- Banner two will be injected here -->
+            </ul>
+        </div>
+        <!-- Banner Three Table -->
+        <div class="banner-table" id="banner-table-three" style="display:none;">
+            <ul class="table-title flex gap20 mb-14">
+                <li style="width: 140px;">
+                    <div class="body-title">Image</div>
+                </li>
+                <li>
+                    <div class="body-title">Title</div>
+                </li>
+                <li>
+                    <div class="body-title">Subtitle</div>
+                </li>
+                <li>
+                    <div class="body-title">Description</div>
+                </li>
+                <li>
+                    <div class="body-title">Link</div>
+                </li>
+                <li>
+                    <div class="body-title">Status</div>
+                </li>
+                <li>
+                    <div class="body-title">Actions</div>
+                </li>
+            </ul>
+            <ul class="flex flex-column" id="three-banner-list">
+                <!-- Banner three will be injected here -->
+            </ul>
+        </div>
+        <!-- Mobile Banner Table -->
+        <div class="banner-table" id="banner-table-mobile" style="display:none;">
+            <ul class="table-title flex gap20 mb-14">
+                <li style="width: 140px;">
+                    <div class="body-title">Image</div>
+                </li>
+                <li>
+                    <div class="body-title">Title</div>
+                </li>
+                <li>
+                    <div class="body-title">Subtitle</div>
+                </li>
+                <li>
+                    <div class="body-title">Description</div>
+                </li>
+                <li>
+                    <div class="body-title">Link</div>
+                </li>
+                <li>
+                    <div class="body-title">Status</div>
+                </li>
+                <li>
+                    <div class="body-title">Actions</div>
+                </li>
+            </ul>
+            <ul class="flex flex-column" id="mobile-banner-list">
+                <!-- Mobile banners will be injected here -->
+            </ul>
+        </div>
+    </div>
+    <div class="divider"></div>
+</div>
                             </div>
 
                             <!-- Add/Edit Banner Modal -->
@@ -633,19 +666,19 @@
 
                             <script>
                                 // Tab switching
-                                function showBannerTab(type, btn) {
-                                    ['main', 'two', 'three'].forEach(function(t) {
-                                        document.getElementById('banner-table-' + t).style.display = (t === type) ? '' : 'none';
-                                    });
-                                    // Set active tab
-                                    var tabBtns = document.querySelectorAll('.tab-btn');
-                                    tabBtns.forEach(function(b) { b.classList.remove('active'); });
-                                    if (btn) btn.classList.add('active');
-                                }
+                        function showBannerTab(type, btn) {
+    ['main', 'two', 'three', 'mobile'].forEach(function(t) {
+        document.getElementById('banner-table-' + t).style.display = (t === type) ? '' : 'none';
+    });
+    // Set active tab
+    var tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+}
 
                                 // Modal logic
                                 function showAddBannerModal(type) {
-                                    document.getElementById('bannerModalTitle').innerText = 'Add ' + (type === 'main' ? 'Main Banner' : type === 'two' ? 'Banner Two' : 'Banner Three');
+                                    document.getElementById('bannerModalTitle').innerText = 'Add ' + (type === 'main' ? 'Main Banner' : type === 'two' ? 'Banner Two' :type === 'three' ? 'Banner Three': 'Mobile Banner');
                                     document.getElementById('bannerType').value = type;
                                     document.getElementById('bannerId').value = '';
                                     document.getElementById('bannerTitle').value = '';

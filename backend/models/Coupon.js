@@ -60,9 +60,18 @@ const couponSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
+  scopeType: {
+    type: String,
+    enum: ['all', 'categories', 'subcategories'],
+    required: true,
+    default: 'all'
+  },
   applicableCategories: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category'
+  }],
+  applicableSubcategories: [{
+    type: mongoose.Schema.Types.ObjectId
   }],
   createdAt: {
     type: Date,

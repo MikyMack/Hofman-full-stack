@@ -288,7 +288,14 @@
             }
             </script>
         
-        
+            <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17353825335"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', 'AW-17353825335');
+            </script>
 </head>
 
 <body class="home">
@@ -613,7 +620,7 @@
                   <div class="col-12 mt-4 mb-4">
                     <div>
                       <!-- Desktop Banner Swiper -->
-                      <div class="swiper-container swiper-theme pg-inner pg-white animation-slider desk-banner d-none d-md-block"
+                      <div class="swiper-container swiper-theme pg-inner pg-white animation-slider desk-banner d-none d-lg-block"
                         data-swiper-options="{
                           'spaceBetween': 0,
                           'slidesPerView': 1,
@@ -690,7 +697,7 @@
                         <div class="swiper-pagination"></div>
                       </div>
                       <!-- Mobile Banner Swiper -->
-                      <div class="swiper-container swiper-theme pg-inner pg-white animation-slider mobile-banner d-block d-md-none"
+                      <div class="swiper-container swiper-theme pg-inner pg-white animation-slider mobile-banner d-block d-lg-none"
                         data-swiper-options="{
                           'spaceBetween': 0,
                           'slidesPerView': 1,
@@ -724,6 +731,17 @@
                   </div>
                 </div>
               </div>
+              <style>
+                /* Fix for banner visibility at 768px (md) breakpoint */
+                @media (min-width: 992px) {
+                  .desk-banner { display: block !important; }
+                  .mobile-banner { display: none !important; }
+                }
+                @media (max-width: 991.98px) {
+                  .desk-banner { display: none !important; }
+                  .mobile-banner { display: block !important; }
+                }
+              </style>
 
                 <!-- Banner Two Row Below Main Banner -->
                 <div class=" container intro-banner-row mb-2">

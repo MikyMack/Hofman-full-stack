@@ -14,6 +14,8 @@ router.post('/create-coupon', isAdmin, async (req, res) => {
       validUntil,
       maxUses = null,
       applicableCategories = [],
+      applicableSubcategories = [],
+      scopeType = 'all',
       description
     } = req.body;
 
@@ -31,8 +33,11 @@ router.post('/create-coupon', isAdmin, async (req, res) => {
       validUntil: new Date(validUntil),
       maxUses,
       applicableCategories,
+      applicableSubcategories,
+      scopeType,
       description
     });
+    
 
     await coupon.save();
     res.status(201).json(coupon);
@@ -54,7 +59,8 @@ router.put('/update-coupon/:id', isAdmin, async (req, res) => {
       'minPurchase',
       'validUntil',
       'maxUses',
-      'applicableCategories'
+      'applicableCategories',
+      'applicableSubcategories'
     ];
 
     const updateData = {};

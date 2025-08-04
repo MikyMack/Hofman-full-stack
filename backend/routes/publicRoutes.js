@@ -759,112 +759,172 @@ router.get('/checkout', async (req, res) => {
 
 router.post('/apply-coupon', async (req, res) => {
     try {
-        const { couponCode } = req.body;
-
-        let cart;
-        if (req.user) {
-            cart = await Cart.findOne({ user: req.user._id });
-        } else {
-            cart = await Cart.findOne({ sessionId: req.sessionID });
-        }
-
-        if (!cart) {
-            return res.status(400).json({ success: false, message: 'Cart not found' });
-        }
-
-        // If coupon is already applied to the cart
-        if (cart.couponInfo && cart.couponInfo.code === couponCode.toUpperCase()) {
-            return res.status(400).json({ success: false, message: 'Coupon already applied to the cart' });
-        }
-
-        const now = new Date();
-        const coupon = await Coupon.findOne({
-            code: couponCode.toUpperCase(),
-            isActive: true,
-            validFrom: { $lte: now },
-            validUntil: { $gte: now },
-            $or: [
-                { maxUses: null },
-                { $expr: { $lt: ["$usedCount", "$maxUses"] } }
-            ]
+      const { couponCode } = req.body;
+  
+      // 1. Find the cart
+      let cart;
+      if (req.user) {
+        cart = await Cart.findOne({ user: req.user._id });
+      } else {
+        cart = await Cart.findOne({ sessionId: req.sessionID });
+      }
+  
+      if (!cart) {
+        return res.status(400).json({ success: false, message: 'Cart not found' });
+      }
+  
+      // 2. Check if coupon already applied
+      if (cart.couponInfo && cart.couponInfo.code === couponCode.toUpperCase()) {
+        return res.status(400).json({ success: false, message: 'Coupon already applied to the cart' });
+      }
+  
+      // 3. Validate coupon
+      const now = new Date();
+      const coupon = await Coupon.findOne({
+        code: couponCode.toUpperCase(),
+        isActive: true,
+        validFrom: { $lte: now },
+        validUntil: { $gte: now },
+        $or: [
+          { maxUses: null },
+          { $expr: { $lt: ["$usedCount", "$maxUses"] } }
+        ]
+      }).populate('applicableCategories');
+  
+      if (!coupon) {
+        return res.status(400).json({ success: false, message: 'Invalid or expired coupon' });
+      }
+  
+      // 4. Check if user already used the coupon
+      if (req.user && coupon.usedBy.includes(req.user._id)) {
+        return res.status(400).json({
+          success: false,
+          message: 'You have already used this coupon'
         });
-
-        if (!coupon) {
-            return res.status(400).json({ success: false, message: 'Invalid or expired coupon' });
+      }
+  
+      // 5. Fetch products in cart
+      const cartProducts = await Product.find({
+        _id: { $in: cart.items.map(item => item.product) }
+      }).populate('category');
+  
+      // 6. Calculate subtotal and apply coupon if valid
+      let subtotal = 0;
+      let applicableSubtotal = 0;
+      let hasApplicableItems = false;
+  
+      for (const item of cart.items) {
+        const product = cartProducts.find(p => p._id.equals(item.product));
+        if (!product) continue;
+  
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+  
+        let isApplicable = false;
+  
+        // Scope: all
+        if (coupon.scopeType === 'all') {
+          isApplicable = true;
         }
-
-        // Check if user has already used the coupon (if user is logged in)
-        if (req.user && coupon.usedBy.includes(req.user._id)) {
-            return res.status(400).json({
-                success: false,
-                message: 'You have already used this coupon'
-            });
+  
+        // Scope: categories
+        else if (coupon.scopeType === 'categories' && coupon.applicableCategories.length > 0) {
+          isApplicable = coupon.applicableCategories.some(cat =>
+            cat._id.equals(product.category._id || product.category)
+          );
         }
-
-        // Check minimum purchase requirement
-        const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        if (subtotal < coupon.minPurchase) {
-            return res.status(400).json({
-                success: false,
-                message: `Minimum purchase of ₹${coupon.minPurchase} required`
-            });
-        }
-
-        // Optional: Check applicable categories if coupon.applicableCategories is set
-        if (coupon.applicableCategories && coupon.applicableCategories.length > 0) {
-            const cartCategoryIds = cart.items.map(item => item.category.toString());
-            const applicableCategoryIds = coupon.applicableCategories.map(id => id.toString());
-
-            const hasApplicableCategory = cartCategoryIds.some(catId => applicableCategoryIds.includes(catId));
-
-            if (!hasApplicableCategory) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Coupon is not applicable to any products in your cart'
-                });
+  
+        // Scope: subcategories (embedded in Category model)
+        else if (coupon.scopeType === 'subcategories' && coupon.applicableSubcategories.length > 0) {
+          const parentCategory = await Category.findOne({
+            'subCategories._id': { $in: coupon.applicableSubcategories }
+          });
+  
+          if (parentCategory && product.category.equals(parentCategory._id)) {
+            const matchedSub = parentCategory.subCategories.find(sub =>
+              coupon.applicableSubcategories.some(id => id.equals(sub._id))
+            );
+  
+            if (matchedSub) {
+              isApplicable = true;
             }
+          }
         }
-
-        // Add coupon to cart
-        cart.couponInfo = {
-            code: coupon.code,
-            discountType: coupon.discountType,
-            discountValue: coupon.value,
-            minPurchase: coupon.minPurchase,
-            validated: true
-        };
-
-        // Calculate discounted price
-        let discountedPrice = cart.subtotal;
-
-        if (coupon.discountType === 'percentage') {
-            discountedPrice = cart.subtotal - (cart.subtotal * coupon.value) / 100;
-        } else if (coupon.discountType === 'fixed') {
-            discountedPrice = cart.subtotal - coupon.value;
+  
+        // Accumulate applicable subtotal
+        if (isApplicable) {
+          applicableSubtotal += itemTotal;
+          hasApplicableItems = true;
         }
-
-        if (discountedPrice < 0) discountedPrice = 0;
-
-        // Update cart with discount and new total
-        cart.discountAmount = cart.subtotal - discountedPrice;
-        cart.total = discountedPrice;
-
-        await cart.save();
-
-        // Call your existing validation function if needed
-        const updatedCart = await validateCartCoupon(cart.toObject());
-
-        res.json({
-            success: true,
-            cart: updatedCart,
-            message: 'Coupon applied successfully'
+      }
+  
+      // 7. Check min purchase
+      const minPurchaseCheckValue = coupon.scopeType === 'all' ? subtotal : applicableSubtotal;
+  
+      if (minPurchaseCheckValue < coupon.minPurchase) {
+        return res.status(400).json({
+          success: false,
+          message: `Minimum purchase of ₹${coupon.minPurchase} required` +
+            (coupon.scopeType !== 'all' ? ' for applicable items' : '')
         });
-
+      }
+  
+      // 8. Ensure at least one matching product
+      if (coupon.scopeType !== 'all' && !hasApplicableItems) {
+        return res.status(400).json({
+          success: false,
+          message: 'Coupon is not applicable to any products in your cart'
+        });
+      }
+  
+      // 9. Calculate discount
+      let discountAmount = 0;
+      if (coupon.discountType === 'percentage') {
+        discountAmount = (coupon.scopeType === 'all' ? subtotal : applicableSubtotal) * (coupon.value / 100);
+      } else if (coupon.discountType === 'fixed') {
+        discountAmount = Math.min(
+          coupon.value,
+          coupon.scopeType === 'all' ? subtotal : applicableSubtotal
+        );
+      }
+  
+      // 10. Update cart
+      cart.couponInfo = {
+        code: coupon.code,
+        discountType: coupon.discountType,
+        discountValue: coupon.value,
+        discountAmount: discountAmount,
+        minPurchase: coupon.minPurchase,
+        validated: true,
+        scopeType: coupon.scopeType,
+        applicableCategories: coupon.applicableCategories,
+        applicableSubcategories: coupon.applicableSubcategories
+      };
+  
+      cart.subtotal = subtotal;
+      cart.total = subtotal - discountAmount;
+  
+      await cart.save();
+  
+      // 11. Update coupon usage
+      if (req.user) {
+        coupon.usedBy.push(req.user._id);
+        coupon.usedCount += 1;
+        await coupon.save();
+      }
+  
+      return res.json({
+        success: true,
+        cart: cart.toObject(),
+        message: 'Coupon applied successfully'
+      });
+  
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: 'Failed to apply coupon' });
+      console.error('Error applying coupon:', error);
+      return res.status(500).json({ success: false, message: 'Failed to apply coupon' });
     }
-});
+  });
+  
 
 router.post('/place-order', async (req, res) => {
     try {

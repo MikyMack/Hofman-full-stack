@@ -501,7 +501,7 @@
                                                     </div>
                                                 </div>
                                                 <figure class="product-media">
-                                                    <img src="<%= item.productImage %>" alt="product" height="84"
+                                                    <img src="<%= item.productImage %>" alt="product" height="84" loading="lazy"
                                                         width="94">
                                                 </figure>
                                             </div>
@@ -723,10 +723,10 @@
                               <div class="swiper-slide banner banner-fixed intro-slide br-sm" style="padding:0; margin:0;">
                                 <% if (banner.link) { %>
                                   <a href="<%= banner.link %>" style="display:block;width:100%;height:100%;">
-                                    <img src="<%= banner.image %>" alt="Mobile Banner" style="width:100vw;max-width:100%;height:100%;max-height:100%;object-fit:cover;display:block;">
+                                    <img src="<%= banner.image %>" alt="Mobile Banner" loading="lazy" style="width:100vw;max-width:100%;height:100%;max-height:100%;object-fit:cover;display:block;">
                                   </a>
                                 <% } else { %>
-                                  <img src="<%= banner.image %>" alt="Mobile Banner" style="width:100vw;max-width:100%;height:100%;max-height:100%;object-fit:cover;display:block;">
+                                  <img src="<%= banner.image %>" alt="Mobile Banner" loading="lazy" style="width:100vw;max-width:100%;height:100%;max-height:100%;object-fit:cover;display:block;">
                                 <% } %>
                               </div>
                             <% }) %>
@@ -760,7 +760,7 @@
                                         class="banner banner-fixed intro-banner<%= index === 1 ? ' intro-banner2' : '' %> br-sm h-100">
                                         <figure class="br-sm">
                                             <img src="<%= banner.image %>" alt="Category Banner" width="680" class="second_banner"
-                                                height="300"
+                                                height="300" loading="lazy"
                                                 />
                                         </figure>
                                         <!-- <div class="banner-content">
@@ -798,12 +798,12 @@
                     <div class="row justify-content-center align-items-center w-100 mx-0">
                         <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-3 mb-md-0">
                             <img src="/images/hofmaan/blackDuck.jpg" alt="Hofmaan Logo" class="img-fluid"
-                                style="max-height:150px; width:150px;">
+                                style="max-height:150px; width:150px;" loading="lazy"> 
 
                         </div>
                         <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center">
                             <img src="/images/logo-2.png" alt="Blackbuck Logo" class="img-fluid"
-                                style="max-height:150px; width:150px;">
+                                style="max-height:150px; width:150px;" loading="lazy">
 
                         </div>
                     </div>
@@ -977,7 +977,7 @@
                                             class="banner banner-fixed intro-banner<%= index === 1 ? ' intro-banner2' : '' %> br-sm h-100">
                                             <figure class="br-sm">
                                                 <img src="<%= banner.image %>" alt="Category Banner" width="680"
-                                                    class="third_banner" height="300" />
+                                                    class="third_banner" height="300" loading="lazy" />
                                             </figure>
                                             <!-- <div class="banner-content">
                                                 <% if (banner.subtitle) { %>
@@ -1157,10 +1157,10 @@
                                             <figure class="product-media">
                                                 <a href="/product/<%= product._id %>">
                                                     <img src="<%= product.images[0] || '/images/default.jpg' %>"
-                                                        alt="Product" width="100" height="106">
+                                                        alt="Product" width="100" height="106" loading="lazy">
                                                     <% if (product.images.length> 1) { %>
                                                         <img src="<%= product.images[1] %>" alt="Product" width="100"
-                                                            height="106">
+                                                            height="106" loading="lazy">
                                                         <% } %>
                                                 </a>
                                             </figure>
@@ -1192,7 +1192,7 @@
                 <div class="banner banner-fixed purchase-banner appear-animate">
                     <figure class="banner-img">
                         <img src="/images/demos/demo12/banner/banner-5.jpg" alt="Banner" width="680" height="180"
-                            style="background-color: #342E30;" />
+                            style="background-color: #342E30;" loading="lazy"/>
                     </figure>
                     <div class="banner-content text-center x-50 y-50 slide-animate"
                         data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '15s', 'delay': '3s'}">
@@ -1937,10 +1937,10 @@
                                     <figure class="product-media" style="position:relative;">
                                         <a href="/product/${product._id}">
                                             ${product.images && product.images[0] ?
-                                    `<img src="${product.images[0]}" alt="${product.name}" width="295" height="335" />` :
-                                    '<img src="/images/placeholder-product.jpg" alt="Product" width="295" height="335" />'}
+                                    `<img src="${product.images[0]}" alt="${product.name}" width="295" height="335" loading="lazy" />` :
+                                    '<img src="/images/placeholder-product.jpg" alt="Product" width="295" height="335" loading="lazy" />'}
                                             ${product.images && product.images[1] ?
-                                    `<img src="${product.images[1]}" alt="${product.name}" width="295" height="335" />` : ''}
+                                    `<img src="${product.images[1]}" alt="${product.name}" width="295" height="335" loading="lazy" />` : ''}
                                         </a>
                                         ${discountPercent > 0 ? `
                                             <div class="discount-badge">
@@ -2023,7 +2023,7 @@
                                             <a href="/blogs/<%= blog._id %>">
                                                 <img src="<%= blog.imageUrl %>" alt="<%= blog.title %>" width="325"
                                                     height="214"
-                                                    style="background-color: #f5f5f5; object-fit:cover; height: 300px;" />
+                                                    style="background-color: #f5f5f5; object-fit:cover; height: 300px;" loading="lazy"/>
                                             </a>
                                         </figure>
                                         <div class="post-details">
@@ -2211,7 +2211,7 @@
                     src="<%= bannerImg %>" 
                     alt="Mobile Banner" 
                     class="lws-popup-image"
-                    style="width:100%;height:100%;object-fit:contain;display:block;border-radius:10px;"
+                    style="width:100%;height:100%;object-fit:contain;display:block;border-radius:10px;" loading="lazy"
                 />
             </a>
             
@@ -2340,7 +2340,7 @@
             <i class="w-icon-products"></i>
             <p>Store</p>
         </a>
-        <a class="btm-img" href="/"> <img src="/images/logo-2.png" alt=""></a>
+        <a class="btm-img" href="/"> <img src="/images/logo-2.png" alt="" loading="lazy"></a>
         <% if (user) { %>
             <a href="/account" class="sticky-link">
                 <i class="w-icon-account"></i>
@@ -2413,7 +2413,7 @@
                             <li>
                                 <a style="gap: 10px!important; display: flex;" href="/store?category=<%= category._id %>">
                                     <img style="height: 30px; width: 30px; border-radius: 50px;"
-                                        src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt="">
+                                        src="<%= category.imageUrl || '/images/hofmaan/sample3.jpg' %>" alt="Hofmaan" loading="lazy">
                                     <%= category.name %>
                                 </a>
                                 <% if (category.subCategories && category.subCategories.length> 0) { %>

@@ -331,10 +331,23 @@
                                     </form>
                                 </div>
                             </div>
-                            <p class="text-center">Sign in with social account</p>
-                            <div class="social-icons social-icon-border-color d-flex justify-content-center">
+                            <div class="text-center mb-2" style="font-weight: 500; font-size: 1.08rem;">
+                                <span style="color:#c0392b;">OR</span>
+                            </div>
+                            <p class="text-center" style="font-size:1.08rem; font-weight:500;">
+                                <span style="color:#4285F4;">Sign in instantly</span> with your Google account
+                            </p>
+                            <div class="social-icons social-icon-border-color d-flex justify-content-center mb-3">
                                 <a href="#" class="social-icon social-google fab fa-google"
-                                    onclick="handleGoogleLogin(event)"></a>
+                                    onclick="handleGoogleLogin(event)"
+                                    style="font-size: 2rem; color: #fff; background: linear-gradient(135deg, #4285F4 0%, #EA4335 100%); box-shadow: 0 2px 8px rgba(66,133,244,0.15); border-radius: 50%; transition: transform 0.15s;"
+                                    title="Sign in with Google"
+                                    onmouseover="this.style.transform='scale(1.12)';"
+                                    onmouseout="this.style.transform='scale(1)';"
+                                ></a>
+                            </div>
+                            <div class="text-center" style="font-size:0.97rem; color:#888;">
+                                <span>Fast, secure &amp; no password needed!</span>
                             </div>
                         </div>
 
